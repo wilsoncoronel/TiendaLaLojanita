@@ -29,6 +29,7 @@ namespace TiendaLaLojanita.Views
             foreach (var item in PermisosRol)
             {
                 TabPage tab = new TabPage(item.Menu.Nombre);
+                tab.Tag = item.Menu.Nombre;
                 tabControl1.TabPages.Add(tab);
 
             }
@@ -36,7 +37,7 @@ namespace TiendaLaLojanita.Views
 
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
-          if (e.Action != TabControlAction.Selected) return;
+            if (e.Action != TabControlAction.Selected) return;
             string nombreFormulario = e.TabPage.Tag?.ToString();
             if (string.IsNullOrEmpty(nombreFormulario)) return;
             CargarFomrularioEnTab(e.TabPage, nombreFormulario);
@@ -49,7 +50,7 @@ namespace TiendaLaLojanita.Views
 
             if(tipoFormulario == null)
             {
-                MessageBox.Show("No se encontro el foirmulario: " +nombreFormulario);
+                MessageBox.Show("No se encontro el formulario: " +nombreFormulario);
                 return;
             }
 

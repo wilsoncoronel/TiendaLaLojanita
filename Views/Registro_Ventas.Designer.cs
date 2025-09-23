@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            label1 = new Label();
-            textBox1 = new TextBox();
-            label2 = new Label();
-            button1 = new Button();
-            textBox2 = new TextBox();
-            label3 = new Label();
-            label4 = new Label();
-            textBox3 = new TextBox();
-            label5 = new Label();
             dateTimePicker1 = new DateTimePicker();
+            label5 = new Label();
+            textBox3 = new TextBox();
+            label4 = new Label();
+            label3 = new Label();
+            textBox2 = new TextBox();
+            button1 = new Button();
+            label2 = new Label();
+            textBox1 = new TextBox();
+            label1 = new Label();
             groupBox2 = new GroupBox();
-            label6 = new Label();
-            textBox4 = new TextBox();
             button2 = new Button();
+            textBox4 = new TextBox();
+            label6 = new Label();
             dataGridView1 = new DataGridView();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -69,71 +69,12 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Cliente";
             // 
-            // label1
+            // dateTimePicker1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(14, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(73, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Documento:";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(93, 19);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "170000000000";
-            textBox1.Size = new Size(249, 23);
-            textBox1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(14, 52);
-            label2.Name = "label2";
-            label2.Size = new Size(54, 15);
-            label2.TabIndex = 2;
-            label2.Text = "Nombre:";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(366, 19);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 3;
-            button1.Text = "Buscar";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(93, 48);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(249, 23);
-            textBox2.TabIndex = 4;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(14, 84);
-            label3.Name = "label3";
-            label3.Size = new Size(0, 15);
-            label3.TabIndex = 5;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(14, 84);
-            label4.Name = "label4";
-            label4.Size = new Size(44, 15);
-            label4.TabIndex = 6;
-            label4.Text = "E-Mail:";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(93, 81);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(249, 23);
-            textBox3.TabIndex = 7;
+            dateTimePicker1.Location = new Point(445, 46);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(212, 23);
+            dateTimePicker1.TabIndex = 10;
             // 
             // label5
             // 
@@ -144,12 +85,71 @@
             label5.TabIndex = 8;
             label5.Text = "Fecha Venta:";
             // 
-            // dateTimePicker1
+            // textBox3
             // 
-            dateTimePicker1.Location = new Point(463, 48);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(212, 23);
-            dateTimePicker1.TabIndex = 10;
+            textBox3.Location = new Point(109, 77);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(249, 23);
+            textBox3.TabIndex = 7;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(14, 84);
+            label4.Name = "label4";
+            label4.Size = new Size(44, 15);
+            label4.TabIndex = 6;
+            label4.Text = "E-Mail:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(14, 84);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 15);
+            label3.TabIndex = 5;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(109, 48);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(249, 23);
+            textBox2.TabIndex = 4;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(364, 15);
+            button1.Name = "button1";
+            button1.Size = new Size(77, 34);
+            button1.TabIndex = 3;
+            button1.Text = "Buscar";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(14, 52);
+            label2.Name = "label2";
+            label2.Size = new Size(54, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Nombre:";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(109, 22);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "170000000000";
+            textBox1.Size = new Size(249, 23);
+            textBox1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(14, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(73, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Documento:";
             // 
             // groupBox2
             // 
@@ -163,14 +163,14 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Buscar Articulos";
             // 
-            // label6
+            // button2
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(10, 40);
-            label6.Name = "label6";
-            label6.Size = new Size(52, 15);
-            label6.TabIndex = 0;
-            label6.Text = "Artículo:";
+            button2.Location = new Point(366, 28);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 38);
+            button2.TabIndex = 11;
+            button2.Text = "Buscar";
+            button2.UseVisualStyleBackColor = true;
             // 
             // textBox4
             // 
@@ -179,14 +179,14 @@
             textBox4.Size = new Size(249, 23);
             textBox4.TabIndex = 11;
             // 
-            // button2
+            // label6
             // 
-            button2.Location = new Point(366, 37);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 11;
-            button2.Text = "Buscar";
-            button2.UseVisualStyleBackColor = true;
+            label6.AutoSize = true;
+            label6.Location = new Point(10, 40);
+            label6.Name = "label6";
+            label6.Size = new Size(52, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Artículo:";
             // 
             // dataGridView1
             // 
