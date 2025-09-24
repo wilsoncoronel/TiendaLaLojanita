@@ -86,13 +86,14 @@
             txtUsurio.Size = new Size(243, 29);
             txtUsurio.TabIndex = 0;
             // 
-            // Form1
+            // FrmLoggin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 156);
             Controls.Add(panel1);
-            Name = "Form1";
+            Name = "FrmLoggin";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Loggin";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

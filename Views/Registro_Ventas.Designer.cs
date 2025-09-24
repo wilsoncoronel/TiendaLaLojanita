@@ -31,22 +31,32 @@
             groupBox1 = new GroupBox();
             dateTimePicker1 = new DateTimePicker();
             label5 = new Label();
-            textBox3 = new TextBox();
+            txtEmail = new TextBox();
             label4 = new Label();
             label3 = new Label();
-            textBox2 = new TextBox();
+            txtNombreCliente = new TextBox();
             button1 = new Button();
             label2 = new Label();
-            textBox1 = new TextBox();
+            txtDocumento = new TextBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
             button2 = new Button();
             textBox4 = new TextBox();
             label6 = new Label();
             dataGridView1 = new DataGridView();
+            groupBox3 = new GroupBox();
+            textBox5 = new TextBox();
+            label10 = new Label();
+            textBox3 = new TextBox();
+            textBox2 = new TextBox();
+            label9 = new Label();
+            label8 = new Label();
+            textBox1 = new TextBox();
+            label7 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -54,13 +64,13 @@
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(dateTimePicker1);
             groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(textBox3);
+            groupBox1.Controls.Add(txtEmail);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(textBox2);
+            groupBox1.Controls.Add(txtNombreCliente);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(txtDocumento);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(16, 16);
             groupBox1.Name = "groupBox1";
@@ -71,26 +81,26 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(445, 46);
+            dateTimePicker1.Location = new Point(557, 52);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(212, 23);
+            dateTimePicker1.Size = new Size(254, 23);
             dateTimePicker1.TabIndex = 10;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(366, 52);
+            label5.Location = new Point(446, 57);
             label5.Name = "label5";
             label5.Size = new Size(73, 15);
             label5.TabIndex = 8;
             label5.Text = "Fecha Venta:";
             // 
-            // textBox3
+            // txtEmail
             // 
-            textBox3.Location = new Point(109, 77);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(249, 23);
-            textBox3.TabIndex = 7;
+            txtEmail.Location = new Point(128, 84);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(297, 23);
+            txtEmail.TabIndex = 7;
             // 
             // label4
             // 
@@ -109,16 +119,16 @@
             label3.Size = new Size(0, 15);
             label3.TabIndex = 5;
             // 
-            // textBox2
+            // txtNombreCliente
             // 
-            textBox2.Location = new Point(109, 48);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(249, 23);
-            textBox2.TabIndex = 4;
+            txtNombreCliente.Location = new Point(128, 51);
+            txtNombreCliente.Name = "txtNombreCliente";
+            txtNombreCliente.Size = new Size(297, 23);
+            txtNombreCliente.TabIndex = 4;
             // 
             // button1
             // 
-            button1.Location = new Point(364, 15);
+            button1.Location = new Point(446, 20);
             button1.Name = "button1";
             button1.Size = new Size(77, 34);
             button1.TabIndex = 3;
@@ -134,13 +144,13 @@
             label2.TabIndex = 2;
             label2.Text = "Nombre:";
             // 
-            // textBox1
+            // txtDocumento
             // 
-            textBox1.Location = new Point(109, 22);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "170000000000";
-            textBox1.Size = new Size(249, 23);
-            textBox1.TabIndex = 1;
+            txtDocumento.Location = new Point(128, 20);
+            txtDocumento.Name = "txtDocumento";
+            txtDocumento.PlaceholderText = "170000000000";
+            txtDocumento.Size = new Size(297, 23);
+            txtDocumento.TabIndex = 1;
             // 
             // label1
             // 
@@ -165,7 +175,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(366, 28);
+            button2.Location = new Point(391, 28);
             button2.Name = "button2";
             button2.Size = new Size(75, 38);
             button2.TabIndex = 11;
@@ -174,10 +184,11 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(93, 37);
+            textBox4.Location = new Point(121, 37);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(249, 23);
             textBox4.TabIndex = 11;
+            textBox4.TextChanged += textBox4_TextChanged;
             // 
             // label6
             // 
@@ -190,17 +201,113 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(18, 257);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(240, 150);
+            dataGridView1.Size = new Size(900, 247);
             dataGridView1.TabIndex = 2;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            groupBox3.Controls.Add(textBox5);
+            groupBox3.Controls.Add(label10);
+            groupBox3.Controls.Add(textBox3);
+            groupBox3.Controls.Add(textBox2);
+            groupBox3.Controls.Add(label9);
+            groupBox3.Controls.Add(label8);
+            groupBox3.Controls.Add(textBox1);
+            groupBox3.Controls.Add(label7);
+            groupBox3.Location = new Point(936, 257);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(257, 247);
+            groupBox3.TabIndex = 3;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Totales";
+            // 
+            // textBox5
+            // 
+            textBox5.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox5.Location = new Point(143, 181);
+            textBox5.Name = "textBox5";
+            textBox5.PlaceholderText = "000";
+            textBox5.Size = new Size(100, 33);
+            textBox5.TabIndex = 7;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(11, 184);
+            label10.Name = "label10";
+            label10.Size = new Size(56, 25);
+            label10.TabIndex = 6;
+            label10.Text = "Total:";
+            // 
+            // textBox3
+            // 
+            textBox3.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox3.Location = new Point(143, 129);
+            textBox3.Name = "textBox3";
+            textBox3.PlaceholderText = "000";
+            textBox3.Size = new Size(100, 33);
+            textBox3.TabIndex = 5;
+            // 
+            // textBox2
+            // 
+            textBox2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox2.Location = new Point(143, 81);
+            textBox2.Name = "textBox2";
+            textBox2.PlaceholderText = "000";
+            textBox2.Size = new Size(100, 33);
+            textBox2.TabIndex = 4;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(11, 129);
+            label9.Name = "label9";
+            label9.Size = new Size(90, 25);
+            label9.TabIndex = 3;
+            label9.Text = "Total Iva :";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(11, 84);
+            label8.Name = "label8";
+            label8.Size = new Size(126, 25);
+            label8.TabIndex = 2;
+            label8.Text = "Total Iva 15%:";
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(143, 30);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "000";
+            textBox1.Size = new Size(100, 33);
+            textBox1.TabIndex = 1;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(11, 33);
+            label7.Name = "label7";
+            label7.Size = new Size(88, 25);
+            label7.TabIndex = 0;
+            label7.Text = "SubTotal:";
             // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1205, 590);
+            Controls.Add(groupBox3);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -211,6 +318,8 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -218,13 +327,13 @@
 
         private GroupBox groupBox1;
         private Label label3;
-        private TextBox textBox2;
+        private TextBox txtNombreCliente;
         private Button button1;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox txtDocumento;
         private Label label1;
         private Label label5;
-        private TextBox textBox3;
+        private TextBox txtEmail;
         private Label label4;
         private DateTimePicker dateTimePicker1;
         private GroupBox groupBox2;
@@ -232,5 +341,14 @@
         private TextBox textBox4;
         private Label label6;
         private DataGridView dataGridView1;
+        private GroupBox groupBox3;
+        private Label label8;
+        private TextBox textBox1;
+        private Label label7;
+        private Label label9;
+        private TextBox textBox5;
+        private Label label10;
+        private TextBox textBox3;
+        private TextBox textBox2;
     }
 }

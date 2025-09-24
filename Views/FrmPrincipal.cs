@@ -41,26 +41,31 @@ namespace TiendaLaLojanita.Views
             string nombreFormulario = e.TabPage.Tag?.ToString();
             if (string.IsNullOrEmpty(nombreFormulario)) return;
             CargarFomrularioEnTab(e.TabPage, nombreFormulario);
-            
+
         }
         private void CargarFomrularioEnTab(TabPage tab, string nombreFormulario)
         {
             if (tab.Controls.Count > 0) return;
             Type tipoFormulario = Type.GetType($"TiendaLaLojanita.Views.{nombreFormulario}, TiendaLaLojanita");
 
-            if(tipoFormulario == null)
+            if (tipoFormulario == null)
             {
-                MessageBox.Show("No se encontro el formulario: " +nombreFormulario);
+                MessageBox.Show("No se encontro el formulario: " + nombreFormulario);
                 return;
             }
 
-            Form frm =(Form)Activator.CreateInstance(tipoFormulario);
+            Form frm = (Form)Activator.CreateInstance(tipoFormulario);
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
             frm.Dock = DockStyle.Fill;
 
             tab.Controls.Add(frm);
             frm.Show();
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();  
         }
     }
 }

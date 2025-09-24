@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             tabControl1 = new TabControl();
+            btnCerrar = new Button();
             SuspendLayout();
             // 
             // tabControl1
@@ -38,15 +39,29 @@
             tabControl1.Location = new Point(12, 6);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(776, 432);
+            tabControl1.Size = new Size(776, 378);
             tabControl1.TabIndex = 0;
             tabControl1.Selected += tabControl1_Selected;
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.Anchor = AnchorStyles.Bottom;
+            btnCerrar.FlatStyle = FlatStyle.Flat;
+            btnCerrar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCerrar.Location = new Point(325, 404);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(92, 32);
+            btnCerrar.TabIndex = 1;
+            btnCerrar.Text = "Cerrar";
+            btnCerrar.UseVisualStyleBackColor = true;
+            btnCerrar.Click += btnCerrar_Click;
             // 
             // FrmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCerrar);
             Controls.Add(tabControl1);
             Name = "FrmPrincipal";
             Text = "FrmPrincipal";
@@ -56,5 +71,6 @@
         #endregion
 
         private TabControl tabControl1;
+        private Button btnCerrar;
     }
 }

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace TiendaLaLojanita.Views
 {
-    public partial class Registro_Ventas : Form
+    public partial class Inventario : Form
     {
-        public Registro_Ventas()
+        public Inventario()
         {
             InitializeComponent();
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
