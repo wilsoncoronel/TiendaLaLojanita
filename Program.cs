@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TiendaLaLojanita.Controllers;
 using TiendaLaLojanita.Models.Interfaces;
 using System.Net.Http.Headers;
+using TiendaLaLojanita.Services;
+using TiendaLaLojanita.Views;
 namespace TiendaLaLojanita
 {
     internal static class Program
@@ -34,6 +36,7 @@ namespace TiendaLaLojanita
                     );
             });
             services.AddScoped<ILogginService, LogginService>().AddScoped<FrmLoggin>();
+            services.AddScoped<IArticuloService, ArticuloService>().AddScoped<Registro_Articulos>();
         }
     }
 }
