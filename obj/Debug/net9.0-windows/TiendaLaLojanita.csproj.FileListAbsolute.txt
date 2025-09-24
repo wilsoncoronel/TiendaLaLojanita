@@ -21,3 +21,16 @@ C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLo
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.FrmPrincipal.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Ventas.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Articulos.resources
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Configuration.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Diagnostics.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Http.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\Microsoft.Extensions.Primitives.dll

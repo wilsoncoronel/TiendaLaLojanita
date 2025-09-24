@@ -1,23 +1,25 @@
-using SistemaTienda.DTO;
 using System.Threading.Tasks;
 using TiendaLaLojanita.Controllers;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Views;
 
 namespace TiendaLaLojanita
 {
     public partial class FrmLoggin : Form
     {
-        private LoginController LoginController;
         private SesionDTO sesionDto;
-        public FrmLoggin()
+        private readonly ILogginService loginService;
+
+        public FrmLoggin(ILogginService loginService)
         {
             InitializeComponent();
-            LoginController = new LoginController();
             sesionDto = new SesionDTO();
+            this.loginService = loginService;
         }
         private async void GetSession(string user, string password)
         {
-            List<PermisosRolDTO>  listaPermisos = await LoginController.IniciarSesion(user, password);
+            List<PermisosRolDTO>  listaPermisos = await this.loginService.IniciarSesion(user, password);
             if (sesionDto != null)
             {
                 FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos);

@@ -1,3 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using TiendaLaLojanita.Controllers;
+using TiendaLaLojanita.Models.Interfaces;
+using System.Net.Http.Headers;
 namespace TiendaLaLojanita
 {
     internal static class Program
@@ -11,7 +15,25 @@ namespace TiendaLaLojanita
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new FrmLoggin());
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                var form1 = serviceProvider.GetRequiredService<FrmLoggin>();
+                Application.Run(form1);
+            }
+        }
+
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddHttpClient("ApiClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7168/");
+                client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json")
+                    );
+            });
+            services.AddScoped<ILogginService, LogginService>().AddScoped<FrmLoggin>();
         }
     }
 }
