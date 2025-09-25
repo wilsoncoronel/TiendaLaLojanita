@@ -65,6 +65,7 @@
             Controls.Add(tabControl1);
             Name = "FrmPrincipal";
             Text = "FrmPrincipal";
+            Load += FrmPrincipal_Load;
             ResumeLayout(false);
         }
 

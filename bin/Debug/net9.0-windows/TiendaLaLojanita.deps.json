@@ -8,12 +8,21 @@
     ".NETCoreApp,Version=v9.0": {
       "TiendaLaLojanita/1.0.0": {
         "dependencies": {
+          "FluentValidation": "12.0.0",
           "Microsoft.Extensions.DependencyInjection": "9.0.9",
           "Microsoft.Extensions.Http": "9.0.9",
           "Newtonsoft.Json": "13.0.4"
         },
         "runtime": {
           "TiendaLaLojanita.dll": {}
+        }
+      },
+      "FluentValidation/12.0.0": {
+        "runtime": {
+          "lib/net8.0/FluentValidation.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.0.0"
+          }
         }
       },
       "Microsoft.Extensions.Configuration/9.0.9": {
@@ -184,6 +193,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "FluentValidation/12.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA==",
+      "path": "fluentvalidation/12.0.0",
+      "hashPath": "fluentvalidation.12.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/9.0.9": {
       "type": "package",

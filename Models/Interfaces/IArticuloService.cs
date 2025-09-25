@@ -12,5 +12,9 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<int> CrearArticulo(ArticuloCreacionDTO articuloDto);
         Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO);
         Task<bool> DesactivarArticulo(int id);
+        Task<List<TipoArticuloDTO>> ListaTipoArticulo();
+        Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo();
+        Task<List<MarcaDTO>> ListaMarcaArticulo();
+        Task<List<ArticuloDTO>> ListaArticulos(DateTime fechaInicial, DateTime fechaFinal);
     }
 }

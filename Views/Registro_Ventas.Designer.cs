@@ -83,7 +83,7 @@
             // 
             dateTimePicker1.Location = new Point(557, 52);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(254, 23);
+            dateTimePicker1.Size = new Size(274, 23);
             dateTimePicker1.TabIndex = 10;
             // 
             // label5
@@ -177,7 +177,7 @@
             // 
             button2.Location = new Point(391, 28);
             button2.Name = "button2";
-            button2.Size = new Size(75, 38);
+            button2.Size = new Size(83, 38);
             button2.TabIndex = 11;
             button2.Text = "Buscar";
             button2.UseVisualStyleBackColor = true;

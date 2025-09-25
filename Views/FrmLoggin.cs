@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TiendaLaLojanita.Controllers;
 using TiendaLaLojanita.Models.DTO;
@@ -9,20 +10,22 @@ namespace TiendaLaLojanita
     public partial class FrmLoggin : Form
     {
         private SesionDTO sesionDto;
-        private readonly ILogginService loginService;
+        private readonly IServiceProvider servicePorvider;
 
-        public FrmLoggin(ILogginService loginService)
+        public FrmLoggin(IServiceProvider servicePorvider)
         {
             InitializeComponent();
             sesionDto = new SesionDTO();
-            this.loginService = loginService;
+            this.servicePorvider = servicePorvider;
         }
-        private async void GetSession(string user, string password)
+        private async void GetPermisos(string user, string password)
         {
-            List<PermisosRolDTO>  listaPermisos = await this.loginService.IniciarSesion(user, password);
+            var logginService = servicePorvider.GetRequiredService<ILogginService>();
+            List<PermisosRolDTO>  listaPermisos = await logginService.IniciarSesion(user, password);
+            SesionDTO sesion  = await logginService.ExtraerSesion(user);
             if (sesionDto != null)
             {
-                FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos);
+                FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos, servicePorvider, sesion);
                 
                 this.Hide();
                 frmPrincipal.Show();
@@ -32,9 +35,11 @@ namespace TiendaLaLojanita
                 MessageBox.Show($"No se pudo obtener la peticion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+       
         private void btbIngresar_Click(object sender, EventArgs e)
         {
-            GetSession(txtUsurio.Text, txtPassword.Text);
+            GetPermisos(txtUsurio.Text, txtPassword.Text);
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

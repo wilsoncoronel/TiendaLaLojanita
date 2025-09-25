@@ -21,7 +21,7 @@ namespace TiendaLaLojanita
             ConfigureServices(services);
             using (var serviceProvider = services.BuildServiceProvider())
             {
-                var form1 = serviceProvider.GetRequiredService<FrmLoggin>();
+                var form1 = new FrmLoggin(serviceProvider);
                 Application.Run(form1);
             }
         }
@@ -35,8 +35,12 @@ namespace TiendaLaLojanita
                         new MediaTypeWithQualityHeaderValue("application/json")
                     );
             });
-            services.AddScoped<ILogginService, LogginService>().AddScoped<FrmLoggin>();
-            services.AddScoped<IArticuloService, ArticuloService>().AddScoped<Registro_Articulos>();
+            services.AddScoped<ILogginService, LogginService>(); 
+            services.AddScoped<IArticuloService, ArticuloService>();
+            services.AddScoped<FrmPrincipal>();
+            services.AddScoped<Registro_Articulos>();
+            services.AddScoped<Registro_Ventas>();
+            services.AddScoped<Inventario>();
         }
     }
 }

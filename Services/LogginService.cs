@@ -37,5 +37,22 @@ namespace TiendaLaLojanita.Controllers
             }
             
         }
+
+        public async Task<SesionDTO> ExtraerSesion(string usuario)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Login/ExtraerSesion?usuario={usuario}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<SesionDTO> result = JsonConvert.DeserializeObject<Response<SesionDTO>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
     }
 }

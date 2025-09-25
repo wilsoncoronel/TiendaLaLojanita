@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
 
 namespace TiendaLaLojanita.Views
 {
@@ -15,12 +16,17 @@ namespace TiendaLaLojanita.Views
     {
 
         private List<PermisosRolDTO> PermisosRol;
-        public FrmPrincipal(List<PermisosRolDTO> permisosRol)
+        private readonly IServiceProvider serviceProvider;
+        private SesionDTO sesion;
+
+        public FrmPrincipal(List<PermisosRolDTO> permisosRol, IServiceProvider serviceProvider, SesionDTO sesion)
         {
             InitializeComponent();
             PermisosRol = permisosRol;
+            this.serviceProvider = serviceProvider;
             this.CargarListaPermisosTabControl();
             this.WindowState = FormWindowState.Maximized;
+            this.sesion = sesion;
         }
 
         private void CargarListaPermisosTabControl()
@@ -31,7 +37,6 @@ namespace TiendaLaLojanita.Views
                 TabPage tab = new TabPage(item.Menu.Nombre);
                 tab.Tag = item.Menu.Nombre;
                 tabControl1.TabPages.Add(tab);
-
             }
         }
 
@@ -54,7 +59,17 @@ namespace TiendaLaLojanita.Views
                 return;
             }
 
-            Form frm = (Form)Activator.CreateInstance(tipoFormulario);
+            var frm = serviceProvider.GetService(tipoFormulario) as Form;
+            
+            if (frm == null)
+            {
+                MessageBox.Show("No se pudo crear el formulario: " + nombreFormulario);
+                return;
+            }
+            if(frm is ISesionReceptor receptor)
+            {
+                receptor.Sesion = this.sesion;
+            }
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
             frm.Dock = DockStyle.Fill;
@@ -65,7 +80,12 @@ namespace TiendaLaLojanita.Views
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close();  
+            this.Close();
+        }
+
+        private void FrmPrincipal_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

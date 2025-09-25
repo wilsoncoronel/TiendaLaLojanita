@@ -7,9 +7,8 @@ using TiendaLaLojanita.Models.DTO;
 
 namespace TiendaLaLojanita.Models.Interfaces
 {
-    public interface ILogginService
+    public interface ISesionReceptor
     {
-        Task<List<PermisosRolDTO>> IniciarSesion(string usuario, string clave);
-        Task<SesionDTO> ExtraerSesion(string usuario);
+        SesionDTO Sesion { get; set; }
     }
 }
