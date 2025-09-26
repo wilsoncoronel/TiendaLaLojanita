@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -22,6 +24,7 @@ namespace TiendaLaLojanita.Views
         private List<MarcaDTO> listaMarcas;
         private List<TipoArticuloDTO> listaTipoArticulo;
         private List<ImpuestoArticuloDTO> listaimpuestos;
+        private ArticuloDTO artActual;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -70,7 +73,7 @@ namespace TiendaLaLojanita.Views
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-           
+
             var resp = await this.CrearArticulo();
             if (resp != null && resp > 0)
             {
@@ -122,9 +125,9 @@ namespace TiendaLaLojanita.Views
 
         private void RecorrerErrores(ValidationResult result)
         {
-            if(result.Errors.Count > 1)
+            if (result.Errors.Count > 1)
             {
-                MessageBox.Show($"Error de Validacion,  hay campos obligatorios vacios!!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error de Validacion,  hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -133,7 +136,7 @@ namespace TiendaLaLojanita.Views
                     MessageBox.Show(error.ErrorMessage, $"Error de Validacion, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-                
+
         }
 
         private void LimpiarFormulario()
@@ -151,9 +154,58 @@ namespace TiendaLaLojanita.Views
             if (cbxTipoArticulo.Items.Count > 0) cbxTipoArticulo.SelectedIndex = 0;
         }
 
-        private void CargarListaArticulos()
+        private async Task<List<ArticuloDTO>> CargarListaArticulos(DateOnly fechaIni, DateOnly fechaFin)
         {
+            try
+            {
+                List<ArticuloDTO> listaArticulos = await this.articuloService.ListaArticulos(fechaIni, fechaFin);
+                if (listaArticulos is null || listaArticulos.Count == 0)
+                {
+                    MessageBox.Show($"No existen articulos registrados en ese rango de fechas, Intente cambiando el rango de fechas actual!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return listaArticulos;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
+        private async void btnBuscar_Click(object sender, EventArgs e)
+        {
+            this.dgvArticulos.AutoGenerateColumns = false;
+            var fechaAnterior = DateOnly.FromDateTime(this.dtpFechaInicial.Value);
+            var fechaFin = DateOnly.FromDateTime(this.dtpFechaFinal.Value);
+            var listArt = await this.CargarListaArticulos(fechaAnterior, fechaFin);
+
+            this.CargarTabla(listArt);
+        }
+
+        private void CargarTabla(List<ArticuloDTO> listArt)
+        {
+            this.dgvArticulos.Rows.Clear();
+            foreach (var art in listArt)
+            {
+                dgvArticulos.Rows.Add(
+                    art.Id,
+                    art.Nombre,
+                    art.Descripcion,
+                    art.MarcaDTO.Nombre,
+                    art.TipoArticuloDTO.Nombre,
+                    art.ImpuestoArticuloDto.Nombre,
+                    art.Estado ? "Activo" : "Inactivo",
+                    art.FechaCreacion.ToString("dd/MM/yyyy"),
+                    art.ValorCompra.ToString("C2", new CultureInfo("en-US")),
+                    art.ValorVenta.ToString("C2", new CultureInfo("en-US")),
+                    art.Unidad,
+                    art.UnidadValor.ToString()
+                    );
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormulario();
         }
     }
 }

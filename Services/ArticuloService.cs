@@ -42,12 +42,15 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<ArticuloDTO>> ListaArticulos(DateTime fechaInicial, DateTime fechaFinal)
+        public async Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal)
         {
             try
             {
+                
                 ArticuloDTO impuestoArticuloDTO = new ArticuloDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"/api/Articulo/ListaArticulos?fechaInicial={fechaInicial}&fechaFinal={fechaFinal}");
+                var fechaIniDt = fechaInicial.ToDateTime(TimeOnly.MinValue);
+                var fechaFinDt = fechaFinal.ToDateTime(TimeOnly.MaxValue);
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<List<ArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloDTO>>>(responseJson);

@@ -164,11 +164,12 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(button2);
+            groupBox2.Controls.Add(dataGridView1);
             groupBox2.Controls.Add(textBox4);
             groupBox2.Controls.Add(label6);
             groupBox2.Location = new Point(16, 151);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(854, 100);
+            groupBox2.Size = new Size(854, 427);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Buscar Articulos";
@@ -203,9 +204,9 @@
             // 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(18, 257);
+            dataGridView1.Location = new Point(6, 84);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(900, 247);
+            dataGridView1.Size = new Size(825, 337);
             dataGridView1.TabIndex = 2;
             // 
             // groupBox3
@@ -219,7 +220,7 @@
             groupBox3.Controls.Add(label8);
             groupBox3.Controls.Add(textBox1);
             groupBox3.Controls.Add(label7);
-            groupBox3.Location = new Point(936, 257);
+            groupBox3.Location = new Point(876, 151);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(257, 247);
             groupBox3.TabIndex = 3;
@@ -308,7 +309,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1205, 590);
             Controls.Add(groupBox3);
-            Controls.Add(dataGridView1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "Registro_Ventas";
