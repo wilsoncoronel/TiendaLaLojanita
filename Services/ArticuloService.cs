@@ -37,9 +37,22 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO)
+        public async Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string json = JsonConvert.SerializeObject(articuloEdicionDTO);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Articulo/EditarArticulo", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal)

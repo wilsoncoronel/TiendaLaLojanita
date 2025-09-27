@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
             btnCancelar = new Button();
             btnGuardar = new Button();
@@ -71,15 +72,21 @@
             Id = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
+            IdMarca = new DataGridViewTextBoxColumn();
             Marca = new DataGridViewTextBoxColumn();
+            IdTipoArticulo = new DataGridViewTextBoxColumn();
             TipoArticulo = new DataGridViewTextBoxColumn();
             Impuesto = new DataGridViewTextBoxColumn();
+            IdImpuesto = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
+            FechaActualizacion = new DataGridViewTextBoxColumn();
             PrecioCompra = new DataGridViewTextBoxColumn();
             PrecioVenta = new DataGridViewTextBoxColumn();
             Unidad = new DataGridViewTextBoxColumn();
             ValorUnidad = new DataGridViewTextBoxColumn();
+            Editar = new DataGridViewImageColumn();
+            ActivarDesactivar = new DataGridViewImageColumn();
             groupBox5 = new GroupBox();
             lblFecha = new Label();
             lblUser = new Label();
@@ -213,9 +220,10 @@
             // 
             // txtCodigo
             // 
+            txtCodigo.Enabled = false;
             txtCodigo.Location = new Point(685, 25);
             txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(363, 23);
+            txtCodigo.Size = new Size(128, 23);
             txtCodigo.TabIndex = 9;
             // 
             // label5
@@ -469,11 +477,12 @@
             // 
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Marca, TipoArticulo, Impuesto, Estado, FechaCreacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad });
+            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, IdMarca, Marca, IdTipoArticulo, TipoArticulo, Impuesto, IdImpuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(11, 73);
             dgvArticulos.Name = "dgvArticulos";
             dgvArticulos.Size = new Size(1500, 290);
             dgvArticulos.TabIndex = 0;
+            dgvArticulos.CellClick += dgvArticulos_CellClick;
             // 
             // Id
             // 
@@ -490,10 +499,22 @@
             Descripcion.HeaderText = "Descripcion";
             Descripcion.Name = "Descripcion";
             // 
+            // IdMarca
+            // 
+            IdMarca.HeaderText = "IdMarca";
+            IdMarca.Name = "IdMarca";
+            IdMarca.Visible = false;
+            // 
             // Marca
             // 
             Marca.HeaderText = "Marca";
             Marca.Name = "Marca";
+            // 
+            // IdTipoArticulo
+            // 
+            IdTipoArticulo.HeaderText = "IdTipoArticulo";
+            IdTipoArticulo.Name = "IdTipoArticulo";
+            IdTipoArticulo.Visible = false;
             // 
             // TipoArticulo
             // 
@@ -505,6 +526,12 @@
             Impuesto.HeaderText = "Impuesto";
             Impuesto.Name = "Impuesto";
             // 
+            // IdImpuesto
+            // 
+            IdImpuesto.HeaderText = "IdImpuesto";
+            IdImpuesto.Name = "IdImpuesto";
+            IdImpuesto.Visible = false;
+            // 
             // Estado
             // 
             Estado.HeaderText = "Estado";
@@ -514,6 +541,11 @@
             // 
             FechaCreacion.HeaderText = "Fecha Creacion";
             FechaCreacion.Name = "FechaCreacion";
+            // 
+            // FechaActualizacion
+            // 
+            FechaActualizacion.HeaderText = "Fecha Actualizacion";
+            FechaActualizacion.Name = "FechaActualizacion";
             // 
             // PrecioCompra
             // 
@@ -534,6 +566,18 @@
             // 
             ValorUnidad.HeaderText = "Valor Unidad";
             ValorUnidad.Name = "ValorUnidad";
+            // 
+            // Editar
+            // 
+            Editar.HeaderText = "Editar";
+            Editar.Image = (Image)resources.GetObject("Editar.Image");
+            Editar.Name = "Editar";
+            // 
+            // ActivarDesactivar
+            // 
+            ActivarDesactivar.HeaderText = "Activar/Desactivar";
+            ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
+            ActivarDesactivar.Name = "ActivarDesactivar";
             // 
             // groupBox5
             // 
@@ -638,17 +682,24 @@
         private GroupBox groupBox5;
         private Label lblUser;
         private Label lblFecha;
+        private DataGridViewTextBoxColumn CambioEstado;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn IdMarca;
         private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn IdTipoArticulo;
         private DataGridViewTextBoxColumn TipoArticulo;
         private DataGridViewTextBoxColumn Impuesto;
+        private DataGridViewTextBoxColumn IdImpuesto;
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn FechaCreacion;
+        private DataGridViewTextBoxColumn FechaActualizacion;
         private DataGridViewTextBoxColumn PrecioCompra;
         private DataGridViewTextBoxColumn PrecioVenta;
         private DataGridViewTextBoxColumn Unidad;
         private DataGridViewTextBoxColumn ValorUnidad;
+        private DataGridViewImageColumn Editar;
+        private DataGridViewImageColumn ActivarDesactivar;
     }
 }

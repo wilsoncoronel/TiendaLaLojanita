@@ -8,9 +8,11 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
@@ -21,10 +23,13 @@ namespace TiendaLaLojanita.Views
     public partial class Registro_Articulos : Form, ISesionReceptor
     {
         private readonly IArticuloService articuloService;
+        private readonly IMapeosArticulos mapeos;
         private List<MarcaDTO> listaMarcas;
         private List<TipoArticuloDTO> listaTipoArticulo;
         private List<ImpuestoArticuloDTO> listaimpuestos;
         private ArticuloDTO artActual;
+        private ArticuloEdicionDTO artEditarActual;
+        List<ArticuloDTO> listaArticulos;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -32,16 +37,23 @@ namespace TiendaLaLojanita.Views
 
         private int IdUsuario;
 
-        public Registro_Articulos(IArticuloService articuloService)
+        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos)
         {
 
             InitializeComponent();
             this.articuloService = articuloService;
+            this.mapeos = mapeos;
             this.limpiarCombos();
             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
             this.dtpFechaFinal.Value = DateTime.Now;
+            this.listaArticulos = new List<ArticuloDTO>();
         }
-
+        private async void Registro_Articulos_Load(object sender, EventArgs e)
+        {
+            await this.cargarConfiguraciones();
+            this.cargarCombos();
+            IdUsuario = this.Sesion.Id;
+        }
         private async Task cargarConfiguraciones()
         {
             this.listaimpuestos = await this.articuloService.ListaImpuestoArticulo();
@@ -62,7 +74,6 @@ namespace TiendaLaLojanita.Views
             this.cbxTipoArticulo.ValueMember = "Id";
             this.lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             this.lblUser.Text = Sesion.Usuario;
-
         }
 
         private void limpiarCombos()
@@ -73,28 +84,98 @@ namespace TiendaLaLojanita.Views
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-
-            var resp = await this.CrearArticulo();
-            if (resp != null && resp > 0)
+            if (this.txtCodigo is null || this.txtCodigo.Text == "")
             {
-                MessageBox.Show($"Articulo creado con exito con el id: {resp}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var resp = await this.CrearArticulo();
+                if (resp != null && resp > 0)
+                {
+                    MessageBox.Show($"Articulo creado con exito con el id: {resp}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.artActual.Id = resp;
+                    ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
+                    artiTemp.Codigo = Convert.ToString(resp);
+                    
+                    this.listaArticulos.Add(artiTemp);
+                    this.artActual = new ArticuloDTO();
+                    this.CargarTabla(this.listaArticulos);
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.CargarEditarArticuloDTO();
+                var resp = await this.EditarArticulo();
+                if (resp)
+                {
+                    MessageBox.Show($"Articulo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
+
+                    art = this.CargarDatosRelacionados(art);
+
+                    for (int i = 0; i < this.listaArticulos.Count ; i++)
+                    {
+                        DateTime fecha;
+                        if (this.listaArticulos[i].Id == art.Id)
+                        {
+                            fecha = this.listaArticulos[i].FechaCreacion;
+                            this.listaArticulos[i] = art;
+                            this.listaArticulos[i].FechaCreacion = fecha;
+                        }
+                    }
+                    this.CargarTabla(this.listaArticulos);
+                    this.LimpiarFormulario();
+                    this.artEditarActual= new ArticuloEdicionDTO();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private async void Registro_Articulos_Load(object sender, EventArgs e)
+        private ArticuloDTO CargarDatosRelacionados(ArticuloDTO art)
         {
-            await this.cargarConfiguraciones();
-            this.cargarCombos();
-            IdUsuario = this.Sesion.Id;
+            if (this.artEditarActual != null) {
+
+                art.MarcaDTO = this.listaMarcas.FirstOrDefault(m => m.Id == artEditarActual.IdMarca);
+                art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artEditarActual.IdTipoArticulo);
+                art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artEditarActual.IdImpuesto);
+            }
+            else if(this.artActual != null)
+            {
+                art.MarcaDTO = this.listaMarcas.FirstOrDefault(m => m.Id == artActual.IdMarca);
+                art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artActual.IdTipoArticulo);
+                art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artActual.IdImpuesto);
+            }
+                return art;
+        }
+        private void CargarEditarArticuloDTO()
+        {
+            this.artEditarActual = new ArticuloEdicionDTO();
+            this.artEditarActual.Id = Convert.ToInt32(txtCodigo.Text);
+            this.artEditarActual.Nombre = txtNombre.Text;
+            this.artEditarActual.Descripcion = txtDescripcion.Text;
+            this.artEditarActual.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
+            this.artEditarActual.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
+            this.artEditarActual.IdMarca = Convert.ToInt32(cbxMarca.SelectedValue);
+            this.artEditarActual.IdTipoArticulo = Convert.ToInt32(cbxTipoArticulo.SelectedValue);
+            this.artEditarActual.IdImpuesto = Convert.ToInt32(cbxImpuesto.SelectedValue);
+            this.artEditarActual.Unidad = txtUnidad.Text;
+            this.artEditarActual.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
+            this.artEditarActual.FechaCaducidad = dtpCaducidad.Value;
+            this.artEditarActual.FechaActualizacion = DateTime.Now;
+            this.artEditarActual.Estado = cbxEstado.SelectedIndex == 0 ? true : false;
+        }
+        private async Task<bool> EditarArticulo()
+        {
+            bool resultado = await this.articuloService.EditarArticulo(this.artEditarActual);
+            return resultado;
         }
 
         private async Task<int> CrearArticulo()
         {
-
             ArticuloCreacionDTO articuloDto = new ArticuloCreacionDTO();
             articuloDto.Codigo = txtCodigo.Text;
             articuloDto.Descripcion = txtDescripcion.Text;
@@ -106,6 +187,7 @@ namespace TiendaLaLojanita.Views
             articuloDto.IdTipoArticulo = Convert.ToInt32(cbxTipoArticulo.SelectedValue);
             articuloDto.IdImpuesto = Convert.ToInt32(cbxImpuesto.SelectedValue);
             articuloDto.Unidad = txtUnidad.Text;
+            articuloDto.Estado = (cbxEstado.SelectedIndex == 0);
             articuloDto.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
             articuloDto.FechaCaducidad = dtpCaducidad.Value;
             articuloDto.FechaCreacion = DateTime.Now;
@@ -119,6 +201,7 @@ namespace TiendaLaLojanita.Views
             else
             {
                 this.LimpiarFormulario();
+                this.artActual = this.mapeos.MapeoArticuloCreacionDtoAArticuloDto(articuloDto);
                 return await this.articuloService.CrearArticulo(articuloDto);
             }
         }
@@ -136,7 +219,6 @@ namespace TiendaLaLojanita.Views
                     MessageBox.Show(error.ErrorMessage, $"Error de Validacion, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
         }
 
         private void LimpiarFormulario()
@@ -158,7 +240,7 @@ namespace TiendaLaLojanita.Views
         {
             try
             {
-                List<ArticuloDTO> listaArticulos = await this.articuloService.ListaArticulos(fechaIni, fechaFin);
+                this.listaArticulos = await this.articuloService.ListaArticulos(fechaIni, fechaFin);
                 if (listaArticulos is null || listaArticulos.Count == 0)
                 {
                     MessageBox.Show($"No existen articulos registrados en ese rango de fechas, Intente cambiando el rango de fechas actual!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -190,11 +272,15 @@ namespace TiendaLaLojanita.Views
                     art.Id,
                     art.Nombre,
                     art.Descripcion,
+                    art.MarcaDTO.Id,
                     art.MarcaDTO.Nombre,
+                    art.TipoArticuloDTO.Id,
                     art.TipoArticuloDTO.Nombre,
+                    art.ImpuestoArticuloDto.Id,
                     art.ImpuestoArticuloDto.Nombre,
                     art.Estado ? "Activo" : "Inactivo",
                     art.FechaCreacion.ToString("dd/MM/yyyy"),
+                    art.FechaActualizacion.ToString("dd/MM/yyyy"),
                     art.ValorCompra.ToString("C2", new CultureInfo("en-US")),
                     art.ValorVenta.ToString("C2", new CultureInfo("en-US")),
                     art.Unidad,
@@ -207,5 +293,44 @@ namespace TiendaLaLojanita.Views
         {
             this.LimpiarFormulario();
         }
+
+        private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try {
+                int id = 0;
+                if(e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvArticulos.Columns[e.ColumnIndex].Name == "Editar")
+                {
+                    id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
+                    this.CargarEditarArticulo(id);
+                }
+            } catch {
+                throw;
+            }
+            
+        }
+
+        private void CargarEditarArticulo(int idArticulo)
+        {
+            ArticuloDTO articuloActual = this.listaArticulos.FirstOrDefault(a => a.Id == idArticulo);
+            this.txtNombre.Text = articuloActual.Nombre;
+            this.txtDescripcion.Text = articuloActual.Descripcion;
+            this.txtCodigo.Text = Convert.ToString(articuloActual.Id);
+            this.txtUnidad.Text = articuloActual.Unidad;
+            this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
+            this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);
+            this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
+            this.dtpCaducidad.Value = articuloActual.FechaCaducidad?? DateTime.Now;
+            this.dtpCreacion.Value = articuloActual.FechaCreacion;
+            this.cbxEstado.SelectedIndex = articuloActual.Estado ? 0: 1;
+            this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto.Id;
+            this.cbxMarca.SelectedValue = articuloActual.MarcaDTO.Id;
+            this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO.Id;
+
+        }
+       
     }
 }

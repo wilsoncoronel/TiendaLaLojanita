@@ -4,6 +4,7 @@ using TiendaLaLojanita.Models.Interfaces;
 using System.Net.Http.Headers;
 using TiendaLaLojanita.Services;
 using TiendaLaLojanita.Views;
+using TiendaLaLojanita.Mapeos;
 namespace TiendaLaLojanita
 {
     internal static class Program
@@ -37,9 +38,11 @@ namespace TiendaLaLojanita
             });
             services.AddScoped<ILogginService, LogginService>(); 
             services.AddScoped<IArticuloService, ArticuloService>();
+            services.AddScoped<IMapeosArticulos, MapeosArticulos>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();
+            services.AddScoped<Registro_Compras>();
             services.AddScoped<Inventario>();
         }
     }

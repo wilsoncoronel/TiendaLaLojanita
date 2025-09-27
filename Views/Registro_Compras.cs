@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TiendaLaLojanita.Views
 {
-    public partial class Registrar_Compras : Form
+    public partial class Registro_Compras : Form
     {
-        public Registrar_Compras()
+        public Registro_Compras()
         {
             InitializeComponent();
         }

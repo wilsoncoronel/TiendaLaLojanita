@@ -10,7 +10,7 @@
     <Compile Update="Views\Inventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\Registrar_Compras.cs">
+    <Compile Update="Views\Registro_Compras.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Registro_Articulos.cs">
