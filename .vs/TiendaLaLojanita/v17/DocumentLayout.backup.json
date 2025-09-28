@@ -3,28 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,28 +19,56 @@
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\logginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\logginservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\sesiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\sesiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articuloediciondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articuloediciondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -74,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,7 +94,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
+              "Title": "IArticuloService.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
+              "RelativeDocumentMoniker": "Models\\Interfaces\\IArticuloService.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
+              "RelativeToolTip": "Models\\Interfaces\\IArticuloService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T01:59:12.08Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ArticuloEdicionDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloEdicionDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloEdicionDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloEdicionDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ArticuloEdicionDTO.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T18:54:25.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Registro_Ventas.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
@@ -95,44 +133,107 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ArticuloDTO.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloDTO.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\ArticuloDTO.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBMAAAA4AAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "Registro_Articulos.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-25T00:29:12.91Z"
+              "WhenOpened": "2025-09-24T19:31:40.62Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
+              "Title": "Registro_Compras.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
+              "RelativeToolTip": "Views\\Registro_Compras.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-28T03:09:11.561Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FrmLoggin.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
+              "RelativeDocumentMoniker": "Views\\FrmLoggin.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\FrmLoggin.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-28T03:25:04.483Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "LogginService.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\LogginService.cs",
               "RelativeDocumentMoniker": "Services\\LogginService.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\LogginService.cs",
               "RelativeToolTip": "Services\\LogginService.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAgwBwAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABwAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T20:31:16.775Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAqwCwAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T18:31:15.613Z",
+              "WhenOpened": "2025-09-23T20:31:16.775Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Registro_Articulos.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG8AAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T16:37:58.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmLoggin.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
+              "RelativeDocumentMoniker": "Views\\FrmLoggin.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
+              "RelativeToolTip": "Views\\FrmLoggin.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAiwCQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-28T03:25:06.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Registro_Compras.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Registro_Compras.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T02:56:44.242Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MapeosArticulos.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
+              "RelativeDocumentMoniker": "Mapeos\\MapeosArticulos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
+              "RelativeToolTip": "Mapeos\\MapeosArticulos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T18:57:50.523Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "FrmPrincipal.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmPrincipal.cs",
               "RelativeDocumentMoniker": "Views\\FrmPrincipal.cs",
@@ -145,91 +246,55 @@
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "MapeosArticulos.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
-              "RelativeDocumentMoniker": "Mapeos\\MapeosArticulos.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
-              "RelativeToolTip": "Mapeos\\MapeosArticulos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAiwBgAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T18:57:50.523Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Registro_Compras.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Registro_Compras.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T02:56:44.242Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "IArticuloService.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
-              "RelativeDocumentMoniker": "Models\\Interfaces\\IArticuloService.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
-              "RelativeToolTip": "Models\\Interfaces\\IArticuloService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T01:59:12.08Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ArticuloEdicionDTO.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloEdicionDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloEdicionDTO.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloEdicionDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\ArticuloEdicionDTO.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T18:54:25.289Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmPrincipal.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmPrincipal.cs",
-              "RelativeDocumentMoniker": "Views\\FrmPrincipal.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmPrincipal.cs",
-              "RelativeToolTip": "Views\\FrmPrincipal.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAqwDQAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T21:00:23.048Z",
+              "WhenOpened": "2025-09-23T18:31:15.613Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Registro_Articulos.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Registro_Articulos.cs [Dise\u00F1o]",
+              "DocumentIndex": 10,
+              "Title": "SesionDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\SesionDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\SesionDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\SesionDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\SesionDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-24T19:31:40.62Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2025-09-28T03:17:57.396Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 16,
+              "Title": "ArticuloDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ArticuloDTO.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBMAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T00:29:12.91Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "Registro_Ventas.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Ventas.cs [Dise\u00F1o]",
               "RelativeToolTip": "Views\\Registro_Ventas.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T14:34:33.183Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2025-09-23T14:34:33.183Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "ArticuloService.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ArticuloService.cs",
               "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
@@ -241,20 +306,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Registro_Articulos.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeToolTip": "Views\\Registro_Articulos.cs",
-              "ViewState": "AgIAACIBAAAAAAAAAAAiwF4AAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T16:37:58.418Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "ILogginService.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\ILogginService.cs",
               "RelativeDocumentMoniker": "Models\\Interfaces\\ILogginService.cs",
@@ -266,7 +318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Inventario.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Inventario.cs",
               "RelativeDocumentMoniker": "Views\\Inventario.cs",

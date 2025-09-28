@@ -93,7 +93,6 @@ namespace TiendaLaLojanita.Views
                     this.artActual.Id = resp;
                     ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
                     artiTemp.Codigo = Convert.ToString(resp);
-                    
                     this.listaArticulos.Add(artiTemp);
                     this.artActual = new ArticuloDTO();
                     this.CargarTabla(this.listaArticulos);
@@ -111,9 +110,7 @@ namespace TiendaLaLojanita.Views
                 {
                     MessageBox.Show($"Articulo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
-
                     art = this.CargarDatosRelacionados(art);
-
                     for (int i = 0; i < this.listaArticulos.Count ; i++)
                     {
                         DateTime fecha;
@@ -329,8 +326,6 @@ namespace TiendaLaLojanita.Views
             this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto.Id;
             this.cbxMarca.SelectedValue = articuloActual.MarcaDTO.Id;
             this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO.Id;
-
         }
-       
     }
 }

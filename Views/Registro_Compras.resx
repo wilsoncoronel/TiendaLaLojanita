@@ -163,31 +163,46 @@
   <metadata name="ImpuestoValor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Id.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Eliminar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="IdCompra.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="btnBuscarCompra.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        qAAAAKgBefSzxgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAK0SURBVEhLpVZb
+        TxNREN4/4YPX+C/UdktMTEw0Snww8cHEJ6NRUZReKI0GRUFAMVZfJBIEtdyEKg8gurtUg7doolZa2saf
+        4FOLb9CM821Pm7OXllUn+dLdmTnfmTMzO6dKI2lXtR1hn3Y+pOoLIb+eZ/wWyFd0Rktb06vtwt27XNpj
+        bA379EEmWmfQBigzpqK7UzvF8sYSDOhHeMGqROAVpTb/YrOgcZegqreyIyJyI/CCcsinXxB0VhGRW8jj
+        Jz/TeFemhuHId4oEDJnQDWXHSSK7UtvYUEtLdO8iJQfyNBpL00R3lhKdy5S4mqFH0TQ9v5On7qPv7KR2
+        lCL+11sEvaKEVG1YdkjeztNI7AcNtn6VF9HAiU/mxtP9Obq8/43FZkfYrz80ydGKrKh1C9Iy0pGmoeA3
+        xyKg8+BbesonmriRdbVLWEdmFBRFNoxfz9J0X052dGAMNWE/N5uMsKqfU/jhpawcu5bZMDrUBEV3s1mh
+        zfEG2k9ZiYUorKyzY7In6+kEjDxOYPmo0IpPrixT77EPsmMNYW5TFHmyZ8XVbsOqYwP0OTpl9m6BupqX
+        ZGeKNBk0Gy9Q8laO7p/+YrHVQREbFGxKs89nOEoUE5E+661ghokBtO8LDiDB9bKvtcLIOYpcBfocxUau
+        q4WfurliRg7y7NIv87lxvcwiGy3uxvpAI9w7VUkRalWvo3jUn1Ewz/nFy1i2AOnrP/7RfMYmLidZMz80
+        CL8M2YyegMir3YbfUR4vkv2BSQ7BBcOKkmT0jMom7ym2L2XWSOiLFwMLmwV9RYJ+4wAb/jpVACJHM7Tz
+        FOb3ckg1Dgtaq4i59F8XDu5wQecuuCzY8V/SVeThdkjQNJaOwPwm/tcQ50VrNhI38DWpPXbk3IugzTBy
+        mWQeXyX/Yqww8KzN8R1+ttaKrqIofwClTJto+G/QtQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="IdComp.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="IdArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="FechaCompra.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Articulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Proveedor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Descripcion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Total.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Cantidad.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Estado.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="ValorCompra.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="ActivarDesactivar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="ValorTotal.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ImpuestoValor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Editar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
 </root>
