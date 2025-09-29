@@ -17,5 +17,6 @@ namespace TiendaLaLojanita.Models.DTO
         public bool EstadoVisual { get; set; }
         public string RazonSocial { get; set; }
         public string Descripcion { get; set; }
+        public string Direccion { get; set; }
     }
 }

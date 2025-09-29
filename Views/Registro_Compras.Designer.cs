@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Compras));
             groupBox1 = new GroupBox();
+            btbBuscarProveedor = new Button();
             txtTelefono = new TextBox();
             label4 = new Label();
             label3 = new Label();
@@ -105,6 +106,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(btbBuscarProveedor);
             groupBox1.Controls.Add(txtTelefono);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
@@ -119,6 +121,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Proveedor";
+            // 
+            // btbBuscarProveedor
+            // 
+            btbBuscarProveedor.Image = (Image)resources.GetObject("btbBuscarProveedor.Image");
+            btbBuscarProveedor.Location = new Point(512, 17);
+            btbBuscarProveedor.Name = "btbBuscarProveedor";
+            btbBuscarProveedor.Size = new Size(38, 34);
+            btbBuscarProveedor.TabIndex = 8;
+            btbBuscarProveedor.UseVisualStyleBackColor = true;
+            btbBuscarProveedor.Click += btbBuscarProveedor_Click;
             // 
             // txtTelefono
             // 
@@ -174,6 +186,7 @@
             txtIdentificacion.Name = "txtIdentificacion";
             txtIdentificacion.Size = new Size(246, 23);
             txtIdentificacion.TabIndex = 1;
+            txtIdentificacion.Text = " ";
             // 
             // label1
             // 
@@ -258,7 +271,7 @@
             // btnBuscar
             // 
             btnBuscar.Image = (Image)resources.GetObject("btnBuscar.Image");
-            btnBuscar.Location = new Point(452, 26);
+            btnBuscar.Location = new Point(459, 30);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(75, 34);
             btnBuscar.TabIndex = 4;
@@ -273,7 +286,7 @@
             // 
             // txtArticuloBusqueda
             // 
-            txtArticuloBusqueda.Location = new Point(96, 31);
+            txtArticuloBusqueda.Location = new Point(102, 40);
             txtArticuloBusqueda.Name = "txtArticuloBusqueda";
             txtArticuloBusqueda.PlaceholderText = "Artículo/Código";
             txtArticuloBusqueda.Size = new Size(325, 23);
@@ -558,7 +571,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(364, 36);
+            dateTimePicker2.Location = new Point(367, 36);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(158, 23);
             dateTimePicker2.TabIndex = 4;
@@ -731,5 +744,6 @@
         private DataGridViewImageColumn Eliminar;
         private DataGridViewImageColumn ActivarDesactivar;
         private DataGridViewImageColumn Editar;
+        private Button btbBuscarProveedor;
     }
 }
