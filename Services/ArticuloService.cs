@@ -109,6 +109,22 @@ namespace TiendaLaLojanita.Services
             }
         }
 
+        public async Task<List<ArticuloDTO>> ListarTodosArticulos()
+        {
+            try {
+                ArticuloDTO impuestoArticuloDTO = new ArticuloDTO();
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<ArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloDTO>>>(responseJson);
+                return result.Value;
+
+            } catch {
+                throw;
+            }
+            
+        }
+
         public async Task<List<TipoArticuloDTO>> ListaTipoArticulo()
         {
             try

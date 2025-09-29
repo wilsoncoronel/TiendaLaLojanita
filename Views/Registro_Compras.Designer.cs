@@ -271,11 +271,12 @@
             // btnBuscar
             // 
             btnBuscar.Image = (Image)resources.GetObject("btnBuscar.Image");
-            btnBuscar.Location = new Point(459, 30);
+            btnBuscar.Location = new Point(459, 34);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(75, 34);
             btnBuscar.TabIndex = 4;
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // txtArticulo
             // 
@@ -291,6 +292,7 @@
             txtArticuloBusqueda.PlaceholderText = "Artículo/Código";
             txtArticuloBusqueda.Size = new Size(325, 23);
             txtArticuloBusqueda.TabIndex = 2;
+            txtArticuloBusqueda.KeyPress += txtArticuloBusqueda_KeyPress;
             // 
             // label10
             // 
