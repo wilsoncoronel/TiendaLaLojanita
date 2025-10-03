@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Compras));
             groupBox1 = new GroupBox();
+            txtIdentificacionProveedor = new TextBox();
             btbBuscarProveedor = new Button();
             txtTelefono = new TextBox();
             label4 = new Label();
@@ -37,17 +38,12 @@
             txtDireccion = new TextBox();
             txtRazonSocial = new TextBox();
             label2 = new Label();
-            txtIdentificacion = new TextBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
             lblFechaIngreso = new Label();
             lblUsuario = new Label();
             groupBox3 = new GroupBox();
-            label12 = new Label();
-            txtPrecioVenta = new TextBox();
-            label11 = new Label();
             btnBuscar = new Button();
-            txtArticulo = new TextBox();
             txtArticuloBusqueda = new TextBox();
             label10 = new Label();
             dgvDetalleCompra = new DataGridView();
@@ -58,10 +54,13 @@
             Descripcion = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             ValorCompra = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
             ImpuestoValor = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             groupBox4 = new GroupBox();
+            cbxEstadoCompra = new ComboBox();
+            label11 = new Label();
             txtDocumento = new TextBox();
             label9 = new Label();
             dtpCreacion = new DateTimePicker();
@@ -106,6 +105,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(txtIdentificacionProveedor);
             groupBox1.Controls.Add(btbBuscarProveedor);
             groupBox1.Controls.Add(txtTelefono);
             groupBox1.Controls.Add(label4);
@@ -113,7 +113,6 @@
             groupBox1.Controls.Add(txtDireccion);
             groupBox1.Controls.Add(txtRazonSocial);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(txtIdentificacion);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(11, 9);
             groupBox1.Name = "groupBox1";
@@ -121,6 +120,15 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Proveedor";
+            // 
+            // txtIdentificacionProveedor
+            // 
+            txtIdentificacionProveedor.Location = new Point(245, 24);
+            txtIdentificacionProveedor.Name = "txtIdentificacionProveedor";
+            txtIdentificacionProveedor.PlaceholderText = "1700000000";
+            txtIdentificacionProveedor.Size = new Size(247, 23);
+            txtIdentificacionProveedor.TabIndex = 9;
+            txtIdentificacionProveedor.KeyDown += txtIdentificacionProveedor_KeyDown;
             // 
             // btbBuscarProveedor
             // 
@@ -180,14 +188,6 @@
             label2.TabIndex = 2;
             label2.Text = "Razón Social:";
             // 
-            // txtIdentificacion
-            // 
-            txtIdentificacion.Location = new Point(245, 24);
-            txtIdentificacion.Name = "txtIdentificacion";
-            txtIdentificacion.Size = new Size(246, 23);
-            txtIdentificacion.TabIndex = 1;
-            txtIdentificacion.Text = " ";
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -204,7 +204,7 @@
             groupBox2.Controls.Add(lblUsuario);
             groupBox2.Location = new Point(1519, 9);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(372, 201);
+            groupBox2.Size = new Size(372, 192);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Usuario";
@@ -228,11 +228,7 @@
             // groupBox3
             // 
             groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            groupBox3.Controls.Add(label12);
-            groupBox3.Controls.Add(txtPrecioVenta);
-            groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(btnBuscar);
-            groupBox3.Controls.Add(txtArticulo);
             groupBox3.Controls.Add(txtArticuloBusqueda);
             groupBox3.Controls.Add(label10);
             groupBox3.Controls.Add(dgvDetalleCompra);
@@ -243,31 +239,6 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Artículos";
             // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(368, 82);
-            label12.Name = "label12";
-            label12.Size = new Size(75, 15);
-            label12.TabIndex = 7;
-            label12.Text = "Precio Venta:";
-            // 
-            // txtPrecioVenta
-            // 
-            txtPrecioVenta.Location = new Point(496, 80);
-            txtPrecioVenta.Name = "txtPrecioVenta";
-            txtPrecioVenta.Size = new Size(162, 23);
-            txtPrecioVenta.TabIndex = 6;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(16, 80);
-            label11.Name = "label11";
-            label11.Size = new Size(52, 15);
-            label11.TabIndex = 5;
-            label11.Text = "Artículo:";
-            // 
             // btnBuscar
             // 
             btnBuscar.Image = (Image)resources.GetObject("btnBuscar.Image");
@@ -277,13 +248,6 @@
             btnBuscar.TabIndex = 4;
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
-            // 
-            // txtArticulo
-            // 
-            txtArticulo.Location = new Point(102, 80);
-            txtArticulo.Name = "txtArticulo";
-            txtArticulo.Size = new Size(233, 23);
-            txtArticulo.TabIndex = 3;
             // 
             // txtArticuloBusqueda
             // 
@@ -297,7 +261,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(16, 36);
+            label10.Location = new Point(16, 43);
             label10.Name = "label10";
             label10.Size = new Size(45, 15);
             label10.TabIndex = 1;
@@ -307,11 +271,14 @@
             // 
             dgvDetalleCompra.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { Id, IdCompra, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorTotal, ImpuestoValor, Eliminar });
+            dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { Id, IdCompra, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetalleCompra.Location = new Point(9, 118);
             dgvDetalleCompra.Name = "dgvDetalleCompra";
             dgvDetalleCompra.Size = new Size(882, 565);
             dgvDetalleCompra.TabIndex = 0;
+            dgvDetalleCompra.CellClick += dgvDetalleCompra_CellClick;
+            dgvDetalleCompra.CellValueChanged += dgvDetalleCompra_CellValueChanged;
+            dgvDetalleCompra.EditingControlShowing += dgvDetalleCompra_EditingControlShowing;
             // 
             // Id
             // 
@@ -349,20 +316,27 @@
             // 
             ValorCompra.HeaderText = "ValorCompra";
             ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
             // 
-            // ValorTotal
+            // ValorVenta
             // 
-            ValorTotal.HeaderText = "ValorTotal";
-            ValorTotal.Name = "ValorTotal";
+            ValorVenta.HeaderText = "ValorVenta";
+            ValorVenta.Name = "ValorVenta";
             // 
             // ImpuestoValor
             // 
             ImpuestoValor.HeaderText = "ImpuestoValor";
             ImpuestoValor.Name = "ImpuestoValor";
             // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "ValorTotal";
+            ValorTotal.Name = "ValorTotal";
+            // 
             // Eliminar
             // 
             Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
             Eliminar.Name = "Eliminar";
             Eliminar.Resizable = DataGridViewTriState.True;
             Eliminar.SortMode = DataGridViewColumnSortMode.Automatic;
@@ -370,6 +344,8 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox4.Controls.Add(cbxEstadoCompra);
+            groupBox4.Controls.Add(label11);
             groupBox4.Controls.Add(txtDocumento);
             groupBox4.Controls.Add(label9);
             groupBox4.Controls.Add(dtpCreacion);
@@ -382,6 +358,24 @@
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Compra";
+            // 
+            // cbxEstadoCompra
+            // 
+            cbxEstadoCompra.FormattingEnabled = true;
+            cbxEstadoCompra.Location = new Point(241, 141);
+            cbxEstadoCompra.Name = "cbxEstadoCompra";
+            cbxEstadoCompra.Size = new Size(205, 23);
+            cbxEstadoCompra.TabIndex = 7;
+            cbxEstadoCompra.Text = "Seleccione";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(10, 144);
+            label11.Name = "label11";
+            label11.Size = new Size(91, 15);
+            label11.TabIndex = 6;
+            label11.Text = "Estado Compra:";
             // 
             // txtDocumento
             // 
@@ -401,6 +395,7 @@
             // 
             // dtpCreacion
             // 
+            dtpCreacion.Enabled = false;
             dtpCreacion.Format = DateTimePickerFormat.Short;
             dtpCreacion.Location = new Point(241, 63);
             dtpCreacion.Name = "dtpCreacion";
@@ -581,7 +576,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(309, 40);
+            label6.Location = new Point(291, 40);
             label6.Name = "label6";
             label6.Size = new Size(35, 15);
             label6.TabIndex = 3;
@@ -686,7 +681,6 @@
         private GroupBox groupBox1;
         private TextBox txtRazonSocial;
         private Label label2;
-        private TextBox txtIdentificacion;
         private Label label1;
         private TextBox txtTelefono;
         private Label label4;
@@ -707,10 +701,6 @@
         private TextBox txtArticuloBusqueda;
         private Label label10;
         private Button btnBuscar;
-        private TextBox txtArticulo;
-        private Label label12;
-        private TextBox txtPrecioVenta;
-        private Label label11;
         private Label lblTotal;
         private Label lblIva15;
         private Label lblSubSinIva;
@@ -734,6 +724,9 @@
         private DataGridViewTextBoxColumn Proveedor;
         private DataGridViewTextBoxColumn Total;
         private DataGridViewTextBoxColumn Estado;
+        private DataGridViewImageColumn ActivarDesactivar;
+        private DataGridViewImageColumn Editar;
+        private Button btbBuscarProveedor;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn IdCompra;
         private DataGridViewTextBoxColumn IdArticulo;
@@ -741,11 +734,12 @@
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn ValorTotal;
+        private DataGridViewTextBoxColumn ValorVenta;
         private DataGridViewTextBoxColumn ImpuestoValor;
+        private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewImageColumn Eliminar;
-        private DataGridViewImageColumn ActivarDesactivar;
-        private DataGridViewImageColumn Editar;
-        private Button btbBuscarProveedor;
+        private TextBox txtIdentificacionProveedor;
+        private ComboBox cbxEstadoCompra;
+        private Label label11;
     }
 }

@@ -24,18 +24,23 @@ namespace TiendaLaLojanita.Controllers
         public async Task<List<PermisosRolDTO>> IniciarSesion(string usuario, string clave)
         {
             try {
-                PermisosRolDTO permisosRolDto = new PermisosRolDTO();
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Login/IniciarSesion?usuario={usuario}&password={clave}");
-                response.EnsureSuccessStatusCode();
+                
                 string responseJson = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Error al inciar session:{responseJson}");
+                }
                 Response<List<PermisosRolDTO>> result = JsonConvert.DeserializeObject<Response<List<PermisosRolDTO>>>(responseJson);
-
+                if(result == null || !result.status)
+                {
+                    throw new Exception(result?.msg ?? "Credenciales incorrectas");
+                }
                 return result.Value;
             }
-            catch {
-                throw;
+            catch (Exception ex){
+                throw new Exception("Erro al inciar sesión: " + ex.Message, ex);
             }
-            
         }
 
         public async Task<SesionDTO> ExtraerSesion(string usuario)

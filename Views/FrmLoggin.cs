@@ -21,12 +21,12 @@ namespace TiendaLaLojanita
         private async void GetPermisos(string user, string password)
         {
             var logginService = servicePorvider.GetRequiredService<ILogginService>();
-            List<PermisosRolDTO>  listaPermisos = await logginService.IniciarSesion(user, password);
-            SesionDTO sesion  = await logginService.ExtraerSesion(user);
+            List<PermisosRolDTO> listaPermisos = await logginService.IniciarSesion(user, password);
+            SesionDTO sesion = await logginService.ExtraerSesion(user);
             if (sesionDto != null)
             {
                 FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos, servicePorvider, sesion);
-                
+
                 this.Hide();
                 frmPrincipal.Show();
             }
@@ -36,10 +36,19 @@ namespace TiendaLaLojanita
             }
         }
 
-       
+
         private void btbIngresar_Click(object sender, EventArgs e)
         {
-            GetPermisos(txtUsurio.Text, txtPassword.Text);
+            try
+            {
+
+                GetPermisos(txtUsurio.Text, txtPassword.Text);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
