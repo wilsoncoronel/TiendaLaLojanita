@@ -29,6 +29,22 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<EstadoCompraDTO>> ListarEstadosCompra()
+        { 
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Compras/ListarEstadosCompra");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<EstadoCompraDTO>> result = JsonConvert.DeserializeObject<Response<List<EstadoCompraDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Task<CompraDTO> ObtenerCompra(int idCompra)
         {
             throw new NotImplementedException();

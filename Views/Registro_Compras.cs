@@ -19,20 +19,37 @@ namespace TiendaLaLojanita.Views
     {
         private readonly IProveedorService proveedorService;
         private readonly IArticuloService articuloService;
+        private readonly ICompraService compraService;
         List<ArticuloDTO> listaArticulos;
         private int contador = 0;
         private decimal imp = 0;
         private int cant = 1;
         private int IdProveedor = 0;
+        private List<EstadoCompraDTO> ListaEstados;
+       
+
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService)
+        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService)
         {
             InitializeComponent();
             this.proveedorService = proveedorService;
             this.articuloService = articuloService;
+            this.compraService = compraService;
             this.listaArticulos = new List<ArticuloDTO>();
+        }
+
+        private async void CargarDatosInciales()
+        {
+            this.ListaEstados = await this.compraService.ListarEstadosCompra();
+            this.CargarCombos();
+        }
+        private void CargarCombos()
+        {
+            this.cbxEstadoCompra.DataSource = this.ListaEstados;
+            this.cbxEstadoCompra.DisplayMember = "Nombre";
+            this.cbxEstadoCompra.ValueMember = "Id";
         }
 
         private async void Registro_Compras_Load(object sender, EventArgs e)
@@ -40,40 +57,69 @@ namespace TiendaLaLojanita.Views
             this.lblUsuario.Text = $"Usuario: {Sesion?.Usuario}";
             this.lblFechaIngreso.Text = $"Fecha Ingreso: {DateTime.Now.ToString("g")}";
             this.listaArticulos = await this.CargarListaArticulos();
+            this.CargarDatosInciales();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            
+            var resp = await this.CrearCompra();
+            if (resp == 0)
+            {
+                MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else {
+                int idCompra = resp;
+                MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
         }
 
         private async Task<int> CrearCompra()
         {
-            CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
-            compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
-            compraCreacionDTO.Documento = this.txtDocumento.Text;
-            compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
-            compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
-            compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
-            compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
-            compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
-            foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+            try
             {
-                if (row.IsNewRow) continue; // Saltar la fila nueva
-                DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+                int idCompra = 0;
+                CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
+                compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+                compraCreacionDTO.Documento = this.txtDocumento.Text;
+                compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
+                compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+                compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+                compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+                compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+                foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
                 {
-                    ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
-                    Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
-                    ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
-                    ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                    ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
-                    ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
-                    Descripcion = row.Cells["Descripcion"].Value?.ToString()
-                };
-                compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+                    if (row.IsNewRow) continue; // Saltar la fila nueva
+                    DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+                    {
+                        ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+                        Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                        ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+                        ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+                        ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+                        ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString()
+                    };
+                    compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+                }
+                var validator = new CompraValidator();
+                ValidationResult result = validator.Validate(compraCreacionDTO);
+
+                if (!result.IsValid)
+                {
+                    string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                    MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else {
+                    idCompra = await this.compraService.RegistrarCompra(compraCreacionDTO);
+                    return idCompra;
+                }
+                return idCompra;
             }
-            var validator = new CompraValidator();
-            ValidationResult result = validator.Validate(compraCreacionDTO);
+            catch(Exception ex)
+            { 
+                throw ex;
+            }
         }
 
         private void btbBuscarProveedor_Click(object sender, EventArgs e)
@@ -176,7 +222,7 @@ namespace TiendaLaLojanita.Views
                 cant,
                 articuloActual.ValorCompra,
                 articuloActual.ValorVenta,
-                this.CalcularValorImpuesto(cant, articuloActual.ImpuestoArticuloDto.ValorImpuesto, articuloActual.ValorVenta),
+                this.CalcularValorImpuesto(cant,articuloActual),
                 (articuloActual.ValorVenta* cant) + this.imp,
             });
         }
@@ -186,6 +232,66 @@ namespace TiendaLaLojanita.Views
             this.imp = 0;
             this.txtArticuloBusqueda.Text = "";
         }
+
+        private decimal? CalcularValorImpuesto(int cant, ArticuloDTO articuloActual)
+        {
+            decimal? tot = 0;
+            switch (articuloActual.ImpuestoArticuloDto.Nombre)
+            {
+                case "12 %":
+                    tot = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+                    this.imp = tot ?? 0;
+                    this.CargarTotales(articuloActual, tot);
+                    break;
+                case "15 %":
+                    tot = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+                    this.imp = tot ?? 0;
+                    this.CargarTotales(articuloActual, tot);
+                    break;
+                case "Incluido Iva 15%":
+                    tot = articuloActual.ValorVenta - (articuloActual.ValorVenta * articuloActual.ImpuestoArticuloDto.ValorImpuesto);
+                    this.imp = tot ?? 0;
+                    this.CargarTotales(articuloActual, tot);
+                    break;
+                case "Iva 0%":
+                    tot = 0;
+                    this.imp = tot ?? 0;
+                        this.CargarTotales(articuloActual, tot);
+                break;
+            }
+
+
+            return tot;
+        }
+        private void CargarTotales(ArticuloDTO articuloActual, decimal? tot)
+        {
+            var listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
+            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ImpuestoArticuloDto.Nombre));
+            if (existente != null)
+            {
+                existente[articuloActual.ImpuestoArticuloDto.Nombre].Add(new ImpuestoCalculadoDTO
+                {
+                    IdArticulo = articuloActual.Id,
+                    ValorImpuesto = tot ?? 0
+                });
+            }
+            else
+            {
+                listaImpuestos.Add(new Dictionary<string, List<ImpuestoCalculadoDTO>>
+                {
+                    { articuloActual.ImpuestoArticuloDto.Nombre, new List<ImpuestoCalculadoDTO>
+                        {
+                            new ImpuestoCalculadoDTO
+                            {
+                                IdArticulo = articuloActual.Id,
+                                ValorImpuesto = tot?? 0
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
 
         private bool ComprobarArticuloDgv(int idArticulo)
         {
@@ -198,13 +304,6 @@ namespace TiendaLaLojanita.Views
                 }
             }
             return false;
-        }
-
-        private decimal? CalcularValorImpuesto(int cant, decimal? valorImp, decimal valorVenta)
-        {
-            decimal? tot = (cant * valorVenta) * valorImp;
-            this.imp = tot ?? 0;
-            return tot;
         }
 
         private void dgvDetalleCompra_CellValueChanged(object sender, DataGridViewCellEventArgs e)

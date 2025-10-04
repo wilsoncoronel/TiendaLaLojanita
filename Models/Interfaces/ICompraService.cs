@@ -14,5 +14,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal);
         Task<CompraDTO> ObtenerCompra(int idCompra);
         Task<bool> ReversarCompra(int id);
+        Task<List<EstadoCompraDTO>> ListarEstadosCompra();
     }
 }
