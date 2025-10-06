@@ -26,8 +26,8 @@ namespace TiendaLaLojanita.Views
         private int cant = 1;
         private int IdProveedor = 0;
         private List<EstadoCompraDTO> ListaEstados;
-       
-
+        private  List<Dictionary<string, List<ImpuestoCalculadoDTO>>> listaImpuestos;
+        
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
@@ -38,6 +38,7 @@ namespace TiendaLaLojanita.Views
             this.articuloService = articuloService;
             this.compraService = compraService;
             this.listaArticulos = new List<ArticuloDTO>();
+            listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
         }
 
         private async void CargarDatosInciales()
@@ -177,7 +178,9 @@ namespace TiendaLaLojanita.Views
             {
                 return;
             }
-            this.BusquedaArticulo();
+            
+            
+          this.BusquedaArticulo();
         }
 
         private void BusquedaArticulo()
@@ -213,8 +216,8 @@ namespace TiendaLaLojanita.Views
 
         private void CargarDataGrid(ArticuloDTO articuloActual)
         {
-            this.dgvDetalleCompra.Rows.Add(new object[] {
-                contador++,
+            int index = this.dgvDetalleCompra.Rows.Add(new object[] {
+                contador,
                 0,
                 articuloActual.Id,
                 articuloActual.Nombre,
@@ -222,9 +225,17 @@ namespace TiendaLaLojanita.Views
                 cant,
                 articuloActual.ValorCompra,
                 articuloActual.ValorVenta,
-                this.CalcularValorImpuesto(cant,articuloActual),
-                (articuloActual.ValorVenta* cant) + this.imp,
+                0,
+                0,
             });
+
+            DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
+            DataGridViewCell celdaContador = fila.Cells[0];
+            decimal valorImpuesto = this.CalcularValorImpuesto(cant, articuloActual, Convert.ToInt32(celdaContador.Value));
+            fila.Cells[8].Value = valorImpuesto;
+            fila.Cells[9].Value = (articuloActual.ValorVenta * cant) + valorImpuesto;
+            contador++;
+            
         }
 
         private void LimpiarValores()
@@ -233,46 +244,44 @@ namespace TiendaLaLojanita.Views
             this.txtArticuloBusqueda.Text = "";
         }
 
-        private decimal? CalcularValorImpuesto(int cant, ArticuloDTO articuloActual)
+        private decimal CalcularValorImpuesto(int cant, ArticuloDTO articuloActual,int contador)
         {
-            decimal? tot = 0;
+            decimal tot = 0;
             switch (articuloActual.ImpuestoArticuloDto.Nombre)
             {
                 case "12 %":
-                    tot = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-                    this.imp = tot ?? 0;
-                    this.CargarTotales(articuloActual, tot);
+                    tot = articuloActual.ValorVenta * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+                    this.imp = tot;
+                    this.CargarTotales(articuloActual, tot,contador);
                     break;
                 case "15 %":
-                    tot = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-                    this.imp = tot ?? 0;
-                    this.CargarTotales(articuloActual, tot);
+                    tot = articuloActual.ValorVenta * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+                    this.imp = tot;
+                    this.CargarTotales(articuloActual, tot, contador);
                     break;
                 case "Incluido Iva 15%":
-                    tot = articuloActual.ValorVenta - (articuloActual.ValorVenta * articuloActual.ImpuestoArticuloDto.ValorImpuesto);
-                    this.imp = tot ?? 0;
-                    this.CargarTotales(articuloActual, tot);
+                    tot = articuloActual.ValorVenta * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+                    this.imp =0;
+                    this.CargarTotales(articuloActual, tot, contador);
                     break;
                 case "Iva 0%":
                     tot = 0;
-                    this.imp = tot ?? 0;
-                        this.CargarTotales(articuloActual, tot);
+                    this.imp = tot;
+                        this.CargarTotales(articuloActual, tot, contador);
                 break;
             }
-
-
             return tot;
         }
-        private void CargarTotales(ArticuloDTO articuloActual, decimal? tot)
+        private void CargarTotales(ArticuloDTO articuloActual, decimal tot, int contador)
         {
-            var listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
             var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ImpuestoArticuloDto.Nombre));
             if (existente != null)
             {
                 existente[articuloActual.ImpuestoArticuloDto.Nombre].Add(new ImpuestoCalculadoDTO
                 {
                     IdArticulo = articuloActual.Id,
-                    ValorImpuesto = tot ?? 0
+                    ValorImpuesto = tot,
+                    Id = contador
                 });
             }
             else
@@ -284,7 +293,8 @@ namespace TiendaLaLojanita.Views
                             new ImpuestoCalculadoDTO
                             {
                                 IdArticulo = articuloActual.Id,
-                                ValorImpuesto = tot?? 0
+                                ValorImpuesto = tot,
+                                Id = contador
                             }
                         }
                     }
@@ -316,11 +326,18 @@ namespace TiendaLaLojanita.Views
                 DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
                 if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
                 {
-                    this.CalcularValorImpuesto(Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ImpuestoValor"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    this.CalcularValorImpuestoDgv(Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Id"].Value));
                     fila.Cells["ValorTotal"].Value = (cantida * valorVenta) + this.imp;
                 }
             }
             this.imp = 0;
+        }
+
+        private void CalcularValorImpuestoDgv( int cantidad, int idArticulo, int contador)
+        {
+            decimal tot = 0;
+            ArticuloDTO articuloActual = this.listaArticulos.FirstOrDefault(art => art.Id == idArticulo);
+            this.CalcularValorImpuesto(cantidad, articuloActual, contador);
         }
 
         private void dgvDetalleCompra_CellClick(object sender, DataGridViewCellEventArgs e)
