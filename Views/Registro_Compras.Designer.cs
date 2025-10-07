@@ -56,15 +56,13 @@
             label8 = new Label();
             dtpCompra = new DateTimePicker();
             label7 = new Label();
-            label13 = new Label();
-            label14 = new Label();
-            label15 = new Label();
             label16 = new Label();
             lblSubIva15 = new Label();
             lblSubSinIva = new Label();
             lblIva15 = new Label();
             lblTotal = new Label();
             groupBox5 = new GroupBox();
+            lblIncluidoIva15 = new Label();
             btnGuardar = new Button();
             btnCancelar = new Button();
             groupBox6 = new GroupBox();
@@ -367,94 +365,72 @@
             label7.TabIndex = 0;
             label7.Text = "Fecha Compra:";
             // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(14, 60);
-            label13.Name = "label13";
-            label13.Size = new Size(66, 15);
-            label13.TabIndex = 8;
-            label13.Text = "Sub. Iva 15:";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(14, 96);
-            label14.Name = "label14";
-            label14.Size = new Size(69, 15);
-            label14.TabIndex = 9;
-            label14.Text = "Sub. sin Iva:";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new Point(14, 130);
-            label15.Name = "label15";
-            label15.Size = new Size(50, 15);
-            label15.TabIndex = 10;
-            label15.Text = "Iva 15%:";
-            // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(19, 165);
+            label16.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(6, 413);
             label16.Name = "label16";
-            label16.Size = new Size(35, 15);
+            label16.Size = new Size(70, 32);
             label16.TabIndex = 11;
             label16.Text = "Total:";
             // 
             // lblSubIva15
             // 
             lblSubIva15.AutoSize = true;
-            lblSubIva15.Location = new Point(118, 60);
+            lblSubIva15.Location = new Point(19, 53);
             lblSubIva15.Name = "lblSubIva15";
-            lblSubIva15.Size = new Size(44, 15);
+            lblSubIva15.Size = new Size(0, 15);
             lblSubIva15.TabIndex = 12;
-            lblSubIva15.Text = "label17";
             // 
             // lblSubSinIva
             // 
             lblSubSinIva.AutoSize = true;
-            lblSubSinIva.Location = new Point(118, 97);
+            lblSubSinIva.Location = new Point(19, 101);
             lblSubSinIva.Name = "lblSubSinIva";
-            lblSubSinIva.Size = new Size(44, 15);
+            lblSubSinIva.Size = new Size(0, 15);
             lblSubSinIva.TabIndex = 13;
-            lblSubSinIva.Text = "label18";
             // 
             // lblIva15
             // 
             lblIva15.AutoSize = true;
-            lblIva15.Location = new Point(118, 131);
+            lblIva15.Location = new Point(19, 146);
             lblIva15.Name = "lblIva15";
-            lblIva15.Size = new Size(44, 15);
+            lblIva15.Size = new Size(0, 15);
             lblIva15.TabIndex = 14;
-            lblIva15.Text = "label19";
             // 
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(118, 165);
+            lblTotal.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotal.Location = new Point(111, 413);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(44, 15);
+            lblTotal.Size = new Size(91, 32);
             lblTotal.TabIndex = 15;
             lblTotal.Text = "label20";
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(lblIncluidoIva15);
             groupBox5.Controls.Add(label16);
             groupBox5.Controls.Add(lblTotal);
-            groupBox5.Controls.Add(label15);
             groupBox5.Controls.Add(lblSubIva15);
-            groupBox5.Controls.Add(label14);
             groupBox5.Controls.Add(lblIva15);
-            groupBox5.Controls.Add(label13);
             groupBox5.Controls.Add(lblSubSinIva);
             groupBox5.Location = new Point(923, 211);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(208, 237);
+            groupBox5.Size = new Size(343, 473);
             groupBox5.TabIndex = 4;
             groupBox5.TabStop = false;
             groupBox5.Text = "Totales";
+            // 
+            // lblIncluidoIva15
+            // 
+            lblIncluidoIva15.AutoSize = true;
+            lblIncluidoIva15.Location = new Point(22, 245);
+            lblIncluidoIva15.Name = "lblIncluidoIva15";
+            lblIncluidoIva15.Size = new Size(0, 15);
+            lblIncluidoIva15.TabIndex = 16;
             // 
             // btnGuardar
             // 
@@ -488,9 +464,9 @@
             groupBox6.Controls.Add(label5);
             groupBox6.Controls.Add(dateTimePicker1);
             groupBox6.Controls.Add(dgvCompras);
-            groupBox6.Location = new Point(1041, 211);
+            groupBox6.Location = new Point(1280, 211);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(850, 689);
+            groupBox6.Size = new Size(611, 689);
             groupBox6.TabIndex = 7;
             groupBox6.TabStop = false;
             groupBox6.Text = "Compras";
@@ -542,9 +518,9 @@
             // 
             dgvCompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { IdComp, FechaCompra, Proveedor, Total, Estado, ActivarDesactivar, Editar });
-            dgvCompras.Location = new Point(8, 80);
+            dgvCompras.Location = new Point(6, 78);
             dgvCompras.Name = "dgvCompras";
-            dgvCompras.Size = new Size(836, 603);
+            dgvCompras.Size = new Size(599, 603);
             dgvCompras.TabIndex = 0;
             // 
             // IdComp
@@ -632,6 +608,7 @@
             ImpuestoValor.HeaderText = "ImpuestoValor";
             ImpuestoValor.Name = "ImpuestoValor";
             ImpuestoValor.ReadOnly = true;
+            ImpuestoValor.Visible = false;
             // 
             // ValorTotal
             // 
@@ -710,9 +687,6 @@
         private Label lblSubSinIva;
         private Label lblSubIva15;
         private Label label16;
-        private Label label15;
-        private Label label14;
-        private Label label13;
         private GroupBox groupBox5;
         private Button btnGuardar;
         private Button btnCancelar;
@@ -734,6 +708,7 @@
         private TextBox txtIdentificacionProveedor;
         private ComboBox cbxEstadoCompra;
         private Label label11;
+        private Label lblIncluidoIva15;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn IdCompra;
         private DataGridViewTextBoxColumn IdArticulo;
