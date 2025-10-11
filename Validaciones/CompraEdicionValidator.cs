@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ using TiendaLaLojanita.Models.DTO;
 
 namespace TiendaLaLojanita.Validaciones
 {
-    public class CompraValidator:AbstractValidator<CompraCreacionDTO>
+    public class CompraEdicionValidator : AbstractValidator<CompraEditarDTO>
     {
-        public CompraValidator()
+        public CompraEdicionValidator()
         {
             RuleFor(x => x.IdProveedor)
                 .GreaterThan(0).WithMessage("Debe seleccionar un proveedor.");
@@ -22,7 +23,7 @@ namespace TiendaLaLojanita.Validaciones
                 .LessThanOrEqualTo(DateTime.Now).WithMessage("La fecha de compra no puede ser mayor a la fecha actual.");
             RuleFor(x => x.IdEstado)
                 .GreaterThan(0).WithMessage("Debe seleccionar un estado.");
-            RuleFor(x => x.DetalleComprasCreacionDto).NotEmpty().WithMessage("La compra debe tener al menos un detalle."); 
+            RuleFor(x => x.DetalleComprasEditarDto).NotEmpty().WithMessage("La compra debe tener al menos un detalle.");
         }
     }
 }

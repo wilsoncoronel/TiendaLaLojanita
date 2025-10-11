@@ -59,8 +59,6 @@ namespace TiendaLaLojanita.Services
         {
             try
             {
-                
-                ArticuloDTO impuestoArticuloDTO = new ArticuloDTO();
                 var fechaIniDt = fechaInicial.ToDateTime(TimeOnly.MinValue);
                 var fechaFinDt = fechaFinal.ToDateTime(TimeOnly.MaxValue);
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");

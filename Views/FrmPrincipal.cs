@@ -18,6 +18,7 @@ namespace TiendaLaLojanita.Views
         private List<PermisosRolDTO> PermisosRol;
         private readonly IServiceProvider serviceProvider;
         private SesionDTO sesion;
+        private readonly Dictionary<string, Form> formulariosAbiertos = new();
 
         public FrmPrincipal(List<PermisosRolDTO> permisosRol, IServiceProvider serviceProvider, SesionDTO sesion)
         {
@@ -51,6 +52,17 @@ namespace TiendaLaLojanita.Views
         private void CargarFomrularioEnTab(TabPage tab, string nombreFormulario)
         {
             if (tab.Controls.Count > 0) return;
+            if (formulariosAbiertos.ContainsKey(nombreFormulario))
+            {
+                var frmExistente = formulariosAbiertos[nombreFormulario];
+                if (frmExistente != null && !frmExistente.IsDisposed)
+                {
+                    tab.Controls.Add(frmExistente);
+                    frmExistente.Show();
+                    frmExistente.BringToFront();
+                    return;
+                }
+            }
             Type tipoFormulario = Type.GetType($"TiendaLaLojanita.Views.{nombreFormulario}, TiendaLaLojanita");
 
             if (tipoFormulario == null)
@@ -76,7 +88,9 @@ namespace TiendaLaLojanita.Views
 
             tab.Controls.Add(frm);
             frm.Show();
+            formulariosAbiertos[nombreFormulario] = frm;
         }
+
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {

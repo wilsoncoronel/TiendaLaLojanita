@@ -19,14 +19,38 @@ namespace TiendaLaLojanita.Services
         {
             this._httpClient = httpClient.CreateClient("ApiClient");
         }
-        public Task<bool> EditarCompra(CompraEditarDTO compraDto)
+        public async Task<bool> EditarCompra(CompraEditarDTO compraDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string json = JsonConvert.SerializeObject(compraDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Compras/EditarCompra", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal)
+        public async Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Compras/ListarCompras?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<CompraMinDTO>> result = JsonConvert.DeserializeObject<Response<List<CompraMinDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<List<EstadoCompraDTO>> ListarEstadosCompra()
@@ -45,9 +69,20 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public Task<CompraDTO> ObtenerCompra(int idCompra)
+        public async Task<CompraDTO> ObtenerCompra(int idCompra)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Compras/ObtenerCompra?idCompra={idCompra}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<CompraDTO> result = JsonConvert.DeserializeObject<Response<CompraDTO>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<int> RegistrarCompra(CompraCreacionDTO compraDto)
