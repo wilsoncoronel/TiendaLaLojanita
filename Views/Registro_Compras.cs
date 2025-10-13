@@ -347,42 +347,24 @@ namespace TiendaLaLojanita.Views
 
         private void CalcularTotales()
         {
-            decimal totIva15 = 0m;
-            decimal totIva12 = 0m;
-            decimal totIvaIncluido15 = 0m;
-            decimal totIva0 = 0m;
+            decimal totImpuestos = 0m;
+            this.dgvTotales.Rows.Clear();
 
             foreach (var imp in this.listaImpuestos)
             {
                 foreach (var nom in imp)
                 {
-                    if (nom.Key == "15 %")
+                    this.dgvTotales.Rows.Add(new object[]
                     {
-                        totIva15 = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                        this.imp = totIva15;
-                    }
-                    if (nom.Key == "12 %")
-                    {
-                        totIva12 = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                        this.imp = totIva12;
-                    }
-                    if (nom.Key == "Incluido Iva 15%")
-                    {
-                        totIva12 = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                        this.imp = totIvaIncluido15;
-                    }
-                    if (nom.Key == "0%")
-                    {
-                        totIva0 = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                        this.imp = totIva0;
-                    }
-                    this.TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorVenta * x.Cantidad));
+                        nom.Key,
+                        nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad)),
+                    });
+                    totImpuestos = totImpuestos + nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
+                    TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorVenta * x.Cantidad));
                 }
             }
-            this.lblIva15.Text = $"Sub. Iva 15%: {totIva15}";
-            this.lblIncluidoIva15.Text = $"Sub. Iva 15% Inlcuido: {totIvaIncluido15}";
-            this.lblSubSinIva.Text = $"Sub. 0%: {totIva0}";
-            this.TotalGeneral = TotalGeneral + totIva0 + totIva12 + totIva15;
+
+            this.TotalGeneral = TotalGeneral + totImpuestos;
             this.lblTotal.Text = this.TotalGeneral.ToString("C2", new CultureInfo("en-US"));
             this.TotalGeneral = 0m;
         }
@@ -618,12 +600,12 @@ namespace TiendaLaLojanita.Views
                     detalle.ImpuestoValor,
                     detalle.ValorTotal,
                 });
-               
-               this.CargarListaImpuestos(detalle);
+
+                this.CargarListaImpuestos(detalle);
             }
             this.CalcularTotales();
         }
-        private void CargarListaImpuestos( DetalleCompraDTO detalle)
+        private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
             listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
             {
@@ -653,6 +635,9 @@ namespace TiendaLaLojanita.Views
             this.contador = 0;
             this.TotalGeneral = 0m;
             this.listaImpuestos.Clear();
+            this.dgvTotales.Rows.Clear();
         }
+
+
     }
 }
