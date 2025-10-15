@@ -39,7 +39,7 @@ namespace TiendaLaLojanita.Controllers
                 return result.Value;
             }
             catch (Exception ex){
-                throw new Exception("Erro al inciar sesión: " + ex.Message, ex);
+                throw new Exception("Error al inciar sesión: " + ex.Message, ex);
             }
         }
 

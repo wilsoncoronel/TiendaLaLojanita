@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TiendaLaLojanita.Models.DTO
 {
-    public class EstadoVenta
+    public class EstadoVentaDTO
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

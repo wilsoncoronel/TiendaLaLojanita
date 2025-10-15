@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Ventas));
             groupBox1 = new GroupBox();
+            txtDireccionCliente = new TextBox();
+            label17 = new Label();
+            txtIdCompra = new TextBox();
+            label16 = new Label();
             txtTelefono = new TextBox();
             label7 = new Label();
             dateTimePicker1 = new DateTimePicker();
@@ -40,7 +44,7 @@
             txtNombreCliente = new TextBox();
             btnBuscarCliente = new Button();
             label2 = new Label();
-            txtDocumento = new TextBox();
+            txtIdentificaconCliente = new TextBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
             btnBusquedaArticulo = new Button();
@@ -54,7 +58,7 @@
             ValorVenta = new DataGridViewTextBoxColumn();
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
-            textBox4 = new TextBox();
+            txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
             dgvTotales = new DataGridView();
@@ -105,6 +109,10 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(txtDireccionCliente);
+            groupBox1.Controls.Add(label17);
+            groupBox1.Controls.Add(txtIdCompra);
+            groupBox1.Controls.Add(label16);
             groupBox1.Controls.Add(txtTelefono);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(dateTimePicker1);
@@ -115,21 +123,54 @@
             groupBox1.Controls.Add(txtNombreCliente);
             groupBox1.Controls.Add(btnBuscarCliente);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(txtDocumento);
+            groupBox1.Controls.Add(txtIdentificaconCliente);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(16, 16);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(846, 129);
+            groupBox1.Size = new Size(846, 162);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Cliente";
             // 
+            // txtDireccionCliente
+            // 
+            txtDireccionCliente.Location = new Point(177, 126);
+            txtDireccionCliente.Name = "txtDireccionCliente";
+            txtDireccionCliente.Size = new Size(656, 23);
+            txtDireccionCliente.TabIndex = 16;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(14, 126);
+            label17.Name = "label17";
+            label17.Size = new Size(60, 15);
+            label17.TabIndex = 15;
+            label17.Text = "Dirección:";
+            // 
+            // txtIdCompra
+            // 
+            txtIdCompra.Enabled = false;
+            txtIdCompra.Location = new Point(634, 20);
+            txtIdCompra.Name = "txtIdCompra";
+            txtIdCompra.Size = new Size(100, 23);
+            txtIdCompra.TabIndex = 14;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(557, 23);
+            label16.Name = "label16";
+            label16.Size = new Size(49, 15);
+            label16.TabIndex = 13;
+            label16.Text = "IdVenta:";
+            // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(557, 84);
+            txtTelefono.Location = new Point(616, 84);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.PlaceholderText = "090000000";
-            txtTelefono.Size = new Size(276, 23);
+            txtTelefono.Size = new Size(217, 23);
             txtTelefono.TabIndex = 12;
             // 
             // label7
@@ -144,11 +185,10 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(557, 52);
+            dateTimePicker1.Location = new Point(616, 52);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(274, 23);
+            dateTimePicker1.Size = new Size(215, 23);
             dateTimePicker1.TabIndex = 10;
-            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // label5
             // 
@@ -199,6 +239,7 @@
             btnBuscarCliente.Size = new Size(77, 34);
             btnBuscarCliente.TabIndex = 3;
             btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
             // 
             // label2
             // 
@@ -209,13 +250,14 @@
             label2.TabIndex = 2;
             label2.Text = "Nombre:";
             // 
-            // txtDocumento
+            // txtIdentificaconCliente
             // 
-            txtDocumento.Location = new Point(177, 20);
-            txtDocumento.Name = "txtDocumento";
-            txtDocumento.PlaceholderText = "170000000000";
-            txtDocumento.Size = new Size(248, 23);
-            txtDocumento.TabIndex = 1;
+            txtIdentificaconCliente.Location = new Point(177, 20);
+            txtIdentificaconCliente.Name = "txtIdentificaconCliente";
+            txtIdentificaconCliente.PlaceholderText = "170000000000";
+            txtIdentificaconCliente.Size = new Size(248, 23);
+            txtIdentificaconCliente.TabIndex = 1;
+            txtIdentificaconCliente.KeyDown += txtIdentificaconCliente_KeyDown;
             // 
             // label1
             // 
@@ -231,11 +273,11 @@
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox2.Controls.Add(btnBusquedaArticulo);
             groupBox2.Controls.Add(dgvDetallesVenta);
-            groupBox2.Controls.Add(textBox4);
+            groupBox2.Controls.Add(txtArticuloBusqueda);
             groupBox2.Controls.Add(label6);
-            groupBox2.Location = new Point(16, 151);
+            groupBox2.Location = new Point(16, 184);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(898, 525);
+            groupBox2.Size = new Size(898, 492);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Buscar Articulos";
@@ -256,7 +298,7 @@
             dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdArticulo, Articulo, Descripcion, IdImpuesto, Cantidad, ValorVenta, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(6, 84);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
-            dgvDetallesVenta.Size = new Size(877, 435);
+            dgvDetallesVenta.Size = new Size(877, 402);
             dgvDetallesVenta.TabIndex = 2;
             // 
             // Id
@@ -311,13 +353,13 @@
             Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
             Eliminar.Name = "Eliminar";
             // 
-            // textBox4
+            // txtArticuloBusqueda
             // 
-            textBox4.Location = new Point(121, 37);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(249, 23);
-            textBox4.TabIndex = 11;
-            textBox4.TextChanged += textBox4_TextChanged;
+            txtArticuloBusqueda.Location = new Point(121, 37);
+            txtArticuloBusqueda.Name = "txtArticuloBusqueda";
+            txtArticuloBusqueda.Size = new Size(249, 23);
+            txtArticuloBusqueda.TabIndex = 11;
+            txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
             // 
             // label6
             // 
@@ -333,9 +375,9 @@
             groupBox3.Controls.Add(dgvTotales);
             groupBox3.Controls.Add(txtTotal);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(920, 160);
+            groupBox3.Location = new Point(920, 185);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(257, 321);
+            groupBox3.Size = new Size(257, 330);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Totales";
@@ -395,24 +437,24 @@
             groupBox4.Controls.Add(label11);
             groupBox4.Controls.Add(label9);
             groupBox4.Controls.Add(label8);
-            groupBox4.Location = new Point(847, 16);
+            groupBox4.Location = new Point(650, 16);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(823, 129);
+            groupBox4.Size = new Size(891, 162);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Venta";
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(552, 52);
+            txtDescripcion.Location = new Point(555, 52);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(261, 23);
+            txtDescripcion.Size = new Size(297, 23);
             txtDescripcion.TabIndex = 9;
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(457, 58);
+            label15.Location = new Point(439, 58);
             label15.Name = "label15";
             label15.Size = new Size(72, 15);
             label15.TabIndex = 8;
@@ -421,7 +463,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(552, 20);
+            comboBox1.Location = new Point(555, 20);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 7;
@@ -429,7 +471,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(457, 23);
+            label14.Location = new Point(439, 23);
             label14.Name = "label14";
             label14.Size = new Size(45, 15);
             label14.TabIndex = 6;
@@ -438,25 +480,25 @@
             // dtpModificacion
             // 
             dtpModificacion.Format = DateTimePickerFormat.Short;
-            dtpModificacion.Location = new Point(211, 86);
+            dtpModificacion.Location = new Point(224, 86);
             dtpModificacion.Name = "dtpModificacion";
-            dtpModificacion.Size = new Size(200, 23);
+            dtpModificacion.Size = new Size(187, 23);
             dtpModificacion.TabIndex = 5;
             // 
             // dtpCreacion
             // 
             dtpCreacion.Format = DateTimePickerFormat.Short;
-            dtpCreacion.Location = new Point(211, 53);
+            dtpCreacion.Location = new Point(224, 53);
             dtpCreacion.Name = "dtpCreacion";
-            dtpCreacion.Size = new Size(200, 23);
+            dtpCreacion.Size = new Size(187, 23);
             dtpCreacion.TabIndex = 4;
             // 
             // dtpCompra
             // 
             dtpCompra.Format = DateTimePickerFormat.Short;
-            dtpCompra.Location = new Point(211, 20);
+            dtpCompra.Location = new Point(224, 20);
             dtpCompra.Name = "dtpCompra";
-            dtpCompra.Size = new Size(200, 23);
+            dtpCompra.Size = new Size(187, 23);
             dtpCompra.TabIndex = 3;
             // 
             // label11
@@ -513,9 +555,9 @@
             groupBox5.Controls.Add(label13);
             groupBox5.Controls.Add(dtpFechaInicio);
             groupBox5.Controls.Add(label12);
-            groupBox5.Location = new Point(1183, 151);
+            groupBox5.Location = new Point(1183, 185);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(759, 531);
+            groupBox5.Size = new Size(759, 497);
             groupBox5.TabIndex = 7;
             groupBox5.TabStop = false;
             groupBox5.Text = "Ventas";
@@ -536,7 +578,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdVenta, DescripcionVenta, Cliente, FechaVenta, FechaModificacion, Estado, Editar });
             dataGridView1.Location = new Point(12, 73);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(741, 452);
+            dataGridView1.Size = new Size(741, 418);
             dataGridView1.TabIndex = 4;
             // 
             // IdVenta
@@ -620,9 +662,9 @@
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(lblFechaIngreso);
             groupBox6.Controls.Add(lblUsuario);
-            groupBox6.Location = new Point(1675, 16);
+            groupBox6.Location = new Point(1547, 16);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(267, 129);
+            groupBox6.Size = new Size(395, 129);
             groupBox6.TabIndex = 8;
             groupBox6.TabStop = false;
             groupBox6.Text = "Usuario";
@@ -658,6 +700,7 @@
             Controls.Add(groupBox1);
             Name = "Registro_Ventas";
             Text = "Registro_Ventas";
+            Load += Registro_Ventas_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -683,7 +726,7 @@
         private TextBox txtNombreCliente;
         private Button btnBuscarCliente;
         private Label label2;
-        private TextBox txtDocumento;
+        private TextBox txtIdentificaconCliente;
         private Label label1;
         private Label label5;
         private TextBox txtEmail;
@@ -691,7 +734,7 @@
         private DateTimePicker dateTimePicker1;
         private GroupBox groupBox2;
         private Button btnBusquedaArticulo;
-        private TextBox textBox4;
+        private TextBox txtArticuloBusqueda;
         private Label label6;
         private DataGridView dgvDetallesVenta;
         private GroupBox groupBox3;
@@ -741,5 +784,9 @@
         private GroupBox groupBox6;
         private Label lblFechaIngreso;
         private Label lblUsuario;
+        private TextBox txtIdCompra;
+        private Label label16;
+        private TextBox txtDireccionCliente;
+        private Label label17;
     }
 }

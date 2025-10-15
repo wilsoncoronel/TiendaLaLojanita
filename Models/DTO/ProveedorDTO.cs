@@ -18,5 +18,6 @@ namespace TiendaLaLojanita.Models.DTO
         public string RazonSocial { get; set; }
         public string Descripcion { get; set; }
         public string Direccion { get; set; }
+        public DireccionDTO DireccionDto { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace TiendaLaLojanita.Views
         private readonly IProveedorService proveedorService;
         private readonly IArticuloService articuloService;
         private readonly ICompraService compraService;
-        List<ArticuloDTO> listaArticulos;
+        private List<ArticuloDTO> listaArticulos;
         private int contador = 0;
         private decimal imp = 0;
         private int cant = 1;
