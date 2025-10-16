@@ -638,6 +638,5 @@ namespace TiendaLaLojanita.Views
             this.dgvTotales.Rows.Clear();
         }
 
-
     }
 }

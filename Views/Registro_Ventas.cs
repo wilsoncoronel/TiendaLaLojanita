@@ -19,6 +19,7 @@ namespace TiendaLaLojanita.Views
         private int idCliente = 0;
         private readonly IClienteService clienteService;
         private readonly IArticuloService articuloService;
+        private readonly IVentaService _ventaService;
         private List<ArticuloDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
@@ -30,20 +31,32 @@ namespace TiendaLaLojanita.Views
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, Iventase)
+        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService)
         {
             InitializeComponent();
             this.clienteService = clienteService;
             this.articuloService = articuloService;
+            this._ventaService = ventaService;
             this.listaArticulos = new List<ArticuloDTO>();
+            listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
-
+        private async void Registro_Ventas_Load(object sender, EventArgs e)
+        {
+            this.listaArticulos = await this.CargarListaArticulos();
+            this.CargarDatosInciales();
+        }
         private async void CargarDatosInciales()
         {
-            this.ListaEstados = await this.ventaService.ListarEstadosCompra();
+            this.ListaEstados = await this._ventaService.ListarEstadosVenta();
             this.CargarCombos();
         }
 
+        private void CargarCombos()
+        {
+            this.cbxEstadosVenta.DataSource = this.ListaEstados;
+            this.cbxEstadosVenta.DisplayMember = "Nombre";
+            this.cbxEstadosVenta.ValueMember = "Id";
+        }
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
             this.CargarCliente(this.txtIdentificaconCliente.Text);
@@ -104,7 +117,7 @@ namespace TiendaLaLojanita.Views
         private void BusquedaArticulo()
         {
             ArticuloDTO articuloActual = new ArticuloDTO();
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text);
+            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
             if (articuloActual is null || articuloActual.Id == 0)
             {
                 MessageBox.Show("No se encontró ningún artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -178,7 +191,6 @@ namespace TiendaLaLojanita.Views
                 articuloActual.Nombre,
                 articuloActual.Descripcion,
                 cant,
-                articuloActual.ValorCompra,
                 articuloActual.ValorVenta,
                 0,
                 0,
@@ -187,8 +199,8 @@ namespace TiendaLaLojanita.Views
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
             decimal valorImpuesto = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-            fila.Cells[8].Value = valorImpuesto;
-            fila.Cells[9].Value = articuloActual.ValorVenta * cant;
+            fila.Cells[7].Value = valorImpuesto;
+            fila.Cells[8].Value = articuloActual.ValorVenta * Convert.ToInt32(fila.Cells[6].Value);
             contador++;
         }
 
@@ -249,10 +261,6 @@ namespace TiendaLaLojanita.Views
             return false;
         }
 
-        private async void Registro_Ventas_Load(object sender, EventArgs e)
-        {
-            this.listaArticulos = await this.CargarListaArticulos();
-        }
         private async Task<List<ArticuloDTO>> CargarListaArticulos()
         {
             List<ArticuloDTO> listaArticulos;
@@ -263,6 +271,24 @@ namespace TiendaLaLojanita.Views
                 throw new Exception("No se encontraron articulos en el sistema");
             }
             return listaArticulos;
+        }
+
+        private void dgvDetallesVenta_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            int cantida;
+            decimal valorVenta;
+            if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Valor Venta")
+            {
+
+                DataGridViewRow fila = dgvDetallesVenta.Rows[e.RowIndex];
+                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
+                {
+                    fila.Cells["ValorTotal"].Value = cantida * valorVenta;
+                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    this.CalcularTotales();
+                }
+            }
+            this.imp = 0;
         }
     }
 }

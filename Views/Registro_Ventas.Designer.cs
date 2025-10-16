@@ -50,12 +50,13 @@
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
             IdArticulo = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
-            IdImpuesto = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             ValorVenta = new DataGridViewTextBoxColumn();
+            ImpuestoValor = new DataGridViewTextBoxColumn();
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
@@ -67,9 +68,9 @@
             txtTotal = new TextBox();
             label10 = new Label();
             groupBox4 = new GroupBox();
-            txtDescripcion = new TextBox();
+            txtDocumento = new TextBox();
             label15 = new Label();
-            comboBox1 = new ComboBox();
+            cbxEstadosVenta = new ComboBox();
             label14 = new Label();
             dtpModificacion = new DateTimePicker();
             dtpCreacion = new DateTimePicker();
@@ -134,6 +135,7 @@
             // 
             // txtDireccionCliente
             // 
+            txtDireccionCliente.Enabled = false;
             txtDireccionCliente.Location = new Point(177, 126);
             txtDireccionCliente.Name = "txtDireccionCliente";
             txtDireccionCliente.Size = new Size(656, 23);
@@ -167,6 +169,7 @@
             // 
             // txtTelefono
             // 
+            txtTelefono.Enabled = false;
             txtTelefono.Location = new Point(616, 84);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.PlaceholderText = "090000000";
@@ -201,6 +204,7 @@
             // 
             // txtEmail
             // 
+            txtEmail.Enabled = false;
             txtEmail.Location = new Point(177, 84);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "pruebas@mail.com";
@@ -226,6 +230,7 @@
             // 
             // txtNombreCliente
             // 
+            txtNombreCliente.Enabled = false;
             txtNombreCliente.Location = new Point(177, 51);
             txtNombreCliente.Name = "txtNombreCliente";
             txtNombreCliente.Size = new Size(248, 23);
@@ -295,17 +300,24 @@
             // 
             dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdArticulo, Articulo, Descripcion, IdImpuesto, Cantidad, ValorVenta, ValorTotal, Eliminar });
+            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(6, 84);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(877, 402);
             dgvDetallesVenta.TabIndex = 2;
+            dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged;
             // 
             // Id
             // 
             Id.HeaderText = "Id";
             Id.Name = "Id";
             Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
             // 
             // IdArticulo
             // 
@@ -325,12 +337,6 @@
             Descripcion.HeaderText = "Descripción";
             Descripcion.Name = "Descripcion";
             // 
-            // IdImpuesto
-            // 
-            IdImpuesto.HeaderText = "IdImpuesto";
-            IdImpuesto.Name = "IdImpuesto";
-            IdImpuesto.Visible = false;
-            // 
             // Cantidad
             // 
             Cantidad.HeaderText = "Cantidad";
@@ -340,6 +346,12 @@
             // 
             ValorVenta.HeaderText = "Valor Venta";
             ValorVenta.Name = "ValorVenta";
+            // 
+            // ImpuestoValor
+            // 
+            ImpuestoValor.HeaderText = "ImpuestoValor";
+            ImpuestoValor.Name = "ImpuestoValor";
+            ImpuestoValor.Visible = false;
             // 
             // ValorTotal
             // 
@@ -407,6 +419,7 @@
             // 
             // txtTotal
             // 
+            txtTotal.Enabled = false;
             txtTotal.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtTotal.Location = new Point(151, 263);
             txtTotal.Name = "txtTotal";
@@ -427,9 +440,9 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top;
-            groupBox4.Controls.Add(txtDescripcion);
+            groupBox4.Controls.Add(txtDocumento);
             groupBox4.Controls.Add(label15);
-            groupBox4.Controls.Add(comboBox1);
+            groupBox4.Controls.Add(cbxEstadosVenta);
             groupBox4.Controls.Add(label14);
             groupBox4.Controls.Add(dtpModificacion);
             groupBox4.Controls.Add(dtpCreacion);
@@ -444,29 +457,29 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Venta";
             // 
-            // txtDescripcion
+            // txtDocumento
             // 
-            txtDescripcion.Location = new Point(555, 52);
-            txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(297, 23);
-            txtDescripcion.TabIndex = 9;
+            txtDocumento.Location = new Point(555, 52);
+            txtDocumento.Name = "txtDocumento";
+            txtDocumento.Size = new Size(297, 23);
+            txtDocumento.TabIndex = 9;
             // 
             // label15
             // 
             label15.AutoSize = true;
             label15.Location = new Point(439, 58);
             label15.Name = "label15";
-            label15.Size = new Size(72, 15);
+            label15.Size = new Size(73, 15);
             label15.TabIndex = 8;
-            label15.Text = "Descripción:";
+            label15.Text = "Documento:";
             // 
-            // comboBox1
+            // cbxEstadosVenta
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(555, 20);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 7;
+            cbxEstadosVenta.FormattingEnabled = true;
+            cbxEstadosVenta.Location = new Point(555, 20);
+            cbxEstadosVenta.Name = "cbxEstadosVenta";
+            cbxEstadosVenta.Size = new Size(121, 23);
+            cbxEstadosVenta.TabIndex = 7;
             // 
             // label14
             // 
@@ -479,6 +492,7 @@
             // 
             // dtpModificacion
             // 
+            dtpModificacion.Enabled = false;
             dtpModificacion.Format = DateTimePickerFormat.Short;
             dtpModificacion.Location = new Point(224, 86);
             dtpModificacion.Name = "dtpModificacion";
@@ -487,6 +501,7 @@
             // 
             // dtpCreacion
             // 
+            dtpCreacion.Enabled = false;
             dtpCreacion.Format = DateTimePickerFormat.Short;
             dtpCreacion.Location = new Point(224, 53);
             dtpCreacion.Name = "dtpCreacion";
@@ -524,9 +539,9 @@
             label8.AutoSize = true;
             label8.Location = new Point(15, 23);
             label8.Name = "label8";
-            label8.Size = new Size(87, 15);
+            label8.Size = new Size(73, 15);
             label8.TabIndex = 0;
-            label8.Text = "Fecha Compra:";
+            label8.Text = "Fecha Venta:";
             // 
             // btnGuardar
             // 
@@ -761,18 +776,9 @@
         private DateTimePicker dtpFechaFin;
         private Label label13;
         private Button btnBuscarVenta;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn IdArticulo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn IdImpuesto;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn ValorTotal;
-        private DataGridViewImageColumn Eliminar;
-        private TextBox txtDescripcion;
+        private TextBox txtDocumento;
         private Label label15;
-        private ComboBox comboBox1;
+        private ComboBox cbxEstadosVenta;
         private Label label14;
         private DataGridViewTextBoxColumn IdVenta;
         private DataGridViewTextBoxColumn DescripcionVenta;
@@ -788,5 +794,16 @@
         private Label label16;
         private TextBox txtDireccionCliente;
         private Label label17;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn IdImpuesto;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorVenta;
+        private DataGridViewTextBoxColumn ImpuestoValor;
+        private DataGridViewTextBoxColumn ValorTotal;
+        private DataGridViewImageColumn Eliminar;
+        private DataGridViewTextBoxColumn IdVentaDet;
     }
 }

@@ -42,6 +42,7 @@ namespace TiendaLaLojanita
             services.AddScoped<ICompraService, CompraService>();
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IVentaService, VentaService>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();
