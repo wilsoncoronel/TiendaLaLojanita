@@ -18,7 +18,7 @@ namespace TiendaLaLojanita.Validaciones
                     .LessThanOrEqualTo(DateTime.Now).WithMessage("La fecha de venta no puede ser mayor a la fecha actual.");
             RuleFor(x => x.IdEstado)
                     .GreaterThan(0).WithMessage("Debe seleccionar un estado.");
-            RuleFor(x => x.DetalleVenta).NotEmpty().WithMessage("La venta debe tener al menos un detalle.");
+            RuleFor(x => x.DetalleVentaCreacionDto).NotEmpty().WithMessage("La venta debe tener al menos un detalle.");
 
         }
     }

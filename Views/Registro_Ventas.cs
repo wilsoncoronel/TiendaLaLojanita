@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
 {
@@ -191,6 +193,7 @@ namespace TiendaLaLojanita.Views
                 articuloActual.Nombre,
                 articuloActual.Descripcion,
                 cant,
+                articuloActual.ValorCompra,
                 articuloActual.ValorVenta,
                 0,
                 0,
@@ -199,8 +202,8 @@ namespace TiendaLaLojanita.Views
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
             decimal valorImpuesto = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-            fila.Cells[7].Value = valorImpuesto;
-            fila.Cells[8].Value = articuloActual.ValorVenta * Convert.ToInt32(fila.Cells[6].Value);
+            fila.Cells[8].Value = valorImpuesto;
+            fila.Cells[9].Value = articuloActual.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
             contador++;
         }
 
@@ -289,6 +292,77 @@ namespace TiendaLaLojanita.Views
                 }
             }
             this.imp = 0;
+        }
+
+        private async void btnGuardar_Click(object sender, EventArgs e)
+        {
+            var resp = 0;
+            var respEditar = false;
+            if (this.txtIdVenta is null || this.txtIdVenta.Text == "")
+            {
+                resp = await this.CrearVenta();
+                if (resp == 0) MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    int idCompra = resp;
+                    MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            /*else
+            {
+                respEditar = await this.EditarCompra();
+                if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }*/
+        }
+
+        private async Task<int> CrearVenta()
+        {
+            try
+            {
+                int idVenta = 0;
+                VentaCreacionDTO ventaCreacionDTO = new VentaCreacionDTO();
+                ventaCreacionDTO.IdCliente = this.idCliente; // Reemplazar con el ID real del proveedor
+                ventaCreacionDTO.Documento = this.txtDocumento.Text;
+                ventaCreacionDTO.FechaCompra = this.dtpCompra.Value;
+                ventaCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadosVenta.SelectedValue); // Estado "Pendiente" por defecto
+                ventaCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+                ventaCreacionDTO.UsuarioCreadorId = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+                ventaCreacionDTO.DetalleVentaCreacionDto = new List<DetalleVentaCreacionDTO>();
+                foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
+                {
+                    if (row.IsNewRow) continue; // Saltar la fila nueva
+                    DetalleVentaCreacionDTO detalle = new DetalleVentaCreacionDTO
+                    {
+                        ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+                        Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                        ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+                        ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+                        ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+                        ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString()
+                    };
+                    ventaCreacionDTO.DetalleVentaCreacionDto.Add(detalle);
+                }
+                var validator = new VentaValidator();
+                ValidationResult result = validator.Validate(ventaCreacionDTO);
+
+                if (!result.IsValid)
+                {
+                    string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                    MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    idVenta = await this._ventaService.RegistrarVenta(ventaCreacionDTO);
+                    return idVenta;
+                } 
+                return idVenta;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

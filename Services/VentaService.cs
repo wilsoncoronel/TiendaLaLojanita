@@ -50,9 +50,22 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> RegistrarVenta(VentaCreacionDTO ventaDto)
+        public async Task<int> RegistrarVenta(VentaCreacionDTO ventaDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string json = JsonConvert.SerializeObject(ventaDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Ventas/RegistrarVenta", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public Task<bool> ReversarVenta(int id)

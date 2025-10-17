@@ -32,7 +32,7 @@
             groupBox1 = new GroupBox();
             txtDireccionCliente = new TextBox();
             label17 = new Label();
-            txtIdCompra = new TextBox();
+            txtIdVenta = new TextBox();
             label16 = new Label();
             txtTelefono = new TextBox();
             label7 = new Label();
@@ -49,16 +49,6 @@
             groupBox2 = new GroupBox();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
-            Id = new DataGridViewTextBoxColumn();
-            IdVentaDet = new DataGridViewTextBoxColumn();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            ImpuestoValor = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
@@ -97,6 +87,17 @@
             groupBox6 = new GroupBox();
             lblFechaIngreso = new Label();
             lblUsuario = new Label();
+            Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
+            ImpuestoValor = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).BeginInit();
@@ -112,7 +113,7 @@
             // 
             groupBox1.Controls.Add(txtDireccionCliente);
             groupBox1.Controls.Add(label17);
-            groupBox1.Controls.Add(txtIdCompra);
+            groupBox1.Controls.Add(txtIdVenta);
             groupBox1.Controls.Add(label16);
             groupBox1.Controls.Add(txtTelefono);
             groupBox1.Controls.Add(label7);
@@ -150,13 +151,13 @@
             label17.TabIndex = 15;
             label17.Text = "Dirección:";
             // 
-            // txtIdCompra
+            // txtIdVenta
             // 
-            txtIdCompra.Enabled = false;
-            txtIdCompra.Location = new Point(634, 20);
-            txtIdCompra.Name = "txtIdCompra";
-            txtIdCompra.Size = new Size(100, 23);
-            txtIdCompra.TabIndex = 14;
+            txtIdVenta.Enabled = false;
+            txtIdVenta.Location = new Point(634, 20);
+            txtIdVenta.Name = "txtIdVenta";
+            txtIdVenta.Size = new Size(100, 23);
+            txtIdVenta.TabIndex = 14;
             // 
             // label16
             // 
@@ -300,70 +301,12 @@
             // 
             dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
+            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(6, 84);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(877, 402);
             dgvDetallesVenta.TabIndex = 2;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged;
-            // 
-            // Id
-            // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // IdVentaDet
-            // 
-            IdVentaDet.HeaderText = "IdVentaDet";
-            IdVentaDet.Name = "IdVentaDet";
-            IdVentaDet.Visible = false;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "IdArticulo";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            IdArticulo.Visible = false;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Articulo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorVenta
-            // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
-            // 
-            // ImpuestoValor
-            // 
-            ImpuestoValor.HeaderText = "ImpuestoValor";
-            ImpuestoValor.Name = "ImpuestoValor";
-            ImpuestoValor.Visible = false;
-            // 
-            // ValorTotal
-            // 
-            ValorTotal.HeaderText = "Valor Total";
-            ValorTotal.Name = "ValorTotal";
-            ValorTotal.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // txtArticuloBusqueda
             // 
@@ -450,9 +393,9 @@
             groupBox4.Controls.Add(label11);
             groupBox4.Controls.Add(label9);
             groupBox4.Controls.Add(label8);
-            groupBox4.Location = new Point(650, 16);
+            groupBox4.Location = new Point(687, 16);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(891, 162);
+            groupBox4.Size = new Size(854, 162);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Venta";
@@ -551,6 +494,7 @@
             btnGuardar.Size = new Size(250, 64);
             btnGuardar.TabIndex = 5;
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
@@ -700,6 +644,70 @@
             lblUsuario.Size = new Size(0, 15);
             lblUsuario.TabIndex = 0;
             // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            IdArticulo.Visible = false;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
+            // 
+            // ValorVenta
+            // 
+            ValorVenta.HeaderText = "Valor Venta";
+            ValorVenta.Name = "ValorVenta";
+            // 
+            // ImpuestoValor
+            // 
+            ImpuestoValor.HeaderText = "ImpuestoValor";
+            ImpuestoValor.Name = "ImpuestoValor";
+            ImpuestoValor.Visible = false;
+            // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "Valor Total";
+            ValorTotal.Name = "ValorTotal";
+            ValorTotal.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -790,20 +798,21 @@
         private GroupBox groupBox6;
         private Label lblFechaIngreso;
         private Label lblUsuario;
-        private TextBox txtIdCompra;
+        private TextBox txtIdVenta;
         private Label label16;
         private TextBox txtDireccionCliente;
         private Label label17;
+        private DataGridViewTextBoxColumn IdImpuesto;
         private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn IdVentaDet;
         private DataGridViewTextBoxColumn IdArticulo;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn IdImpuesto;
         private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
         private DataGridViewTextBoxColumn ValorVenta;
         private DataGridViewTextBoxColumn ImpuestoValor;
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewImageColumn Eliminar;
-        private DataGridViewTextBoxColumn IdVentaDet;
     }
 }

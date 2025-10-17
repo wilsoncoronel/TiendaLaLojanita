@@ -13,12 +13,8 @@ namespace TiendaLaLojanita.Models.DTO
         public DateTime FechaCompra { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int IdEstado { get; set; }
-        public EstadoVentaDTO EstadoVenta { get; set; }
         public bool EstadoVisual { get; set; }
-        public List<DetalleVentaCreacionDTO> DetalleVenta { get; set; } = [];
-        public double ValorIva { get; set; }
-        public double SubTotal { get; set; }
-        public double Total { get; set; }
+        public List<DetalleVentaCreacionDTO> DetalleVentaCreacionDto { get; set; } = [];
         public int UsuarioCreadorId { get; set; }
     }
 }
