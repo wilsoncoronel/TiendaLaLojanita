@@ -238,7 +238,7 @@ namespace TiendaLaLojanita.Views
         private void BusquedaArticulo()
         {
             ArticuloDTO articuloActual = new ArticuloDTO();
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text);
+            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text || Convert.ToInt32(this.txtArticuloBusqueda.Text) == art.Id);
             if (articuloActual is null || articuloActual.Id == 0)
             {
                 MessageBox.Show("No se encontro ningun articulo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -254,7 +254,7 @@ namespace TiendaLaLojanita.Views
                         if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Id)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
+                            this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
                             this.CalcularTotales();
                         }
                     }
@@ -268,7 +268,7 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void ActualizarCantidad(int idArticulo, int cantidad, decimal valorVenta)
+        private void ActualizarCantidad(int idArticulo, int cantidad, decimal valorCompra)
         {
             foreach (var c in this.listaImpuestos)
             {
@@ -277,7 +277,7 @@ namespace TiendaLaLojanita.Views
                     imp.Value.Where(x => x.IdArticulo == idArticulo).ToList().ForEach(x =>
                     {
                         x.Cantidad = cantidad;
-                        x.ValorVenta = valorVenta;
+                        x.ValorCompra = valorCompra;
                     });
                 }
             }
@@ -292,7 +292,7 @@ namespace TiendaLaLojanita.Views
                     NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
                     IdArticulo = articuloActual.Id,
                     ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
-                    ValorVenta = articuloActual.ValorVenta,
+                    ValorCompra = articuloActual.ValorCompra,
                     Id = contador,
                     Cantidad = cant
                 });
@@ -310,7 +310,7 @@ namespace TiendaLaLojanita.Views
                                 NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
                                 IdArticulo = articuloActual.Id,
                                 ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorVenta = articuloActual.ValorVenta,
+                                ValorCompra = articuloActual.ValorCompra,
                                 Id = contador,
                                 Cantidad = cant
                             }
@@ -334,9 +334,9 @@ namespace TiendaLaLojanita.Views
 
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.ValorVenta) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+            decimal valorImpuesto = (cant * articuloActual.ValorCompra) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
             fila.Cells[8].Value = valorImpuesto;
-            fila.Cells[9].Value = articuloActual.ValorVenta * cant;
+            fila.Cells[9].Value = articuloActual.ValorCompra * cant;
             contador++;
         }
         private void LimpiarValores()
@@ -359,8 +359,8 @@ namespace TiendaLaLojanita.Views
                         nom.Key,
                         nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad)),
                     });
-                    totImpuestos = totImpuestos + nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                    TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorVenta * x.Cantidad));
+                    totImpuestos = totImpuestos + nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * x.Cantidad));
+                    TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorCompra * x.Cantidad));
                 }
             }
 
@@ -400,15 +400,15 @@ namespace TiendaLaLojanita.Views
         private void dgvDetalleCompra_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             int cantida;
-            decimal valorVenta;
-            if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorVenta")
+            decimal valorCompra;
+            if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorCompra")
             {
 
                 DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
-                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
+                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorCompra"].Value?.ToString(), out valorCompra))
                 {
-                    fila.Cells["ValorTotal"].Value = cantida * valorVenta;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    fila.Cells["ValorTotal"].Value = cantida * valorCompra;
+                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorCompra"].Value));
                     this.CalcularTotales();
                 }
             }
@@ -426,8 +426,9 @@ namespace TiendaLaLojanita.Views
                 }
                 else if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Eliminar")
                 {
-                    dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
                     EliminarImpuestoPorId(Convert.ToInt32(dgvDetalleCompra.Rows[e.RowIndex].Cells["Id"].Value));
+                    dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
+                    this.CalcularTotales();
                 }
             }
             catch
@@ -616,7 +617,7 @@ namespace TiendaLaLojanita.Views
                             NombreImpuesto = detalle.Articulo.ImpuestoArticuloDto.Nombre,
                             IdArticulo = detalle.Articulo.Id,
                             ValorImpuesto = detalle.ImpuestoValor,
-                            ValorVenta = detalle.ValorVenta,
+                            ValorCompra = detalle.ValorCompra,
                             Id = detalle.Id,
                             Cantidad = detalle.Cantidad
                         }

@@ -40,14 +40,36 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public Task<List<VentaMinDTO>> ListarVenta(DateOnly fechaInicial, DateOnly fechaFinal)
+        public async Task<List<VentaMinDTO>> ListarVenta(DateOnly fechaInicial, DateOnly fechaFinal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Ventas/ListarVentas?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<VentaMinDTO>> result = JsonConvert.DeserializeObject<Response<List<VentaMinDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public Task<VentaDTO> ObtenerVenta(int idVenta)
+        public async Task<VentaDTO> ObtenerVenta(int idVenta)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Ventas/ObtenerVenta?idVenta={idVenta}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<VentaDTO> result = JsonConvert.DeserializeObject<Response<VentaDTO>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<int> RegistrarVenta(VentaCreacionDTO ventaDto)

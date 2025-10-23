@@ -69,6 +69,9 @@
             txtArticulo = new TextBox();
             label14 = new Label();
             dgvArticulos = new DataGridView();
+            groupBox5 = new GroupBox();
+            lblFecha = new Label();
+            lblUser = new Label();
             Id = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -76,8 +79,8 @@
             Marca = new DataGridViewTextBoxColumn();
             IdTipoArticulo = new DataGridViewTextBoxColumn();
             TipoArticulo = new DataGridViewTextBoxColumn();
-            Impuesto = new DataGridViewTextBoxColumn();
             IdImpuesto = new DataGridViewTextBoxColumn();
+            Impuesto = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
             FechaActualizacion = new DataGridViewTextBoxColumn();
@@ -87,9 +90,6 @@
             ValorUnidad = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             ActivarDesactivar = new DataGridViewImageColumn();
-            groupBox5 = new GroupBox();
-            lblFecha = new Label();
-            lblUser = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -349,9 +349,11 @@
             // nudUnidadValor
             // 
             nudUnidadValor.Location = new Point(606, 34);
+            nudUnidadValor.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudUnidadValor.Name = "nudUnidadValor";
             nudUnidadValor.Size = new Size(120, 23);
             nudUnidadValor.TabIndex = 27;
+            nudUnidadValor.KeyPress += nudUnidadValor_KeyPress;
             // 
             // groupBox2
             // 
@@ -370,17 +372,21 @@
             // 
             nudValorVenta.DecimalPlaces = 2;
             nudValorVenta.Location = new Point(555, 34);
+            nudValorVenta.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorVenta.Name = "nudValorVenta";
             nudValorVenta.Size = new Size(169, 23);
             nudValorVenta.TabIndex = 26;
+            nudValorVenta.KeyPress += nudValorVenta_KeyPress;
             // 
             // nudValorCompra
             // 
             nudValorCompra.DecimalPlaces = 2;
             nudValorCompra.Location = new Point(180, 35);
+            nudValorCompra.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorCompra.Name = "nudValorCompra";
             nudValorCompra.Size = new Size(187, 23);
             nudValorCompra.TabIndex = 24;
+            nudValorCompra.KeyPress += nudValorCompra_KeyPress;
             // 
             // groupBox3
             // 
@@ -477,12 +483,40 @@
             // 
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, IdMarca, Marca, IdTipoArticulo, TipoArticulo, Impuesto, IdImpuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
+            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(11, 73);
             dgvArticulos.Name = "dgvArticulos";
             dgvArticulos.Size = new Size(1500, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox5.Controls.Add(lblFecha);
+            groupBox5.Controls.Add(lblUser);
+            groupBox5.Location = new Point(1288, 9);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(233, 100);
+            groupBox5.TabIndex = 4;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Usuario Actual";
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(21, 58);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(0, 15);
+            lblFecha.TabIndex = 1;
+            // 
+            // lblUser
+            // 
+            lblUser.AutoSize = true;
+            lblUser.Location = new Point(16, 28);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(0, 15);
+            lblUser.TabIndex = 0;
             // 
             // Id
             // 
@@ -521,16 +555,16 @@
             TipoArticulo.HeaderText = "Tipo Articulo";
             TipoArticulo.Name = "TipoArticulo";
             // 
-            // Impuesto
-            // 
-            Impuesto.HeaderText = "Impuesto";
-            Impuesto.Name = "Impuesto";
-            // 
             // IdImpuesto
             // 
             IdImpuesto.HeaderText = "IdImpuesto";
             IdImpuesto.Name = "IdImpuesto";
             IdImpuesto.Visible = false;
+            // 
+            // Impuesto
+            // 
+            Impuesto.HeaderText = "Impuesto";
+            Impuesto.Name = "Impuesto";
             // 
             // Estado
             // 
@@ -578,34 +612,6 @@
             ActivarDesactivar.HeaderText = "Activar/Desactivar";
             ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
             ActivarDesactivar.Name = "ActivarDesactivar";
-            // 
-            // groupBox5
-            // 
-            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            groupBox5.Controls.Add(lblFecha);
-            groupBox5.Controls.Add(lblUser);
-            groupBox5.Location = new Point(1288, 9);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(233, 100);
-            groupBox5.TabIndex = 4;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Usuario Actual";
-            // 
-            // lblFecha
-            // 
-            lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(21, 58);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(0, 15);
-            lblFecha.TabIndex = 1;
-            // 
-            // lblUser
-            // 
-            lblUser.AutoSize = true;
-            lblUser.Location = new Point(16, 28);
-            lblUser.Name = "lblUser";
-            lblUser.Size = new Size(0, 15);
-            lblUser.TabIndex = 0;
             // 
             // Registro_Articulos
             // 

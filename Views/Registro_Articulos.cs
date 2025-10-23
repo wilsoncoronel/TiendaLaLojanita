@@ -111,7 +111,7 @@ namespace TiendaLaLojanita.Views
                     MessageBox.Show($"Articulo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
                     art = this.CargarDatosRelacionados(art);
-                    for (int i = 0; i < this.listaArticulos.Count ; i++)
+                    for (int i = 0; i < this.listaArticulos.Count; i++)
                     {
                         DateTime fecha;
                         if (this.listaArticulos[i].Id == art.Id)
@@ -123,7 +123,7 @@ namespace TiendaLaLojanita.Views
                     }
                     this.CargarTabla(this.listaArticulos);
                     this.LimpiarFormulario();
-                    this.artEditarActual= new ArticuloEdicionDTO();
+                    this.artEditarActual = new ArticuloEdicionDTO();
                 }
                 else
                 {
@@ -134,25 +134,26 @@ namespace TiendaLaLojanita.Views
 
         private ArticuloDTO CargarDatosRelacionados(ArticuloDTO art)
         {
-            if (this.artEditarActual != null) {
+            if (this.artEditarActual != null)
+            {
 
                 art.MarcaDTO = this.listaMarcas.FirstOrDefault(m => m.Id == artEditarActual.IdMarca);
                 art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artEditarActual.IdTipoArticulo);
                 art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artEditarActual.IdImpuesto);
             }
-            else if(this.artActual != null)
+            else if (this.artActual != null)
             {
                 art.MarcaDTO = this.listaMarcas.FirstOrDefault(m => m.Id == artActual.IdMarca);
                 art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artActual.IdTipoArticulo);
                 art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artActual.IdImpuesto);
             }
-                return art;
+            return art;
         }
         private void CargarEditarArticuloDTO()
         {
             this.artEditarActual = new ArticuloEdicionDTO();
             this.artEditarActual.Id = Convert.ToInt32(txtCodigo.Text);
-            this.artEditarActual.Nombre = txtNombre.Text;
+            this.artEditarActual.Nombre = $"{txtNombre.Text.ToUpper()} {txtUnidad.Text.ToUpper()} {nudUnidadValor.Value}";
             this.artEditarActual.Descripcion = txtDescripcion.Text;
             this.artEditarActual.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
             this.artEditarActual.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
@@ -175,15 +176,15 @@ namespace TiendaLaLojanita.Views
         {
             ArticuloCreacionDTO articuloDto = new ArticuloCreacionDTO();
             articuloDto.Codigo = txtCodigo.Text;
-            articuloDto.Descripcion = txtDescripcion.Text;
+            articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
-            articuloDto.Nombre = txtNombre.Text;
+            articuloDto.Nombre = $"{txtNombre.Text.ToUpper()} {this.txtUnidad.Text.ToUpper()} {this.nudUnidadValor.Value}";
             articuloDto.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
             articuloDto.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
             articuloDto.IdMarca = Convert.ToInt32(cbxMarca.SelectedValue);
             articuloDto.IdTipoArticulo = Convert.ToInt32(cbxTipoArticulo.SelectedValue);
             articuloDto.IdImpuesto = Convert.ToInt32(cbxImpuesto.SelectedValue);
-            articuloDto.Unidad = txtUnidad.Text;
+            articuloDto.Unidad = txtUnidad.Text.ToUpper();
             articuloDto.Estado = (cbxEstado.SelectedIndex == 0);
             articuloDto.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
             articuloDto.FechaCaducidad = dtpCaducidad.Value;
@@ -267,21 +268,21 @@ namespace TiendaLaLojanita.Views
             {
                 dgvArticulos.Rows.Add(
                     art.Id,
-                    art.Nombre,
-                    art.Descripcion,
+                    art.Nombre.ToUpper(),
+                    art.Descripcion.ToUpper(),
                     art.MarcaDTO.Id,
-                    art.MarcaDTO.Nombre,
+                    art.MarcaDTO.Nombre.ToUpper(),
                     art.TipoArticuloDTO.Id,
-                    art.TipoArticuloDTO.Nombre,
+                    art.TipoArticuloDTO.Nombre.ToUpper(),
                     art.ImpuestoArticuloDto.Id,
-                    art.ImpuestoArticuloDto.Nombre,
-                    art.Estado ? "Activo" : "Inactivo",
+                    art.ImpuestoArticuloDto.Nombre.ToUpper(),
+                    art.Estado ? "ACTIVO" : "INACTIVO",
                     art.FechaCreacion.ToString("dd/MM/yyyy"),
                     art.FechaActualizacion.ToString("dd/MM/yyyy"),
                     art.ValorCompra.ToString("C2", new CultureInfo("en-US")),
                     art.ValorVenta.ToString("C2", new CultureInfo("en-US")),
                     art.Unidad,
-                    art.UnidadValor.ToString()
+                    art.UnidadValor.ToString().ToUpper()
                     );
             }
         }
@@ -293,9 +294,10 @@ namespace TiendaLaLojanita.Views
 
         private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try {
+            try
+            {
                 int id = 0;
-                if(e.ColumnIndex < 0)
+                if (e.ColumnIndex < 0)
                 {
                     MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -304,28 +306,75 @@ namespace TiendaLaLojanita.Views
                     id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
                     this.CargarEditarArticulo(id);
                 }
-            } catch {
+            }
+            catch
+            {
                 throw;
             }
-            
+
         }
 
         private void CargarEditarArticulo(int idArticulo)
         {
             ArticuloDTO articuloActual = this.listaArticulos.FirstOrDefault(a => a.Id == idArticulo);
-            this.txtNombre.Text = articuloActual.Nombre;
-            this.txtDescripcion.Text = articuloActual.Descripcion;
+            this.txtNombre.Text = articuloActual.Nombre.ToUpper();
+            this.txtDescripcion.Text = articuloActual.Descripcion.ToUpper();
             this.txtCodigo.Text = Convert.ToString(articuloActual.Id);
-            this.txtUnidad.Text = articuloActual.Unidad;
+            this.txtUnidad.Text = articuloActual.Unidad.ToUpper();
             this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
             this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);
             this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
-            this.dtpCaducidad.Value = articuloActual.FechaCaducidad?? DateTime.Now;
+            this.dtpCaducidad.Value = articuloActual.FechaCaducidad ?? DateTime.Now;
             this.dtpCreacion.Value = articuloActual.FechaCreacion;
-            this.cbxEstado.SelectedIndex = articuloActual.Estado ? 0: 1;
+            this.cbxEstado.SelectedIndex = articuloActual.Estado ? 0 : 1;
             this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto.Id;
             this.cbxMarca.SelectedValue = articuloActual.MarcaDTO.Id;
             this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO.Id;
+        }
+
+        private void nudValorCompra_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.ControlAccesoTeclado(sender, e);
+        }
+        public void ControlAccesoTeclado(object sender, KeyPressEventArgs e)
+        {
+            char separadorDecimal = Convert.ToChar(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            var contorl = sender as NumericUpDown;
+
+            string textoActual = contorl.Text;
+
+            // Permitimos dígitos, el separador decimal y la tecla de retroceso (para borrar)
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back)
+            {
+                // Permitimos la tecla
+                e.Handled = false;
+            }
+            else if (e.KeyChar == separadorDecimal)
+            {
+                if (textoActual.Contains(separadorDecimal))
+                {
+                    e.Handled = true;
+                }
+                else
+                {
+                    // Cancelamos la tecla (no la mostramos en la celda)
+                    e.Handled = false;
+                }
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void nudValorVenta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.ControlAccesoTeclado(sender, e);
+        }
+
+        private void nudUnidadValor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.ControlAccesoTeclado(sender, e);
         }
     }
 }

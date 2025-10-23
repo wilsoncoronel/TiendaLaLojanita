@@ -38,3 +38,4 @@ C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLo
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\FluentValidation.dll
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Properties.Resources.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Compras.resources
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Cliente.resources

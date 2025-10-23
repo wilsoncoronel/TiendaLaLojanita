@@ -27,19 +27,48 @@ namespace TiendaLaLojanita.Controllers
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Login/IniciarSesion?usuario={usuario}&password={clave}");
                 
                 string responseJson = await response.Content.ReadAsStringAsync();
+
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Error al inciar session:{responseJson}");
+                    MessageBox.Show(
+                        $"Error de login!!",
+                        "Error de conexión",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return new List<PermisosRolDTO>();
                 }
-                Response<List<PermisosRolDTO>> result = JsonConvert.DeserializeObject<Response<List<PermisosRolDTO>>>(responseJson);
-                if(result == null || !result.status)
+                var result = JsonConvert.DeserializeObject<Response<List<PermisosRolDTO>>>(responseJson);
+                if (result == null || !result.status)
                 {
-                    throw new Exception(result?.msg ?? "Credenciales incorrectas");
+                    MessageBox.Show(
+                        result?.msg ?? "Usuario o contraseña incorrectos.",
+                        "Error de autenticación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    return new List<PermisosRolDTO>();
                 }
                 return result.Value;
             }
-            catch (Exception ex){
-                throw new Exception("Error al inciar sesión: " + ex.Message, ex);
+            catch (HttpRequestException ex){
+                MessageBox.Show(
+                   $"No se pudo establecer conexión con el servidor.\nVerifica tu conexión a internet.",
+                   "Error de red",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                );
+                return new List<PermisosRolDTO>();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show(
+                   $"Ocurrió un error inesperado.\n\nDetalle: {ex.Message}",
+                   "Error general",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+               );
+               return new List<PermisosRolDTO>();
             }
         }
 

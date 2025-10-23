@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Ventas));
             groupBox1 = new GroupBox();
+            btnAgregarCliente = new Button();
             txtDireccionCliente = new TextBox();
             label17 = new Label();
             txtIdVenta = new TextBox();
@@ -49,6 +50,17 @@
             groupBox2 = new GroupBox();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
+            ImpuestoValor = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
@@ -64,7 +76,7 @@
             label14 = new Label();
             dtpModificacion = new DateTimePicker();
             dtpCreacion = new DateTimePicker();
-            dtpCompra = new DateTimePicker();
+            dtpVenta = new DateTimePicker();
             label11 = new Label();
             label9 = new Label();
             label8 = new Label();
@@ -72,32 +84,25 @@
             btnCancelar = new Button();
             groupBox5 = new GroupBox();
             btnBuscarVenta = new Button();
-            dataGridView1 = new DataGridView();
+            dgvVentas = new DataGridView();
             IdVenta = new DataGridViewTextBoxColumn();
-            DescripcionVenta = new DataGridViewTextBoxColumn();
-            Cliente = new DataGridViewTextBoxColumn();
             FechaVenta = new DataGridViewTextBoxColumn();
+            IdClienteVenta = new DataGridViewTextBoxColumn();
+            Cliente = new DataGridViewTextBoxColumn();
             FechaModificacion = new DataGridViewTextBoxColumn();
+            IdEstado = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Usuario = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             dtpFechaFin = new DateTimePicker();
             label13 = new Label();
             dtpFechaInicio = new DateTimePicker();
             label12 = new Label();
             groupBox6 = new GroupBox();
+            btnRecargarConfiguraciones = new Button();
             lblFechaIngreso = new Label();
             lblUsuario = new Label();
-            Id = new DataGridViewTextBoxColumn();
-            IdVentaDet = new DataGridViewTextBoxColumn();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            ImpuestoValor = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).BeginInit();
@@ -105,12 +110,13 @@
             ((System.ComponentModel.ISupportInitialize)dgvTotales).BeginInit();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnAgregarCliente);
             groupBox1.Controls.Add(txtDireccionCliente);
             groupBox1.Controls.Add(label17);
             groupBox1.Controls.Add(txtIdVenta);
@@ -134,6 +140,16 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Cliente";
             // 
+            // btnAgregarCliente
+            // 
+            btnAgregarCliente.Image = (Image)resources.GetObject("btnAgregarCliente.Image");
+            btnAgregarCliente.Location = new Point(443, 15);
+            btnAgregarCliente.Name = "btnAgregarCliente";
+            btnAgregarCliente.Size = new Size(47, 34);
+            btnAgregarCliente.TabIndex = 17;
+            btnAgregarCliente.UseVisualStyleBackColor = true;
+            btnAgregarCliente.Click += btnAgregarCliente_Click;
+            // 
             // txtDireccionCliente
             // 
             txtDireccionCliente.Enabled = false;
@@ -154,7 +170,7 @@
             // txtIdVenta
             // 
             txtIdVenta.Enabled = false;
-            txtIdVenta.Location = new Point(634, 20);
+            txtIdVenta.Location = new Point(731, 20);
             txtIdVenta.Name = "txtIdVenta";
             txtIdVenta.Size = new Size(100, 23);
             txtIdVenta.TabIndex = 14;
@@ -162,7 +178,7 @@
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(557, 23);
+            label16.Location = new Point(533, 26);
             label16.Name = "label16";
             label16.Size = new Size(49, 15);
             label16.TabIndex = 13;
@@ -171,16 +187,16 @@
             // txtTelefono
             // 
             txtTelefono.Enabled = false;
-            txtTelefono.Location = new Point(616, 84);
+            txtTelefono.Location = new Point(648, 84);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.PlaceholderText = "090000000";
-            txtTelefono.Size = new Size(217, 23);
+            txtTelefono.Size = new Size(185, 23);
             txtTelefono.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(452, 86);
+            label7.Location = new Point(533, 87);
             label7.Name = "label7";
             label7.Size = new Size(55, 15);
             label7.TabIndex = 11;
@@ -189,15 +205,15 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(616, 52);
+            dateTimePicker1.Location = new Point(648, 52);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(215, 23);
+            dateTimePicker1.Size = new Size(183, 23);
             dateTimePicker1.TabIndex = 10;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(446, 57);
+            label5.Location = new Point(533, 58);
             label5.Name = "label5";
             label5.Size = new Size(73, 15);
             label5.TabIndex = 8;
@@ -209,7 +225,7 @@
             txtEmail.Location = new Point(177, 84);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "pruebas@mail.com";
-            txtEmail.Size = new Size(248, 23);
+            txtEmail.Size = new Size(211, 23);
             txtEmail.TabIndex = 7;
             // 
             // label4
@@ -234,15 +250,15 @@
             txtNombreCliente.Enabled = false;
             txtNombreCliente.Location = new Point(177, 51);
             txtNombreCliente.Name = "txtNombreCliente";
-            txtNombreCliente.Size = new Size(248, 23);
+            txtNombreCliente.Size = new Size(211, 23);
             txtNombreCliente.TabIndex = 4;
             // 
             // btnBuscarCliente
             // 
             btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
-            btnBuscarCliente.Location = new Point(446, 20);
+            btnBuscarCliente.Location = new Point(397, 15);
             btnBuscarCliente.Name = "btnBuscarCliente";
-            btnBuscarCliente.Size = new Size(77, 34);
+            btnBuscarCliente.Size = new Size(40, 34);
             btnBuscarCliente.TabIndex = 3;
             btnBuscarCliente.UseVisualStyleBackColor = true;
             btnBuscarCliente.Click += btnBuscarCliente_Click;
@@ -261,7 +277,7 @@
             txtIdentificaconCliente.Location = new Point(177, 20);
             txtIdentificaconCliente.Name = "txtIdentificaconCliente";
             txtIdentificaconCliente.PlaceholderText = "170000000000";
-            txtIdentificaconCliente.Size = new Size(248, 23);
+            txtIdentificaconCliente.Size = new Size(211, 23);
             txtIdentificaconCliente.TabIndex = 1;
             txtIdentificaconCliente.KeyDown += txtIdentificaconCliente_KeyDown;
             // 
@@ -306,7 +322,73 @@
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(877, 402);
             dgvDetallesVenta.TabIndex = 2;
+            dgvDetallesVenta.CellClick += dgvDetallesVenta_CellClick;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged;
+            dgvDetallesVenta.EditingControlShowing += dgvDetallesVenta_EditingControlShowing;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            IdArticulo.Visible = false;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
+            // 
+            // ValorVenta
+            // 
+            ValorVenta.HeaderText = "Valor Venta";
+            ValorVenta.Name = "ValorVenta";
+            // 
+            // ImpuestoValor
+            // 
+            ImpuestoValor.HeaderText = "ImpuestoValor";
+            ImpuestoValor.Name = "ImpuestoValor";
+            ImpuestoValor.Visible = false;
+            // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "Valor Total";
+            ValorTotal.Name = "ValorTotal";
+            ValorTotal.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
             // 
             // txtArticuloBusqueda
             // 
@@ -389,13 +471,13 @@
             groupBox4.Controls.Add(label14);
             groupBox4.Controls.Add(dtpModificacion);
             groupBox4.Controls.Add(dtpCreacion);
-            groupBox4.Controls.Add(dtpCompra);
+            groupBox4.Controls.Add(dtpVenta);
             groupBox4.Controls.Add(label11);
             groupBox4.Controls.Add(label9);
             groupBox4.Controls.Add(label8);
-            groupBox4.Location = new Point(687, 16);
+            groupBox4.Location = new Point(868, 16);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(854, 162);
+            groupBox4.Size = new Size(865, 162);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Venta";
@@ -451,13 +533,13 @@
             dtpCreacion.Size = new Size(187, 23);
             dtpCreacion.TabIndex = 4;
             // 
-            // dtpCompra
+            // dtpVenta
             // 
-            dtpCompra.Format = DateTimePickerFormat.Short;
-            dtpCompra.Location = new Point(224, 20);
-            dtpCompra.Name = "dtpCompra";
-            dtpCompra.Size = new Size(187, 23);
-            dtpCompra.TabIndex = 3;
+            dtpVenta.Format = DateTimePickerFormat.Short;
+            dtpVenta.Location = new Point(224, 20);
+            dtpVenta.Name = "dtpVenta";
+            dtpVenta.Size = new Size(187, 23);
+            dtpVenta.TabIndex = 3;
             // 
             // label11
             // 
@@ -504,12 +586,13 @@
             btnCancelar.Size = new Size(250, 64);
             btnCancelar.TabIndex = 6;
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // groupBox5
             // 
             groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox5.Controls.Add(btnBuscarVenta);
-            groupBox5.Controls.Add(dataGridView1);
+            groupBox5.Controls.Add(dgvVentas);
             groupBox5.Controls.Add(dtpFechaFin);
             groupBox5.Controls.Add(label13);
             groupBox5.Controls.Add(dtpFechaInicio);
@@ -529,16 +612,18 @@
             btnBuscarVenta.Size = new Size(115, 40);
             btnBuscarVenta.TabIndex = 5;
             btnBuscarVenta.UseVisualStyleBackColor = true;
+            btnBuscarVenta.Click += btnBuscarVenta_Click;
             // 
-            // dataGridView1
+            // dgvVentas
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdVenta, DescripcionVenta, Cliente, FechaVenta, FechaModificacion, Estado, Editar });
-            dataGridView1.Location = new Point(12, 73);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(741, 418);
-            dataGridView1.TabIndex = 4;
+            dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Editar });
+            dgvVentas.Location = new Point(12, 73);
+            dgvVentas.Name = "dgvVentas";
+            dgvVentas.Size = new Size(741, 418);
+            dgvVentas.TabIndex = 4;
+            dgvVentas.CellClick += dgvVentas_CellClick;
             // 
             // IdVenta
             // 
@@ -546,11 +631,17 @@
             IdVenta.Name = "IdVenta";
             IdVenta.ReadOnly = true;
             // 
-            // DescripcionVenta
+            // FechaVenta
             // 
-            DescripcionVenta.HeaderText = "DescripcionVenta";
-            DescripcionVenta.Name = "DescripcionVenta";
-            DescripcionVenta.ReadOnly = true;
+            FechaVenta.HeaderText = "Venta";
+            FechaVenta.Name = "FechaVenta";
+            FechaVenta.ReadOnly = true;
+            // 
+            // IdClienteVenta
+            // 
+            IdClienteVenta.HeaderText = "IdCliente";
+            IdClienteVenta.Name = "IdClienteVenta";
+            IdClienteVenta.Visible = false;
             // 
             // Cliente
             // 
@@ -558,23 +649,34 @@
             Cliente.Name = "Cliente";
             Cliente.ReadOnly = true;
             // 
-            // FechaVenta
-            // 
-            FechaVenta.HeaderText = "Fecha Venta";
-            FechaVenta.Name = "FechaVenta";
-            FechaVenta.ReadOnly = true;
-            // 
             // FechaModificacion
             // 
             FechaModificacion.HeaderText = "Modificación";
             FechaModificacion.Name = "FechaModificacion";
             FechaModificacion.ReadOnly = true;
             // 
+            // IdEstado
+            // 
+            IdEstado.HeaderText = "IdEstado";
+            IdEstado.Name = "IdEstado";
+            IdEstado.Visible = false;
+            // 
             // Estado
             // 
             Estado.HeaderText = "Estado";
             Estado.Name = "Estado";
             Estado.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.HeaderText = "Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            // 
+            // Usuario
+            // 
+            Usuario.HeaderText = "Usuario";
+            Usuario.Name = "Usuario";
             // 
             // Editar
             // 
@@ -589,6 +691,7 @@
             dtpFechaFin.Name = "dtpFechaFin";
             dtpFechaFin.Size = new Size(200, 23);
             dtpFechaFin.TabIndex = 3;
+            dtpFechaFin.ValueChanged += dtpFechaFin_ValueChanged;
             // 
             // label13
             // 
@@ -606,6 +709,7 @@
             dtpFechaInicio.Name = "dtpFechaInicio";
             dtpFechaInicio.Size = new Size(148, 23);
             dtpFechaInicio.TabIndex = 1;
+            dtpFechaInicio.ValueChanged += dtpFechaInicio_ValueChanged;
             // 
             // label12
             // 
@@ -619,14 +723,25 @@
             // groupBox6
             // 
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox6.Controls.Add(btnRecargarConfiguraciones);
             groupBox6.Controls.Add(lblFechaIngreso);
             groupBox6.Controls.Add(lblUsuario);
             groupBox6.Location = new Point(1547, 16);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(395, 129);
+            groupBox6.Size = new Size(395, 162);
             groupBox6.TabIndex = 8;
             groupBox6.TabStop = false;
             groupBox6.Text = "Usuario";
+            // 
+            // btnRecargarConfiguraciones
+            // 
+            btnRecargarConfiguraciones.Image = (Image)resources.GetObject("btnRecargarConfiguraciones.Image");
+            btnRecargarConfiguraciones.Location = new Point(348, 15);
+            btnRecargarConfiguraciones.Name = "btnRecargarConfiguraciones";
+            btnRecargarConfiguraciones.Size = new Size(41, 34);
+            btnRecargarConfiguraciones.TabIndex = 2;
+            btnRecargarConfiguraciones.UseVisualStyleBackColor = true;
+            btnRecargarConfiguraciones.Click += btnRecargarConfiguraciones_Click;
             // 
             // lblFechaIngreso
             // 
@@ -643,70 +758,6 @@
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(0, 15);
             lblUsuario.TabIndex = 0;
-            // 
-            // Id
-            // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // IdVentaDet
-            // 
-            IdVentaDet.HeaderText = "IdVentaDet";
-            IdVentaDet.Name = "IdVentaDet";
-            IdVentaDet.Visible = false;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "IdArticulo";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            IdArticulo.Visible = false;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Articulo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorCompra
-            // 
-            ValorCompra.HeaderText = "ValorCompra";
-            ValorCompra.Name = "ValorCompra";
-            ValorCompra.Visible = false;
-            // 
-            // ValorVenta
-            // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
-            // 
-            // ImpuestoValor
-            // 
-            ImpuestoValor.HeaderText = "ImpuestoValor";
-            ImpuestoValor.Name = "ImpuestoValor";
-            ImpuestoValor.Visible = false;
-            // 
-            // ValorTotal
-            // 
-            ValorTotal.HeaderText = "Valor Total";
-            ValorTotal.Name = "ValorTotal";
-            ValorTotal.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // Registro_Ventas
             // 
@@ -736,7 +787,7 @@
             groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             ResumeLayout(false);
@@ -773,14 +824,14 @@
         private Label label8;
         private DateTimePicker dtpModificacion;
         private DateTimePicker dtpCreacion;
-        private DateTimePicker dtpCompra;
+        private DateTimePicker dtpVenta;
         private Label label11;
         private Button btnGuardar;
         private Button btnCancelar;
         private GroupBox groupBox5;
         private DateTimePicker dtpFechaInicio;
         private Label label12;
-        private DataGridView dataGridView1;
+        private DataGridView dgvVentas;
         private DateTimePicker dtpFechaFin;
         private Label label13;
         private Button btnBuscarVenta;
@@ -788,13 +839,6 @@
         private Label label15;
         private ComboBox cbxEstadosVenta;
         private Label label14;
-        private DataGridViewTextBoxColumn IdVenta;
-        private DataGridViewTextBoxColumn DescripcionVenta;
-        private DataGridViewTextBoxColumn Cliente;
-        private DataGridViewTextBoxColumn FechaVenta;
-        private DataGridViewTextBoxColumn FechaModificacion;
-        private DataGridViewTextBoxColumn Estado;
-        private DataGridViewImageColumn Editar;
         private GroupBox groupBox6;
         private Label lblFechaIngreso;
         private Label lblUsuario;
@@ -814,5 +858,17 @@
         private DataGridViewTextBoxColumn ImpuestoValor;
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewImageColumn Eliminar;
+        private DataGridViewTextBoxColumn IdVenta;
+        private DataGridViewTextBoxColumn FechaVenta;
+        private DataGridViewTextBoxColumn IdClienteVenta;
+        private DataGridViewTextBoxColumn Cliente;
+        private DataGridViewTextBoxColumn FechaModificacion;
+        private DataGridViewTextBoxColumn IdEstado;
+        private DataGridViewTextBoxColumn Estado;
+        private DataGridViewTextBoxColumn Documento;
+        private DataGridViewTextBoxColumn Usuario;
+        private DataGridViewImageColumn Editar;
+        private Button btnRecargarConfiguraciones;
+        private Button btnAgregarCliente;
     }
 }

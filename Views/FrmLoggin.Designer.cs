@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLoggin));
             btbIngresar = new Button();
             panel1 = new Panel();
-            btnCancelar = new Button();
+            pictureBox1 = new PictureBox();
             txtPassword = new TextBox();
             txtUsurio = new TextBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btbIngresar
             // 
-            btbIngresar.Location = new Point(339, 3);
+            btbIngresar.Location = new Point(20, 244);
             btbIngresar.Name = "btbIngresar";
-            btbIngresar.Size = new Size(143, 62);
+            btbIngresar.Size = new Size(320, 62);
             btbIngresar.TabIndex = 0;
             btbIngresar.Text = "Ingresar";
             btbIngresar.UseVisualStyleBackColor = true;
@@ -48,55 +50,55 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(btnCancelar);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(txtPassword);
             panel1.Controls.Add(txtUsurio);
             panel1.Controls.Add(btbIngresar);
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
-            panel1.Size = new Size(499, 133);
+            panel1.Size = new Size(365, 332);
             panel1.TabIndex = 1;
             // 
-            // btnCancelar
+            // pictureBox1
             // 
-            btnCancelar.Location = new Point(339, 68);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(143, 62);
-            btnCancelar.TabIndex = 2;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
-            btnCancelar.Click += btnCancelar_Click;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(107, 42);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(152, 84);
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
             // 
             // txtPassword
             // 
             txtPassword.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(43, 89);
+            txtPassword.Location = new Point(20, 197);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.PlaceholderText = "Password";
-            txtPassword.Size = new Size(243, 29);
+            txtPassword.Size = new Size(320, 29);
             txtPassword.TabIndex = 1;
             // 
             // txtUsurio
             // 
             txtUsurio.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsurio.Location = new Point(43, 16);
+            txtUsurio.Location = new Point(20, 143);
             txtUsurio.Name = "txtUsurio";
             txtUsurio.PlaceholderText = "Usuario";
-            txtUsurio.Size = new Size(243, 29);
+            txtUsurio.Size = new Size(320, 29);
             txtUsurio.TabIndex = 0;
             // 
             // FrmLoggin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(521, 156);
+            ClientSize = new Size(389, 353);
             Controls.Add(panel1);
             Name = "FrmLoggin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Loggin";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -106,6 +108,6 @@
         private Panel panel1;
         private TextBox txtPassword;
         private TextBox txtUsurio;
-        private Button btnCancelar;
+        private PictureBox pictureBox1;
     }
 }

@@ -22,23 +22,35 @@ namespace TiendaLaLojanita
         {
             var logginService = servicePorvider.GetRequiredService<ILogginService>();
             List<PermisosRolDTO> listaPermisos = await logginService.IniciarSesion(user, password);
-            SesionDTO sesion = await logginService.ExtraerSesion(user);
-            if (sesionDto != null)
+            
+            if (listaPermisos != null && listaPermisos.Count != 0)
             {
-                FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos, servicePorvider, sesion);
-
+                SesionDTO sesion = await logginService.ExtraerSesion(user);
                 this.Hide();
+                FrmPrincipal frmPrincipal = new FrmPrincipal(listaPermisos, servicePorvider, sesion);
                 frmPrincipal.Show();
             }
             else
             {
-                MessageBox.Show($"No se pudo obtener la peticion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPassword.Clear();
+                txtUsurio.Clear();
             }
+            
         }
 
 
         private void btbIngresar_Click(object sender, EventArgs e)
         {
+            string usuario = txtUsurio.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            if(string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Ingrese usuario y contraseña.", "Campos vacíos",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            btbIngresar.Enabled = false;
+            Cursor = Cursors.WaitCursor;
             try
             {
 
@@ -48,6 +60,11 @@ namespace TiendaLaLojanita
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btbIngresar.Enabled = true;
+                Cursor = Cursors.Default;
             }
         }
 

@@ -1,15 +1,8 @@
 ﻿using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
+using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
@@ -46,6 +39,7 @@ namespace TiendaLaLojanita.Views
         {
             this.listaArticulos = await this.CargarListaArticulos();
             this.CargarDatosInciales();
+            AutoCompleteArt();
         }
         private async void CargarDatosInciales()
         {
@@ -78,7 +72,6 @@ namespace TiendaLaLojanita.Views
                     if (cliente is null)
                     {
                         MessageBox.Show("No se encontró ningún cliente con la identificación ingresada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw new Exception("No se encontro ningún cliente con la identificacion ingresada");
                     }
                     this.txtIdentificaconCliente.Text = identificacion;
                     this.txtNombreCliente.Text = cliente.Nombres;
@@ -90,7 +83,7 @@ namespace TiendaLaLojanita.Views
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrio un error al buscar el cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    this.txtIdentificaconCliente.Text = "";
                 }
             }
         }
@@ -109,17 +102,39 @@ namespace TiendaLaLojanita.Views
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evita el sonido "ding"
-
                 if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
                 {
                     this.BusquedaArticulo();
                 }
             }
         }
+
+        private List<ArticuloDTO> BuscarNombreArticulo(string pNom)
+        {
+            var listaTemp = new List<ArticuloDTO>();
+            listaTemp = this.listaArticulos.ToList();
+            return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
+        }
+
+        private void AutoCompleteArt()
+        {
+            AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
+            List<ArticuloDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloDTO art in listaArticuloAuto)
+            {
+                colArticulo.Add(art.Nombre);
+            }
+            this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
+            this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
+            this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
         private void BusquedaArticulo()
         {
             ArticuloDTO articuloActual = new ArticuloDTO();
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
+            int temp = 0;
+            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
+            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
             if (articuloActual is null || articuloActual.Id == 0)
             {
                 MessageBox.Show("No se encontró ningún artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -163,11 +178,9 @@ namespace TiendaLaLojanita.Views
                     Id = contador,
                     Cantidad = cant
                 });
-                this.CalcularTotales();
             }
             else
             {
-                //this.CargarListaImpuestos(articuloActual);
                 listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
                 {
                     { articuloActual.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
@@ -184,8 +197,8 @@ namespace TiendaLaLojanita.Views
                         }
                     }
                 });
-                this.CalcularTotales();
             }
+            this.CalcularTotales();
             int index = this.dgvDetallesVenta.Rows.Add(new object[] {
                 contador,
                 0,
@@ -216,7 +229,6 @@ namespace TiendaLaLojanita.Views
         {
             decimal totImpuestos = 0m;
             this.dgvTotales.Rows.Clear();
-
             foreach (var imp in this.listaImpuestos)
             {
                 foreach (var nom in imp)
@@ -280,7 +292,7 @@ namespace TiendaLaLojanita.Views
         {
             int cantida;
             decimal valorVenta;
-            if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Valor Venta")
+            if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "ValorVenta")
             {
 
                 DataGridViewRow fila = dgvDetallesVenta.Rows[e.RowIndex];
@@ -301,11 +313,11 @@ namespace TiendaLaLojanita.Views
             if (this.txtIdVenta is null || this.txtIdVenta.Text == "")
             {
                 resp = await this.CrearVenta();
-                if (resp == 0) MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (resp == 0) MessageBox.Show("No se pudo crear la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
                     int idCompra = resp;
-                    MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Venta creada con éxito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             /*else
@@ -324,7 +336,7 @@ namespace TiendaLaLojanita.Views
                 VentaCreacionDTO ventaCreacionDTO = new VentaCreacionDTO();
                 ventaCreacionDTO.IdCliente = this.idCliente; // Reemplazar con el ID real del proveedor
                 ventaCreacionDTO.Documento = this.txtDocumento.Text;
-                ventaCreacionDTO.FechaCompra = this.dtpCompra.Value;
+                ventaCreacionDTO.FechaCompra = this.dtpVenta.Value;
                 ventaCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadosVenta.SelectedValue); // Estado "Pendiente" por defecto
                 ventaCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 ventaCreacionDTO.UsuarioCreadorId = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
@@ -340,7 +352,7 @@ namespace TiendaLaLojanita.Views
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
-                        Descripcion = row.Cells["Descripcion"].Value?.ToString()
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper()
                     };
                     ventaCreacionDTO.DetalleVentaCreacionDto.Add(detalle);
                 }
@@ -356,13 +368,286 @@ namespace TiendaLaLojanita.Views
                 {
                     idVenta = await this._ventaService.RegistrarVenta(ventaCreacionDTO);
                     return idVenta;
-                } 
+                }
                 return idVenta;
             }
             catch (Exception ex)
             {
                 throw;
             }
+        }
+
+        private async void dtpFechaInicio_ValueChanged(object sender, EventArgs e)
+        {
+            VerificacionFechas(sender, e);
+        }
+
+        private async void VerificacionFechas(object sender, EventArgs e)
+        {
+            try
+            {
+                // Verificar existencia de los controles
+                if (this.dtpFechaInicio == null || this.dtpFechaFin == null)
+                    return;
+
+                DateTimePicker picker = sender as DateTimePicker;
+                if (picker == null || (picker.ShowCheckBox && !picker.Checked))
+                    return;
+
+                // Validar rango de fechas
+                if (dtpFechaInicio.Value > dtpFechaFin.Value)
+                {
+                    MessageBox.Show("La fecha de inicio no puede ser mayor que la fecha de fin.",
+                                    "Rango de fechas inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Obtener y mostrar las ventas filtradas
+                List<VentaMinDTO> listaVentas = await this.listarVentasCreadas();
+                this.CargarTablaVentasCreadas(listaVentas);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar fechas: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void CargarTablaVentasCreadas(List<VentaMinDTO> listaVentas)
+        {
+            this.dgvVentas.Rows.Clear();
+            foreach (var venta in listaVentas)
+            {
+                int index = this.dgvVentas.Rows.Add(new object[]
+                {
+                    venta.Id,
+                    venta.FechaVenta.ToString("dd/MM/yyyy"),
+                    venta.ClienteMinDTO.Id,
+                    venta.ClienteMinDTO.Nombres,
+                    venta.FechaModificacion?.ToString("dd/MM/yyyy"),
+                    venta.EstadoVentaDTO.Id,
+                    venta.EstadoVentaDTO.Nombre,
+                    venta.Documento,
+                    venta.UsuarioMinDTO.Nombres,
+                });
+            }
+        }
+
+        private async Task<List<VentaMinDTO>> listarVentasCreadas()
+        {
+            DateOnly fechaIni = DateOnly.FromDateTime(this.dtpFechaInicio.Value);
+            DateOnly fechaFin = DateOnly.FromDateTime(this.dtpFechaFin.Value);
+
+            List<VentaMinDTO> listaVentas = await this._ventaService.ListarVenta(fechaIni, fechaFin);
+
+            return listaVentas;
+        }
+
+        private async void dtpFechaFin_ValueChanged(object sender, EventArgs e)
+        {
+            VerificacionFechas(sender, e);
+        }
+
+        private void dgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvVentas.Columns[e.ColumnIndex].Name == "Editar")
+                {
+                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+                    this.ObtenerVenta(id);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        private async void ObtenerVenta(int idVenta)
+        {
+            var venta = await this._ventaService.ObtenerVenta(idVenta);
+            this.idCliente = venta.IdCliente;
+            this.txtIdentificaconCliente.Text = venta.Cliente.Identificacion;
+            this.txtIdVenta.Text = Convert.ToString(venta.Id);
+            this.txtNombreCliente.Text = venta.Cliente.Nombres;
+            this.txtTelefono.Text = venta.Cliente.Telefono;
+            this.txtDireccionCliente.Text = $"Dirección: {venta.Cliente.DireccionDto.Descripcion}, Ciudad:{venta.Cliente.DireccionDto.Ciudad.Nombre}";
+            this.txtDocumento.Text = venta.Documento;
+            this.dtpVenta.Value = venta.FechaVenta;
+            this.cbxEstadosVenta.SelectedValue = venta.IdEstado;
+            this.dgvDetallesVenta.Rows.Clear();
+            this.listaImpuestos.Clear();
+            ArticuloDTO articuloActual = new ArticuloDTO();
+            foreach (var detalle in venta.DetalleVenta)
+            {
+                int index = this.dgvDetallesVenta.Rows.Add(new object[] {
+                    detalle.Id,
+                    detalle.IdVenta,
+                    detalle.Articulo.Id,
+                    detalle.Articulo.Nombre,
+                    detalle.Descripcion,
+                    detalle.Cantidad,
+                    detalle.ValorCompra,
+                    detalle.ValorVenta,
+                    detalle.ImpuestoValor,
+                    detalle.ValorTotal,
+                });
+
+                this.CargarListaImpuestos(detalle);
+            }
+            this.CalcularTotales();
+        }
+
+        private void CargarListaImpuestos(DetalleVentaDTO detalle)
+        {
+            listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
+            {
+                { detalle.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                    {
+                        new ImpuestoArticuloCalculadoDTO
+                        {
+                            NombreImpuesto = detalle.Articulo.ImpuestoArticuloDto.Nombre,
+                            IdArticulo = detalle.Articulo.Id,
+                            ValorImpuesto = detalle.ImpuestoValor,
+                            ValorVenta = detalle.ValorVenta,
+                            Id = detalle.Id,
+                            Cantidad = detalle.Cantidad
+                        }
+                    }
+                }
+            });
+        }
+        private void btnBuscarVenta_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.txtIdentificaconCliente.Text = "";
+            this.txtEmail.Text = "";
+            this.txtDocumento.Text = "";
+            this.txtDireccionCliente.Text = "";
+            this.txtNombreCliente.Text = "";
+            this.txtTelefono.Text = "";
+            this.dgvDetallesVenta.Rows.Clear();
+            this.contador = 0;
+            this.TotalGeneral = 0m;
+            this.listaImpuestos.Clear();
+            this.dgvTotales.Rows.Clear();
+        }
+
+        private void dgvDetallesVenta_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Eliminar")
+                {
+                    int id = Convert.ToInt32(dgvDetallesVenta.Rows[e.RowIndex].Cells["Id"].Value);
+                    dgvDetallesVenta.Rows.RemoveAt(e.RowIndex);
+                    EliminarImpuestoPorId(id);
+                    this.CalcularTotales();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EliminarImpuestoPorId(int id)
+        {
+            // Recorremos cada diccionario (por cada tipo de impuesto)
+            foreach (var dic in listaImpuestos)
+            {
+                // Obtenemos la clave (nombre del impuesto)
+                string nombreImpuesto = dic.Keys.First();
+
+                // Eliminamos todos los ImpuestoCalculadoDTO con ese ID
+                dic[nombreImpuesto].RemoveAll(x => x.Id == id);
+            }
+
+            // También puedes eliminar el diccionario si la lista quedó vacía
+            listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
+        }
+
+        private void btnAgregarCliente_Click(object sender, EventArgs e)
+        {
+            Cliente clienteForm = new Cliente(this.Sesion.Id);
+            clienteForm.StartPosition = FormStartPosition.CenterScreen;
+            clienteForm.Show();
+        }
+
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Obtenemos el separador decimal del sistema
+            char separadorDecimal = Convert.ToChar(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            // Permitimos dígitos, el separador decimal y la tecla de retroceso (para borrar)
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == separadorDecimal || e.KeyChar == (char)Keys.Back)
+            {
+                // Permitimos la tecla
+                e.Handled = false;
+            }
+            else
+            {
+                // Cancelamos la tecla (no la mostramos en la celda)
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_KeyPressPunto(object sender, KeyPressEventArgs e)
+        {
+            // Permitimos dígitos, y la tecla de retroceso (para borrar)
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back)
+            {
+                // Permitimos la tecla
+                e.Handled = false;
+            }
+            else
+            {
+                // Cancelamos la tecla (no la mostramos en la celda)
+                e.Handled = true;
+            }
+        }
+
+        private void dgvDetallesVenta_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            switch (dgvDetallesVenta.Columns[dgvDetallesVenta.CurrentCell.ColumnIndex].Name)
+            {
+                case "ValorVenta":
+                    if (e.Control is TextBox)
+                    {
+                        TextBox textBox = e.Control as TextBox;
+                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPress);
+                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress);
+                    }
+                    break;
+                case "Cantidad":
+                    if (e.Control is TextBox)
+                    {
+                        TextBox textBox = e.Control as TextBox;
+                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPressPunto);
+                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPressPunto);
+                    }
+                    break;
+            }
+        }
+
+        private async void btnRecargarConfiguraciones_Click(object sender, EventArgs e)
+        {
+            this.CargarDatosInciales();
+            this.listaArticulos = new List<ArticuloDTO>();
+            this.listaArticulos = await this.CargarListaArticulos();
         }
     }
 }

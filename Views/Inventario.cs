@@ -16,5 +16,13 @@ namespace TiendaLaLojanita.Views
         {
             InitializeComponent();
         }
+
+        private void btnAbrirArchivo_Click(object sender, EventArgs e)
+        {
+            if(ofdArchivos.ShowDialog() == DialogResult.OK)
+            {
+                lblArchivo.Text = ofdArchivos.FileName;
+            }
+        }
     }
 }

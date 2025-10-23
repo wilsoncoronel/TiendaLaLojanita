@@ -9,14 +9,11 @@ namespace TiendaLaLojanita.Models.DTO
     public class VentaMinDTO
     {
         public int Id { get; set; }
-        public int IdCliente { get; set; }
         public string Documento { get; set; }
+        public ClienteMinDTO ClienteMinDTO { get; set; }
         public DateTime FechaVenta { get; set; }
-        public int IdEstado { get; set; }
-        public EstadoVentaDTO EstadoVentaDto { get; set; }
-        public int IdUsuarioCreador { get; set; }
-        public UsuarioMinDTO UsuarioCreadorMinDTO { get; set; }
-
-        public ClienteMinDTO ProveedorMinDto { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public EstadoVentaDTO EstadoVentaDTO { get; set; }
+        public UsuarioMinDTO UsuarioMinDTO { get; set; }
     }
 }
