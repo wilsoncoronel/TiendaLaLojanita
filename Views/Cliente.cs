@@ -114,8 +114,14 @@ namespace TiendaLaLojanita.Views
             clienteDto.Identificacion = txtIdentificacion.Text;
             clienteDto.Mail = txtEmail.Text;
             clienteDto.Estado = (cbxEstado.SelectedIndex == 0);
+            clienteDto.IdTipoIdentificacion = Convert.ToInt32(cbxTipoIdentificacion.SelectedValue);
+            clienteDto.DireccionCreacionDto = new DireccionCreacionDTO{
+                Descripcion = txtDireccion.Text.ToUpper(),
+                IdCiudad = Convert.ToInt32(cbxCiudad.SelectedValue),
+                EstadoVisual = true
+            };
             clienteDto.EstadoVisual = true;
-            var validator = new ArticuloValidator();
+            var validator = new ClienteValidator();
             ValidationResult result = validator.Validate(clienteDto);
             if (!result.IsValid)
             {
@@ -125,8 +131,36 @@ namespace TiendaLaLojanita.Views
             else
             {
                 this.LimpiarFormulario();
-                this.artActual = this.mapeos.MapeoArticuloCreacionDtoAArticuloDto(articuloDto);
-                return await this.articuloService.CrearArticulo(articuloDto);
+                //this.ClienteActual = this.mapeos.MapeoArticuloCreacionDtoAArticuloDto(articuloDto);
+                return await this._clienteService.CrearCliente(clienteDto);
+            }
+        }
+
+        private void LimpiarFormulario()
+        {
+            txtIdCLiente.Clear();
+            txtApellidos.Clear();
+            txtNombres.Clear();
+            txtIdentificacion.Clear();
+            txtEmail.Clear();
+            txtDireccion.Clear();
+            txtTelefono.Clear();
+            if (cbxTipoIdentificacion.Items.Count > 0) cbxTipoIdentificacion.SelectedIndex = 0;
+            if (cbxCiudad.Items.Count > 0) cbxCiudad.SelectedIndex = 0;
+        }
+
+        private void RecorrerErrores(ValidationResult result)
+        {
+            if (result.Errors.Count > 1)
+            {
+                MessageBox.Show($"Error de Validacion,  hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    MessageBox.Show(error.ErrorMessage, $"Error de Validacion, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

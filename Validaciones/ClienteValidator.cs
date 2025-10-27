@@ -27,9 +27,15 @@ namespace TiendaLaLojanita.Validaciones
             RuleFor(x => x.Mail)
                 .NotEmpty().WithMessage("El email es obligatorio.")
                 .NotNull().WithMessage("El email no puede ser nulo.")
-                .MaximumLength(100).WithMessage("El email o puede ser mayor a 100 carácteres!!");
+                .MaximumLength(200).WithMessage("El email o puede ser mayor a 100 carácteres!!");
+            RuleFor(x => x.Identificacion)
+                .NotEmpty().WithMessage("La identificación es obligatoria.")
+                .NotNull().WithMessage("La identificación no puede ser nulo.")
+                .MaximumLength(15).WithMessage("La identifiación no puede ser mayor a 15 carácteres!!")
+                .MinimumLength(10).WithMessage("La identificación no puede ser menor a 10 carácteres!!");
+
             RuleFor(x => x.Telefono)
-                .NotEmpty().WithMessage("El telefono es obligatorio.")
+                .NotEmpty().WithMessage("El teléfono es obligatorio.")
                 .MaximumLength(10).WithMessage("El teléfono no puede superar los 10 carácteres!!");
             RuleFor(x => x.DireccionCreacionDto.IdCiudad)
                 .GreaterThan(0).WithMessage("Debe seleccionar una ciudad.");

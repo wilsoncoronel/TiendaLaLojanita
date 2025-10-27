@@ -17,5 +17,6 @@ namespace TiendaLaLojanita.Models.DTO
         public bool EstadoVisual { get; set; }
         public bool Estado { get; set; }
         public DireccionDTO DireccionDto { get; set; }
+        public TipoIdentificacionDTO TipoIdentificacionDto { get; set; }
     }
 }
