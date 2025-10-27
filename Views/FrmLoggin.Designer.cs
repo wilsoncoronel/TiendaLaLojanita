@@ -40,16 +40,21 @@
             // 
             // btbIngresar
             // 
+            btbIngresar.BackColor = Color.DarkMagenta;
+            btbIngresar.FlatStyle = FlatStyle.Flat;
+            btbIngresar.Font = new Font("Roboto", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btbIngresar.ForeColor = SystemColors.ControlLightLight;
             btbIngresar.Location = new Point(20, 244);
             btbIngresar.Name = "btbIngresar";
             btbIngresar.Size = new Size(320, 62);
             btbIngresar.TabIndex = 0;
-            btbIngresar.Text = "Ingresar";
-            btbIngresar.UseVisualStyleBackColor = true;
+            btbIngresar.Text = "INGRESAR";
+            btbIngresar.UseVisualStyleBackColor = false;
             btbIngresar.Click += btbIngresar_Click;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Azure;
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(txtPassword);
             panel1.Controls.Add(txtUsurio);

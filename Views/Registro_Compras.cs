@@ -230,11 +230,6 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            this.BusquedaArticulo();
-        }
-
         private void BusquedaArticulo()
         {
             ArticuloDTO articuloActual = new ArticuloDTO();
@@ -397,45 +392,6 @@ namespace TiendaLaLojanita.Views
             return false;
         }
 
-        private void dgvDetalleCompra_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            int cantida;
-            decimal valorCompra;
-            if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorCompra")
-            {
-
-                DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
-                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorCompra"].Value?.ToString(), out valorCompra))
-                {
-                    fila.Cells["ValorTotal"].Value = cantida * valorCompra;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorCompra"].Value));
-                    this.CalcularTotales();
-                }
-            }
-            this.imp = 0;
-        }
-
-        private void dgvDetalleCompra_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                int id = 0;
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Eliminar")
-                {
-                    EliminarImpuestoPorId(Convert.ToInt32(dgvDetalleCompra.Rows[e.RowIndex].Cells["Id"].Value));
-                    dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
-                    this.CalcularTotales();
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
 
         private void dgvDetalleCompra_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -639,5 +595,61 @@ namespace TiendaLaLojanita.Views
             this.dgvTotales.Rows.Clear();
         }
 
+        private void btnBuscar_Click_1(object sender, EventArgs e)
+        {
+            this.BusquedaArticulo();
+        }
+
+        private void dgvDetalleCompra_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
+        {
+            int cantida;
+            decimal valorCompra;
+            if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorCompra")
+            {
+
+                DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
+                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorCompra"].Value?.ToString(), out valorCompra))
+                {
+                    fila.Cells["ValorTotal"].Value = cantida * valorCompra;
+                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorCompra"].Value));
+                    this.CalcularTotales();
+                }
+            }
+            this.imp = 0;
+        }
+
+        private void dgvDetalleCompra_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Eliminar")
+                {
+                    EliminarImpuestoPorId(Convert.ToInt32(dgvDetalleCompra.Rows[e.RowIndex].Cells["Id"].Value));
+                    dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
+                    this.CalcularTotales();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void txtArticuloBusqueda_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido "ding"
+                if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
+                {
+                    this.BusquedaArticulo();
+                }
+            }
+        }
     }
 }

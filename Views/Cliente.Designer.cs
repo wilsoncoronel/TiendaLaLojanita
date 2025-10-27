@@ -55,9 +55,6 @@
             btnCerrar = new Button();
             groupBox3 = new GroupBox();
             dataGridView1 = new DataGridView();
-            textBox1 = new TextBox();
-            label11 = new Label();
-            btnBuscarCliente = new Button();
             IdPersona = new DataGridViewTextBoxColumn();
             Nombres = new DataGridViewTextBoxColumn();
             Apellidos = new DataGridViewTextBoxColumn();
@@ -71,6 +68,9 @@
             Estado = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             ActivarDesactivar = new DataGridViewImageColumn();
+            textBox1 = new TextBox();
+            label11 = new Label();
+            btnBuscarCliente = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -121,6 +121,7 @@
             // cbxEstado
             // 
             cbxEstado.FormattingEnabled = true;
+            cbxEstado.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstado.Location = new Point(199, 242);
             cbxEstado.Name = "cbxEstado";
             cbxEstado.Size = new Size(171, 23);
@@ -321,32 +322,6 @@
             dataGridView1.Size = new Size(803, 371);
             dataGridView1.TabIndex = 3;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(92, 25);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(372, 23);
-            textBox1.TabIndex = 2;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(17, 29);
-            label11.Name = "label11";
-            label11.Size = new Size(69, 15);
-            label11.TabIndex = 1;
-            label11.Text = "Cliente / CI:";
-            // 
-            // btnBuscarCliente
-            // 
-            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
-            btnBuscarCliente.Location = new Point(470, 17);
-            btnBuscarCliente.Name = "btnBuscarCliente";
-            btnBuscarCliente.Size = new Size(43, 40);
-            btnBuscarCliente.TabIndex = 0;
-            btnBuscarCliente.UseVisualStyleBackColor = true;
-            btnBuscarCliente.Click += btnBuscarCliente_Click;
-            // 
             // IdPersona
             // 
             IdPersona.HeaderText = "Id";
@@ -424,6 +399,32 @@
             ActivarDesactivar.HeaderText = "Activar/Desactivar";
             ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
             ActivarDesactivar.Name = "ActivarDesactivar";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(92, 25);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(372, 23);
+            textBox1.TabIndex = 2;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(17, 29);
+            label11.Name = "label11";
+            label11.Size = new Size(69, 15);
+            label11.TabIndex = 1;
+            label11.Text = "Cliente / CI:";
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
+            btnBuscarCliente.Location = new Point(470, 17);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(43, 40);
+            btnBuscarCliente.TabIndex = 0;
+            btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
             // 
             // Cliente
             // 

@@ -10,5 +10,10 @@ namespace TiendaLaLojanita.Models.Interfaces
     public interface IClienteService
     {
         Task<ClienteDTO> ObtenerClienteCI(string identificacion);
+
+        Task<int> CrearCliente(ClienteCreacionDTO clienteCreacionDto);
+        Task<List<TipoIdentificacionDTO>> ListarTiposIdentificacion();
+
+        Task<List<CiudadDTO>> ListarCiudades();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,16 +8,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
 {
     public partial class Cliente : Form
     {
-        private int idUsuario = 0;
-        public Cliente(int idUsuario)
+        private readonly IClienteService _clienteService;
+        private List<TipoIdentificacionDTO> ListaTiposIdentificacion;
+        private List<CiudadDTO> ListaCiudades;
+        private ClienteDTO ClienteActual;
+
+        public Cliente(IClienteService clienteService)
         {
+            this.ClienteActual = new ClienteDTO();
             InitializeComponent();
-            this.idUsuario = idUsuario;
+            this._clienteService =  clienteService;
+            ListaTiposIdentificacion = new List<TipoIdentificacionDTO>();
+            this.CargarDatosCombos();
+            this.ListaCiudades = new List<CiudadDTO>();
         }
 
         private void btnBuscarCliente_Click(object sender, EventArgs e)
@@ -29,9 +41,93 @@ namespace TiendaLaLojanita.Views
             this.Close();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Funcionalidad en desarrollo, IdUsuario " + this.idUsuario, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("Funcionalidad en desarrollo, IdUsuario " + this.idUsuario, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (this.txtIdCLiente is null || this.txtIdCLiente.Text == "")
+            {
+                var resp = await this.CrearCliente();
+                if (resp != null && resp > 0)
+                {
+                    MessageBox.Show($"Cliente creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.ClienteActual.Id = resp;
+                    this.AgregarListaCliente();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el cliente!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            /*else
+            {
+                this.CargarEditarArticuloDTO();
+                var resp = await this.EditarArticulo();
+                if (resp)
+                {
+                    MessageBox.Show($"Articulo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
+                    art = this.CargarDatosRelacionados(art);
+                    for (int i = 0; i < this.listaArticulos.Count; i++)
+                    {
+                        DateTime fecha;
+                        if (this.listaArticulos[i].Id == art.Id)
+                        {
+                            fecha = this.listaArticulos[i].FechaCreacion;
+                            this.listaArticulos[i] = art;
+                            this.listaArticulos[i].FechaCreacion = fecha;
+                        }
+                    }
+                    this.CargarTabla(this.listaArticulos);
+                    this.LimpiarFormulario();
+                    this.artEditarActual = new ArticuloEdicionDTO();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }*/
+        }
+
+        private async void CargarDatosCombos()
+        {
+            this.ListaTiposIdentificacion = await this._clienteService.ListarTiposIdentificacion();
+            cbxTipoIdentificacion.DataSource = this.ListaTiposIdentificacion;
+            this.cbxTipoIdentificacion.DisplayMember = "Nombre";
+            this.cbxTipoIdentificacion.ValueMember = "Id";
+
+            this.ListaCiudades = await this._clienteService.ListarCiudades();
+            cbxCiudad.DataSource = this.ListaCiudades;
+            this.cbxCiudad.DisplayMember = "Nombre";
+            this.cbxCiudad.ValueMember = "Id";
+        }
+
+
+        private void AgregarListaCliente() {
+            
+        }
+        private async Task<int> CrearCliente()
+        {
+            ClienteCreacionDTO clienteDto = new ClienteCreacionDTO();
+            clienteDto.Apellidos = txtApellidos.Text.ToUpper();
+            clienteDto.Nombres = txtNombres.Text.ToUpper();
+            clienteDto.Telefono= txtTelefono.Text;
+            clienteDto.Identificacion = txtIdentificacion.Text;
+            clienteDto.Mail = txtEmail.Text;
+            clienteDto.Estado = (cbxEstado.SelectedIndex == 0);
+            clienteDto.EstadoVisual = true;
+            var validator = new ArticuloValidator();
+            ValidationResult result = validator.Validate(clienteDto);
+            if (!result.IsValid)
+            {
+                RecorrerErrores(result);
+                return 0;
+            }
+            else
+            {
+                this.LimpiarFormulario();
+                this.artActual = this.mapeos.MapeoArticuloCreacionDtoAArticuloDto(articuloDto);
+                return await this.articuloService.CrearArticulo(articuloDto);
+            }
         }
     }
 }

@@ -69,9 +69,6 @@
             txtArticulo = new TextBox();
             label14 = new Label();
             dgvArticulos = new DataGridView();
-            groupBox5 = new GroupBox();
-            lblFecha = new Label();
-            lblUser = new Label();
             Id = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -90,6 +87,9 @@
             ValorUnidad = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             ActivarDesactivar = new DataGridViewImageColumn();
+            groupBox5 = new GroupBox();
+            lblFecha = new Label();
+            lblUser = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -133,7 +133,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(1119, 86);
+            btnCancelar.Location = new Point(1049, 86);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(136, 43);
             btnCancelar.TabIndex = 21;
@@ -143,7 +143,7 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(1119, 22);
+            btnGuardar.Location = new Point(1049, 22);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(136, 43);
             btnGuardar.TabIndex = 20;
@@ -155,7 +155,7 @@
             // 
             cbxEstado.FormattingEnabled = true;
             cbxEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cbxEstado.Location = new Point(685, 146);
+            cbxEstado.Location = new Point(648, 146);
             cbxEstado.Name = "cbxEstado";
             cbxEstado.Size = new Size(363, 23);
             cbxEstado.TabIndex = 19;
@@ -187,7 +187,7 @@
             // 
             // dtpCaducidad
             // 
-            dtpCaducidad.Location = new Point(685, 103);
+            dtpCaducidad.Location = new Point(648, 103);
             dtpCaducidad.Name = "dtpCaducidad";
             dtpCaducidad.Size = new Size(363, 23);
             dtpCaducidad.TabIndex = 13;
@@ -204,7 +204,7 @@
             // dtpCreacion
             // 
             dtpCreacion.Enabled = false;
-            dtpCreacion.Location = new Point(685, 65);
+            dtpCreacion.Location = new Point(648, 65);
             dtpCreacion.Name = "dtpCreacion";
             dtpCreacion.Size = new Size(363, 23);
             dtpCreacion.TabIndex = 11;
@@ -221,7 +221,7 @@
             // txtCodigo
             // 
             txtCodigo.Enabled = false;
-            txtCodigo.Location = new Point(685, 25);
+            txtCodigo.Location = new Point(648, 25);
             txtCodigo.Name = "txtCodigo";
             txtCodigo.Size = new Size(128, 23);
             txtCodigo.TabIndex = 9;
@@ -313,7 +313,7 @@
             // 
             // txtUnidad
             // 
-            txtUnidad.Location = new Point(121, 34);
+            txtUnidad.Location = new Point(89, 33);
             txtUnidad.Name = "txtUnidad";
             txtUnidad.PlaceholderText = "ML/GR/UNI";
             txtUnidad.Size = new Size(215, 23);
@@ -322,7 +322,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(443, 36);
+            label11.Location = new Point(345, 36);
             label11.Name = "label11";
             label11.Size = new Size(77, 15);
             label11.TabIndex = 21;
@@ -340,7 +340,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(417, 36);
+            label13.Location = new Point(348, 38);
             label13.Name = "label13";
             label13.Size = new Size(68, 15);
             label13.TabIndex = 25;
@@ -348,7 +348,7 @@
             // 
             // nudUnidadValor
             // 
-            nudUnidadValor.Location = new Point(606, 34);
+            nudUnidadValor.Location = new Point(446, 33);
             nudUnidadValor.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudUnidadValor.Name = "nudUnidadValor";
             nudUnidadValor.Size = new Size(120, 23);
@@ -363,7 +363,7 @@
             groupBox2.Controls.Add(nudValorCompra);
             groupBox2.Location = new Point(11, 250);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(763, 76);
+            groupBox2.Size = new Size(658, 76);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Valores Artículo";
@@ -371,7 +371,7 @@
             // nudValorVenta
             // 
             nudValorVenta.DecimalPlaces = 2;
-            nudValorVenta.Location = new Point(555, 34);
+            nudValorVenta.Location = new Point(431, 36);
             nudValorVenta.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorVenta.Name = "nudValorVenta";
             nudValorVenta.Size = new Size(169, 23);
@@ -381,7 +381,7 @@
             // nudValorCompra
             // 
             nudValorCompra.DecimalPlaces = 2;
-            nudValorCompra.Location = new Point(180, 35);
+            nudValorCompra.Location = new Point(131, 34);
             nudValorCompra.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorCompra.Name = "nudValorCompra";
             nudValorCompra.Size = new Size(187, 23);
@@ -395,9 +395,9 @@
             groupBox3.Controls.Add(txtUnidad);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(780, 250);
+            groupBox3.Location = new Point(675, 250);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(741, 76);
+            groupBox3.Size = new Size(607, 76);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Unidad/Peso Artículo";
@@ -489,34 +489,6 @@
             dgvArticulos.Size = new Size(1500, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
-            // 
-            // groupBox5
-            // 
-            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            groupBox5.Controls.Add(lblFecha);
-            groupBox5.Controls.Add(lblUser);
-            groupBox5.Location = new Point(1288, 9);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(233, 100);
-            groupBox5.TabIndex = 4;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Usuario Actual";
-            // 
-            // lblFecha
-            // 
-            lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(21, 58);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(0, 15);
-            lblFecha.TabIndex = 1;
-            // 
-            // lblUser
-            // 
-            lblUser.AutoSize = true;
-            lblUser.Location = new Point(16, 28);
-            lblUser.Name = "lblUser";
-            lblUser.Size = new Size(0, 15);
-            lblUser.TabIndex = 0;
             // 
             // Id
             // 
@@ -612,6 +584,34 @@
             ActivarDesactivar.HeaderText = "Activar/Desactivar";
             ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
             ActivarDesactivar.Name = "ActivarDesactivar";
+            // 
+            // groupBox5
+            // 
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox5.Controls.Add(lblFecha);
+            groupBox5.Controls.Add(lblUser);
+            groupBox5.Location = new Point(1288, 9);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(233, 100);
+            groupBox5.TabIndex = 4;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Usuario Actual";
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(21, 58);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(0, 15);
+            lblFecha.TabIndex = 1;
+            // 
+            // lblUser
+            // 
+            lblUser.AutoSize = true;
+            lblUser.Location = new Point(16, 28);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(0, 15);
+            lblUser.TabIndex = 0;
             // 
             // Registro_Articulos
             // 

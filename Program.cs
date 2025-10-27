@@ -48,6 +48,7 @@ namespace TiendaLaLojanita
             services.AddScoped<Registro_Ventas>();
             services.AddScoped<Registro_Compras>();
             services.AddScoped<Inventario>();
+            services.AddScoped<Cliente>();
         }
     }
 }

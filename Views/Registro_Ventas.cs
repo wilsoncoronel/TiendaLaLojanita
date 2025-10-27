@@ -97,17 +97,7 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // Evita el sonido "ding"
-                if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
-                {
-                    this.BusquedaArticulo();
-                }
-            }
-        }
+
 
         private List<ArticuloDTO> BuscarNombreArticulo(string pNom)
         {
@@ -288,24 +278,6 @@ namespace TiendaLaLojanita.Views
             return listaArticulos;
         }
 
-        private void dgvDetallesVenta_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            int cantida;
-            decimal valorVenta;
-            if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "ValorVenta")
-            {
-
-                DataGridViewRow fila = dgvDetallesVenta.Rows[e.RowIndex];
-                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
-                {
-                    fila.Cells["ValorTotal"].Value = cantida * valorVenta;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
-                    this.CalcularTotales();
-                }
-            }
-            this.imp = 0;
-        }
-
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
             var resp = 0;
@@ -449,26 +421,7 @@ namespace TiendaLaLojanita.Views
             VerificacionFechas(sender, e);
         }
 
-        private void dgvVentas_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                int id = 0;
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvVentas.Columns[e.ColumnIndex].Name == "Editar")
-                {
-                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
-                    this.ObtenerVenta(id);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
+
         private async void ObtenerVenta(int idVenta)
         {
             var venta = await this._ventaService.ObtenerVenta(idVenta);
@@ -543,28 +496,6 @@ namespace TiendaLaLojanita.Views
             this.dgvTotales.Rows.Clear();
         }
 
-        private void dgvDetallesVenta_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Eliminar")
-                {
-                    int id = Convert.ToInt32(dgvDetallesVenta.Rows[e.RowIndex].Cells["Id"].Value);
-                    dgvDetallesVenta.Rows.RemoveAt(e.RowIndex);
-                    EliminarImpuestoPorId(id);
-                    this.CalcularTotales();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void EliminarImpuestoPorId(int id)
         {
             // Recorremos cada diccionario (por cada tipo de impuesto)
@@ -583,7 +514,8 @@ namespace TiendaLaLojanita.Views
 
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
-            Cliente clienteForm = new Cliente(this.Sesion.Id);
+            IClienteService clienteService = this.clienteService;
+            Cliente clienteForm = new Cliente(clienteService);
             clienteForm.StartPosition = FormStartPosition.CenterScreen;
             clienteForm.Show();
         }
@@ -620,34 +552,98 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void dgvDetallesVenta_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            switch (dgvDetallesVenta.Columns[dgvDetallesVenta.CurrentCell.ColumnIndex].Name)
-            {
-                case "ValorVenta":
-                    if (e.Control is TextBox)
-                    {
-                        TextBox textBox = e.Control as TextBox;
-                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPress);
-                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPress);
-                    }
-                    break;
-                case "Cantidad":
-                    if (e.Control is TextBox)
-                    {
-                        TextBox textBox = e.Control as TextBox;
-                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPressPunto);
-                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPressPunto);
-                    }
-                    break;
-            }
-        }
-
         private async void btnRecargarConfiguraciones_Click(object sender, EventArgs e)
         {
             this.CargarDatosInciales();
             this.listaArticulos = new List<ArticuloDTO>();
             this.listaArticulos = await this.CargarListaArticulos();
+        }
+
+        private void dgvVentas_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvVentas.Columns[e.ColumnIndex].Name == "Editar")
+                {
+                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+                    this.ObtenerVenta(id);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void dgvDetallesVenta_EditingControlShowing_1(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is TextBox textBox)
+            {
+                textBox.KeyPress -= textBox_KeyPress;
+                textBox.KeyPress -= textBox_KeyPressPunto;
+                switch (dgvDetallesVenta.Columns[dgvDetallesVenta.CurrentCell.ColumnIndex].Name)
+                {
+                    case "ValorVenta":
+                        textBox.KeyPress += textBox_KeyPress; // solo números y decimal
+                        break;
+
+                    case "Cantidad":
+                        textBox.KeyPress += textBox_KeyPressPunto; // solo números enteros
+                        break;
+
+                    case "Descripcion":
+                        // ✅ Permitir cualquier carácter, no agregamos restricción
+                        break;
+                    default:
+                        // Para cualquier otra columna, también permitimos texto libre
+                        break;
+                }
+            }
+        }
+
+        private void dgvDetallesVenta_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
+        {
+            int cantida;
+            decimal valorVenta;
+            if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "ValorVenta")
+            {
+
+                DataGridViewRow fila = dgvDetallesVenta.Rows[e.RowIndex];
+                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
+                {
+                    fila.Cells["ValorTotal"].Value = cantida * valorVenta;
+                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    this.CalcularTotales();
+                }
+            }
+            this.imp = 0;
+        }
+
+        private void btnBusquedaArticulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido "ding"
+                if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
+                {
+                    this.BusquedaArticulo();
+                }
+            }
+        }
+
+        private void cbxEstadosVenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
