@@ -133,21 +133,21 @@
             // 
             // btnCancelar
             // 
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
             btnCancelar.Location = new Point(1049, 86);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(136, 43);
             btnCancelar.TabIndex = 21;
-            btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
             // btnGuardar
             // 
+            btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
             btnGuardar.Location = new Point(1049, 22);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(136, 43);
             btnGuardar.TabIndex = 20;
-            btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = true;
             btnGuardar.Click += btnGuardar_Click;
             // 
@@ -422,11 +422,11 @@
             // 
             // btnBuscar
             // 
+            btnBuscar.Image = (Image)resources.GetObject("btnBuscar.Image");
             btnBuscar.Location = new Point(1356, 20);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(149, 45);
             btnBuscar.TabIndex = 7;
-            btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
             // 

@@ -12,8 +12,10 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<ClienteDTO> ObtenerClienteCI(string identificacion);
 
         Task<int> CrearCliente(ClienteCreacionDTO clienteCreacionDto);
+        Task<bool> EditarCliente(ClienteEditarDTO clienteEditarDto);
         Task<List<TipoIdentificacionDTO>> ListarTiposIdentificacion();
 
         Task<List<CiudadDTO>> ListarCiudades();
+        Task<List<ClienteDTO>> ListarClientes();
     }
 }

@@ -97,6 +97,7 @@
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
+            btnProveedor = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -112,6 +113,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnProveedor);
             groupBox1.Controls.Add(txtIdentificacionProveedor);
             groupBox1.Controls.Add(btbBuscarProveedor);
             groupBox1.Controls.Add(txtTelefono);
@@ -358,6 +360,7 @@
             btnCancelar.Size = new Size(255, 63);
             btnCancelar.TabIndex = 6;
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btnBuscarCompra
             // 
@@ -690,6 +693,16 @@
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnProveedor
+            // 
+            btnProveedor.Image = (Image)resources.GetObject("btnProveedor.Image");
+            btnProveedor.Location = new Point(431, 15);
+            btnProveedor.Name = "btnProveedor";
+            btnProveedor.Size = new Size(39, 33);
+            btnProveedor.TabIndex = 10;
+            btnProveedor.UseVisualStyleBackColor = true;
+            btnProveedor.Click += btnProveedor_Click;
+            // 
             // Registro_Compras
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -794,5 +807,6 @@
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewImageColumn Eliminar;
         private TabPage tabPage2;
+        private Button btnProveedor;
     }
 }

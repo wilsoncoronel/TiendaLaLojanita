@@ -105,6 +105,11 @@
             btnRecargarConfiguraciones = new Button();
             lblFechaIngreso = new Label();
             lblUsuario = new Label();
+            btnInventario = new Button();
+            label18 = new Label();
+            txtCambio = new TextBox();
+            txtPago = new TextBox();
+            label19 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -350,6 +355,7 @@
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(856, 362);
             dgvDetallesVenta.TabIndex = 13;
+            dgvDetallesVenta.CellClick += dgvDetallesVenta_CellClick;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged_1;
             dgvDetallesVenta.EditingControlShowing += dgvDetallesVenta_EditingControlShowing_1;
             // 
@@ -785,11 +791,59 @@
             lblUsuario.Size = new Size(0, 15);
             lblUsuario.TabIndex = 0;
             // 
+            // btnInventario
+            // 
+            btnInventario.Image = (Image)resources.GetObject("btnInventario.Image");
+            btnInventario.Location = new Point(1210, 193);
+            btnInventario.Name = "btnInventario";
+            btnInventario.Size = new Size(252, 71);
+            btnInventario.TabIndex = 9;
+            btnInventario.UseVisualStyleBackColor = true;
+            btnInventario.Click += btnInventario_Click;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(1218, 357);
+            label18.Name = "label18";
+            label18.Size = new Size(52, 15);
+            label18.TabIndex = 10;
+            label18.Text = "Cambio:";
+            // 
+            // txtCambio
+            // 
+            txtCambio.Location = new Point(1276, 354);
+            txtCambio.Name = "txtCambio";
+            txtCambio.Size = new Size(186, 23);
+            txtCambio.TabIndex = 11;
+            // 
+            // txtPago
+            // 
+            txtPago.Location = new Point(1276, 299);
+            txtPago.Name = "txtPago";
+            txtPago.Size = new Size(186, 23);
+            txtPago.TabIndex = 13;
+            txtPago.KeyDown += txtPago_KeyDown;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(1216, 307);
+            label19.Name = "label19";
+            label19.Size = new Size(34, 15);
+            label19.TabIndex = 12;
+            label19.Text = "Pago";
+            // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1474, 694);
+            Controls.Add(txtPago);
+            Controls.Add(label19);
+            Controls.Add(txtCambio);
+            Controls.Add(label18);
+            Controls.Add(btnInventario);
             Controls.Add(groupBox6);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
@@ -817,6 +871,7 @@
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -898,5 +953,10 @@
         private DataGridViewTextBoxColumn Documento;
         private DataGridViewTextBoxColumn Usuario;
         private DataGridViewImageColumn Editar;
+        private Button btnInventario;
+        private Label label18;
+        private TextBox txtCambio;
+        private TextBox txtPago;
+        private Label label19;
     }
 }

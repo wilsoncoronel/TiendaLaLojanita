@@ -3,6 +3,8 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.Threading.Tasks;
+using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
@@ -15,6 +17,7 @@ namespace TiendaLaLojanita.Views
         private readonly IClienteService clienteService;
         private readonly IArticuloService articuloService;
         private readonly IVentaService _ventaService;
+        private readonly IInventarioService inventarioService;
         private List<ArticuloDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
@@ -22,21 +25,25 @@ namespace TiendaLaLojanita.Views
         private int cant = 1;
         private decimal TotalGeneral = 0m;
         private List<EstadoVentaDTO> ListaEstados;
-
+        ProgressBar pro;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService)
+        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService)
         {
             InitializeComponent();
             this.clienteService = clienteService;
             this.articuloService = articuloService;
             this._ventaService = ventaService;
+            this.inventarioService = inventarioService;
             this.listaArticulos = new List<ArticuloDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
         private async void Registro_Ventas_Load(object sender, EventArgs e)
         {
+            this.listaArticulos = await this.CargarListaArticulos();
+            this.lblUsuario.Text = $"Usuario: {Sesion?.Usuario}";
+            this.lblFechaIngreso.Text = $"Fecha Ingreso: {DateTime.Now.ToString("g")}";
             this.listaArticulos = await this.CargarListaArticulos();
             this.CargarDatosInciales();
             AutoCompleteArt();
@@ -234,7 +241,7 @@ namespace TiendaLaLojanita.Views
             }
 
             this.TotalGeneral = TotalGeneral + totImpuestos;
-            this.txtTotal.Text = this.TotalGeneral.ToString("C2", new CultureInfo("en-US"));
+            this.txtTotal.Text = this.TotalGeneral.ToString();
             this.TotalGeneral = 0m;
         }
 
@@ -515,7 +522,8 @@ namespace TiendaLaLojanita.Views
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
             IClienteService clienteService = this.clienteService;
-            Cliente clienteForm = new Cliente(clienteService);
+            IMapeosClientes mapeos = new MapeosClientes();
+            Cliente clienteForm = new Cliente(clienteService, mapeos);
             clienteForm.StartPosition = FormStartPosition.CenterScreen;
             clienteForm.Show();
         }
@@ -643,6 +651,78 @@ namespace TiendaLaLojanita.Views
 
         private void cbxEstadosVenta_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void dgvDetallesVenta_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Eliminar")
+                {
+                    EliminarImpuestoPorId(Convert.ToInt32(dgvDetallesVenta.Rows[e.RowIndex].Cells["Id"].Value));
+                    dgvDetallesVenta.Rows.RemoveAt(e.RowIndex);
+                    this.CalcularTotales();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private async void btnInventario_Click(object sender, EventArgs e)
+        {
+            Show();
+            var listaExistencias = await this.ProcesarExistencias();
+            Hide();
+            this.CargarVentanaExistencias(listaExistencias);
+
+        }
+
+        private void CargarVentanaExistencias(List<ExistenciaDTO> listaExistencias)
+        {
+            Existencias existenciaForm = new Existencias(listaExistencias);
+            existenciaForm.StartPosition = FormStartPosition.CenterScreen;
+            existenciaForm.Show();
+        }
+
+        private async Task<List<ExistenciaDTO>> ProcesarExistencias()
+        {
+            var ListaExistenciasArticulos = await this.inventarioService.ExistenciasInventario();
+            return ListaExistenciasArticulos;
+        }
+
+        public void Show()
+        {
+            pro = new ProgressBar();
+            pro.Show();
+        }
+        public void Hide()
+        {
+            if (pro != null) pro.Close();
+        }
+
+        private void txtPago_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido "ding"
+                if (!string.IsNullOrWhiteSpace(this.txtPago.Text))
+                {
+                    this.CalcularCambio();
+                }
+            }
+        }
+
+        private void CalcularCambio()
+        {
+            this.txtCambio.Text = Convert.ToString(Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text));
 
         }
     }

@@ -4,6 +4,9 @@
     <Compile Update="Views\Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Existencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\FrmLoggin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -11,6 +14,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\ProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Proveedor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Registro_Compras.cs">

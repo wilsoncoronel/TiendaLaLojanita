@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             tabControl1 = new TabControl();
             btnCerrar = new Button();
             SuspendLayout();
@@ -46,14 +47,15 @@
             // btnCerrar
             // 
             btnCerrar.Anchor = AnchorStyles.Bottom;
+            btnCerrar.BackColor = Color.Red;
             btnCerrar.FlatStyle = FlatStyle.Flat;
             btnCerrar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
             btnCerrar.Location = new Point(325, 404);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.Size = new Size(92, 32);
             btnCerrar.TabIndex = 1;
-            btnCerrar.Text = "Cerrar";
-            btnCerrar.UseVisualStyleBackColor = true;
+            btnCerrar.UseVisualStyleBackColor = false;
             btnCerrar.Click += btnCerrar_Click;
             // 
             // FrmPrincipal

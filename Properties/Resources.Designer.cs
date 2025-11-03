@@ -59,5 +59,15 @@ namespace TiendaLaLojanita.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _10336582_edit {
+            get {
+                object obj = ResourceManager.GetObject("10336582_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

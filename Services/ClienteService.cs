@@ -37,6 +37,25 @@ namespace TiendaLaLojanita.Services
             }
         }
 
+        public async Task<bool> EditarCliente(ClienteEditarDTO clienteEditarDto)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(clienteEditarDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // Cadena sin caracteres ocultos
+                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Cliente/EditarCliente", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<ClienteDTO> ObtenerClienteCI(string identificacion)
         {
             try
@@ -78,6 +97,22 @@ namespace TiendaLaLojanita.Services
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<List<CiudadDTO>> result = JsonConvert.DeserializeObject<Response<List<CiudadDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<ClienteDTO>> ListarClientes()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Cliente/ListarClientes");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<ClienteDTO>> result = JsonConvert.DeserializeObject<Response<List<ClienteDTO>>>(responseJson);
                 return result.Value;
             }
             catch

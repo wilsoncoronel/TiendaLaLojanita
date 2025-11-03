@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -63,6 +64,7 @@ namespace TiendaLaLojanita.Views
             this.lblFechaIngreso.Text = $"Fecha Ingreso: {DateTime.Now.ToString("g")}";
             this.listaArticulos = await this.CargarListaArticulos();
             this.CargarDatosInciales();
+            AutoCompleteArt();
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
@@ -230,10 +232,32 @@ namespace TiendaLaLojanita.Views
             }
         }
 
+        private List<ArticuloDTO> BuscarNombreArticulo(string pNom)
+        {
+            var listaTemp = new List<ArticuloDTO>();
+            listaTemp = this.listaArticulos.ToList();
+            return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
+        }
+
+        private void AutoCompleteArt()
+        {
+            AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
+            List<ArticuloDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloDTO art in listaArticuloAuto)
+            {
+                colArticulo.Add(art.Nombre);
+            }
+            this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
+            this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
+            this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
         private void BusquedaArticulo()
         {
             ArticuloDTO articuloActual = new ArticuloDTO();
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre == this.txtArticuloBusqueda.Text || art.Codigo == this.txtArticuloBusqueda.Text || Convert.ToInt32(this.txtArticuloBusqueda.Text) == art.Id);
+            int temp = 0;
+            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
+            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
             if (articuloActual is null || articuloActual.Id == 0)
             {
                 MessageBox.Show("No se encontro ningun articulo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -581,19 +605,6 @@ namespace TiendaLaLojanita.Views
                 }
             });
         }
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.txtDocumento.Text = "";
-            this.txtDireccion.Text = "";
-            this.txtDocumento.Text = "";
-            this.txtRazonSocial.Text = "";
-            this.txtTelefono.Text = "";
-            this.dgvDetalleCompra.Rows.Clear();
-            this.contador = 0;
-            this.TotalGeneral = 0m;
-            this.listaImpuestos.Clear();
-            this.dgvTotales.Rows.Clear();
-        }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)
         {
@@ -650,6 +661,33 @@ namespace TiendaLaLojanita.Views
                     this.BusquedaArticulo();
                 }
             }
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.txtDocumento.Text = "";
+            this.txtDireccion.Text = "";
+            this.txtDocumento.Text = "";
+            this.txtRazonSocial.Text = "";
+            this.txtTelefono.Text = "";
+            this.dgvDetalleCompra.Rows.Clear();
+            this.contador = 0;
+            this.TotalGeneral = 0m;
+            this.listaImpuestos.Clear();
+            this.dgvTotales.Rows.Clear();
+            this.lblTotal.Text = "";
+        }
+
+        private void btnProveedor_Click(object sender, EventArgs e)
+        {
+            IProveedorService proveedorService = this.proveedorService;
+            Proveedor prov = new Proveedor(proveedorService);
+            prov.StartPosition = FormStartPosition.CenterScreen;
+            prov.Show();
         }
     }
 }

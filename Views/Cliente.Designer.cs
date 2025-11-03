@@ -54,8 +54,11 @@
             btnGuardar = new Button();
             btnCerrar = new Button();
             groupBox3 = new GroupBox();
-            dataGridView1 = new DataGridView();
-            IdPersona = new DataGridViewTextBoxColumn();
+            dgvClientes = new DataGridView();
+            textBox1 = new TextBox();
+            label11 = new Label();
+            btnBuscarCliente = new Button();
+            Id = new DataGridViewTextBoxColumn();
             Nombres = new DataGridViewTextBoxColumn();
             Apellidos = new DataGridViewTextBoxColumn();
             IdTipoIdentificacion = new DataGridViewTextBoxColumn();
@@ -68,13 +71,10 @@
             Estado = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             ActivarDesactivar = new DataGridViewImageColumn();
-            textBox1 = new TextBox();
-            label11 = new Label();
-            btnBuscarCliente = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -302,7 +302,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(dataGridView1);
+            groupBox3.Controls.Add(dgvClientes);
             groupBox3.Controls.Add(textBox1);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(btnBuscarCliente);
@@ -312,20 +312,48 @@
             groupBox3.TabIndex = 15;
             groupBox3.TabStop = false;
             groupBox3.Text = "Lista Clientes";
+            groupBox3.Enter += groupBox3_Enter;
             // 
-            // dataGridView1
+            // dgvClientes
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdPersona, Nombres, Apellidos, IdTipoIdentificacion, TipoIdentificacion, Identificacion, Email, Telefono, Direccion, Ciudad, Estado, Editar, ActivarDesactivar });
-            dataGridView1.Location = new Point(12, 73);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(803, 371);
-            dataGridView1.TabIndex = 3;
+            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { Id, Nombres, Apellidos, IdTipoIdentificacion, TipoIdentificacion, Identificacion, Email, Telefono, Direccion, Ciudad, Estado, Editar, ActivarDesactivar });
+            dgvClientes.Location = new Point(12, 73);
+            dgvClientes.Name = "dgvClientes";
+            dgvClientes.Size = new Size(803, 371);
+            dgvClientes.TabIndex = 3;
+            dgvClientes.CellClick += dgvClientes_CellClick;
             // 
-            // IdPersona
+            // textBox1
             // 
-            IdPersona.HeaderText = "Id";
-            IdPersona.Name = "IdPersona";
+            textBox1.Location = new Point(92, 25);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(372, 23);
+            textBox1.TabIndex = 2;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(17, 29);
+            label11.Name = "label11";
+            label11.Size = new Size(69, 15);
+            label11.TabIndex = 1;
+            label11.Text = "Cliente / CI:";
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
+            btnBuscarCliente.Location = new Point(470, 17);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(43, 40);
+            btnBuscarCliente.TabIndex = 0;
+            btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
             // 
             // Nombres
             // 
@@ -400,32 +428,6 @@
             ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
             ActivarDesactivar.Name = "ActivarDesactivar";
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(92, 25);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(372, 23);
-            textBox1.TabIndex = 2;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(17, 29);
-            label11.Name = "label11";
-            label11.Size = new Size(69, 15);
-            label11.TabIndex = 1;
-            label11.Text = "Cliente / CI:";
-            // 
-            // btnBuscarCliente
-            // 
-            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
-            btnBuscarCliente.Location = new Point(470, 17);
-            btnBuscarCliente.Name = "btnBuscarCliente";
-            btnBuscarCliente.Size = new Size(43, 40);
-            btnBuscarCliente.TabIndex = 0;
-            btnBuscarCliente.UseVisualStyleBackColor = true;
-            btnBuscarCliente.Click += btnBuscarCliente_Click;
-            // 
             // Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -445,7 +447,7 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
             ResumeLayout(false);
         }
 
@@ -476,11 +478,12 @@
         private Button btnGuardar;
         private Button btnCerrar;
         private GroupBox groupBox3;
-        private DataGridView dataGridView1;
+        private DataGridView dgvClientes;
         private TextBox textBox1;
         private Label label11;
         private Button btnBuscarCliente;
         private DataGridViewTextBoxColumn IdPersona;
+        private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Nombres;
         private DataGridViewTextBoxColumn Apellidos;
         private DataGridViewTextBoxColumn IdTipoIdentificacion;
