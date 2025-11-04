@@ -13,6 +13,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
@@ -222,7 +223,7 @@ namespace TiendaLaLojanita.Views
                     this.IdProveedor = proveedor.Id;
                     this.txtRazonSocial.Text = proveedor.RazonSocial;
                     this.txtTelefono.Text = proveedor.Telefono;
-                    this.txtDireccion.Text = proveedor.Direccion;
+                    this.txtDireccion.Text = $"{proveedor.DireccionDto.Descripcion} {proveedor.DireccionDto.Ciudad.Nombre}";
                 }
                 catch (Exception ex)
                 {
@@ -561,7 +562,7 @@ namespace TiendaLaLojanita.Views
             this.txtIdCompra.Text = Convert.ToString(compra.Id);
             this.txtRazonSocial.Text = compra.ProveedorDto.RazonSocial;
             this.txtTelefono.Text = compra.ProveedorDto.Telefono;
-            this.txtDireccion.Text = compra.ProveedorDto.Direccion;
+            this.txtDireccion.Text = $"{compra.ProveedorDto.DireccionDto.Descripcion} {compra.ProveedorDto.DireccionDto.Ciudad.Nombre}";
             this.txtDocumento.Text = compra.Documento;
             this.dtpCompra.Value = compra.FechaCompra;
             this.cbxEstadoCompra.SelectedValue = compra.IdEstado;
@@ -685,7 +686,8 @@ namespace TiendaLaLojanita.Views
         private void btnProveedor_Click(object sender, EventArgs e)
         {
             IProveedorService proveedorService = this.proveedorService;
-            Proveedor prov = new Proveedor(proveedorService);
+            IMapeoProveedor mapeos = new MapeoProveedor();
+            Proveedor prov = new Proveedor(proveedorService, mapeos);
             prov.StartPosition = FormStartPosition.CenterScreen;
             prov.Show();
         }

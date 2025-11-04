@@ -47,7 +47,8 @@ namespace TiendaLaLojanita.Views
             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
             this.dtpFechaFinal.Value = DateTime.Now;
             this.listaArticulos = new List<ArticuloDTO>();
-        }
+            this.chckPapeleria.Checked = false;
+            }
         private async void Registro_Articulos_Load(object sender, EventArgs e)
         {
             await this.cargarConfiguraciones();
@@ -189,6 +190,7 @@ namespace TiendaLaLojanita.Views
             articuloDto.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
             articuloDto.FechaCaducidad = dtpCaducidad.Value;
             articuloDto.FechaCreacion = DateTime.Now;
+            articuloDto.Papeleria = this.chckPapeleria.Checked;
             var validator = new ArticuloValidator();
             ValidationResult result = validator.Validate(articuloDto);
             if (!result.IsValid)

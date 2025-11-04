@@ -63,9 +63,6 @@
             btnCancelar = new Button();
             groupBox3 = new GroupBox();
             dgvProveedor = new DataGridView();
-            txtBusquedaProveedor = new TextBox();
-            label1 = new Label();
-            btnBuscarProveedor = new Button();
             Id = new DataGridViewTextBoxColumn();
             IdTipoIdentitifacion = new DataGridViewTextBoxColumn();
             TipoIdentificacion = new DataGridViewTextBoxColumn();
@@ -75,7 +72,6 @@
             RazonSocial = new DataGridViewTextBoxColumn();
             Telefono = new DataGridViewTextBoxColumn();
             Email = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
             Direccion = new DataGridViewTextBoxColumn();
             IdCiudad = new DataGridViewTextBoxColumn();
             Ciudad = new DataGridViewTextBoxColumn();
@@ -83,6 +79,9 @@
             Creacion = new DataGridViewTextBoxColumn();
             Modificacion = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
+            txtBusquedaProveedor = new TextBox();
+            label1 = new Label();
+            btnBuscarProveedor = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -120,7 +119,7 @@
             groupBox1.Size = new Size(655, 395);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Datos Proveedores";
+            groupBox1.Text = "Datos Proveedor";
             // 
             // txtIdentificacion
             // 
@@ -137,7 +136,6 @@
             label13.Size = new Size(82, 15);
             label13.TabIndex = 24;
             label13.Text = "Identificación:";
-            label13.Click += label13_Click;
             // 
             // cbxTipIdentificacion
             // 
@@ -377,6 +375,7 @@
             btnGuardar.Size = new Size(127, 39);
             btnGuardar.TabIndex = 2;
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
@@ -386,6 +385,7 @@
             btnCancelar.Size = new Size(127, 39);
             btnCancelar.TabIndex = 3;
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // groupBox3
             // 
@@ -403,36 +403,12 @@
             // dgvProveedor
             // 
             dgvProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProveedor.Columns.AddRange(new DataGridViewColumn[] { Id, IdTipoIdentitifacion, TipoIdentificacion, Identificacion, Nombres, Apellidos, RazonSocial, Telefono, Email, Descripcion, Direccion, IdCiudad, Ciudad, Estado, Creacion, Modificacion, Editar });
+            dgvProveedor.Columns.AddRange(new DataGridViewColumn[] { Id, IdTipoIdentitifacion, TipoIdentificacion, Identificacion, Nombres, Apellidos, RazonSocial, Telefono, Email, Direccion, IdCiudad, Ciudad, Estado, Creacion, Modificacion, Editar });
             dgvProveedor.Location = new Point(16, 61);
             dgvProveedor.Name = "dgvProveedor";
             dgvProveedor.Size = new Size(728, 460);
             dgvProveedor.TabIndex = 3;
-            // 
-            // txtBusquedaProveedor
-            // 
-            txtBusquedaProveedor.Location = new Point(88, 22);
-            txtBusquedaProveedor.Name = "txtBusquedaProveedor";
-            txtBusquedaProveedor.Size = new Size(349, 23);
-            txtBusquedaProveedor.TabIndex = 2;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(9, 25);
-            label1.Name = "label1";
-            label1.Size = new Size(64, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Proveedor:";
-            // 
-            // btnBuscarProveedor
-            // 
-            btnBuscarProveedor.Image = (Image)resources.GetObject("btnBuscarProveedor.Image");
-            btnBuscarProveedor.Location = new Point(454, 13);
-            btnBuscarProveedor.Name = "btnBuscarProveedor";
-            btnBuscarProveedor.Size = new Size(39, 38);
-            btnBuscarProveedor.TabIndex = 0;
-            btnBuscarProveedor.UseVisualStyleBackColor = true;
+            dgvProveedor.CellClick += dgvProveedor_CellClick;
             // 
             // Id
             // 
@@ -491,12 +467,6 @@
             Email.Name = "Email";
             Email.ReadOnly = true;
             // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            Descripcion.ReadOnly = true;
-            // 
             // Direccion
             // 
             Direccion.HeaderText = "Dirección";
@@ -542,6 +512,31 @@
             Editar.Image = Properties.Resources._10336582_edit;
             Editar.Name = "Editar";
             Editar.ReadOnly = true;
+            // 
+            // txtBusquedaProveedor
+            // 
+            txtBusquedaProveedor.Location = new Point(88, 22);
+            txtBusquedaProveedor.Name = "txtBusquedaProveedor";
+            txtBusquedaProveedor.Size = new Size(349, 23);
+            txtBusquedaProveedor.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(9, 25);
+            label1.Name = "label1";
+            label1.Size = new Size(64, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Proveedor:";
+            // 
+            // btnBuscarProveedor
+            // 
+            btnBuscarProveedor.Image = (Image)resources.GetObject("btnBuscarProveedor.Image");
+            btnBuscarProveedor.Location = new Point(454, 13);
+            btnBuscarProveedor.Name = "btnBuscarProveedor";
+            btnBuscarProveedor.Size = new Size(39, 38);
+            btnBuscarProveedor.TabIndex = 0;
+            btnBuscarProveedor.UseVisualStyleBackColor = true;
             // 
             // Proveedor
             // 

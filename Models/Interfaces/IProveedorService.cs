@@ -10,5 +10,10 @@ namespace TiendaLaLojanita.Models.Interfaces
     public interface IProveedorService
     {
         Task<ProveedorDTO> ObtenerProveedorCI(string identificacion);
+        Task<int> CrearProveedor(ProveedorCreacionDTO proveedorCreacionDto);
+        Task<bool> EditarProveedor(ProveedorEditarDTO proveedorEditarDTO);
+        Task<List<TipoIdentificacionDTO>> ListarTiposIdentificacion();
+        Task<List<CiudadDTO>> ListarCiudades();
+        Task<List<ProveedorDTO>> ListarProveedores();
     }
 }

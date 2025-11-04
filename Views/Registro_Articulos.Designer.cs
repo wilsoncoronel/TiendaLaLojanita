@@ -90,6 +90,7 @@
             groupBox5 = new GroupBox();
             lblFecha = new Label();
             lblUser = new Label();
+            chckPapeleria = new CheckBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -104,6 +105,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(chckPapeleria);
             groupBox1.Controls.Add(btnCancelar);
             groupBox1.Controls.Add(btnGuardar);
             groupBox1.Controls.Add(cbxEstado);
@@ -613,6 +615,16 @@
             lblUser.Size = new Size(0, 15);
             lblUser.TabIndex = 0;
             // 
+            // chckPapeleria
+            // 
+            chckPapeleria.AutoSize = true;
+            chckPapeleria.Location = new Point(647, 184);
+            chckPapeleria.Name = "chckPapeleria";
+            chckPapeleria.Size = new Size(130, 19);
+            chckPapeleria.TabIndex = 22;
+            chckPapeleria.Text = "Inventario Papelería";
+            chckPapeleria.UseVisualStyleBackColor = true;
+            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -707,5 +719,6 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
+        private CheckBox chckPapeleria;
     }
 }

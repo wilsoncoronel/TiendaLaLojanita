@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,25 +8,275 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Mapeos;
+using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
 {
     public partial class Proveedor : Form
     {
         private readonly IProveedorService _proveedorService;
+        private readonly IMapeoProveedor mapeos;
+        private ProveedorDTO ProveedorActual = new ProveedorDTO();
+        public List<ProveedorDTO> ListaProveedores;
+        private ProveedorEditarDTO ProveedorEditar = new ProveedorEditarDTO();
+        private List<TipoIdentificacionDTO> ListaTiposIdentificacion = new List<TipoIdentificacionDTO>();
+        private List<CiudadDTO> ListaCiudades = new List<CiudadDTO>();
 
-        public Proveedor(IProveedorService proveedorService)
+        public Proveedor(IProveedorService proveedorService, IMapeoProveedor mapeos)
         {
             InitializeComponent();
             this._proveedorService = proveedorService;
+            this.mapeos = mapeos;
+            ListaProveedores = new List<ProveedorDTO>();
+            this.CargarDatosCombos();
+            this.CargarListaProveedores();
+
         }
 
-
-
-        private void label13_Click(object sender, EventArgs e)
+        private async void CargarListaProveedores()
         {
+            this.ListaProveedores = await this._proveedorService.ListarProveedores();
+            this.CargarTablaProveedores();
+        }
 
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormulario();
+        }
+
+        private async void CargarDatosCombos()
+        {
+            this.ListaTiposIdentificacion = await this._proveedorService.ListarTiposIdentificacion();
+            cbxTipIdentificacion.DataSource = this.ListaTiposIdentificacion;
+            this.cbxTipIdentificacion.DisplayMember = "Nombre";
+            this.cbxTipIdentificacion.ValueMember = "Id";
+
+            this.ListaCiudades = await this._proveedorService.ListarCiudades();
+            cbxCiudad.DataSource = this.ListaCiudades;
+            this.cbxCiudad.DisplayMember = "Nombre";
+            this.cbxCiudad.ValueMember = "Id";
+        }
+
+        private async void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (this.txtIdProveedor is null || this.txtIdProveedor.Text == "")
+            {
+                var resp = await this.CrearProveedor();
+                if (resp != null && resp > 0)
+                {
+                    MessageBox.Show($"Proveedor creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.ProveedorActual.Id = resp;
+                    ProveedorDTO proTemp = this.CargarDatosRelacionados(this.ProveedorActual);
+                    this.ListaProveedores.Add(proTemp);
+                    this.ProveedorActual = new ProveedorDTO();
+                    this.CargarTablaProveedores();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el proveedor!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                this.CargarProveedor();
+                var resp = await this.EditarProveedor();
+                if (resp)
+                {
+                    MessageBox.Show($"Proveedor con el id: {ProveedorEditar.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var prove = this.mapeos.MapeoProveedorEditarDtoAProveedorDto(this.ProveedorEditar);
+                    prove = this.CargarDatosRelacionados(prove);
+                    for (int i = 0; i < this.ListaProveedores.Count; i++)
+                    {
+                        if (this.ListaProveedores[i].Id == prove.Id)
+                        {
+                            this.ListaProveedores[i] = prove;
+                        }
+                    }
+                    this.CargarTablaProveedores();
+                    this.LimpiarFormulario();
+                    this.ProveedorEditar = new ProveedorEditarDTO();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async Task<bool> EditarProveedor()
+        {
+            return await this._proveedorService.EditarProveedor(this.ProveedorEditar);
+        }
+
+        private void CargarProveedor()
+        {
+            ProveedorEditarDTO proveedorEditarDto = new ProveedorEditarDTO();
+            proveedorEditarDto.Id = ProveedorActual.Id;
+            proveedorEditarDto.Apellidos = txtApellidos.Text.ToUpper();
+            proveedorEditarDto.Nombres = txtNombres.Text.ToUpper();
+            proveedorEditarDto.Telefono = txtTelefono.Text;
+            proveedorEditarDto.Identificacion = txtIdentificacion.Text;
+            proveedorEditarDto.Mail = txtEmail.Text;
+            proveedorEditarDto.Estado = (cbxEstado.SelectedIndex == 0);
+            proveedorEditarDto.IdIdentificacion = Convert.ToInt32(cbxTipIdentificacion.SelectedValue);
+            proveedorEditarDto.FechaModificacion = DateTime.Now;
+            proveedorEditarDto.DireccionEdicionDto = new DireccionEdicionDTO
+            {
+                Descripcion = txtDireccion.Text.ToUpper(),
+                IdCiudad = Convert.ToInt32(cbxCiudad.SelectedValue),
+                EstadoVisual = true
+            };
+            proveedorEditarDto.RazonSocial = txtRazonSocial.Text.ToUpper();
+            proveedorEditarDto.Descripcion = txtDescripcion.Text.ToUpper();
+            proveedorEditarDto.EstadoVisual = true;
+            this.ProveedorEditar = proveedorEditarDto;
+
+        }
+
+        private void CargarProveedor(int IdProv)
+        {
+            this.ProveedorActual = new ProveedorDTO();
+            this.ProveedorActual = this.ListaProveedores.FirstOrDefault(pro => pro.Id == IdProv);
+            this.txtIdProveedor.Text = Convert.ToString(ProveedorActual.Id);
+            this.txtNombres.Text = ProveedorActual.Nombres;
+            this.txtApellidos.Text = ProveedorActual.Apellidos;
+            this.txtDireccion.Text = ProveedorActual.DireccionDto.Descripcion;
+            this.txtEmail.Text = ProveedorActual.Mail;
+            this.txtTelefono.Text = ProveedorActual.Telefono;
+            this.cbxCiudad.SelectedValue = ProveedorActual.DireccionDto.IdCiudad;
+            this.cbxTipIdentificacion.SelectedValue = ProveedorActual.TipoIdentificacionDto.Id;
+            this.txtIdentificacion.Text = ProveedorActual.Identificacion;
+            this.txtRazonSocial.Text = ProveedorActual.RazonSocial;
+            this.txtDescripcion.Text = ProveedorActual.Descripcion;
+            this.cbxEstado.SelectedIndex = ProveedorActual.Estado ? 0 : 1;
+        }
+        private ProveedorDTO CargarDatosRelacionados(ProveedorDTO proveedorDTO)
+        {
+            if (this.ProveedorEditar != null)
+            {
+                proveedorDTO.TipoIdentificacionDto = this.ListaTiposIdentificacion.FirstOrDefault(ti => ti.Id == proveedorDTO.IdIdentificacion);
+                proveedorDTO.DireccionDto.Ciudad = this.ListaCiudades.FirstOrDefault(c => c.Id == proveedorDTO.DireccionDto.IdCiudad);
+            }
+            else if (this.ProveedorActual != null)
+            {
+                proveedorDTO.TipoIdentificacionDto = this.ListaTiposIdentificacion.FirstOrDefault(ti => ti.Id == proveedorDTO.IdIdentificacion);
+                proveedorDTO.DireccionDto.Ciudad = this.ListaCiudades.FirstOrDefault(c => c.Id == proveedorDTO.DireccionDto.IdCiudad);
+            }
+            return proveedorDTO;
+        }
+        private void CargarTablaProveedores()
+        {
+            this.dgvProveedor.Rows.Clear();
+            foreach (var pro in ListaProveedores)
+            {
+                dgvProveedor.Rows.Add(
+                    pro.Id,
+                    pro.IdIdentificacion,
+                    pro.TipoIdentificacionDto.Nombre,
+                    pro.Identificacion,
+                    pro.Nombres,
+                    pro.Apellidos,
+                    pro.RazonSocial,
+                    pro.Telefono,
+                    pro.Mail,
+                    pro.DireccionDto.Descripcion,
+                    pro.DireccionDto.Ciudad.Id,
+                    pro.DireccionDto.Ciudad.Nombre,
+                    pro.Estado ? "Activo" : "Inactivo",
+                    pro.FechaCreacion?.ToString("dd/MM/yyyy"),
+                    pro.FechaModificacion?.ToString("dd/MM/yyyy")
+                );
+            }
+        }
+
+        private async Task<int> CrearProveedor()
+        {
+            ProveedorCreacionDTO proveedorDto = new ProveedorCreacionDTO();
+            proveedorDto.Apellidos = txtApellidos.Text.ToUpper();
+            proveedorDto.Nombres = txtNombres.Text.ToUpper();
+            proveedorDto.Telefono = txtTelefono.Text;
+            proveedorDto.Identificacion = txtIdentificacion.Text;
+            proveedorDto.Mail = txtEmail.Text;
+            proveedorDto.Estado = (cbxEstado.SelectedIndex == 0);
+            proveedorDto.IdIdentificacion = Convert.ToInt32(cbxTipIdentificacion.SelectedValue);
+            proveedorDto.DireccionCreacionDto = new DireccionCreacionDTO
+            {
+                Descripcion = txtDireccion.Text.ToUpper(),
+                IdCiudad = Convert.ToInt32(cbxCiudad.SelectedValue),
+                EstadoVisual = true
+            };
+            proveedorDto.EstadoVisual = true;
+            proveedorDto.RazonSocial = txtRazonSocial.Text.ToUpper();
+            proveedorDto.Descripcion = txtDescripcion.Text.ToUpper();
+            var validator = new ProveedorValidator();
+            ValidationResult result = validator.Validate(proveedorDto);
+            if (!result.IsValid)
+            {
+                RecorrerErrores(result);
+                return 0;
+            }
+            else
+            {
+                this.LimpiarFormulario();
+                this.ProveedorActual = this.mapeos.MapeoProveedorCreacionDtoAProveedorDto(proveedorDto);
+                return await this._proveedorService.CrearProveedor(proveedorDto);
+            }
+        }
+        private void RecorrerErrores(ValidationResult result)
+        {
+            if (result.Errors.Count > 1)
+            {
+                MessageBox.Show($"Error de Validacion,  hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    MessageBox.Show(error.ErrorMessage, $"Error de Validacion, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void LimpiarFormulario()
+        {
+            txtIdProveedor.Clear();
+            txtApellidos.Clear();
+            txtNombres.Clear();
+            txtIdentificacion.Clear();
+            txtEmail.Clear();
+            txtDireccion.Clear();
+            txtTelefono.Clear();
+            txtRazonSocial.Clear();
+            txtDescripcion.Clear();
+            txtDireccion.Clear();
+            if (cbxTipIdentificacion.Items.Count > 0) cbxTipIdentificacion.SelectedIndex = 0;
+            if (cbxCiudad.Items.Count > 0) cbxCiudad.SelectedIndex = 0;
+            if (cbxEstado.Items.Count > 0) cbxEstado.SelectedIndex = 0;
+        }
+
+        private void dgvProveedor_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvProveedor.Columns[e.ColumnIndex].Name == "Editar")
+                {
+                    id = Convert.ToInt32(dgvProveedor.Rows[e.RowIndex].Cells["Id"].Value);
+                    this.CargarProveedor(id);
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
