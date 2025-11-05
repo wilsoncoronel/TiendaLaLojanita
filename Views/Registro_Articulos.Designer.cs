@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            chckPapeleria = new CheckBox();
             btnCancelar = new Button();
             btnGuardar = new Button();
             cbxEstado = new ComboBox();
@@ -72,6 +73,7 @@
             Id = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
+            Papeleria = new DataGridViewTextBoxColumn();
             IdMarca = new DataGridViewTextBoxColumn();
             Marca = new DataGridViewTextBoxColumn();
             IdTipoArticulo = new DataGridViewTextBoxColumn();
@@ -90,7 +92,10 @@
             groupBox5 = new GroupBox();
             lblFecha = new Label();
             lblUser = new Label();
-            chckPapeleria = new CheckBox();
+            groupBox6 = new GroupBox();
+            lblArchivo = new Label();
+            btnAbrirArchivo = new Button();
+            ofdArticulos = new OpenFileDialog();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -100,6 +105,7 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvArticulos).BeginInit();
             groupBox5.SuspendLayout();
+            groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -132,6 +138,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
+            // 
+            // chckPapeleria
+            // 
+            chckPapeleria.AutoSize = true;
+            chckPapeleria.Location = new Point(647, 184);
+            chckPapeleria.Name = "chckPapeleria";
+            chckPapeleria.Size = new Size(130, 19);
+            chckPapeleria.TabIndex = 22;
+            chckPapeleria.Text = "Inventario Papelería";
+            chckPapeleria.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
@@ -315,7 +331,7 @@
             // 
             // txtUnidad
             // 
-            txtUnidad.Location = new Point(89, 33);
+            txtUnidad.Location = new Point(98, 36);
             txtUnidad.Name = "txtUnidad";
             txtUnidad.PlaceholderText = "ML/GR/UNI";
             txtUnidad.Size = new Size(215, 23);
@@ -485,7 +501,7 @@
             // 
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
+            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(11, 73);
             dgvArticulos.Name = "dgvArticulos";
             dgvArticulos.Size = new Size(1500, 290);
@@ -506,6 +522,12 @@
             // 
             Descripcion.HeaderText = "Descripcion";
             Descripcion.Name = "Descripcion";
+            // 
+            // Papeleria
+            // 
+            Papeleria.HeaderText = "Papelería";
+            Papeleria.Name = "Papeleria";
+            Papeleria.ReadOnly = true;
             // 
             // IdMarca
             // 
@@ -615,21 +637,48 @@
             lblUser.Size = new Size(0, 15);
             lblUser.TabIndex = 0;
             // 
-            // chckPapeleria
+            // groupBox6
             // 
-            chckPapeleria.AutoSize = true;
-            chckPapeleria.Location = new Point(647, 184);
-            chckPapeleria.Name = "chckPapeleria";
-            chckPapeleria.Size = new Size(130, 19);
-            chckPapeleria.TabIndex = 22;
-            chckPapeleria.Text = "Inventario Papelería";
-            chckPapeleria.UseVisualStyleBackColor = true;
+            groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox6.Controls.Add(lblArchivo);
+            groupBox6.Controls.Add(btnAbrirArchivo);
+            groupBox6.Location = new Point(1290, 114);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(231, 212);
+            groupBox6.TabIndex = 5;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Ingreso por Archivo";
+            // 
+            // lblArchivo
+            // 
+            lblArchivo.AutoSize = true;
+            lblArchivo.Location = new Point(6, 79);
+            lblArchivo.Name = "lblArchivo";
+            lblArchivo.Size = new Size(77, 15);
+            lblArchivo.TabIndex = 1;
+            lblArchivo.Text = "Abrir Archivo";
+            // 
+            // btnAbrirArchivo
+            // 
+            btnAbrirArchivo.Image = (Image)resources.GetObject("btnAbrirArchivo.Image");
+            btnAbrirArchivo.Location = new Point(6, 22);
+            btnAbrirArchivo.Name = "btnAbrirArchivo";
+            btnAbrirArchivo.Size = new Size(219, 42);
+            btnAbrirArchivo.TabIndex = 0;
+            btnAbrirArchivo.UseVisualStyleBackColor = true;
+            btnAbrirArchivo.Click += btnAbrirArchivo_Click;
+            // 
+            // ofdArticulos
+            // 
+            ofdArticulos.FileName = "archivoArticulos";
+            ofdArticulos.Filter = "Archivos Excel (*.xlsx)|*.xlsx";
             // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1533, 723);
+            Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -652,6 +701,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvArticulos).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -701,15 +752,17 @@
         private Label lblUser;
         private Label lblFecha;
         private DataGridViewTextBoxColumn CambioEstado;
+        private CheckBox chckPapeleria;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn Papeleria;
         private DataGridViewTextBoxColumn IdMarca;
         private DataGridViewTextBoxColumn Marca;
         private DataGridViewTextBoxColumn IdTipoArticulo;
         private DataGridViewTextBoxColumn TipoArticulo;
-        private DataGridViewTextBoxColumn Impuesto;
         private DataGridViewTextBoxColumn IdImpuesto;
+        private DataGridViewTextBoxColumn Impuesto;
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn FechaCreacion;
         private DataGridViewTextBoxColumn FechaActualizacion;
@@ -719,6 +772,9 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
-        private CheckBox chckPapeleria;
+        private GroupBox groupBox6;
+        private Button btnAbrirArchivo;
+        private Label lblArchivo;
+        private OpenFileDialog ofdArticulos;
     }
 }

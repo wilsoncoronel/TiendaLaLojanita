@@ -1,22 +1,12 @@
 ﻿using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.DirectoryServices;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.IO.Compression;
+using System.Xml;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TiendaLaLojanita.Views
 {
@@ -48,7 +38,7 @@ namespace TiendaLaLojanita.Views
             this.dtpFechaFinal.Value = DateTime.Now;
             this.listaArticulos = new List<ArticuloDTO>();
             this.chckPapeleria.Checked = false;
-            }
+        }
         private async void Registro_Articulos_Load(object sender, EventArgs e)
         {
             await this.cargarConfiguraciones();
@@ -128,7 +118,7 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
-                    MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -166,6 +156,7 @@ namespace TiendaLaLojanita.Views
             this.artEditarActual.FechaCaducidad = dtpCaducidad.Value;
             this.artEditarActual.FechaActualizacion = DateTime.Now;
             this.artEditarActual.Estado = cbxEstado.SelectedIndex == 0 ? true : false;
+            this.artEditarActual.Papeleria = this.chckPapeleria.Checked;
         }
         private async Task<bool> EditarArticulo()
         {
@@ -234,6 +225,7 @@ namespace TiendaLaLojanita.Views
             if (cbxImpuesto.Items.Count > 0) cbxImpuesto.SelectedIndex = 0;
             if (cbxMarca.Items.Count > 0) cbxMarca.SelectedIndex = 0;
             if (cbxTipoArticulo.Items.Count > 0) cbxTipoArticulo.SelectedIndex = 0;
+            this.chckPapeleria.Checked = false;
         }
 
         private async Task<List<ArticuloDTO>> CargarListaArticulos(DateOnly fechaIni, DateOnly fechaFin)
@@ -272,6 +264,7 @@ namespace TiendaLaLojanita.Views
                     art.Id,
                     art.Nombre.ToUpper(),
                     art.Descripcion.ToUpper(),
+                    art.Papeleria == true ? "SI" : "NO",
                     art.MarcaDTO.Id,
                     art.MarcaDTO.Nombre.ToUpper(),
                     art.TipoArticuloDTO.Id,
@@ -332,6 +325,7 @@ namespace TiendaLaLojanita.Views
             this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto.Id;
             this.cbxMarca.SelectedValue = articuloActual.MarcaDTO.Id;
             this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO.Id;
+            this.chckPapeleria.Checked = articuloActual.Papeleria ?? false;
         }
 
         private void nudValorCompra_KeyPress(object sender, KeyPressEventArgs e)
@@ -377,6 +371,45 @@ namespace TiendaLaLojanita.Views
         private void nudUnidadValor_KeyPress(object sender, KeyPressEventArgs e)
         {
             this.ControlAccesoTeclado(sender, e);
+        }
+
+        private void btnAbrirArchivo_Click(object sender, EventArgs e)
+        {
+            if (ofdArticulos.ShowDialog() == DialogResult.OK)
+            {
+                lblArchivo.Text = ofdArticulos.FileName;
+            }
+        }
+
+        private void ProcesarArchivo(string rutaArchivo)
+        {
+            string ruta = rutaArchivo;
+            using (ZipArchive zip = ZipFile.OpenRead(ruta)) {
+                var entry = zip.GetEntry("xl/worhsheet/sheet1.xml");
+                if(entry is null)
+                {
+                    MessageBox.Show($"No se econtró la hoja1!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                using (var stream = entry.Open())
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(stream);
+                    XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+                    nsmgr.AddNamespace("d", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+                    foreach (XmlNode row in doc.SelectNodes("//d:row", nsmgr))
+                    {
+                        foreach (XmlNode cell in row.SelectNodes("d:c", nsmgr))
+                        {
+                            string cellReference = cell.Attributes["r"].Value;
+                            XmlNode valueNode = cell.SelectSingleNode("d:v", nsmgr);
+                            string cellValue = valueNode != null ? valueNode.InnerText : string.Empty;
+                            // Procesar el valor de la celda según sea necesario
+                        }
+                    }
+                }
+            }
         }
     }
 }

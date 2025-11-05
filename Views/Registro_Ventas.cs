@@ -722,8 +722,8 @@ namespace TiendaLaLojanita.Views
 
         private void CalcularCambio()
         {
+            this.txtTotal.Text = string.IsNullOrWhiteSpace(this.txtTotal.Text) ? "0" : this.txtTotal.Text;
             this.txtCambio.Text = Convert.ToString(Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text));
-
         }
     }
 }

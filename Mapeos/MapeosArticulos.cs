@@ -34,7 +34,8 @@ namespace TiendaLaLojanita.Mapeos
                 Unidad = articuloDto.Unidad,
                 UnidadValor = articuloDto.UnidadValor,
                 ValorCompra = articuloDto.ValorCompra,
-                ValorVenta = articuloDto.ValorVenta
+                ValorVenta = articuloDto.ValorVenta,
+                Papeleria = articuloDto.Papeleria
             };
         }
 
@@ -56,7 +57,8 @@ namespace TiendaLaLojanita.Mapeos
                 Unidad = articuloDto.Unidad,
                 UnidadValor = articuloDto.UnidadValor,
                 ValorCompra = articuloDto.ValorCompra,
-                ValorVenta = articuloDto.ValorVenta
+                ValorVenta = articuloDto.ValorVenta,
+                Papeleria = articuloDto.Papeleria
             };
         }
 
@@ -76,7 +78,8 @@ namespace TiendaLaLojanita.Mapeos
                 Unidad = articuloDto.Unidad,
                 UnidadValor = articuloDto.UnidadValor,
                 ValorCompra = articuloDto.ValorCompra,
-                ValorVenta = articuloDto.ValorVenta
+                ValorVenta = articuloDto.ValorVenta,
+                Papeleria = articuloDto.Papeleria,
             };
         }
     }
