@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using TiendaLaLojanita.Services;
 using TiendaLaLojanita.Views;
 using TiendaLaLojanita.Mapeos;
+using TiendaLaLojanita.Utilidad;
 namespace TiendaLaLojanita
 {
     internal static class Program
@@ -36,7 +37,9 @@ namespace TiendaLaLojanita
                         new MediaTypeWithQualityHeaderValue("application/json")
                     );
             });
-            services.AddScoped<ILogginService, LogginService>(); 
+            services.AddScoped<ILogginService, LogginService>();
+            services.AddScoped<IMarcaService, MarcaService>();
+            services.AddScoped<ITiposArticulosService, TiposArticulosService>();
             services.AddScoped<IArticuloService, ArticuloService>();
             services.AddScoped<IMapeosArticulos, MapeosArticulos>();
             services.AddScoped<IMapeosClientes, MapeosClientes>();
@@ -46,6 +49,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IVentaService, VentaService>();
             services.AddScoped<IInventarioService, InventarioService>();
             services.AddScoped<IMapeoProveedor, MapeoProveedor>();
+            services.AddScoped<IProcesarExcel, ProcesarExcel>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();

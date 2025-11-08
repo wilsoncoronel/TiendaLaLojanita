@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            btnAgregarDatosConfiguraciones = new Button();
             chckPapeleria = new CheckBox();
             btnCancelar = new Button();
             btnGuardar = new Button();
@@ -96,6 +98,7 @@
             lblArchivo = new Label();
             btnAbrirArchivo = new Button();
             ofdArticulos = new OpenFileDialog();
+            toolTip1 = new ToolTip(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -111,6 +114,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(btnAgregarDatosConfiguraciones);
             groupBox1.Controls.Add(chckPapeleria);
             groupBox1.Controls.Add(btnCancelar);
             groupBox1.Controls.Add(btnGuardar);
@@ -138,6 +142,17 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
+            // 
+            // btnAgregarDatosConfiguraciones
+            // 
+            btnAgregarDatosConfiguraciones.Image = (Image)resources.GetObject("btnAgregarDatosConfiguraciones.Image");
+            btnAgregarDatosConfiguraciones.Location = new Point(1048, 143);
+            btnAgregarDatosConfiguraciones.Name = "btnAgregarDatosConfiguraciones";
+            btnAgregarDatosConfiguraciones.Size = new Size(137, 42);
+            btnAgregarDatosConfiguraciones.TabIndex = 23;
+            toolTip1.SetToolTip(btnAgregarDatosConfiguraciones, "Agregar Datos de configuracion Marcas, etc..");
+            btnAgregarDatosConfiguraciones.UseVisualStyleBackColor = true;
+            btnAgregarDatosConfiguraciones.Click += btnAgregarDatosConfiguraciones_Click;
             // 
             // chckPapeleria
             // 
@@ -673,6 +688,10 @@
             ofdArticulos.FileName = "archivoArticulos";
             ofdArticulos.Filter = "Archivos Excel (*.xlsx)|*.xlsx";
             // 
+            // toolTip1
+            // 
+            toolTip1.Tag = "Agregar Marcas/Tipos/Impuestos";
+            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -776,5 +795,8 @@
         private Button btnAbrirArchivo;
         private Label lblArchivo;
         private OpenFileDialog ofdArticulos;
+        private Button btn;
+        private ToolTip toolTip1;
+        private Button btnAgregarDatosConfiguraciones;
     }
 }

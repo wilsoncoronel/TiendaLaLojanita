@@ -6,6 +6,7 @@ using System.Xml;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
@@ -14,12 +15,14 @@ namespace TiendaLaLojanita.Views
     {
         private readonly IArticuloService articuloService;
         private readonly IMapeosArticulos mapeos;
+        private readonly IProcesarExcel procesarExcel;
         private List<MarcaDTO> listaMarcas;
         private List<TipoArticuloDTO> listaTipoArticulo;
         private List<ImpuestoArticuloDTO> listaimpuestos;
         private ArticuloDTO artActual;
         private ArticuloEdicionDTO artEditarActual;
         List<ArticuloDTO> listaArticulos;
+        ProgressBar pro;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -27,12 +30,13 @@ namespace TiendaLaLojanita.Views
 
         private int IdUsuario;
 
-        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos)
+        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel)
         {
 
             InitializeComponent();
             this.articuloService = articuloService;
             this.mapeos = mapeos;
+            this.procesarExcel = procesarExcel;
             this.limpiarCombos();
             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
             this.dtpFechaFinal.Value = DateTime.Now;
@@ -90,7 +94,7 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
-                    MessageBox.Show($"No se pudo crear el articulo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -99,7 +103,7 @@ namespace TiendaLaLojanita.Views
                 var resp = await this.EditarArticulo();
                 if (resp)
                 {
-                    MessageBox.Show($"Articulo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Artículo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
                     art = this.CargarDatosRelacionados(art);
                     for (int i = 0; i < this.listaArticulos.Count; i++)
@@ -144,8 +148,8 @@ namespace TiendaLaLojanita.Views
         {
             this.artEditarActual = new ArticuloEdicionDTO();
             this.artEditarActual.Id = Convert.ToInt32(txtCodigo.Text);
-            this.artEditarActual.Nombre = $"{txtNombre.Text.ToUpper()} {txtUnidad.Text.ToUpper()} {nudUnidadValor.Value}";
-            this.artEditarActual.Descripcion = txtDescripcion.Text;
+            this.artEditarActual.Nombre = this.txtNombre.Text.ToUpper();
+            this.artEditarActual.Descripcion = txtDescripcion.Text.ToUpper();
             this.artEditarActual.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
             this.artEditarActual.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
             this.artEditarActual.IdMarca = Convert.ToInt32(cbxMarca.SelectedValue);
@@ -170,7 +174,7 @@ namespace TiendaLaLojanita.Views
             articuloDto.Codigo = txtCodigo.Text;
             articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
-            articuloDto.Nombre = $"{txtNombre.Text.ToUpper()} {this.txtUnidad.Text.ToUpper()} {this.nudUnidadValor.Value}";
+            articuloDto.Nombre = this.txtDescripcion.Text.ToUpper();
             articuloDto.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
             articuloDto.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
             articuloDto.IdMarca = Convert.ToInt32(cbxMarca.SelectedValue);
@@ -373,43 +377,61 @@ namespace TiendaLaLojanita.Views
             this.ControlAccesoTeclado(sender, e);
         }
 
-        private void btnAbrirArchivo_Click(object sender, EventArgs e)
+        private async void btnAbrirArchivo_Click(object sender, EventArgs e)
         {
+            List<ArticuloCreacionDTO> articulosExcel = new List<ArticuloCreacionDTO>();
             if (ofdArticulos.ShowDialog() == DialogResult.OK)
             {
                 lblArchivo.Text = ofdArticulos.FileName;
+                articulosExcel = this.procesarExcel.LeerExcel(lblArchivo.Text);
+                DialogResult respuesta = MessageBox.Show(
+                    $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
+                    "Confirmación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+
+                // Capturas la respuesta del usuario
+                if (respuesta == DialogResult.OK)
+                {
+                    // 👉 El usuario presionó OK
+                    // GuardarArticulosEnBaseDeDatos(articulosExcel);
+                    pro = new ProgressBar();
+                    pro.Show();
+                    var resp = await this.EnviarArticulosBd(articulosExcel);
+                    pro.Hide();
+                    if (resp) MessageBox.Show($"Artículos registrados sin error!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else MessageBox.Show($"Ocurrio un error al registrar los Artículos!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    // 👉 El usuario presionó Cancelar o cerró el cuadro
+                    MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 
-        private void ProcesarArchivo(string rutaArchivo)
+        private async Task<bool> EnviarArticulosBd(List<ArticuloCreacionDTO> articulos)
         {
-            string ruta = rutaArchivo;
-            using (ZipArchive zip = ZipFile.OpenRead(ruta)) {
-                var entry = zip.GetEntry("xl/worhsheet/sheet1.xml");
-                if(entry is null)
-                {
-                    MessageBox.Show($"No se econtró la hoja1!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            return await this.articuloService.CrearArticuloLista(articulos);
+        }
 
-                using (var stream = entry.Open())
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(stream);
-                    XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-                    nsmgr.AddNamespace("d", "http://schemas.openxmlformats.org/spreadsheetml/2006/main");
-                    foreach (XmlNode row in doc.SelectNodes("//d:row", nsmgr))
-                    {
-                        foreach (XmlNode cell in row.SelectNodes("d:c", nsmgr))
-                        {
-                            string cellReference = cell.Attributes["r"].Value;
-                            XmlNode valueNode = cell.SelectSingleNode("d:v", nsmgr);
-                            string cellValue = valueNode != null ? valueNode.InnerText : string.Empty;
-                            // Procesar el valor de la celda según sea necesario
-                        }
-                    }
-                }
-            }
+        public void Show()
+        {
+            pro = new ProgressBar();
+            pro.Show();
+        }
+        public void Hide()
+        {
+            if (pro != null) pro.Close();
+        }
+
+        private void btnAgregarDatosConfiguraciones_Click(object sender, EventArgs e)
+        {
+            DatosConfiguraciones datConf = new DatosConfiguraciones();
+            datConf.StartPosition = FormStartPosition.CenterScreen;
+            datConf.Show();
         }
     }
 }

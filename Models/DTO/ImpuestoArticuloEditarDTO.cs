@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TiendaLaLojanita.Utilidad
+namespace TiendaLaLojanita.Models.DTO
 {
-    public class BusquedaArticulo
+    public class ImpuestoArticuloEditarDTO
     {
-
+        public int Id { get; set; }
     }
 }

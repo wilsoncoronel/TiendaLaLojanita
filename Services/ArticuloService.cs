@@ -31,6 +31,17 @@ namespace TiendaLaLojanita.Services
             }
         }
 
+        public async Task<bool> CrearArticuloLista(List<ArticuloCreacionDTO> listaArticulosDto)
+        {
+            string json = JsonConvert.SerializeObject(listaArticulosDto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Articulo/CrearArticulosLista", content);
+            response.EnsureSuccessStatusCode();
+            string responseJson = await response.Content.ReadAsStringAsync();
+            Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+            return result.Value;
+        }
+
         public Task<bool> DesactivarArticulo(int id)
         {
             throw new NotImplementedException();

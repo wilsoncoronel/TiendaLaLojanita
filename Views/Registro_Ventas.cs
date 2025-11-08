@@ -25,6 +25,8 @@ namespace TiendaLaLojanita.Views
         private int cant = 1;
         private decimal TotalGeneral = 0m;
         private List<EstadoVentaDTO> ListaEstados;
+        private List<ArticuloDTO> listaTemp;
+
         ProgressBar pro;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -108,7 +110,7 @@ namespace TiendaLaLojanita.Views
 
         private List<ArticuloDTO> BuscarNombreArticulo(string pNom)
         {
-            var listaTemp = new List<ArticuloDTO>();
+            listaTemp = new List<ArticuloDTO>();
             listaTemp = this.listaArticulos.ToList();
             return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
         }
@@ -632,10 +634,6 @@ namespace TiendaLaLojanita.Views
             this.imp = 0;
         }
 
-        private void btnBusquedaArticulo_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
         {
@@ -649,10 +647,6 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void cbxEstadosVenta_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void dgvDetallesVenta_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -724,6 +718,30 @@ namespace TiendaLaLojanita.Views
         {
             this.txtTotal.Text = string.IsNullOrWhiteSpace(this.txtTotal.Text) ? "0" : this.txtTotal.Text;
             this.txtCambio.Text = Convert.ToString(Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text));
+        }
+
+
+        private async void btnRecargarArticulos_Click_1(object sender, EventArgs e)
+        {
+            DialogResult respuesta = MessageBox.Show(
+                    $"Se recargarán los articulos de venta, Desea continuar?",
+                    "Confirmación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+            if (respuesta == DialogResult.OK)
+            {
+                pro = new ProgressBar();
+                Show();
+                this.listaArticulos = new List<ArticuloDTO>();
+                this.listaArticulos = await this.CargarListaArticulos();
+                this.listaTemp = new List<ArticuloDTO>();
+                this.listaTemp = this.listaArticulos.ToList();
+                this.AutoCompleteArt();
+                Hide();
+
+                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

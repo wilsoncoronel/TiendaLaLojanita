@@ -10,6 +10,7 @@ namespace TiendaLaLojanita.Models.Interfaces
     public interface IArticuloService
     {
         Task<int> CrearArticulo(ArticuloCreacionDTO articuloDto);
+        Task<bool> CrearArticuloLista(List<ArticuloCreacionDTO> listaArticulosDto);
         Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO);
         Task<bool> DesactivarArticulo(int id);
         Task<List<TipoArticuloDTO>> ListaTipoArticulo();

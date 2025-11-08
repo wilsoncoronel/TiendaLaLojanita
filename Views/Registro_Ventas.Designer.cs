@@ -50,6 +50,7 @@
             groupBox2 = new GroupBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btnRecargarArticulos = new Button();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
@@ -323,6 +324,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(btnRecargarArticulos);
             tabPage1.Controls.Add(btnBusquedaArticulo);
             tabPage1.Controls.Add(dgvDetallesVenta);
             tabPage1.Controls.Add(txtArticuloBusqueda);
@@ -336,15 +338,24 @@
             tabPage1.Text = "Detalle Venta";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnRecargarArticulos
+            // 
+            btnRecargarArticulos.Image = (Image)resources.GetObject("btnRecargarArticulos.Image");
+            btnRecargarArticulos.Location = new Point(677, 13);
+            btnRecargarArticulos.Name = "btnRecargarArticulos";
+            btnRecargarArticulos.Size = new Size(49, 39);
+            btnRecargarArticulos.TabIndex = 16;
+            btnRecargarArticulos.UseVisualStyleBackColor = true;
+            btnRecargarArticulos.Click += btnRecargarArticulos_Click_1;
+            // 
             // btnBusquedaArticulo
             // 
             btnBusquedaArticulo.Image = (Image)resources.GetObject("btnBusquedaArticulo.Image");
-            btnBusquedaArticulo.Location = new Point(402, 13);
+            btnBusquedaArticulo.Location = new Point(581, 13);
             btnBusquedaArticulo.Name = "btnBusquedaArticulo";
             btnBusquedaArticulo.Size = new Size(83, 38);
             btnBusquedaArticulo.TabIndex = 14;
             btnBusquedaArticulo.UseVisualStyleBackColor = true;
-            btnBusquedaArticulo.Click += btnBusquedaArticulo_Click;
             // 
             // dgvDetallesVenta
             // 
@@ -427,7 +438,7 @@
             // 
             txtArticuloBusqueda.Location = new Point(132, 22);
             txtArticuloBusqueda.Name = "txtArticuloBusqueda";
-            txtArticuloBusqueda.Size = new Size(249, 23);
+            txtArticuloBusqueda.Size = new Size(443, 23);
             txtArticuloBusqueda.TabIndex = 15;
             txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
             // 
@@ -669,7 +680,6 @@
             cbxEstadosVenta.Name = "cbxEstadosVenta";
             cbxEstadosVenta.Size = new Size(121, 23);
             cbxEstadosVenta.TabIndex = 7;
-            cbxEstadosVenta.SelectedIndexChanged += cbxEstadosVenta_SelectedIndexChanged;
             // 
             // label14
             // 
@@ -958,5 +968,6 @@
         private TextBox txtCambio;
         private TextBox txtPago;
         private Label label19;
+        private Button btnRecargarArticulos;
     }
 }

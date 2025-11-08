@@ -217,8 +217,7 @@ namespace TiendaLaLojanita.Views
                     ProveedorDTO proveedor = await this.proveedorService.ObtenerProveedorCI(identificacion);
                     if (proveedor is null)
                     {
-                        MessageBox.Show("No se encontro ningun proveedor con la identificacion ingresada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw new Exception("No se encontro ningun proveedor con la identificacion ingresada");
+                        MessageBox.Show("No se encontró ningún proveedor con la identificación ingresada!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     this.IdProveedor = proveedor.Id;
                     this.txtRazonSocial.Text = proveedor.RazonSocial;
@@ -228,7 +227,7 @@ namespace TiendaLaLojanita.Views
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrio un error al buscar el proveedor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw;
+                    this.txtIdentificacionProveedor.Text = "";
                 }
             }
         }
@@ -261,7 +260,7 @@ namespace TiendaLaLojanita.Views
             else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
             if (articuloActual is null || articuloActual.Id == 0)
             {
-                MessageBox.Show("No se encontro ningun articulo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
