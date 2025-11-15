@@ -40,6 +40,7 @@ namespace TiendaLaLojanita
             services.AddScoped<ILogginService, LogginService>();
             services.AddScoped<IMarcaService, MarcaService>();
             services.AddScoped<ITiposArticulosService, TiposArticulosService>();
+            services.AddScoped<IImpuestoService, ImpuestoService>();
             services.AddScoped<IArticuloService, ArticuloService>();
             services.AddScoped<IMapeosArticulos, MapeosArticulos>();
             services.AddScoped<IMapeosClientes, MapeosClientes>();
@@ -56,6 +57,8 @@ namespace TiendaLaLojanita
             services.AddScoped<Registro_Compras>();
             services.AddScoped<Inventario>();
             services.AddScoped<Cliente>();
+            services.AddScoped<Proveedor>();
+            services.AddScoped<DatosConfiguraciones>();
         }
     }
 }

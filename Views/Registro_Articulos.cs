@@ -14,6 +14,8 @@ namespace TiendaLaLojanita.Views
     public partial class Registro_Articulos : Form, ISesionReceptor
     {
         private readonly IArticuloService articuloService;
+        private readonly ITiposArticulosService tipoArticuloService;
+        private readonly IImpuestoService impuestoService;
         private readonly IMapeosArticulos mapeos;
         private readonly IProcesarExcel procesarExcel;
         private List<MarcaDTO> listaMarcas;
@@ -23,6 +25,7 @@ namespace TiendaLaLojanita.Views
         private ArticuloEdicionDTO artEditarActual;
         List<ArticuloDTO> listaArticulos;
         ProgressBar pro;
+        private readonly IMarcaService marcaService;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -30,18 +33,21 @@ namespace TiendaLaLojanita.Views
 
         private int IdUsuario;
 
-        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel)
+        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService)
         {
 
             InitializeComponent();
             this.articuloService = articuloService;
             this.mapeos = mapeos;
             this.procesarExcel = procesarExcel;
+            this.marcaService = marcaService;
             this.limpiarCombos();
             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
             this.dtpFechaFinal.Value = DateTime.Now;
             this.listaArticulos = new List<ArticuloDTO>();
             this.chckPapeleria.Checked = false;
+            this.tipoArticuloService = tipoArticuloService;
+            this.impuestoService = impuestoService;
         }
         private async void Registro_Articulos_Load(object sender, EventArgs e)
         {
@@ -429,7 +435,10 @@ namespace TiendaLaLojanita.Views
 
         private void btnAgregarDatosConfiguraciones_Click(object sender, EventArgs e)
         {
-            DatosConfiguraciones datConf = new DatosConfiguraciones();
+            IMarcaService marcaService =this.marcaService;
+            ITiposArticulosService tipoArticuloService = this.tipoArticuloService;
+            IImpuestoService impuestoService = this.impuestoService;
+            DatosConfiguraciones datConf = new DatosConfiguraciones(marcaService, tipoArticuloService, impuestoService);
             datConf.StartPosition = FormStartPosition.CenterScreen;
             datConf.Show();
         }

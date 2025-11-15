@@ -22,7 +22,7 @@ namespace TiendaLaLojanita.Services
         {
             string json = JsonConvert.SerializeObject(marcaCreacionDto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Marca/CrearMarca", content);
+            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Configuraciones/CrearMarca", content);
             response.EnsureSuccessStatusCode();
             string responseJson = await response.Content.ReadAsStringAsync();
             Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
@@ -33,7 +33,7 @@ namespace TiendaLaLojanita.Services
         {
             string json = JsonConvert.SerializeObject(marcaEditarDto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PutAsync($"api/Marca/EditarMarca", content);
+            HttpResponseMessage response = await this._httpClient.PutAsync($"api/Configuraciones/EditarMarca", content);
             response.EnsureSuccessStatusCode();
             string responseJson = await response.Content.ReadAsStringAsync();
             Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
@@ -42,7 +42,7 @@ namespace TiendaLaLojanita.Services
 
         public async Task<List<MarcaDTO>> ListarMarcas()
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Marca/ListaMarcas");
+            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Configuraciones/ListarMarcas");
             response.EnsureSuccessStatusCode();
             string responseJson = await response.Content.ReadAsStringAsync();
             Response<List<MarcaDTO>> result = JsonConvert.DeserializeObject<Response<List<MarcaDTO>>>(responseJson);

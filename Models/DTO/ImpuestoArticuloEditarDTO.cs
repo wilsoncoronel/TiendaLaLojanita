@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TiendaLaLojanita.Models.DTO
 {
-    public class ImpuestoArticuloEditarDTO
+    public class ImpuestoArticuloEditarDTO: ImpuestoArticuloCreacionDTO
     {
         public int Id { get; set; }
     }

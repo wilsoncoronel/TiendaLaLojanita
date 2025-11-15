@@ -123,7 +123,7 @@
   <metadata name="Marca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Estado.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Descrip.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="Visualizacion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -133,10 +133,10 @@
     <value>True</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnCancelarMarca.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAABDVJREFUSEuVle1PU1ccx2/mXLKk3HPu7TMtfQJERhViNQyEKQUUmBNZYC4u0U0B
+        vAAADrwBlbxySQAABDVJREFUSEuVle1PU1ccx2/mXLKk3HPu7TMtfQJERhViNQyEKQUUmBNZYC4u0U0B
         fbE3i2/2zpfLEt1gIoYxoFCGVDYMUxN9te0Nm7NspdDyTLEtmbhlS/YP/HbOfaC3D1r8Jt/8zsPv9/vc
         c9OeyyjVr9V//KDW/e/Y3r33u3melZZ3pCsM86rHbv/6YX3dfwOmvOtk/oq0lVCfRvfJ45aTEHuvBTYu
         dYBv377pnYIoYMRu/3b5UjvEWk9B6MxpGDTlfpME6tcZLj9uOAbxlhOw2dwEceKNixd2BLrNMLuGHY7R
@@ -160,7 +160,7 @@
   <data name="btnGuardar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAAapJREFUSEvtkjtPwlAYhvkdOqk7RiUEXMQEaxxc9Deoo0ajGAOKcikIxIiX1UQg
+        vAAADrwBlbxySQAAAapJREFUSEvtkjtPwlAYhvkdOqk7RiUEXMQEaxxc9Deoo0ajGAOKcikIxIiX1UQg
         OhhMDEwOLF4mF9HBAFYKVLyAgrTFxc8eKEZSQdow8ibP0pz3fXJyKmtFcrT2r7ZhJ7uKOVhL7wKJd0yE
         8a6pME6QlI1MpuuyG6CsmOuzm5+qHW58jZMAok+XgM7JMHASSKTSQD0K8YYo0HmSELxMwE4wBZiTyWrt
         tIKf+zvYOmsVI5nfT4JSH4fNY6IkQT2NJfOm1hM9/KQwTZJw30icnxSmaRJD3MZPCiNWYjp8gCFjBDyn
@@ -186,6 +186,9 @@
     <value>True</value>
   </metadata>
   <metadata name="IdImpuesto.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="IdEstadoImp.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="EstadoImpuesto.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

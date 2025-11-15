@@ -23,7 +23,7 @@ namespace TiendaLaLojanita.Services
             {
                 string json = JsonConvert.SerializeObject(marcaCreacionDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/TipoArticulo/CrearTipoArticulo", content);
+                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Configuraciones/CrearTipoArticulo", content);
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
@@ -42,7 +42,7 @@ namespace TiendaLaLojanita.Services
                 string json = JsonConvert.SerializeObject(tipoArticuloEditarDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 // Cadena sin caracteres ocultos
-                HttpResponseMessage response = await this._httpClient.PutAsync($"api/TipoArticulo/EditarTipoArticulo", content);
+                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Configuraciones/EditarTipoArticulo", content);
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
@@ -56,7 +56,7 @@ namespace TiendaLaLojanita.Services
 
         public async Task<List<TipoArticuloDTO>> ListarTiposArticulos()
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"api/TipoArticulo/ListarTiposArticulos");
+            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Configuraciones/ListarTiposArticulos");
             response.EnsureSuccessStatusCode();
             string responseJson = await response.Content.ReadAsStringAsync();
             Response<List<TipoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<TipoArticuloDTO>>>(responseJson);
