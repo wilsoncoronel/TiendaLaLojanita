@@ -79,6 +79,7 @@
             Nombre = new DataGridViewTextBoxColumn();
             Valor = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
+            EditarImpuesto = new DataGridViewImageColumn();
             groupBox3 = new GroupBox();
             txtDescripcionImpuesto = new TextBox();
             label9 = new Label();
@@ -474,6 +475,7 @@
             btnCancelar.Size = new Size(126, 42);
             btnCancelar.TabIndex = 3;
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btbGuardarImpuesto
             // 
@@ -498,7 +500,6 @@
             // dgvImpuestos
             // 
             dgvImpuestos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            EditarImpuesto = new DataGridViewImageColumn();
             dgvImpuestos.Columns.AddRange(new DataGridViewColumn[] { IdImpuesto, IdEstadoImp, EstadoImpuesto, Nombre, Valor, Descripcion, EditarImpuesto });
             dgvImpuestos.Location = new Point(6, 19);
             dgvImpuestos.Name = "dgvImpuestos";

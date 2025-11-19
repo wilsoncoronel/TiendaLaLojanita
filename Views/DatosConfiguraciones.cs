@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -30,7 +31,7 @@ namespace TiendaLaLojanita.Views
         private ImpuestoArticuloDTO impActual;
         private ImpuestoArticuloEditarDTO impuestoEditarActualDto;
         private List<EstadoImpuestoDTO> ListaEstadosImpuestos;
-        
+
         public DatosConfiguraciones(IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService)
         {
             InitializeComponent();
@@ -58,7 +59,7 @@ namespace TiendaLaLojanita.Views
             this.ListasImpuestos.Clear();
             this.ListasImpuestos = await this.impuestoService.ListarImpuestos();
             this.cargarTablaImpuestos();
-            
+
         }
 
         private void CargarTablaMarcas()
@@ -120,7 +121,7 @@ namespace TiendaLaLojanita.Views
 
         private void btnCancelarTipo_Click(object sender, EventArgs e)
         {
-            this.LimpiarFormulario();
+            this.LimpiarFormularioTipo();
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
@@ -448,7 +449,7 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
-                    MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"No se pudo crear el artículo!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -457,7 +458,7 @@ namespace TiendaLaLojanita.Views
                 var resp = await this.ModificarImpuesto();
                 if (resp)
                 {
-                    MessageBox.Show($"Impuesto con el id: {impuestoEditarActualDto.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Impuesto con el id: {impuestoEditarActualDto.Id}, editado correctamente!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ImpuestoArticuloDTO imp = new ImpuestoArticuloDTO
                     {
                         Id = this.impuestoEditarActualDto.Id,
@@ -503,6 +504,7 @@ namespace TiendaLaLojanita.Views
         private void CargarEditarImpuestoDTO()
         {
             this.impuestoEditarActualDto = new ImpuestoArticuloEditarDTO();
+            this.impuestoEditarActualDto.Id = Convert.ToInt32(txtIdImpuesto.Text);
             this.impuestoEditarActualDto.Nombre = this.txtNombreImpuesto.Text.ToUpper();
             this.impuestoEditarActualDto.Descripcion = txtDescripcionImpuesto.Text.ToUpper();
             this.impuestoEditarActualDto.ValorImpuesto = Convert.ToDecimal(nudValorImpuesto.Value);
@@ -513,7 +515,7 @@ namespace TiendaLaLojanita.Views
         {
             if (this.impuestoEditarActualDto != null)
             {
-                impArt.EstadoImpuesto= this.ListaEstadosImpuestos.FirstOrDefault(i => i.Id == impuestoEditarActualDto.IdEstadoImpuesto);
+                impArt.EstadoImpuesto = this.ListaEstadosImpuestos.FirstOrDefault(i => i.Id == impuestoEditarActualDto.IdEstadoImpuesto);
             }
             else if (this.impActual != null)
             {
@@ -521,14 +523,14 @@ namespace TiendaLaLojanita.Views
             }
             return impArt;
         }
-        
-        
+
+
         private async Task<int> CrearImpuesto()
         {
             ImpuestoArticuloCreacionDTO impArticuloDto = new ImpuestoArticuloCreacionDTO();
             impArticuloDto.Nombre = txtNombreImpuesto.Text.ToUpper();
             impArticuloDto.IdEstadoImpuesto = Convert.ToInt32(cbxEstadoImpuesto.SelectedValue);
-            impArticuloDto.ValorImpuesto= Convert.ToDecimal(nudValorImpuesto.Value);
+            impArticuloDto.ValorImpuesto = Convert.ToDecimal(nudValorImpuesto.Value);
             impArticuloDto.Descripcion = this.txtDescripcionImpuesto.Text.ToUpper();
             var validator = new ImpuestoValidator();
             ValidationResult result = validator.Validate(impArticuloDto);
@@ -539,15 +541,21 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                this.LimpiarFormulario();
-                this.impActual = new ImpuestoArticuloDTO { 
+                this.LimpiarFormularioImpuestos();
+                this.impActual = new ImpuestoArticuloDTO
+                {
                     IdEstadoImpuesto = impArticuloDto.IdEstadoImpuesto,
                     Descripcion = impArticuloDto.Descripcion,
                     Nombre = impArticuloDto.Nombre,
-                    ValorImpuesto= impArticuloDto.ValorImpuesto
+                    ValorImpuesto = impArticuloDto.ValorImpuesto
                 };
                 return await this.impuestoService.CrearImpuesto(impArticuloDto);
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormularioImpuestos();
         }
     }
 }
