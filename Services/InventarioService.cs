@@ -83,6 +83,24 @@ namespace TiendaLaLojanita.Services
                 throw;
             }
         }
+
+        public async Task<int> CrearTransaccionInventario(InventarioCreacionDTO traInventario)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(traInventario);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Inventario/RegistrarTransaccionInventario", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
     
 }

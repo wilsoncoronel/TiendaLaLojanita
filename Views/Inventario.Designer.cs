@@ -73,11 +73,15 @@
             groupBox4 = new GroupBox();
             btnGuardar = new Button();
             btnCancelar = new Button();
+            groupBox5 = new GroupBox();
+            comboBox1 = new ComboBox();
+            btnReportes = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesInventario).BeginInit();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -92,7 +96,7 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Location = new Point(7, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(657, 173);
+            groupBox1.Size = new Size(453, 173);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Inventario";
@@ -100,7 +104,7 @@
             // lblArchivo
             // 
             lblArchivo.AutoSize = true;
-            lblArchivo.Location = new Point(414, 58);
+            lblArchivo.Location = new Point(69, 132);
             lblArchivo.Name = "lblArchivo";
             lblArchivo.Size = new Size(81, 15);
             lblArchivo.TabIndex = 15;
@@ -109,7 +113,7 @@
             // btnAbrirArchivo
             // 
             btnAbrirArchivo.Image = (Image)resources.GetObject("btnAbrirArchivo.Image");
-            btnAbrirArchivo.Location = new Point(414, 16);
+            btnAbrirArchivo.Location = new Point(11, 123);
             btnAbrirArchivo.Name = "btnAbrirArchivo";
             btnAbrirArchivo.Size = new Size(36, 32);
             btnAbrirArchivo.TabIndex = 14;
@@ -173,7 +177,7 @@
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(cbxProveedor);
             groupBox2.Controls.Add(label7);
-            groupBox2.Location = new Point(670, 6);
+            groupBox2.Location = new Point(466, 6);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(576, 81);
             groupBox2.TabIndex = 1;
@@ -285,7 +289,7 @@
             // Reversar
             // 
             Reversar.HeaderText = "Reversar";
-            Reversar.Image = (Image)resources.GetObject("Reversar.Image");
+            Reversar.Image = Properties.Resources.resize;
             Reversar.Name = "Reversar";
             // 
             // btnBusquedaArticulo
@@ -414,7 +418,7 @@
             // 
             // groupBox4
             // 
-            groupBox4.Location = new Point(670, 93);
+            groupBox4.Location = new Point(466, 93);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(576, 86);
             groupBox4.TabIndex = 2;
@@ -440,11 +444,41 @@
             btnCancelar.TabIndex = 4;
             btnCancelar.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(btnReportes);
+            groupBox5.Controls.Add(comboBox1);
+            groupBox5.Location = new Point(1053, 5);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(463, 82);
+            groupBox5.TabIndex = 5;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Reportes";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Resumen Ventas al Día", "Resumen Mes" });
+            comboBox1.Location = new Point(19, 34);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(223, 23);
+            comboBox1.TabIndex = 0;
+            // 
+            // btnReportes
+            // 
+            btnReportes.Image = (Image)resources.GetObject("btnReportes.Image");
+            btnReportes.Location = new Point(292, 20);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Size = new Size(154, 48);
+            btnReportes.TabIndex = 1;
+            btnReportes.UseVisualStyleBackColor = true;
+            // 
             // Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1833, 781);
+            Controls.Add(groupBox5);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
             Controls.Add(groupBox4);
@@ -461,6 +495,7 @@
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventario).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesInventario).EndInit();
+            groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -510,5 +545,9 @@
         private DataGridViewTextBoxColumn Reversion;
         private DataGridViewTextBoxColumn Transaccion;
         private DataGridViewImageColumn Reversar;
+        private Button btnExistenciasInventario;
+        private GroupBox groupBox5;
+        private Button btnReportes;
+        private ComboBox comboBox1;
     }
 }

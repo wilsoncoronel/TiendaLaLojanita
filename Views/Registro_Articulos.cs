@@ -389,7 +389,8 @@ namespace TiendaLaLojanita.Views
             if (ofdArticulos.ShowDialog() == DialogResult.OK)
             {
                 lblArchivo.Text = ofdArticulos.FileName;
-                articulosExcel = this.procesarExcel.LeerExcel(lblArchivo.Text);
+                var (sheet, sharedStrings) = this.procesarExcel.LeerExcel(lblArchivo.Text);
+                articulosExcel = this.procesarExcel.LeerShetArticulo(sheet, sharedStrings);
                 DialogResult respuesta = MessageBox.Show(
                     $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
                     "Confirmación",

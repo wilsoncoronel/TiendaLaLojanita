@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,23 +11,39 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
+using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
 {
-    public partial class Inventario : Form
+    public partial class Inventario : Form, ISesionReceptor
     {
         private List<TransaccionInventarioDTO> ListaTranInv;
         private readonly IInventarioService inventarioService;
+        private readonly IProcesarExcel procesarExcel;
+        private readonly ICompraService compraService;
+        private readonly IProveedorService proveedorService;
         private List<InventarioDTO> ListaInventario;
         private List<DetalleInventarioDTO> ListaDetallesInventario;
+        private List<ProveedorDTO> ListaProveedores;
+        private ProgressBar prog;
 
-        public Inventario(IInventarioService inventarioService)
+        private readonly IMarcaService marcaService;
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public SesionDTO Sesion { get; set; }
+        public Inventario(IInventarioService inventarioService, IProcesarExcel procesarExcel, ICompraService compraService, IProveedorService proveedorService)
         {
             InitializeComponent();
+            ListaProveedores = new List<ProveedorDTO>();
             ListaTranInv = new List<TransaccionInventarioDTO>();
             ListaInventario = new List<InventarioDTO>();
             ListaDetallesInventario = new List<DetalleInventarioDTO>();
             this.inventarioService = inventarioService;
+            this.procesarExcel = procesarExcel;
+            this.compraService = compraService;
+            this.proveedorService = proveedorService;
             this.CargarDatosIniciales();
             this.CargarListaInventario();
         }
@@ -38,15 +55,81 @@ namespace TiendaLaLojanita.Views
             this.cbxTransaccion.DataSource = this.ListaTranInv;
             this.cbxTransaccion.DisplayMember = "Nombre";
             this.cbxTransaccion.ValueMember = "Id";
+
+            this.ListaProveedores = await this.proveedorService.ListarProveedores();
+            this.cbxProveedor.Items.Clear();
+            this.cbxProveedor.DataSource = this.ListaProveedores;
+            this.cbxProveedor.DisplayMember = "Nombres";
+            this.cbxProveedor.ValueMember = "Id";
         }
-        private void btnAbrirArchivo_Click(object sender, EventArgs e)
+        private async void btnAbrirArchivo_Click(object sender, EventArgs e)
         {
+            List<DetalleCompraCreacionDTO> listaDetalles = new List<DetalleCompraCreacionDTO>();
             if (ofdArchivos.ShowDialog() == DialogResult.OK)
             {
                 lblArchivo.Text = ofdArchivos.FileName;
+                prog = new ProgressBar();
+                prog.Show();
+                var (sheet, sharedStrings) = this.procesarExcel.LeerExcel(lblArchivo.Text);
+                listaDetalles = this.procesarExcel.LeerShetDetallesCompra(sheet, sharedStrings);
+                prog.Hide();
+                DialogResult respuesta = MessageBox.Show(
+                    $"Se han cargado {listaDetalles.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
+                    "Confirmación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+
+                if (respuesta == DialogResult.OK)
+                {
+                    // GuardarArticulosEnBaseDeDatos(articulosExcel);
+                    prog = new ProgressBar();
+                    prog.Show();
+                    var Compra = this.CrearTransaccionMemoria(listaDetalles);
+                    var validator = new CompraValidator();
+                    ValidationResult result = validator.Validate(Compra);
+
+                    if (!result.IsValid)
+                    {
+                        string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                        MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        var resp = await this.CrearTransaccionCompraDB(Compra);
+                        prog.Hide();
+                        if (resp != null) MessageBox.Show($"Transacción creada sin error!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show($"Ocurrio un error al registrar la transacción!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
         }
 
+        private CompraCreacionDTO CrearTransaccionMemoria(List<DetalleCompraCreacionDTO> listaDetalles)
+        {
+            var compra = new CompraCreacionDTO
+            {
+                IdEstado = 1,
+                Documento = this.txtDocumento.Text,
+                EstadoVisual = true,
+                IdProveedor = Convert.ToInt32(this.cbxProveedor.SelectedValue),
+                FechaCompra = DateTime.Now,
+                IdUsuarioCreador = this.Sesion.Id,
+                DetalleComprasCreacionDto = listaDetalles,
+            };
+
+            return compra;
+        }
+        private async Task<int> CrearTransaccionCompraDB(CompraCreacionDTO compra)
+        {
+            var resp = await this.compraService.RegistrarCompra(compra);
+            return resp;
+        }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
@@ -124,6 +207,10 @@ namespace TiendaLaLojanita.Views
                 // Obtén el ID siempre, sin importar dónde haya hecho clic
                 int id = Convert.ToInt32(dgvInventario.Rows[e.RowIndex].Cells["IdInventario"].Value);
                 // Llama al método que necesites
+                if (dgvInventario.Columns[e.ColumnIndex].Name == "Reversar")
+                {
+                    MessageBox.Show($"Esta transacción afecta a inventario, seguro quiere reversarla?", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 this.CargarDetalles(id);
             }
             catch (Exception ex)

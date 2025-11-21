@@ -200,7 +200,6 @@ namespace TiendaLaLojanita.Views
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
                 MessageBox.Show("No se encontraron articulos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw new Exception("No se encontraron articulos en el sistema");
             }
             return listaArticulos;
         }
