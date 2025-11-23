@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Compras));
             groupBox1 = new GroupBox();
+            btnProveedor = new Button();
             txtIdentificacionProveedor = new TextBox();
             btbBuscarProveedor = new Button();
             txtTelefono = new TextBox();
@@ -97,7 +98,7 @@
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
-            btnProveedor = new Button();
+            btnRecargarArticulos = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -129,6 +130,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Proveedor";
+            // 
+            // btnProveedor
+            // 
+            btnProveedor.Image = (Image)resources.GetObject("btnProveedor.Image");
+            btnProveedor.Location = new Point(431, 15);
+            btnProveedor.Name = "btnProveedor";
+            btnProveedor.Size = new Size(39, 33);
+            btnProveedor.TabIndex = 10;
+            btnProveedor.UseVisualStyleBackColor = true;
+            btnProveedor.Click += btnProveedor_Click;
             // 
             // txtIdentificacionProveedor
             // 
@@ -506,6 +517,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(btnRecargarArticulos);
             tabPage1.Controls.Add(groupBox5);
             tabPage1.Controls.Add(btnBuscar);
             tabPage1.Controls.Add(txtArticuloBusqueda);
@@ -693,15 +705,15 @@
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // btnProveedor
+            // btnRecargarArticulos
             // 
-            btnProveedor.Image = (Image)resources.GetObject("btnProveedor.Image");
-            btnProveedor.Location = new Point(431, 15);
-            btnProveedor.Name = "btnProveedor";
-            btnProveedor.Size = new Size(39, 33);
-            btnProveedor.TabIndex = 10;
-            btnProveedor.UseVisualStyleBackColor = true;
-            btnProveedor.Click += btnProveedor_Click;
+            btnRecargarArticulos.Image = (Image)resources.GetObject("btnRecargarArticulos.Image");
+            btnRecargarArticulos.Location = new Point(549, 21);
+            btnRecargarArticulos.Name = "btnRecargarArticulos";
+            btnRecargarArticulos.Size = new Size(77, 33);
+            btnRecargarArticulos.TabIndex = 10;
+            btnRecargarArticulos.UseVisualStyleBackColor = true;
+            btnRecargarArticulos.Click += btnRecargarArticulos_Click;
             // 
             // Registro_Compras
             // 
@@ -808,5 +820,6 @@
         private DataGridViewImageColumn Eliminar;
         private TabPage tabPage2;
         private Button btnProveedor;
+        private Button btnRecargarArticulos;
     }
 }

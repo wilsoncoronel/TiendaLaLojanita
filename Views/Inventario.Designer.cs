@@ -74,8 +74,8 @@
             btnGuardar = new Button();
             btnCancelar = new Button();
             groupBox5 = new GroupBox();
-            comboBox1 = new ComboBox();
-            btnReportes = new Button();
+            cbxReportes = new ComboBox();
+            dtpFechaResumen = new DateTimePicker();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -446,32 +446,33 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(btnReportes);
-            groupBox5.Controls.Add(comboBox1);
+            groupBox5.Controls.Add(dtpFechaResumen);
+            groupBox5.Controls.Add(cbxReportes);
             groupBox5.Location = new Point(1053, 5);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(463, 82);
+            groupBox5.Size = new Size(511, 82);
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "Reportes";
             // 
-            // comboBox1
+            // cbxReportes
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Resumen Ventas al Día", "Resumen Mes" });
-            comboBox1.Location = new Point(19, 34);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(223, 23);
-            comboBox1.TabIndex = 0;
+            cbxReportes.FormattingEnabled = true;
+            cbxReportes.Items.AddRange(new object[] { "Resumen Ventas al Día", "Resumen Mensual" });
+            cbxReportes.Location = new Point(6, 35);
+            cbxReportes.Name = "cbxReportes";
+            cbxReportes.Size = new Size(298, 23);
+            cbxReportes.TabIndex = 0;
+            cbxReportes.Text = "Seleccione Tipo Resumen";
+            cbxReportes.SelectedIndexChanged += cbxReportes_SelectedIndexChanged;
             // 
-            // btnReportes
+            // dtpFechaResumen
             // 
-            btnReportes.Image = (Image)resources.GetObject("btnReportes.Image");
-            btnReportes.Location = new Point(292, 20);
-            btnReportes.Name = "btnReportes";
-            btnReportes.Size = new Size(154, 48);
-            btnReportes.TabIndex = 1;
-            btnReportes.UseVisualStyleBackColor = true;
+            dtpFechaResumen.Format = DateTimePickerFormat.Short;
+            dtpFechaResumen.Location = new Point(320, 35);
+            dtpFechaResumen.Name = "dtpFechaResumen";
+            dtpFechaResumen.Size = new Size(185, 23);
+            dtpFechaResumen.TabIndex = 1;
             // 
             // Inventario
             // 
@@ -547,7 +548,7 @@
         private DataGridViewImageColumn Reversar;
         private Button btnExistenciasInventario;
         private GroupBox groupBox5;
-        private Button btnReportes;
-        private ComboBox comboBox1;
+        private ComboBox cbxReportes;
+        private DateTimePicker dtpFechaResumen;
     }
 }

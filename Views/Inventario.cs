@@ -218,5 +218,61 @@ namespace TiendaLaLojanita.Views
                 MessageBox.Show($"Error al obtener el Id: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbxReportes.SelectedItem.ToString()  == "Resumen Ventas al Día")
+            {
+                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
+
+            }else if (cbxReportes.SelectedItem.ToString() == "Resumen Mensual")
+            {
+                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
+            }
+        }
+
+        private async void MessageBoxFunction(string msn)
+        {
+            DialogResult respuesta = MessageBox.Show($"Se creara el reporte de: {msn}",
+                    "Confirmación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+            if (respuesta == DialogResult.OK)
+            {
+               
+                prog = new ProgressBar();
+                prog.Show();
+                if (msn == "Resumen Ventas al Día") { 
+                    var resp = await this.ResumenVentasDiarioDTO();
+                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
+                    resVentas.StartPosition = FormStartPosition.CenterScreen;
+                    resVentas.Show();
+                }
+                else { 
+                    var resp = await this.ResumenVentasMensualDTO();
+                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
+                    resVentas.StartPosition = FormStartPosition.CenterScreen;
+                    resVentas.Show();
+                }                
+                prog.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private async Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiarioDTO()
+        {
+            var resp = await this.inventarioService.ResumenVentasDiario(this.dtpFechaResumen.Value);
+            return resp;
+        }
+
+        private async Task<List<ResumenVentasDiarioDTO>> ResumenVentasMensualDTO()
+        {
+            var resp = await this.inventarioService.ResumenVentasMensual(this.dtpFechaResumen.Value);
+            return resp;
+        }
     }
 }

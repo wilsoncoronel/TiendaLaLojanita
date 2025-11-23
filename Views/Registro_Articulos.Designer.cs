@@ -99,6 +99,7 @@
             btnAbrirArchivo = new Button();
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
+            btnRecargarDatosConfiguraciones = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -114,6 +115,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(btnRecargarDatosConfiguraciones);
             groupBox1.Controls.Add(btnAgregarDatosConfiguraciones);
             groupBox1.Controls.Add(chckPapeleria);
             groupBox1.Controls.Add(btnCancelar);
@@ -146,7 +148,7 @@
             // btnAgregarDatosConfiguraciones
             // 
             btnAgregarDatosConfiguraciones.Image = (Image)resources.GetObject("btnAgregarDatosConfiguraciones.Image");
-            btnAgregarDatosConfiguraciones.Location = new Point(1048, 143);
+            btnAgregarDatosConfiguraciones.Location = new Point(1049, 127);
             btnAgregarDatosConfiguraciones.Name = "btnAgregarDatosConfiguraciones";
             btnAgregarDatosConfiguraciones.Size = new Size(137, 42);
             btnAgregarDatosConfiguraciones.TabIndex = 23;
@@ -167,7 +169,7 @@
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1049, 86);
+            btnCancelar.Location = new Point(1049, 78);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(136, 43);
             btnCancelar.TabIndex = 21;
@@ -177,7 +179,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1049, 22);
+            btnGuardar.Location = new Point(1049, 14);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(136, 43);
             btnGuardar.TabIndex = 20;
@@ -692,6 +694,17 @@
             // 
             toolTip1.Tag = "Agregar Marcas/Tipos/Impuestos";
             // 
+            // btnRecargarDatosConfiguraciones
+            // 
+            btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
+            btnRecargarDatosConfiguraciones.Location = new Point(787, 20);
+            btnRecargarDatosConfiguraciones.Name = "btnRecargarDatosConfiguraciones";
+            btnRecargarDatosConfiguraciones.Size = new Size(75, 37);
+            btnRecargarDatosConfiguraciones.TabIndex = 24;
+            toolTip1.SetToolTip(btnRecargarDatosConfiguraciones, "Recargar Marcas, Tipo Articulos, etc..");
+            btnRecargarDatosConfiguraciones.UseVisualStyleBackColor = true;
+            btnRecargarDatosConfiguraciones.Click += btnRecargarDatosConfiguraciones_Click;
+            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -798,5 +811,6 @@
         private Button btn;
         private ToolTip toolTip1;
         private Button btnAgregarDatosConfiguraciones;
+        private Button btnRecargarDatosConfiguraciones;
     }
 }

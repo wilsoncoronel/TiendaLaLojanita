@@ -180,7 +180,7 @@ namespace TiendaLaLojanita.Views
             articuloDto.Codigo = txtCodigo.Text;
             articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
-            articuloDto.Nombre = this.txtDescripcion.Text.ToUpper();
+            articuloDto.Nombre = this.txtNombre.Text.ToUpper();
             articuloDto.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
             articuloDto.ValorVenta = Convert.ToDecimal(nudValorVenta.Value);
             articuloDto.IdMarca = Convert.ToInt32(cbxMarca.SelectedValue);
@@ -436,12 +436,23 @@ namespace TiendaLaLojanita.Views
 
         private void btnAgregarDatosConfiguraciones_Click(object sender, EventArgs e)
         {
-            IMarcaService marcaService =this.marcaService;
+            IMarcaService marcaService = this.marcaService;
             ITiposArticulosService tipoArticuloService = this.tipoArticuloService;
             IImpuestoService impuestoService = this.impuestoService;
             DatosConfiguraciones datConf = new DatosConfiguraciones(marcaService, tipoArticuloService, impuestoService);
             datConf.StartPosition = FormStartPosition.CenterScreen;
             datConf.Show();
+        }
+
+        private async void btnRecargarDatosConfiguraciones_Click(object sender, EventArgs e)
+        {
+            pro = new ProgressBar();
+            pro.Show();
+            await this.cargarConfiguraciones();
+            this.cargarCombos();
+            pro.Hide();
+            MessageBox.Show("Datos de configuracion recargados.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
     }
 }

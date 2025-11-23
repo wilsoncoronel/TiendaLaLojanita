@@ -33,7 +33,8 @@ namespace TiendaLaLojanita.Views
         private List<EstadoCompraDTO> ListaEstados;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private decimal TotalGeneral = 0m;
-
+        private List<ArticuloDTO> listaTemp;
+        private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
@@ -389,17 +390,11 @@ namespace TiendaLaLojanita.Views
 
         private void EliminarImpuestoPorId(int id)
         {
-            // Recorremos cada diccionario (por cada tipo de impuesto)
             foreach (var dic in listaImpuestos)
             {
-                // Obtenemos la clave (nombre del impuesto)
                 string nombreImpuesto = dic.Keys.First();
-
-                // Eliminamos todos los ImpuestoCalculadoDTO con ese ID
                 dic[nombreImpuesto].RemoveAll(x => x.Id == id);
             }
-
-            // También puedes eliminar el diccionario si la lista quedó vacía
             listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
         }
         private bool ComprobarArticuloDgv(int idArticulo)
@@ -543,6 +538,8 @@ namespace TiendaLaLojanita.Views
                 else if (dgvCompras.Columns[e.ColumnIndex].Name == "Editar")
                 {
                     id = Convert.ToInt32(dgvCompras.Rows[e.RowIndex].Cells["IdComp"].Value);
+                    this.listaImpuestos.Clear();
+                    this.lblTotal.Text = "0,00";
                     this.ObtenerCompra(id);
                 }
             }
@@ -688,6 +685,29 @@ namespace TiendaLaLojanita.Views
             Proveedor prov = new Proveedor(proveedorService, mapeos);
             prov.StartPosition = FormStartPosition.CenterScreen;
             prov.Show();
+        }
+
+        private async void btnRecargarArticulos_Click(object sender, EventArgs e)
+        {
+            DialogResult respuesta = MessageBox.Show(
+                    $"Se recargarán los articulos de compra, Desea continuar?",
+                    "Confirmación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+            if (respuesta == DialogResult.OK)
+            {
+                prog = new ProgressBar();
+                prog.Show();
+                this.listaArticulos = new List<ArticuloDTO>();
+                this.listaArticulos = await this.CargarListaArticulos();
+                this.listaTemp = new List<ArticuloDTO>();
+                this.listaTemp = this.listaArticulos.ToList();
+                this.AutoCompleteArt();
+                prog.Hide();
+
+                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

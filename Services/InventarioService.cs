@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TiendaLaLojanita.Models;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Views;
 
 namespace TiendaLaLojanita.Services
 {
@@ -98,6 +99,55 @@ namespace TiendaLaLojanita.Services
             }
             catch
             {
+                throw;
+            }
+        }
+
+        public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiario(DateTime fechaResumen)
+        {
+            try
+            {
+                DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
+                var fechaStr = fechaActual.ToString("yyyy-MM-dd");
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ResumenVentasDiario?fechaResumen={fechaStr}");
+                string responseJson = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Mostrar/registrar el cuerpo para diagnóstico del servidor
+                    MessageBox.Show($"Operación fallida. Status {(int)response.StatusCode}: {response.ReasonPhrase}\n{responseJson}", "Aviso", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+                    response.EnsureSuccessStatusCode(); // lanzará la excepción original
+                }
+                
+                Response<List<ResumenVentasDiarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ResumenVentasDiarioDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Operación fallida."+ ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                throw;
+            }
+        }
+
+        public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasMensual(DateTime fechaResumen)
+        {
+            try
+            {
+                DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
+                var fechaStr = fechaActual.ToString("yyyy-MM-dd");
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ResumenVentasMensual?fechaResumen={fechaStr}");
+                string responseJson = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Mostrar/registrar el cuerpo para diagnóstico del servidor
+                    MessageBox.Show($"Operación fallida. Status {(int)response.StatusCode}: {response.ReasonPhrase}\n{responseJson}", "Aviso", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+                    response.EnsureSuccessStatusCode(); // lanzará la excepción original
+                }
+                Response<List<ResumenVentasDiarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ResumenVentasDiarioDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                MessageBox.Show("Operación fallida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 throw;
             }
         }
