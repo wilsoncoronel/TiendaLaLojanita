@@ -22,7 +22,7 @@ namespace TiendaLaLojanita
         {
             var logginService = servicePorvider.GetRequiredService<ILogginService>();
             List<PermisosRolDTO> listaPermisos = await logginService.IniciarSesion(user, password);
-            
+
             if (listaPermisos != null && listaPermisos.Count != 0)
             {
                 SesionDTO sesion = await logginService.ExtraerSesion(user);
@@ -35,15 +35,33 @@ namespace TiendaLaLojanita
                 txtPassword.Clear();
                 txtUsurio.Clear();
             }
-            
+
         }
 
 
         private void btbIngresar_Click(object sender, EventArgs e)
         {
+            this.VerificacionDatos();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.VerificacionDatos();
+            }
+        }
+
+        private void VerificacionDatos()
+        {
             string usuario = txtUsurio.Text.Trim();
             string password = txtPassword.Text.Trim();
-            if(string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Ingrese usuario y contraseña.", "Campos vacíos",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -66,11 +84,6 @@ namespace TiendaLaLojanita
                 btbIngresar.Enabled = true;
                 Cursor = Cursors.Default;
             }
-        }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

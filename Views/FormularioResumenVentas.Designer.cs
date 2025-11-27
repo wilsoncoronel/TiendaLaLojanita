@@ -56,11 +56,12 @@
             groupBox1.Size = new Size(780, 434);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Ventas al Día";
+            groupBox1.Text = "Ventas Resumen";
             // 
             // txtGanancia
             // 
-            txtGanancia.Location = new Point(473, 374);
+            txtGanancia.Enabled = false;
+            txtGanancia.Location = new Point(559, 369);
             txtGanancia.Name = "txtGanancia";
             txtGanancia.Size = new Size(215, 23);
             txtGanancia.TabIndex = 4;
@@ -68,7 +69,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(374, 377);
+            label2.Location = new Point(466, 372);
             label2.Name = "label2";
             label2.Size = new Size(87, 15);
             label2.TabIndex = 3;
@@ -76,7 +77,8 @@
             // 
             // txtTotalVentas
             // 
-            txtTotalVentas.Location = new Point(473, 330);
+            txtTotalVentas.Enabled = false;
+            txtTotalVentas.Location = new Point(559, 325);
             txtTotalVentas.Name = "txtTotalVentas";
             txtTotalVentas.Size = new Size(215, 23);
             txtTotalVentas.TabIndex = 2;
@@ -84,7 +86,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(374, 333);
+            label1.Location = new Point(466, 328);
             label1.Name = "label1";
             label1.Size = new Size(72, 15);
             label1.TabIndex = 1;

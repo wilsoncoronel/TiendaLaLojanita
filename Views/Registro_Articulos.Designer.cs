@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            btnRecargarDatosConfiguraciones = new Button();
             btnAgregarDatosConfiguraciones = new Button();
             chckPapeleria = new CheckBox();
             btnCancelar = new Button();
@@ -99,7 +100,6 @@
             btnAbrirArchivo = new Button();
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
-            btnRecargarDatosConfiguraciones = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
@@ -140,10 +140,21 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(11, 9);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1271, 235);
+            groupBox1.Size = new Size(1241, 235);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
+            // 
+            // btnRecargarDatosConfiguraciones
+            // 
+            btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
+            btnRecargarDatosConfiguraciones.Location = new Point(787, 20);
+            btnRecargarDatosConfiguraciones.Name = "btnRecargarDatosConfiguraciones";
+            btnRecargarDatosConfiguraciones.Size = new Size(75, 37);
+            btnRecargarDatosConfiguraciones.TabIndex = 24;
+            toolTip1.SetToolTip(btnRecargarDatosConfiguraciones, "Recargar Marcas, Tipo Articulos, etc..");
+            btnRecargarDatosConfiguraciones.UseVisualStyleBackColor = true;
+            btnRecargarDatosConfiguraciones.Click += btnRecargarDatosConfiguraciones_Click;
             // 
             // btnAgregarDatosConfiguraciones
             // 
@@ -357,7 +368,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(345, 36);
+            label11.Location = new Point(319, 38);
             label11.Name = "label11";
             label11.Size = new Size(77, 15);
             label11.TabIndex = 21;
@@ -383,7 +394,7 @@
             // 
             // nudUnidadValor
             // 
-            nudUnidadValor.Location = new Point(446, 33);
+            nudUnidadValor.Location = new Point(402, 36);
             nudUnidadValor.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudUnidadValor.Name = "nudUnidadValor";
             nudUnidadValor.Size = new Size(120, 23);
@@ -430,9 +441,9 @@
             groupBox3.Controls.Add(txtUnidad);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(675, 250);
+            groupBox3.Location = new Point(707, 250);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(607, 76);
+            groupBox3.Size = new Size(545, 76);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Unidad/Peso Artículo";
@@ -450,7 +461,7 @@
             groupBox4.Controls.Add(dgvArticulos);
             groupBox4.Location = new Point(10, 332);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(1518, 379);
+            groupBox4.Size = new Size(1481, 379);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "Listado Articulos";
@@ -460,7 +471,7 @@
             btnBuscar.Image = (Image)resources.GetObject("btnBuscar.Image");
             btnBuscar.Location = new Point(1356, 20);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(149, 45);
+            btnBuscar.Size = new Size(87, 45);
             btnBuscar.TabIndex = 7;
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
@@ -519,9 +530,9 @@
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
-            dgvArticulos.Location = new Point(11, 73);
+            dgvArticulos.Location = new Point(6, 71);
             dgvArticulos.Name = "dgvArticulos";
-            dgvArticulos.Size = new Size(1500, 290);
+            dgvArticulos.Size = new Size(1464, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
             // 
@@ -631,7 +642,7 @@
             groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox5.Controls.Add(lblFecha);
             groupBox5.Controls.Add(lblUser);
-            groupBox5.Location = new Point(1288, 9);
+            groupBox5.Location = new Point(1258, 9);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(233, 100);
             groupBox5.TabIndex = 4;
@@ -659,7 +670,7 @@
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(lblArchivo);
             groupBox6.Controls.Add(btnAbrirArchivo);
-            groupBox6.Location = new Point(1290, 114);
+            groupBox6.Location = new Point(1260, 114);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(231, 212);
             groupBox6.TabIndex = 5;
@@ -694,22 +705,11 @@
             // 
             toolTip1.Tag = "Agregar Marcas/Tipos/Impuestos";
             // 
-            // btnRecargarDatosConfiguraciones
-            // 
-            btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
-            btnRecargarDatosConfiguraciones.Location = new Point(787, 20);
-            btnRecargarDatosConfiguraciones.Name = "btnRecargarDatosConfiguraciones";
-            btnRecargarDatosConfiguraciones.Size = new Size(75, 37);
-            btnRecargarDatosConfiguraciones.TabIndex = 24;
-            toolTip1.SetToolTip(btnRecargarDatosConfiguraciones, "Recargar Marcas, Tipo Articulos, etc..");
-            btnRecargarDatosConfiguraciones.UseVisualStyleBackColor = true;
-            btnRecargarDatosConfiguraciones.Click += btnRecargarDatosConfiguraciones_Click;
-            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1533, 723);
+            ClientSize = new Size(1565, 723);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);

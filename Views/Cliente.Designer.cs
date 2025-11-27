@@ -54,10 +54,8 @@
             btnGuardar = new Button();
             btnCerrar = new Button();
             groupBox3 = new GroupBox();
+            btnCerrarCliente = new Button();
             dgvClientes = new DataGridView();
-            textBox1 = new TextBox();
-            label11 = new Label();
-            btnBuscarCliente = new Button();
             Id = new DataGridViewTextBoxColumn();
             Nombres = new DataGridViewTextBoxColumn();
             Apellidos = new DataGridViewTextBoxColumn();
@@ -71,6 +69,9 @@
             Estado = new DataGridViewTextBoxColumn();
             Editar = new DataGridViewImageColumn();
             ActivarDesactivar = new DataGridViewImageColumn();
+            textBox1 = new TextBox();
+            label11 = new Label();
+            btnBuscarCliente = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -292,7 +293,7 @@
             // 
             // btnCerrar
             // 
-            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
+            btnCerrar.Image = Properties.Resources.clear;
             btnCerrar.Location = new Point(357, 418);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.Size = new Size(109, 37);
@@ -302,6 +303,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(btnCerrarCliente);
             groupBox3.Controls.Add(dgvClientes);
             groupBox3.Controls.Add(textBox1);
             groupBox3.Controls.Add(label11);
@@ -314,6 +316,16 @@
             groupBox3.Text = "Lista Clientes";
             groupBox3.Enter += groupBox3_Enter;
             // 
+            // btnCerrarCliente
+            // 
+            btnCerrarCliente.Image = (Image)resources.GetObject("btnCerrarCliente.Image");
+            btnCerrarCliente.Location = new Point(697, 18);
+            btnCerrarCliente.Name = "btnCerrarCliente";
+            btnCerrarCliente.Size = new Size(109, 37);
+            btnCerrarCliente.TabIndex = 16;
+            btnCerrarCliente.UseVisualStyleBackColor = true;
+            btnCerrarCliente.Click += btnCerrarCliente_Click;
+            // 
             // dgvClientes
             // 
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -323,32 +335,6 @@
             dgvClientes.Size = new Size(803, 371);
             dgvClientes.TabIndex = 3;
             dgvClientes.CellClick += dgvClientes_CellClick;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(92, 25);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(372, 23);
-            textBox1.TabIndex = 2;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(17, 29);
-            label11.Name = "label11";
-            label11.Size = new Size(69, 15);
-            label11.TabIndex = 1;
-            label11.Text = "Cliente / CI:";
-            // 
-            // btnBuscarCliente
-            // 
-            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
-            btnBuscarCliente.Location = new Point(470, 17);
-            btnBuscarCliente.Name = "btnBuscarCliente";
-            btnBuscarCliente.Size = new Size(43, 40);
-            btnBuscarCliente.TabIndex = 0;
-            btnBuscarCliente.UseVisualStyleBackColor = true;
-            btnBuscarCliente.Click += btnBuscarCliente_Click;
             // 
             // Id
             // 
@@ -428,6 +414,32 @@
             ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
             ActivarDesactivar.Name = "ActivarDesactivar";
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(92, 25);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(372, 23);
+            textBox1.TabIndex = 2;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(17, 29);
+            label11.Name = "label11";
+            label11.Size = new Size(69, 15);
+            label11.TabIndex = 1;
+            label11.Text = "Cliente / CI:";
+            // 
+            // btnBuscarCliente
+            // 
+            btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
+            btnBuscarCliente.Location = new Point(470, 17);
+            btnBuscarCliente.Name = "btnBuscarCliente";
+            btnBuscarCliente.Size = new Size(43, 40);
+            btnBuscarCliente.TabIndex = 0;
+            btnBuscarCliente.UseVisualStyleBackColor = true;
+            btnBuscarCliente.Click += btnBuscarCliente_Click;
+            // 
             // Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -496,5 +508,6 @@
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
+        private Button btnCerrarCliente;
     }
 }

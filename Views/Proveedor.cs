@@ -278,5 +278,10 @@ namespace TiendaLaLojanita.Views
                 throw;
             }
         }
+
+        private void btnCerraProveedor_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

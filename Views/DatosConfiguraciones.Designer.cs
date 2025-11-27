@@ -91,6 +91,7 @@
             label6 = new Label();
             txtIdImpuesto = new TextBox();
             label5 = new Label();
+            btnCerrarDatosConf = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -112,10 +113,10 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(1, 0);
+            tabControl1.Location = new Point(1, 21);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1206, 437);
+            tabControl1.Size = new Size(1206, 416);
             tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -127,7 +128,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1198, 409);
+            tabPage1.Size = new Size(1198, 388);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Marcas";
             tabPage1.UseVisualStyleBackColor = true;
@@ -184,8 +185,8 @@
             // 
             // btnCancelarMarca
             // 
-            btnCancelarMarca.Image = (Image)resources.GetObject("btnCancelarMarca.Image");
-            btnCancelarMarca.Location = new Point(268, 353);
+            btnCancelarMarca.Image = Properties.Resources.clear;
+            btnCancelarMarca.Location = new Point(270, 340);
             btnCancelarMarca.Name = "btnCancelarMarca";
             btnCancelarMarca.Size = new Size(113, 36);
             btnCancelarMarca.TabIndex = 8;
@@ -195,7 +196,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(77, 353);
+            btnGuardar.Location = new Point(79, 341);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(113, 36);
             btnGuardar.TabIndex = 7;
@@ -295,7 +296,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1198, 409);
+            tabPage2.Size = new Size(1198, 388);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Tipos Artículos";
             tabPage2.UseVisualStyleBackColor = true;
@@ -316,7 +317,7 @@
             dgvTiposArticulos.Columns.AddRange(new DataGridViewColumn[] { IdTipoArticulo, NombreTipo, DescripcionTipo, EstadoVisual, EditarTipo });
             dgvTiposArticulos.Location = new Point(6, 20);
             dgvTiposArticulos.Name = "dgvTiposArticulos";
-            dgvTiposArticulos.Size = new Size(670, 360);
+            dgvTiposArticulos.Size = new Size(670, 351);
             dgvTiposArticulos.TabIndex = 0;
             dgvTiposArticulos.CellClick += dgvTiposArticulos_CellClick;
             // 
@@ -352,8 +353,8 @@
             // 
             // btnCancelarTipo
             // 
-            btnCancelarTipo.Image = Properties.Resources.cancelar_resize;
-            btnCancelarTipo.Location = new Point(286, 350);
+            btnCancelarTipo.Image = Properties.Resources.clear;
+            btnCancelarTipo.Location = new Point(299, 341);
             btnCancelarTipo.Name = "btnCancelarTipo";
             btnCancelarTipo.Size = new Size(117, 41);
             btnCancelarTipo.TabIndex = 2;
@@ -363,7 +364,7 @@
             // btnGuardarTipo
             // 
             btnGuardarTipo.Image = Properties.Resources._4856668_resize;
-            btnGuardarTipo.Location = new Point(87, 350);
+            btnGuardarTipo.Location = new Point(90, 341);
             btnGuardarTipo.Name = "btnGuardarTipo";
             btnGuardarTipo.Size = new Size(119, 41);
             btnGuardarTipo.TabIndex = 1;
@@ -382,7 +383,7 @@
             groupBox5.Controls.Add(label10);
             groupBox5.Location = new Point(6, 6);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(481, 338);
+            groupBox5.Size = new Size(481, 329);
             groupBox5.TabIndex = 0;
             groupBox5.TabStop = false;
             groupBox5.Text = "Tipos Artículos";
@@ -462,15 +463,15 @@
             tabPage3.Controls.Add(groupBox3);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(1198, 409);
+            tabPage3.Size = new Size(1198, 388);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Impuestos";
             tabPage3.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
-            btnCancelar.Image = Properties.Resources.cancelar_resize;
-            btnCancelar.Location = new Point(305, 349);
+            btnCancelar.Image = Properties.Resources.clear;
+            btnCancelar.Location = new Point(303, 334);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(126, 42);
             btnCancelar.TabIndex = 3;
@@ -480,7 +481,7 @@
             // btbGuardarImpuesto
             // 
             btbGuardarImpuesto.Image = Properties.Resources._4856668_resize;
-            btbGuardarImpuesto.Location = new Point(84, 349);
+            btbGuardarImpuesto.Location = new Point(84, 334);
             btbGuardarImpuesto.Name = "btbGuardarImpuesto";
             btbGuardarImpuesto.Size = new Size(126, 42);
             btbGuardarImpuesto.TabIndex = 2;
@@ -503,7 +504,7 @@
             dgvImpuestos.Columns.AddRange(new DataGridViewColumn[] { IdImpuesto, IdEstadoImp, EstadoImpuesto, Nombre, Valor, Descripcion, EditarImpuesto });
             dgvImpuestos.Location = new Point(6, 19);
             dgvImpuestos.Name = "dgvImpuestos";
-            dgvImpuestos.Size = new Size(677, 370);
+            dgvImpuestos.Size = new Size(677, 351);
             dgvImpuestos.TabIndex = 0;
             dgvImpuestos.CellClick += dgvImpuestos_CellClick;
             // 
@@ -565,7 +566,7 @@
             groupBox3.Controls.Add(label5);
             groupBox3.Location = new Point(4, 6);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(493, 337);
+            groupBox3.Size = new Size(493, 322);
             groupBox3.TabIndex = 0;
             groupBox3.TabStop = false;
             groupBox3.Text = "Datos Impuestos";
@@ -653,11 +654,22 @@
             label5.TabIndex = 0;
             label5.Text = "IdImpuesto:";
             // 
+            // btnCerrarDatosConf
+            // 
+            btnCerrarDatosConf.Image = Properties.Resources.cancelar_resize;
+            btnCerrarDatosConf.Location = new Point(1077, 1);
+            btnCerrarDatosConf.Name = "btnCerrarDatosConf";
+            btnCerrarDatosConf.Size = new Size(126, 42);
+            btnCerrarDatosConf.TabIndex = 4;
+            btnCerrarDatosConf.UseVisualStyleBackColor = true;
+            btnCerrarDatosConf.Click += btnCerrarDatosConf_Click;
+            // 
             // DatosConfiguraciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1212, 442);
+            Controls.Add(btnCerrarDatosConf);
             Controls.Add(tabControl1);
             Name = "DatosConfiguraciones";
             Text = "DatosConfiguraciones";
@@ -746,5 +758,6 @@
         private DataGridViewTextBoxColumn Valor;
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewImageColumn EditarImpuesto;
+        private Button btnCerrarDatosConf;
     }
 }

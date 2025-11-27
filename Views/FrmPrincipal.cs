@@ -94,7 +94,7 @@ namespace TiendaLaLojanita.Views
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)

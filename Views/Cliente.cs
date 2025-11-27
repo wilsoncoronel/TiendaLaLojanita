@@ -51,7 +51,7 @@ namespace TiendaLaLojanita.Views
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.LimpiarFormulario();
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
@@ -280,6 +280,11 @@ namespace TiendaLaLojanita.Views
         private void groupBox3_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCerrarCliente_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

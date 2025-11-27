@@ -300,6 +300,9 @@ namespace TiendaLaLojanita.Views
                     int idCompra = resp;
                     MessageBox.Show($"Venta creada con éxito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                this.LimpiarValores();
+                this.LimpiarFormulario();
+               
             }
             /*else
             {
@@ -491,6 +494,11 @@ namespace TiendaLaLojanita.Views
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormulario();
+        }
+
+        private void LimpiarFormulario()
         {
             this.txtIdentificaconCliente.Text = "";
             this.txtEmail.Text = "";

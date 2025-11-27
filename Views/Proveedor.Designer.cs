@@ -82,6 +82,7 @@
             txtBusquedaProveedor = new TextBox();
             label1 = new Label();
             btnBuscarProveedor = new Button();
+            btnCerraProveedor = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -389,6 +390,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(btnCerraProveedor);
             groupBox3.Controls.Add(dgvProveedor);
             groupBox3.Controls.Add(txtBusquedaProveedor);
             groupBox3.Controls.Add(label1);
@@ -538,6 +540,16 @@
             btnBuscarProveedor.TabIndex = 0;
             btnBuscarProveedor.UseVisualStyleBackColor = true;
             // 
+            // btnCerraProveedor
+            // 
+            btnCerraProveedor.Image = (Image)resources.GetObject("btnCerraProveedor.Image");
+            btnCerraProveedor.Location = new Point(617, 13);
+            btnCerraProveedor.Name = "btnCerraProveedor";
+            btnCerraProveedor.Size = new Size(127, 39);
+            btnCerraProveedor.TabIndex = 5;
+            btnCerraProveedor.UseVisualStyleBackColor = true;
+            btnCerraProveedor.Click += btnCerraProveedor_Click;
+            // 
             // Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -616,5 +628,6 @@
         private DataGridViewTextBoxColumn Creacion;
         private DataGridViewTextBoxColumn Modificacion;
         private DataGridViewImageColumn Editar;
+        private Button btnCerraProveedor;
     }
 }

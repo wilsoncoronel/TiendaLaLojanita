@@ -306,7 +306,7 @@
             groupBox2.Controls.Add(tabControl1);
             groupBox2.Location = new Point(16, 184);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1188, 498);
+            groupBox2.Size = new Size(1188, 471);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Buscar Articulos / Ventas";
@@ -319,7 +319,7 @@
             tabControl1.Location = new Point(10, 38);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1168, 454);
+            tabControl1.Size = new Size(1168, 417);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -333,7 +333,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1160, 426);
+            tabPage1.Size = new Size(1160, 389);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Venta";
             tabPage1.UseVisualStyleBackColor = true;
@@ -364,7 +364,7 @@
             dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(17, 58);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
-            dgvDetallesVenta.Size = new Size(856, 362);
+            dgvDetallesVenta.Size = new Size(856, 305);
             dgvDetallesVenta.TabIndex = 13;
             dgvDetallesVenta.CellClick += dgvDetallesVenta_CellClick;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged_1;
@@ -517,7 +517,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1160, 426);
+            tabPage2.Size = new Size(1160, 389);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Listado Ventas";
             tabPage2.UseVisualStyleBackColor = true;
@@ -529,7 +529,7 @@
             dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Editar });
             dgvVentas.Location = new Point(6, 54);
             dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(1133, 366);
+            dgvVentas.Size = new Size(1133, 307);
             dgvVentas.TabIndex = 6;
             dgvVentas.CellClick += dgvVentas_CellClick_1;
             // 
@@ -746,7 +746,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1210, 542);
+            btnGuardar.Location = new Point(1210, 446);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(250, 64);
             btnGuardar.TabIndex = 5;
@@ -756,7 +756,7 @@
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1210, 612);
+            btnCancelar.Location = new Point(1210, 516);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(250, 64);
             btnCancelar.TabIndex = 6;

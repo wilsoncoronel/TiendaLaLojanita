@@ -557,5 +557,10 @@ namespace TiendaLaLojanita.Views
         {
             this.LimpiarFormularioImpuestos();
         }
+
+        private void btnCerrarDatosConf_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

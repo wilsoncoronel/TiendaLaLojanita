@@ -89,6 +89,8 @@ namespace TiendaLaLojanita.Views
                 if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            this.LimpiarValores();
         }
 
         private async Task<bool> EditarCompra()
@@ -665,6 +667,10 @@ namespace TiendaLaLojanita.Views
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            this.LimpiarFormulario();
+        }
+        private void LimpiarFormulario()
+        {
             this.txtDocumento.Text = "";
             this.txtDireccion.Text = "";
             this.txtDocumento.Text = "";
@@ -676,6 +682,7 @@ namespace TiendaLaLojanita.Views
             this.listaImpuestos.Clear();
             this.dgvTotales.Rows.Clear();
             this.lblTotal.Text = "";
+            this.TotalGeneral = 0m;
         }
 
         private void btnProveedor_Click(object sender, EventArgs e)

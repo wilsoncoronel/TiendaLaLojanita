@@ -76,6 +76,7 @@
             groupBox3 = new GroupBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btnRecargarArticulos = new Button();
             groupBox5 = new GroupBox();
             dgvTotales = new DataGridView();
             Impuestos = new DataGridViewTextBoxColumn();
@@ -98,7 +99,6 @@
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
-            btnRecargarArticulos = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -162,6 +162,7 @@
             // 
             // txtTelefono
             // 
+            txtTelefono.Enabled = false;
             txtTelefono.Location = new Point(124, 144);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(156, 23);
@@ -187,6 +188,7 @@
             // 
             // txtDireccion
             // 
+            txtDireccion.Enabled = false;
             txtDireccion.Location = new Point(124, 104);
             txtDireccion.Name = "txtDireccion";
             txtDireccion.Size = new Size(377, 23);
@@ -194,6 +196,7 @@
             // 
             // txtRazonSocial
             // 
+            txtRazonSocial.Enabled = false;
             txtRazonSocial.Location = new Point(124, 56);
             txtRazonSocial.Name = "txtRazonSocial";
             txtRazonSocial.Size = new Size(247, 23);
@@ -354,7 +357,7 @@
             btnGuardar.BackColor = Color.Transparent;
             btnGuardar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1178, 760);
+            btnGuardar.Location = new Point(1184, 153);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(255, 61);
             btnGuardar.TabIndex = 5;
@@ -366,7 +369,7 @@
             btnCancelar.BackColor = Color.Transparent;
             btnCancelar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1178, 827);
+            btnCancelar.Location = new Point(1184, 220);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(255, 63);
             btnCancelar.TabIndex = 6;
@@ -423,7 +426,7 @@
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { IdComp, FechaCompra, ProveedorId, Proveedor, EstadoId, Estado, Documento, CreadorId, Creador, ActivarDesactivar, Editar });
             dgvCompras.Location = new Point(9, 42);
             dgvCompras.Name = "dgvCompras";
-            dgvCompras.Size = new Size(1124, 578);
+            dgvCompras.Size = new Size(1124, 429);
             dgvCompras.TabIndex = 0;
             dgvCompras.CellClick += dgvCompras_CellClick;
             // 
@@ -500,7 +503,7 @@
             groupBox3.Controls.Add(tabControl1);
             groupBox3.Location = new Point(12, 207);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1160, 683);
+            groupBox3.Size = new Size(1160, 619);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Artículos";
@@ -512,7 +515,7 @@
             tabControl1.Location = new Point(4, 23);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1151, 654);
+            tabControl1.Size = new Size(1151, 578);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -526,10 +529,20 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1143, 626);
+            tabPage1.Size = new Size(1143, 550);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Compra";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnRecargarArticulos
+            // 
+            btnRecargarArticulos.Image = (Image)resources.GetObject("btnRecargarArticulos.Image");
+            btnRecargarArticulos.Location = new Point(549, 21);
+            btnRecargarArticulos.Name = "btnRecargarArticulos";
+            btnRecargarArticulos.Size = new Size(77, 33);
+            btnRecargarArticulos.TabIndex = 10;
+            btnRecargarArticulos.UseVisualStyleBackColor = true;
+            btnRecargarArticulos.Click += btnRecargarArticulos_Click;
             // 
             // groupBox5
             // 
@@ -538,7 +551,7 @@
             groupBox5.Controls.Add(lblTotal);
             groupBox5.Location = new Point(794, 46);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(343, 457);
+            groupBox5.Size = new Size(343, 333);
             groupBox5.TabIndex = 9;
             groupBox5.TabStop = false;
             groupBox5.Text = "Totales";
@@ -549,7 +562,7 @@
             dgvTotales.Columns.AddRange(new DataGridViewColumn[] { Impuestos, Valores });
             dgvTotales.Location = new Point(7, 23);
             dgvTotales.Name = "dgvTotales";
-            dgvTotales.Size = new Size(330, 387);
+            dgvTotales.Size = new Size(330, 255);
             dgvTotales.TabIndex = 16;
             // 
             // Impuestos
@@ -568,7 +581,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(6, 413);
+            label16.Location = new Point(7, 290);
             label16.Name = "label16";
             label16.Size = new Size(70, 32);
             label16.TabIndex = 11;
@@ -578,7 +591,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTotal.Location = new Point(111, 413);
+            lblTotal.Location = new Point(101, 346);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(0, 32);
             lblTotal.TabIndex = 15;
@@ -613,12 +626,12 @@
             // 
             // dgvDetalleCompra
             // 
-            dgvDetalleCompra.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDetalleCompra.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { Id, IdCompra, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetalleCompra.Location = new Point(6, 55);
             dgvDetalleCompra.Name = "dgvDetalleCompra";
-            dgvDetalleCompra.Size = new Size(779, 565);
+            dgvDetalleCompra.Size = new Size(779, 429);
             dgvDetalleCompra.TabIndex = 5;
             dgvDetalleCompra.CellClick += dgvDetalleCompra_CellClick_1;
             dgvDetalleCompra.CellValueChanged += dgvDetalleCompra_CellValueChanged_1;
@@ -700,20 +713,10 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1143, 626);
+            tabPage2.Size = new Size(1143, 473);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // btnRecargarArticulos
-            // 
-            btnRecargarArticulos.Image = (Image)resources.GetObject("btnRecargarArticulos.Image");
-            btnRecargarArticulos.Location = new Point(549, 21);
-            btnRecargarArticulos.Name = "btnRecargarArticulos";
-            btnRecargarArticulos.Size = new Size(77, 33);
-            btnRecargarArticulos.TabIndex = 10;
-            btnRecargarArticulos.UseVisualStyleBackColor = true;
-            btnRecargarArticulos.Click += btnRecargarArticulos_Click;
             // 
             // Registro_Compras
             // 

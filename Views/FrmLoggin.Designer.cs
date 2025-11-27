@@ -82,6 +82,7 @@
             txtPassword.PlaceholderText = "Password";
             txtPassword.Size = new Size(320, 29);
             txtPassword.TabIndex = 1;
+            txtPassword.KeyDown += txtPassword_KeyDown;
             // 
             // txtUsurio
             // 
