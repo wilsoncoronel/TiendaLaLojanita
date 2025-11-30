@@ -260,8 +260,10 @@ namespace TiendaLaLojanita.Views
             this.dgvArticulos.AutoGenerateColumns = false;
             var fechaAnterior = DateOnly.FromDateTime(this.dtpFechaInicial.Value);
             var fechaFin = DateOnly.FromDateTime(this.dtpFechaFinal.Value);
+            pro = new ProgressBar();
+            pro.Show();
             var listArt = await this.CargarListaArticulos(fechaAnterior, fechaFin);
-
+            pro.Hide();
             this.CargarTabla(listArt);
         }
 

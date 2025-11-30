@@ -25,6 +25,7 @@ namespace TiendaLaLojanita.Views
         private ClienteDTO ClienteActual;
         private List<ClienteDTO> ListaClientes;
         private ClienteEditarDTO ClienteEditar;
+        private ProgressBar prog;
 
         public Cliente(IClienteService clienteService, IMapeosClientes mapeos)
         {
@@ -56,10 +57,12 @@ namespace TiendaLaLojanita.Views
 
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Funcionalidad en desarrollo, IdUsuario " + this.idUsuario, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            prog = new ProgressBar();
+            prog.Show();
             if (this.txtIdCLiente is null || this.txtIdCLiente.Text == "")
             {
                 var resp = await this.CrearCliente();
+                prog.Close();
                 if (resp != null && resp > 0)
                 {
                     MessageBox.Show($"Cliente creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -78,6 +81,7 @@ namespace TiendaLaLojanita.Views
             {
                 this.CargarCliente();
                 var resp = await this.EditarCliente();
+                prog.Close();
                 if (resp)
                 {
                     MessageBox.Show($"Cliente con el id: {ClienteActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -125,7 +129,6 @@ namespace TiendaLaLojanita.Views
             };
             clienteEditarDto.EstadoVisual = true;
             this.ClienteEditar = clienteEditarDto;
-
         }
 
         private ClienteDTO CargarDatosRelacionados(ClienteDTO cliente)
@@ -143,9 +146,6 @@ namespace TiendaLaLojanita.Views
             }
             return cliente;
         }
-
-
-
         private async void CargarDatosCombos()
         {
             this.ListaTiposIdentificacion = await this._clienteService.ListarTiposIdentificacion();
@@ -158,8 +158,6 @@ namespace TiendaLaLojanita.Views
             this.cbxCiudad.DisplayMember = "Nombre";
             this.cbxCiudad.ValueMember = "Id";
         }
-
-
         private void CargarTablaClientes()
         {
             this.dgvClientes.Rows.Clear();
@@ -266,20 +264,15 @@ namespace TiendaLaLojanita.Views
             this.ClienteActual = new ClienteDTO();
             this.ClienteActual = this.ListaClientes.FirstOrDefault(cli => cli.Id == idCliente);
             this.txtIdCLiente.Text = Convert.ToString(ClienteActual.Id);
-            this.txtNombres.Text = ClienteActual.Nombres;
-            this.txtApellidos.Text = ClienteActual.Apellidos;
-            this.txtDireccion.Text = ClienteActual.DireccionDto.Descripcion;
+            this.txtNombres.Text = ClienteActual.Nombres.ToUpper();
+            this.txtApellidos.Text = ClienteActual.Apellidos.ToUpper();
+            this.txtDireccion.Text = ClienteActual.DireccionDto.Descripcion.ToUpper();
             this.txtEmail.Text = ClienteActual.Mail;
             this.txtTelefono.Text = ClienteActual.Telefono;
             this.cbxCiudad.SelectedValue = ClienteActual.DireccionDto.IdCiudad;
             this.cbxTipoIdentificacion.SelectedValue = ClienteActual.TipoIdentificacionDto.Id;
             this.txtIdentificacion.Text = ClienteActual.Identificacion;
             this.cbxEstado.SelectedIndex = ClienteActual.Estado ? 0 : 1;
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCerrarCliente_Click(object sender, EventArgs e)

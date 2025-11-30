@@ -32,7 +32,7 @@ namespace TiendaLaLojanita
         {
             services.AddHttpClient("ApiClient", client =>
             {
-                client.BaseAddress = new Uri("http://localhost:83/");
+                client.BaseAddress = new Uri("https://localhost:7168/");
                 client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json")
                     );

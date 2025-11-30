@@ -387,7 +387,10 @@ namespace TiendaLaLojanita.Views
                 }
 
                 // Obtener y mostrar las ventas filtradas
+                pro = new ProgressBar();
+                pro.Show();
                 List<VentaMinDTO> listaVentas = await this.listarVentasCreadas();
+                pro.Hide();
                 this.CargarTablaVentasCreadas(listaVentas);
             }
             catch (Exception ex)
@@ -615,7 +618,6 @@ namespace TiendaLaLojanita.Views
                         break;
 
                     case "Descripcion":
-                        // ✅ Permitir cualquier carácter, no agregamos restricción
                         break;
                     default:
                         // Para cualquier otra columna, también permitimos texto libre
@@ -747,8 +749,7 @@ namespace TiendaLaLojanita.Views
                 this.listaTemp = this.listaArticulos.ToList();
                 this.AutoCompleteArt();
                 Hide();
-
-                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

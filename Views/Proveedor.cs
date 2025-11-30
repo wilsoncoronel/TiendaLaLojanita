@@ -24,7 +24,7 @@ namespace TiendaLaLojanita.Views
         private ProveedorEditarDTO ProveedorEditar = new ProveedorEditarDTO();
         private List<TipoIdentificacionDTO> ListaTiposIdentificacion = new List<TipoIdentificacionDTO>();
         private List<CiudadDTO> ListaCiudades = new List<CiudadDTO>();
-
+        private DateTime fechaCreacionTemp;
         public Proveedor(IProveedorService proveedorService, IMapeoProveedor mapeos)
         {
             InitializeComponent();
@@ -89,6 +89,7 @@ namespace TiendaLaLojanita.Views
 
                     var prove = this.mapeos.MapeoProveedorEditarDtoAProveedorDto(this.ProveedorEditar);
                     prove = this.CargarDatosRelacionados(prove);
+                    prove.FechaCreacion = this.fechaCreacionTemp;
                     for (int i = 0; i < this.ListaProveedores.Count; i++)
                     {
                         if (this.ListaProveedores[i].Id == prove.Id)
@@ -99,6 +100,7 @@ namespace TiendaLaLojanita.Views
                     this.CargarTablaProveedores();
                     this.LimpiarFormulario();
                     this.ProveedorEditar = new ProveedorEditarDTO();
+                   
                 }
                 else
                 {
@@ -153,6 +155,7 @@ namespace TiendaLaLojanita.Views
             this.txtRazonSocial.Text = ProveedorActual.RazonSocial;
             this.txtDescripcion.Text = ProveedorActual.Descripcion;
             this.cbxEstado.SelectedIndex = ProveedorActual.Estado ? 0 : 1;
+            this.fechaCreacionTemp = ProveedorActual.FechaCreacion ?? DateTime.Now;
         }
         private ProveedorDTO CargarDatosRelacionados(ProveedorDTO proveedorDTO)
         {

@@ -1,6 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using TiendaLaLojanita.Controllers;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Views;
@@ -11,6 +9,7 @@ namespace TiendaLaLojanita
     {
         private SesionDTO sesionDto;
         private readonly IServiceProvider servicePorvider;
+        private System.Windows.Forms.ProgressBar prog;
 
         public FrmLoggin(IServiceProvider servicePorvider)
         {
@@ -21,8 +20,10 @@ namespace TiendaLaLojanita
         private async void GetPermisos(string user, string password)
         {
             var logginService = servicePorvider.GetRequiredService<ILogginService>();
+            prog = new System.Windows.Forms.ProgressBar();
+            prog.Show();
             List<PermisosRolDTO> listaPermisos = await logginService.IniciarSesion(user, password);
-
+            prog.Hide();
             if (listaPermisos != null && listaPermisos.Count != 0)
             {
                 SesionDTO sesion = await logginService.ExtraerSesion(user);
@@ -71,9 +72,7 @@ namespace TiendaLaLojanita
             Cursor = Cursors.WaitCursor;
             try
             {
-
                 GetPermisos(txtUsurio.Text, txtPassword.Text);
-
             }
             catch (Exception ex)
             {

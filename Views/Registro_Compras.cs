@@ -208,6 +208,8 @@ namespace TiendaLaLojanita.Views
         }
         private async void CargarProveedor(string identificacion)
         {
+
+            prog = new ProgressBar();
             if (identificacion is null || identificacion == "")
             {
                 MessageBox.Show("Debe ingresar una identificacion valida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -216,7 +218,9 @@ namespace TiendaLaLojanita.Views
             {
                 try
                 {
+                    prog.Show();
                     ProveedorDTO proveedor = await this.proveedorService.ObtenerProveedorCI(identificacion);
+                    prog.Hide();
                     if (proveedor is null)
                     {
                         MessageBox.Show("No se encontró ningún proveedor con la identificación ingresada!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -224,12 +228,14 @@ namespace TiendaLaLojanita.Views
                     this.IdProveedor = proveedor.Id;
                     this.txtRazonSocial.Text = proveedor.RazonSocial;
                     this.txtTelefono.Text = proveedor.Telefono;
+
                     this.txtDireccion.Text = $"{proveedor.DireccionDto.Descripcion} {proveedor.DireccionDto.Ciudad.Nombre}";
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Ocurrio un error al buscar el proveedor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.txtIdentificacionProveedor.Text = "";
+                    prog.Hide();
                 }
             }
         }
@@ -494,7 +500,10 @@ namespace TiendaLaLojanita.Views
         /*------------------------------------------------------Compras creadas--------------------------------------------------*/
         private async void btnBuscarCompra_Click(object sender, EventArgs e)
         {
+            prog = new ProgressBar();
+            prog.Show();
             await this.listarComprasCreadas();
+            prog.Hide();
             List<CompraMinDTO> listaCompras = await this.listarComprasCreadas();
             this.CargarTablaComprasCreadas(listaCompras);
         }
@@ -713,7 +722,7 @@ namespace TiendaLaLojanita.Views
                 this.AutoCompleteArt();
                 prog.Hide();
 
-                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

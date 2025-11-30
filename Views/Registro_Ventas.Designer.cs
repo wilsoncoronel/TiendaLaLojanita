@@ -359,7 +359,7 @@
             // 
             // dgvDetallesVenta
             // 
-            dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(17, 58);
@@ -458,7 +458,7 @@
             groupBox3.Controls.Add(label10);
             groupBox3.Location = new Point(890, 58);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(257, 330);
+            groupBox3.Size = new Size(257, 305);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Totales";
@@ -490,7 +490,7 @@
             // 
             txtTotal.Enabled = false;
             txtTotal.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtTotal.Location = new Point(156, 265);
+            txtTotal.Location = new Point(148, 256);
             txtTotal.Name = "txtTotal";
             txtTotal.PlaceholderText = "000";
             txtTotal.Size = new Size(100, 33);
@@ -500,7 +500,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(15, 268);
+            label10.Location = new Point(25, 259);
             label10.Name = "label10";
             label10.Size = new Size(56, 25);
             label10.TabIndex = 6;
@@ -660,6 +660,7 @@
             // txtDocumento
             // 
             txtDocumento.Location = new Point(94, 111);
+            txtDocumento.MaxLength = 45;
             txtDocumento.Name = "txtDocumento";
             txtDocumento.Size = new Size(282, 23);
             txtDocumento.TabIndex = 9;

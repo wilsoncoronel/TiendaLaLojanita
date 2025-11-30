@@ -58,8 +58,12 @@ namespace TiendaLaLojanita.Views
                 if (frmExistente != null && !frmExistente.IsDisposed)
                 {
                     tab.Controls.Add(frmExistente);
-                    frmExistente.Show();
+                    frmExistente.TopLevel = false;
+                    frmExistente.FormBorderStyle = FormBorderStyle.None;
+                    frmExistente.Dock = DockStyle.Fill;
                     frmExistente.BringToFront();
+                    frmExistente.Show();
+                    frmExistente.Refresh();
                     return;
                 }
             }
@@ -87,7 +91,11 @@ namespace TiendaLaLojanita.Views
             frm.Dock = DockStyle.Fill;
 
             tab.Controls.Add(frm);
+            frm.BringToFront();
             frm.Show();
+            frm.Refresh();
+            tab.Invalidate();
+            tab.Update();
             formulariosAbiertos[nombreFormulario] = frm;
         }
 

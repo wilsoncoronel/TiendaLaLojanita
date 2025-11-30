@@ -314,7 +314,6 @@
             groupBox3.TabIndex = 15;
             groupBox3.TabStop = false;
             groupBox3.Text = "Lista Clientes";
-            groupBox3.Enter += groupBox3_Enter;
             // 
             // btnCerrarCliente
             // 

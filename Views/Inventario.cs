@@ -139,7 +139,10 @@ namespace TiendaLaLojanita.Views
         {
             DateOnly fechaIni = DateOnly.FromDateTime(this.dtpFechaInicio.Value);
             DateOnly fechaFin = DateOnly.FromDateTime(this.dtpFechaFin.Value);
+            prog = new ProgressBar();
+            prog.Show();
             this.ListaInventario = await this.inventarioService.ListaInventario(fechaIni, fechaFin);
+            prog.Hide();
             this.CargarTablaInv();
         }
 
@@ -221,13 +224,18 @@ namespace TiendaLaLojanita.Views
 
         private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbxReportes.SelectedItem.ToString()  == "Resumen Ventas al Día")
+            if (this.cbxTransaccion.Text == "Compra")
             {
-                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
 
-            }else if (cbxReportes.SelectedItem.ToString() == "Resumen Mensual")
-            {
-                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
+                if (cbxReportes.SelectedItem.ToString() == "Resumen Ventas al Día")
+                {
+                    MessageBoxFunction(cbxReportes.SelectedItem.ToString());
+
+                }
+                else if (cbxReportes.SelectedItem.ToString() == "Resumen Mensual")
+                {
+                    MessageBoxFunction(cbxReportes.SelectedItem.ToString());
+                }
             }
         }
 
@@ -259,7 +267,7 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

@@ -171,7 +171,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(22, 147);
+            label4.Location = new Point(18, 147);
             label4.Name = "label4";
             label4.Size = new Size(55, 15);
             label4.TabIndex = 6;
@@ -304,6 +304,7 @@
             // txtDocumento
             // 
             txtDocumento.Location = new Point(133, 104);
+            txtDocumento.MaxLength = 45;
             txtDocumento.Name = "txtDocumento";
             txtDocumento.Size = new Size(332, 23);
             txtDocumento.TabIndex = 5;
@@ -426,7 +427,7 @@
             dgvCompras.Columns.AddRange(new DataGridViewColumn[] { IdComp, FechaCompra, ProveedorId, Proveedor, EstadoId, Estado, Documento, CreadorId, Creador, ActivarDesactivar, Editar });
             dgvCompras.Location = new Point(9, 42);
             dgvCompras.Name = "dgvCompras";
-            dgvCompras.Size = new Size(1124, 429);
+            dgvCompras.Size = new Size(1124, 277);
             dgvCompras.TabIndex = 0;
             dgvCompras.CellClick += dgvCompras_CellClick;
             // 
@@ -503,7 +504,7 @@
             groupBox3.Controls.Add(tabControl1);
             groupBox3.Location = new Point(12, 207);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1160, 619);
+            groupBox3.Size = new Size(1160, 383);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Artículos";
@@ -515,7 +516,7 @@
             tabControl1.Location = new Point(4, 23);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1151, 578);
+            tabControl1.Size = new Size(1151, 353);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -529,7 +530,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1143, 550);
+            tabPage1.Size = new Size(1143, 325);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Compra";
             tabPage1.UseVisualStyleBackColor = true;
@@ -551,7 +552,7 @@
             groupBox5.Controls.Add(lblTotal);
             groupBox5.Location = new Point(794, 46);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(343, 333);
+            groupBox5.Size = new Size(343, 267);
             groupBox5.TabIndex = 9;
             groupBox5.TabStop = false;
             groupBox5.Text = "Totales";
@@ -562,7 +563,7 @@
             dgvTotales.Columns.AddRange(new DataGridViewColumn[] { Impuestos, Valores });
             dgvTotales.Location = new Point(7, 23);
             dgvTotales.Name = "dgvTotales";
-            dgvTotales.Size = new Size(330, 255);
+            dgvTotales.Size = new Size(330, 197);
             dgvTotales.TabIndex = 16;
             // 
             // Impuestos
@@ -581,7 +582,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(7, 290);
+            label16.Location = new Point(7, 223);
             label16.Name = "label16";
             label16.Size = new Size(70, 32);
             label16.TabIndex = 11;
@@ -591,7 +592,7 @@
             // 
             lblTotal.AutoSize = true;
             lblTotal.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTotal.Location = new Point(101, 346);
+            lblTotal.Location = new Point(176, 226);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(0, 32);
             lblTotal.TabIndex = 15;
@@ -631,7 +632,7 @@
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { Id, IdCompra, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
             dgvDetalleCompra.Location = new Point(6, 55);
             dgvDetalleCompra.Name = "dgvDetalleCompra";
-            dgvDetalleCompra.Size = new Size(779, 429);
+            dgvDetalleCompra.Size = new Size(779, 258);
             dgvDetalleCompra.TabIndex = 5;
             dgvDetalleCompra.CellClick += dgvDetalleCompra_CellClick_1;
             dgvDetalleCompra.CellValueChanged += dgvDetalleCompra_CellValueChanged_1;
@@ -713,7 +714,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1143, 473);
+            tabPage2.Size = new Size(1143, 325);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;

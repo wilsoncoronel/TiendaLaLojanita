@@ -179,7 +179,7 @@
             groupBox2.Controls.Add(label7);
             groupBox2.Location = new Point(432, 6);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(576, 81);
+            groupBox2.Size = new Size(463, 81);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Datos Compra";
@@ -187,8 +187,9 @@
             // txtDocumento
             // 
             txtDocumento.Location = new Point(90, 50);
+            txtDocumento.MaxLength = 45;
             txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(480, 23);
+            txtDocumento.Size = new Size(355, 23);
             txtDocumento.TabIndex = 3;
             // 
             // label8
@@ -231,7 +232,7 @@
             groupBox3.Controls.Add(label1);
             groupBox3.Location = new Point(7, 185);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1633, 533);
+            groupBox3.Size = new Size(1633, 407);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Ingresos Inventario";
@@ -252,7 +253,7 @@
             dgvInventario.Columns.AddRange(new DataGridViewColumn[] { IdInventario, Creacion, Modificacion, Reversion, Transaccion, Reversar });
             dgvInventario.Location = new Point(9, 70);
             dgvInventario.Name = "dgvInventario";
-            dgvInventario.Size = new Size(648, 450);
+            dgvInventario.Size = new Size(648, 328);
             dgvInventario.TabIndex = 9;
             dgvInventario.CellClick += dgvInventario_CellClick;
             // 
@@ -295,7 +296,7 @@
             // btnBusquedaArticulo
             // 
             btnBusquedaArticulo.Image = (Image)resources.GetObject("btnBusquedaArticulo.Image");
-            btnBusquedaArticulo.Location = new Point(1525, 10);
+            btnBusquedaArticulo.Location = new Point(1524, 13);
             btnBusquedaArticulo.Name = "btnBusquedaArticulo";
             btnBusquedaArticulo.Size = new Size(100, 38);
             btnBusquedaArticulo.TabIndex = 8;
@@ -304,7 +305,7 @@
             // 
             // txtArticuloBusqueda
             // 
-            txtArticuloBusqueda.Location = new Point(1032, 19);
+            txtArticuloBusqueda.Location = new Point(1035, 22);
             txtArticuloBusqueda.Name = "txtArticuloBusqueda";
             txtArticuloBusqueda.Size = new Size(477, 23);
             txtArticuloBusqueda.TabIndex = 7;
@@ -349,7 +350,7 @@
             dgvDetallesInventario.Columns.AddRange(new DataGridViewColumn[] { IdArticulo, Articulo, Descripcion, Impuesto, Cantidad, ValorCompra, ValorVenta, Papeleria, Eliminar });
             dgvDetallesInventario.Location = new Point(669, 70);
             dgvDetallesInventario.Name = "dgvDetallesInventario";
-            dgvDetallesInventario.Size = new Size(945, 450);
+            dgvDetallesInventario.Size = new Size(945, 328);
             dgvDetallesInventario.TabIndex = 2;
             // 
             // IdArticulo
@@ -420,7 +421,7 @@
             // 
             groupBox4.Location = new Point(432, 93);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(576, 86);
+            groupBox4.Size = new Size(463, 86);
             groupBox4.TabIndex = 2;
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Ajustes";
@@ -428,9 +429,9 @@
             // btnGuardar
             // 
             btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(1531, 12);
+            btnGuardar.Location = new Point(1426, 12);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(101, 68);
+            btnGuardar.Size = new Size(214, 68);
             btnGuardar.TabIndex = 3;
             btnGuardar.UseVisualStyleBackColor = true;
             btnGuardar.Click += btnGuardar_Click;
@@ -438,9 +439,9 @@
             // btnCancelar
             // 
             btnCancelar.Image = Properties.Resources.cancelar_resize;
-            btnCancelar.Location = new Point(1531, 86);
+            btnCancelar.Location = new Point(1426, 86);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(101, 68);
+            btnCancelar.Size = new Size(214, 68);
             btnCancelar.TabIndex = 4;
             btnCancelar.UseVisualStyleBackColor = true;
             // 
@@ -448,7 +449,7 @@
             // 
             groupBox5.Controls.Add(dtpFechaResumen);
             groupBox5.Controls.Add(cbxReportes);
-            groupBox5.Location = new Point(1014, 5);
+            groupBox5.Location = new Point(901, 4);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(511, 82);
             groupBox5.TabIndex = 5;
