@@ -62,6 +62,7 @@
             btnGuardar = new Button();
             btnCancelar = new Button();
             groupBox3 = new GroupBox();
+            btnCerraProveedor = new Button();
             dgvProveedor = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
             IdTipoIdentitifacion = new DataGridViewTextBoxColumn();
@@ -82,7 +83,6 @@
             txtBusquedaProveedor = new TextBox();
             label1 = new Label();
             btnBuscarProveedor = new Button();
-            btnCerraProveedor = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -141,7 +141,7 @@
             // cbxTipIdentificacion
             // 
             cbxTipIdentificacion.FormattingEnabled = true;
-            cbxTipIdentificacion.Location = new Point(450, 56);
+            cbxTipIdentificacion.Location = new Point(450, 54);
             cbxTipIdentificacion.Name = "cbxTipIdentificacion";
             cbxTipIdentificacion.Size = new Size(199, 23);
             cbxTipIdentificacion.TabIndex = 23;
@@ -177,7 +177,7 @@
             // 
             dtpModificacion.Enabled = false;
             dtpModificacion.Format = DateTimePickerFormat.Short;
-            dtpModificacion.Location = new Point(130, 330);
+            dtpModificacion.Location = new Point(130, 347);
             dtpModificacion.Name = "dtpModificacion";
             dtpModificacion.Size = new Size(200, 23);
             dtpModificacion.TabIndex = 19;
@@ -186,7 +186,7 @@
             // 
             dtpCreacion.Enabled = false;
             dtpCreacion.Format = DateTimePickerFormat.Short;
-            dtpCreacion.Location = new Point(130, 286);
+            dtpCreacion.Location = new Point(130, 299);
             dtpCreacion.Name = "dtpCreacion";
             dtpCreacion.Size = new Size(200, 23);
             dtpCreacion.TabIndex = 18;
@@ -208,7 +208,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(19, 330);
+            label10.Location = new Point(23, 351);
             label10.Name = "label10";
             label10.Size = new Size(80, 15);
             label10.TabIndex = 15;
@@ -217,7 +217,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(19, 292);
+            label11.Location = new Point(23, 305);
             label11.Name = "label11";
             label11.Size = new Size(57, 15);
             label11.TabIndex = 14;
@@ -380,7 +380,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.Image = Properties.Resources.clear;
             btnCancelar.Location = new Point(418, 507);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(127, 39);
@@ -401,6 +401,16 @@
             groupBox3.TabIndex = 4;
             groupBox3.TabStop = false;
             groupBox3.Text = "Listado Proveedores";
+            // 
+            // btnCerraProveedor
+            // 
+            btnCerraProveedor.Image = (Image)resources.GetObject("btnCerraProveedor.Image");
+            btnCerraProveedor.Location = new Point(617, 13);
+            btnCerraProveedor.Name = "btnCerraProveedor";
+            btnCerraProveedor.Size = new Size(127, 39);
+            btnCerraProveedor.TabIndex = 5;
+            btnCerraProveedor.UseVisualStyleBackColor = true;
+            btnCerraProveedor.Click += btnCerraProveedor_Click;
             // 
             // dgvProveedor
             // 
@@ -539,16 +549,6 @@
             btnBuscarProveedor.Size = new Size(39, 38);
             btnBuscarProveedor.TabIndex = 0;
             btnBuscarProveedor.UseVisualStyleBackColor = true;
-            // 
-            // btnCerraProveedor
-            // 
-            btnCerraProveedor.Image = (Image)resources.GetObject("btnCerraProveedor.Image");
-            btnCerraProveedor.Location = new Point(617, 13);
-            btnCerraProveedor.Name = "btnCerraProveedor";
-            btnCerraProveedor.Size = new Size(127, 39);
-            btnCerraProveedor.TabIndex = 5;
-            btnCerraProveedor.UseVisualStyleBackColor = true;
-            btnCerraProveedor.Click += btnCerraProveedor_Click;
             // 
             // Proveedor
             // 

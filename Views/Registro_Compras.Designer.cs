@@ -144,6 +144,7 @@
             // txtIdentificacionProveedor
             // 
             txtIdentificacionProveedor.Location = new Point(124, 16);
+            txtIdentificacionProveedor.MaxLength = 13;
             txtIdentificacionProveedor.Name = "txtIdentificacionProveedor";
             txtIdentificacionProveedor.PlaceholderText = "1700000000";
             txtIdentificacionProveedor.Size = new Size(247, 23);
@@ -504,7 +505,7 @@
             groupBox3.Controls.Add(tabControl1);
             groupBox3.Location = new Point(12, 207);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1160, 383);
+            groupBox3.Size = new Size(1160, 494);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Artículos";
@@ -516,7 +517,7 @@
             tabControl1.Location = new Point(4, 23);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1151, 353);
+            tabControl1.Size = new Size(1151, 465);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -530,7 +531,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1143, 325);
+            tabPage1.Size = new Size(1143, 437);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Compra";
             tabPage1.UseVisualStyleBackColor = true;
@@ -636,6 +637,7 @@
             dgvDetalleCompra.TabIndex = 5;
             dgvDetalleCompra.CellClick += dgvDetalleCompra_CellClick_1;
             dgvDetalleCompra.CellValueChanged += dgvDetalleCompra_CellValueChanged_1;
+            dgvDetalleCompra.EditingControlShowing += dgvDetalleCompra_EditingControlShowing_1;
             // 
             // Id
             // 
@@ -714,7 +716,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1143, 325);
+            tabPage2.Size = new Size(1143, 437);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;

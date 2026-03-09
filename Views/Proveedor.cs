@@ -25,6 +25,7 @@ namespace TiendaLaLojanita.Views
         private List<TipoIdentificacionDTO> ListaTiposIdentificacion = new List<TipoIdentificacionDTO>();
         private List<CiudadDTO> ListaCiudades = new List<CiudadDTO>();
         private DateTime fechaCreacionTemp;
+        private ProgressBar prog;
         public Proveedor(IProveedorService proveedorService, IMapeoProveedor mapeos)
         {
             InitializeComponent();
@@ -62,9 +63,12 @@ namespace TiendaLaLojanita.Views
 
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
+            prog = new ProgressBar();
+            prog.Show();
             if (this.txtIdProveedor is null || this.txtIdProveedor.Text == "")
             {
                 var resp = await this.CrearProveedor();
+                prog.Close();
                 if (resp != null && resp > 0)
                 {
                     MessageBox.Show($"Proveedor creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -83,6 +87,7 @@ namespace TiendaLaLojanita.Views
             {
                 this.CargarProveedor();
                 var resp = await this.EditarProveedor();
+                prog.Close();
                 if (resp)
                 {
                     MessageBox.Show($"Proveedor con el id: {ProveedorEditar.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);

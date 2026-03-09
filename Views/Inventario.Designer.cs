@@ -206,7 +206,7 @@
             cbxProveedor.FormattingEnabled = true;
             cbxProveedor.Location = new Point(90, 16);
             cbxProveedor.Name = "cbxProveedor";
-            cbxProveedor.Size = new Size(320, 23);
+            cbxProveedor.Size = new Size(355, 23);
             cbxProveedor.TabIndex = 1;
             // 
             // label7

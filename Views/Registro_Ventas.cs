@@ -69,6 +69,7 @@ namespace TiendaLaLojanita.Views
 
         private async void CargarCliente(string identificacion)
         {
+            pro = new ProgressBar();
             if (identificacion is null || identificacion == "")
             {
                 MessageBox.Show("Debe ingresar una identificacion valida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,7 +78,9 @@ namespace TiendaLaLojanita.Views
             {
                 try
                 {
+                    pro.Show();
                     ClienteDTO cliente = await this.clienteService.ObtenerClienteCI(identificacion);
+                    pro.Hide();
                     if (cliente is null)
                     {
                         MessageBox.Show("No se encontró ningún cliente con la identificación ingresada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -245,9 +248,10 @@ namespace TiendaLaLojanita.Views
             this.TotalGeneral = TotalGeneral + totImpuestos;
             this.txtTotal.Text = this.TotalGeneral.ToString();
             this.TotalGeneral = 0m;
+
         }
 
-        private void ActualizarCantidad(int idArticulo, int cantidad, decimal valorVenta)
+        private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorVenta)
         {
             foreach (var c in this.listaImpuestos)
             {
@@ -544,16 +548,31 @@ namespace TiendaLaLojanita.Views
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Obtenemos el separador decimal del sistema
-            char separadorDecimal = Convert.ToChar(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-            // Permitimos dígitos, el separador decimal y la tecla de retroceso (para borrar)
-            if (char.IsDigit(e.KeyChar) || e.KeyChar == separadorDecimal || e.KeyChar == (char)Keys.Back)
+            TextBox txt = sender as TextBox;
+
+            // Si el usuario escribe punto, lo convertimos en coma
+            if (e.KeyChar == '.')
             {
-                // Permitimos la tecla
+                e.KeyChar = ',';
+            }
+
+            // Permitimos números
+            if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            // Permitimos una sola coma
+            else if (e.KeyChar == ',' && !txt.Text.Contains(","))
+            {
+                e.Handled = false;
+            }
+            // Permitimos borrar
+            else if (e.KeyChar == (char)Keys.Back)
+            {
                 e.Handled = false;
             }
             else
             {
-                // Cancelamos la tecla (no la mostramos en la celda)
                 e.Handled = true;
             }
         }
@@ -561,14 +580,28 @@ namespace TiendaLaLojanita.Views
         private void textBox_KeyPressPunto(object sender, KeyPressEventArgs e)
         {
             // Permitimos dígitos, y la tecla de retroceso (para borrar)
-            if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back)
+            TextBox txt = sender as TextBox;
+            if (e.KeyChar == '.')
             {
-                // Permitimos la tecla
+                e.KeyChar = ',';
+            }
+            // Permitir números
+            if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            // Permitir Backspace
+            else if (e.KeyChar == (char)Keys.Back)
+            {
+                e.Handled = false;
+            }
+            // Permitir una sola coma
+            else if (e.KeyChar == ',' && !txt.Text.Contains(","))
+            {
                 e.Handled = false;
             }
             else
             {
-                // Cancelamos la tecla (no la mostramos en la celda)
                 e.Handled = true;
             }
         }
@@ -628,16 +661,16 @@ namespace TiendaLaLojanita.Views
 
         private void dgvDetallesVenta_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
-            int cantida;
+            decimal cantida;
             decimal valorVenta;
             if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetallesVenta.Columns[e.ColumnIndex].Name == "ValorVenta")
             {
 
                 DataGridViewRow fila = dgvDetallesVenta.Rows[e.RowIndex];
-                if (int.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
+                if (decimal.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
                 {
                     fila.Cells["ValorTotal"].Value = cantida * valorVenta;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToInt32(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToDecimal(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
                     this.CalcularTotales();
                 }
             }

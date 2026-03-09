@@ -285,6 +285,7 @@
             // txtIdentificaconCliente
             // 
             txtIdentificaconCliente.Location = new Point(177, 20);
+            txtIdentificaconCliente.MaxLength = 13;
             txtIdentificaconCliente.Name = "txtIdentificaconCliente";
             txtIdentificaconCliente.PlaceholderText = "170000000000";
             txtIdentificaconCliente.Size = new Size(211, 23);

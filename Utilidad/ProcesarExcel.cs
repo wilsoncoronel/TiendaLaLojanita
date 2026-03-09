@@ -133,7 +133,7 @@ namespace TiendaLaLojanita.Utilidad
             return listaArticulos;
         }
 
-        // 🧩 Conversores seguros
+        // Conversores seguros
         private static int ParseInt(string value) =>
             int.TryParse(value, out int result) ? result : 0;
 

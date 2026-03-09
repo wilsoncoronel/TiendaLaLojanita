@@ -352,7 +352,7 @@ namespace TiendaLaLojanita.Views
             string textoActual = contorl.Text;
 
             // Permitimos dígitos, el separador decimal y la tecla de retroceso (para borrar)
-            if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back)
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar.Equals(","))
             {
                 // Permitimos la tecla
                 e.Handled = false;
