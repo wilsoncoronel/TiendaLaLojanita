@@ -44,10 +44,13 @@ namespace TiendaLaLojanita.Views
             this.procesarExcel = procesarExcel;
             this.compraService = compraService;
             this.proveedorService = proveedorService;
-            this.CargarDatosIniciales();
             this.CargarListaInventario();
         }
 
+        private void Inventario_Load(object sender, EventArgs e)
+        {
+            this.CargarDatosIniciales();
+        }
         private async void CargarDatosIniciales()
         {
             this.ListaTranInv = await this.inventarioService.ListaTransaccionesInventario();
@@ -61,7 +64,17 @@ namespace TiendaLaLojanita.Views
             this.cbxProveedor.DataSource = this.ListaProveedores;
             this.cbxProveedor.DisplayMember = "Nombres";
             this.cbxProveedor.ValueMember = "Id";
+
+            AutoCompleteStringCollection collecion = new AutoCompleteStringCollection();
+            foreach (var prov in ListaProveedores) {
+                collecion.Add(Convert.ToString(prov.RazonSocial));
+            }
+
+            cbxProveedor.AutoCompleteCustomSource = collecion;
+            cbxProveedor.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxProveedor.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
+
         private async void btnAbrirArchivo_Click(object sender, EventArgs e)
         {
             List<DetalleCompraCreacionDTO> listaDetalles = new List<DetalleCompraCreacionDTO>();
@@ -248,21 +261,23 @@ namespace TiendaLaLojanita.Views
                 );
             if (respuesta == DialogResult.OK)
             {
-               
+
                 prog = new ProgressBar();
                 prog.Show();
-                if (msn == "Resumen Ventas al Día") { 
+                if (msn == "Resumen Ventas al Día")
+                {
                     var resp = await this.ResumenVentasDiarioDTO();
                     FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
                     resVentas.StartPosition = FormStartPosition.CenterScreen;
                     resVentas.Show();
                 }
-                else { 
+                else
+                {
                     var resp = await this.ResumenVentasMensualDTO();
                     FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
                     resVentas.StartPosition = FormStartPosition.CenterScreen;
                     resVentas.Show();
-                }                
+                }
                 prog.Hide();
             }
             else
@@ -282,5 +297,7 @@ namespace TiendaLaLojanita.Views
             var resp = await this.inventarioService.ResumenVentasMensual(this.dtpFechaResumen.Value);
             return resp;
         }
+
+        
     }
 }

@@ -489,6 +489,7 @@
             Controls.Add(groupBox1);
             Name = "Inventario";
             Text = "Inventario";
+            Load += Inventario_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

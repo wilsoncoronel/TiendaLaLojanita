@@ -75,7 +75,36 @@ namespace TiendaLaLojanita.Views
             this.cbxTipoArticulo.ValueMember = "Id";
             this.lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             this.lblUser.Text = Sesion.Usuario;
+
+            AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
+            AutoCompleteStringCollection coleccion2 = new AutoCompleteStringCollection();
+            AutoCompleteStringCollection coleccion3 = new AutoCompleteStringCollection();
+            foreach (var imp in listaimpuestos) {
+                coleccion.Add(Convert.ToString(imp.Nombre).ToUpper());
+            }
+
+            foreach (var marc in listaMarcas) {
+                coleccion2.Add(Convert.ToString(marc.Nombre).ToUpper());
+            }
+
+            foreach (var tipArt in listaTipoArticulo)
+            {
+                coleccion3.Add(Convert.ToString(tipArt.Nombre).ToUpper());
+            }
+            cbxImpuesto.AutoCompleteCustomSource = coleccion;
+            cbxImpuesto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxImpuesto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            cbxMarca.AutoCompleteCustomSource = coleccion2;
+            cbxMarca.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxMarca.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            cbxTipoArticulo.AutoCompleteCustomSource = coleccion3;
+            cbxTipoArticulo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxTipoArticulo.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
+
+        
 
         private void limpiarCombos()
         {
