@@ -114,7 +114,7 @@ namespace TiendaLaLojanita.Views
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (this.txtCodigo is null || this.txtCodigo.Text == "")
+            if (this.txtId is null || this.txtId.Text == "")
             {
                 var resp = await this.CrearArticulo();
                 if (resp != null && resp > 0)
@@ -182,7 +182,7 @@ namespace TiendaLaLojanita.Views
         private void CargarEditarArticuloDTO()
         {
             this.artEditarActual = new ArticuloEdicionDTO();
-            this.artEditarActual.Id = Convert.ToInt32(txtCodigo.Text);
+            this.artEditarActual.Id = Convert.ToInt32(txtId.Text);
             this.artEditarActual.Nombre = this.txtNombre.Text.ToUpper();
             this.artEditarActual.Descripcion = txtDescripcion.Text.ToUpper();
             this.artEditarActual.ValorCompra = Convert.ToDecimal(nudValorCompra.Value);
@@ -206,7 +206,7 @@ namespace TiendaLaLojanita.Views
         private async Task<int> CrearArticulo()
         {
             ArticuloCreacionDTO articuloDto = new ArticuloCreacionDTO();
-            articuloDto.Codigo = txtCodigo.Text;
+            articuloDto.Codigo = txtId.Text;
             articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
             articuloDto.Nombre = this.txtNombre.Text.ToUpper();
@@ -253,7 +253,7 @@ namespace TiendaLaLojanita.Views
 
         private void LimpiarFormulario()
         {
-            txtCodigo.Clear();
+            txtId.Clear();
             txtDescripcion.Clear();
             txtNombre.Clear();
             nudValorCompra.Value = 0;
@@ -355,7 +355,7 @@ namespace TiendaLaLojanita.Views
             ArticuloDTO articuloActual = this.listaArticulos.FirstOrDefault(a => a.Id == idArticulo);
             this.txtNombre.Text = articuloActual.Nombre.ToUpper();
             this.txtDescripcion.Text = articuloActual.Descripcion.ToUpper();
-            this.txtCodigo.Text = Convert.ToString(articuloActual.Id);
+            this.txtId.Text = Convert.ToString(articuloActual.Id);
             this.txtUnidad.Text = articuloActual.Unidad.ToUpper();
             this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
             this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);

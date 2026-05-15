@@ -44,7 +44,7 @@
             label7 = new Label();
             dtpCreacion = new DateTimePicker();
             label6 = new Label();
-            txtCodigo = new TextBox();
+            txtId = new TextBox();
             label5 = new Label();
             txtNombre = new TextBox();
             cbxImpuesto = new ComboBox();
@@ -65,6 +65,10 @@
             nudValorCompra = new NumericUpDown();
             groupBox3 = new GroupBox();
             groupBox4 = new GroupBox();
+            dgvCodigosArticulos = new DataGridView();
+            Nro = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             btnBuscar = new Button();
             dtpFechaFinal = new DateTimePicker();
             label16 = new Label();
@@ -107,6 +111,7 @@
             ((System.ComponentModel.ISupportInitialize)nudValorCompra).BeginInit();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCodigosArticulos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvArticulos).BeginInit();
             groupBox5.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -128,7 +133,7 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(dtpCreacion);
             groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(txtCodigo);
+            groupBox1.Controls.Add(txtId);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(txtNombre);
             groupBox1.Controls.Add(cbxImpuesto);
@@ -264,22 +269,22 @@
             label6.TabIndex = 10;
             label6.Text = "Creación:";
             // 
-            // txtCodigo
+            // txtId
             // 
-            txtCodigo.Enabled = false;
-            txtCodigo.Location = new Point(648, 25);
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(128, 23);
-            txtCodigo.TabIndex = 9;
+            txtId.Enabled = false;
+            txtId.Location = new Point(648, 25);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(128, 23);
+            txtId.TabIndex = 9;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(555, 31);
             label5.Name = "label5";
-            label5.Size = new Size(49, 15);
+            label5.Size = new Size(20, 15);
             label5.TabIndex = 8;
-            label5.Text = "Código:";
+            label5.Text = "Id:";
             // 
             // txtNombre
             // 
@@ -451,6 +456,7 @@
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox4.Controls.Add(dgvCodigosArticulos);
             groupBox4.Controls.Add(btnBuscar);
             groupBox4.Controls.Add(dtpFechaFinal);
             groupBox4.Controls.Add(label16);
@@ -465,6 +471,35 @@
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "Listado Articulos";
+            // 
+            // dgvCodigosArticulos
+            // 
+            dgvCodigosArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            dgvCodigosArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { Nro, Codigo, Eliminar });
+            dgvCodigosArticulos.Location = new Point(1124, 71);
+            dgvCodigosArticulos.Name = "dgvCodigosArticulos";
+            dgvCodigosArticulos.Size = new Size(319, 290);
+            dgvCodigosArticulos.TabIndex = 8;
+            // 
+            // Nro
+            // 
+            Nro.HeaderText = "Nro";
+            Nro.Name = "Nro";
+            Nro.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = Properties.Resources.cancelar_resize;
+            Eliminar.Name = "Eliminar";
+            Eliminar.ReadOnly = true;
             // 
             // btnBuscar
             // 
@@ -532,7 +567,7 @@
             dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(6, 71);
             dgvArticulos.Name = "dgvArticulos";
-            dgvArticulos.Size = new Size(1464, 290);
+            dgvArticulos.Size = new Size(1112, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
             // 
@@ -730,6 +765,7 @@
             groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCodigosArticulos).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvArticulos).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
@@ -753,7 +789,7 @@
         private Label label7;
         private DateTimePicker dtpCreacion;
         private Label label6;
-        private TextBox txtCodigo;
+        private TextBox txtId;
         private Label label5;
         private Label label11;
         private TextBox txtUnidad;
@@ -812,5 +848,9 @@
         private ToolTip toolTip1;
         private Button btnAgregarDatosConfiguraciones;
         private Button btnRecargarDatosConfiguraciones;
+        private DataGridView dgvCodigosArticulos;
+        private DataGridViewTextBoxColumn Nro;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewImageColumn Eliminar;
     }
 }
