@@ -31,6 +31,9 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            dgvCodsArticulos = new DataGridView();
+            CodigoProductos = new DataGridViewTextBoxColumn();
+            EliminarCodigos = new DataGridViewImageColumn();
             btnRecargarDatosConfiguraciones = new Button();
             btnAgregarDatosConfiguraciones = new Button();
             chckPapeleria = new CheckBox();
@@ -105,6 +108,7 @@
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCodsArticulos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudValorVenta).BeginInit();
@@ -120,6 +124,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(dgvCodsArticulos);
             groupBox1.Controls.Add(btnRecargarDatosConfiguraciones);
             groupBox1.Controls.Add(btnAgregarDatosConfiguraciones);
             groupBox1.Controls.Add(chckPapeleria);
@@ -145,15 +150,38 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(11, 9);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1241, 235);
+            groupBox1.Size = new Size(1306, 235);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
             // 
+            // dgvCodsArticulos
+            // 
+            dgvCodsArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCodsArticulos.Columns.AddRange(new DataGridViewColumn[] { CodigoProductos, EliminarCodigos });
+            dgvCodsArticulos.Location = new Point(959, 17);
+            dgvCodsArticulos.Name = "dgvCodsArticulos";
+            dgvCodsArticulos.Size = new Size(240, 212);
+            dgvCodsArticulos.TabIndex = 25;
+            dgvCodsArticulos.CellClick += dgvCodsArticulos_CellClick;
+            dgvCodsArticulos.KeyDown += dgvCodsArticulos_KeyDown;
+            dgvCodsArticulos.KeyPress += dgvCodsArticulos_KeyPress;
+            // 
+            // CodigoProductos
+            // 
+            CodigoProductos.HeaderText = "Códigos Productos";
+            CodigoProductos.Name = "CodigoProductos";
+            // 
+            // EliminarCodigos
+            // 
+            EliminarCodigos.HeaderText = "Eliminar";
+            EliminarCodigos.Image = Properties.Resources._3687412_edit;
+            EliminarCodigos.Name = "EliminarCodigos";
+            // 
             // btnRecargarDatosConfiguraciones
             // 
             btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
-            btnRecargarDatosConfiguraciones.Location = new Point(787, 20);
+            btnRecargarDatosConfiguraciones.Location = new Point(729, 20);
             btnRecargarDatosConfiguraciones.Name = "btnRecargarDatosConfiguraciones";
             btnRecargarDatosConfiguraciones.Size = new Size(75, 37);
             btnRecargarDatosConfiguraciones.TabIndex = 24;
@@ -164,7 +192,7 @@
             // btnAgregarDatosConfiguraciones
             // 
             btnAgregarDatosConfiguraciones.Image = (Image)resources.GetObject("btnAgregarDatosConfiguraciones.Image");
-            btnAgregarDatosConfiguraciones.Location = new Point(1049, 127);
+            btnAgregarDatosConfiguraciones.Location = new Point(1205, 133);
             btnAgregarDatosConfiguraciones.Name = "btnAgregarDatosConfiguraciones";
             btnAgregarDatosConfiguraciones.Size = new Size(137, 42);
             btnAgregarDatosConfiguraciones.TabIndex = 23;
@@ -175,7 +203,7 @@
             // chckPapeleria
             // 
             chckPapeleria.AutoSize = true;
-            chckPapeleria.Location = new Point(647, 184);
+            chckPapeleria.Location = new Point(589, 184);
             chckPapeleria.Name = "chckPapeleria";
             chckPapeleria.Size = new Size(130, 19);
             chckPapeleria.TabIndex = 22;
@@ -185,7 +213,7 @@
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1049, 78);
+            btnCancelar.Location = new Point(1205, 84);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(136, 43);
             btnCancelar.TabIndex = 21;
@@ -195,7 +223,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1049, 14);
+            btnGuardar.Location = new Point(1205, 20);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(136, 43);
             btnGuardar.TabIndex = 20;
@@ -206,7 +234,7 @@
             // 
             cbxEstado.FormattingEnabled = true;
             cbxEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cbxEstado.Location = new Point(648, 146);
+            cbxEstado.Location = new Point(590, 146);
             cbxEstado.Name = "cbxEstado";
             cbxEstado.Size = new Size(363, 23);
             cbxEstado.TabIndex = 19;
@@ -230,7 +258,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(555, 146);
+            label8.Location = new Point(497, 146);
             label8.Name = "label8";
             label8.Size = new Size(45, 15);
             label8.TabIndex = 14;
@@ -238,7 +266,7 @@
             // 
             // dtpCaducidad
             // 
-            dtpCaducidad.Location = new Point(648, 103);
+            dtpCaducidad.Location = new Point(590, 103);
             dtpCaducidad.Name = "dtpCaducidad";
             dtpCaducidad.Size = new Size(363, 23);
             dtpCaducidad.TabIndex = 13;
@@ -246,7 +274,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(555, 106);
+            label7.Location = new Point(497, 106);
             label7.Name = "label7";
             label7.Size = new Size(67, 15);
             label7.TabIndex = 12;
@@ -255,7 +283,7 @@
             // dtpCreacion
             // 
             dtpCreacion.Enabled = false;
-            dtpCreacion.Location = new Point(648, 65);
+            dtpCreacion.Location = new Point(590, 65);
             dtpCreacion.Name = "dtpCreacion";
             dtpCreacion.Size = new Size(363, 23);
             dtpCreacion.TabIndex = 11;
@@ -263,7 +291,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(555, 67);
+            label6.Location = new Point(497, 67);
             label6.Name = "label6";
             label6.Size = new Size(57, 15);
             label6.TabIndex = 10;
@@ -272,7 +300,7 @@
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(648, 25);
+            txtId.Location = new Point(590, 25);
             txtId.Name = "txtId";
             txtId.Size = new Size(128, 23);
             txtId.TabIndex = 9;
@@ -280,7 +308,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(555, 31);
+            label5.Location = new Point(497, 31);
             label5.Name = "label5";
             label5.Size = new Size(20, 15);
             label5.TabIndex = 8;
@@ -446,7 +474,7 @@
             groupBox3.Controls.Add(txtUnidad);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(707, 250);
+            groupBox3.Location = new Point(772, 250);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(545, 76);
             groupBox3.TabIndex = 2;
@@ -467,7 +495,7 @@
             groupBox4.Controls.Add(dgvArticulos);
             groupBox4.Location = new Point(10, 332);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(1481, 379);
+            groupBox4.Size = new Size(1546, 379);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "Listado Articulos";
@@ -477,7 +505,7 @@
             dgvCodigosArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvCodigosArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { Nro, Codigo, Eliminar });
-            dgvCodigosArticulos.Location = new Point(1124, 71);
+            dgvCodigosArticulos.Location = new Point(1189, 71);
             dgvCodigosArticulos.Name = "dgvCodigosArticulos";
             dgvCodigosArticulos.Size = new Size(319, 290);
             dgvCodigosArticulos.TabIndex = 8;
@@ -567,7 +595,7 @@
             dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(6, 71);
             dgvArticulos.Name = "dgvArticulos";
-            dgvArticulos.Size = new Size(1112, 290);
+            dgvArticulos.Size = new Size(1177, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
             // 
@@ -677,7 +705,7 @@
             groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox5.Controls.Add(lblFecha);
             groupBox5.Controls.Add(lblUser);
-            groupBox5.Location = new Point(1258, 9);
+            groupBox5.Location = new Point(1323, 9);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(233, 100);
             groupBox5.TabIndex = 4;
@@ -705,7 +733,7 @@
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(lblArchivo);
             groupBox6.Controls.Add(btnAbrirArchivo);
-            groupBox6.Location = new Point(1260, 114);
+            groupBox6.Location = new Point(1325, 114);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(231, 212);
             groupBox6.TabIndex = 5;
@@ -744,7 +772,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1565, 723);
+            ClientSize = new Size(1630, 723);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
@@ -756,6 +784,7 @@
             Load += Registro_Articulos_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCodsArticulos).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -852,5 +881,8 @@
         private DataGridViewTextBoxColumn Nro;
         private DataGridViewTextBoxColumn Codigo;
         private DataGridViewImageColumn Eliminar;
+        private DataGridView dgvCodsArticulos;
+        private DataGridViewTextBoxColumn CodigoProductos;
+        private DataGridViewImageColumn EliminarCodigos;
     }
 }

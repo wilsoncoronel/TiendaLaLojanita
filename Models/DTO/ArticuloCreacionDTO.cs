@@ -24,5 +24,6 @@ namespace TiendaLaLojanita.Models.DTO
         public int IdTipoArticulo { get; set; }
         public int IdImpuesto { get; set; }
         public bool? Papeleria { get; set; }
+        public List<CodigoArticuloCreacionDTO> ListaCodigosArticulosDTO { get; set; }
     }
 }
