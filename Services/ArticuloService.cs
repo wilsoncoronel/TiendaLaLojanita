@@ -69,12 +69,27 @@ namespace TiendaLaLojanita.Services
         {
             try
             {
-                var fechaIniDt = fechaInicial.ToDateTime(TimeOnly.MinValue);
-                var fechaFinDt = fechaFinal.ToDateTime(TimeOnly.MaxValue);
+               
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<List<ArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<CodigoArticuloDTO>> ListaCodigosArticulos(int idArticulo)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaCodigosArticulos?idArticulo={idArticulo}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<CodigoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<CodigoArticuloDTO>>>(responseJson);
                 return result.Value;
             }
             catch

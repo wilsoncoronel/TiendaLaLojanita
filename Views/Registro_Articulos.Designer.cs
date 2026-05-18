@@ -69,9 +69,6 @@
             groupBox3 = new GroupBox();
             groupBox4 = new GroupBox();
             dgvCodigosArticulos = new DataGridView();
-            Nro = new DataGridViewTextBoxColumn();
-            Codigo = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             btnBuscar = new Button();
             dtpFechaFinal = new DateTimePicker();
             label16 = new Label();
@@ -107,6 +104,9 @@
             btnAbrirArchivo = new Button();
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
+            IdCodArt = new DataGridViewTextBoxColumn();
+            Código = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCodsArticulos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
@@ -504,30 +504,11 @@
             // 
             dgvCodigosArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvCodigosArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { Nro, Codigo, Eliminar });
+            dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { IdCodArt, Código, Eliminar });
             dgvCodigosArticulos.Location = new Point(1189, 71);
             dgvCodigosArticulos.Name = "dgvCodigosArticulos";
             dgvCodigosArticulos.Size = new Size(319, 290);
             dgvCodigosArticulos.TabIndex = 8;
-            // 
-            // Nro
-            // 
-            Nro.HeaderText = "Nro";
-            Nro.Name = "Nro";
-            Nro.ReadOnly = true;
-            // 
-            // Codigo
-            // 
-            Codigo.HeaderText = "Codigo";
-            Codigo.Name = "Codigo";
-            Codigo.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = Properties.Resources.cancelar_resize;
-            Eliminar.Name = "Eliminar";
-            Eliminar.ReadOnly = true;
             // 
             // btnBuscar
             // 
@@ -768,6 +749,25 @@
             // 
             toolTip1.Tag = "Agregar Marcas/Tipos/Impuestos";
             // 
+            // IdCodArt
+            // 
+            IdCodArt.HeaderText = "Id";
+            IdCodArt.Name = "IdCodArt";
+            IdCodArt.ReadOnly = true;
+            // 
+            // Código
+            // 
+            Código.HeaderText = "Codigo";
+            Código.Name = "Código";
+            Código.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = Properties.Resources.cancelar_resize;
+            Eliminar.Name = "Eliminar";
+            Eliminar.ReadOnly = true;
+            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -878,11 +878,11 @@
         private Button btnAgregarDatosConfiguraciones;
         private Button btnRecargarDatosConfiguraciones;
         private DataGridView dgvCodigosArticulos;
-        private DataGridViewTextBoxColumn Nro;
-        private DataGridViewTextBoxColumn Codigo;
-        private DataGridViewImageColumn Eliminar;
         private DataGridView dgvCodsArticulos;
         private DataGridViewTextBoxColumn CodigoProductos;
         private DataGridViewImageColumn EliminarCodigos;
+        private DataGridViewTextBoxColumn IdCodArt;
+        private DataGridViewTextBoxColumn Código;
+        private DataGridViewImageColumn Eliminar;
     }
 }

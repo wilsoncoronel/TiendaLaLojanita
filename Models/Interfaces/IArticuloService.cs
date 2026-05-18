@@ -17,6 +17,7 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo();
         Task<List<MarcaDTO>> ListaMarcaArticulo();
         Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal);
+        Task<List<ArticuloDTO>> ListaCodigosArticulos(int idArticulo);
         Task<List<ArticuloDTO>> ListarTodosArticulos();
     }
 }

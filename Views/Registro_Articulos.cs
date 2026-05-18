@@ -101,13 +101,10 @@ namespace TiendaLaLojanita.Views
             cbxMarca.AutoCompleteCustomSource = coleccion2;
             cbxMarca.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbxMarca.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
             cbxTipoArticulo.AutoCompleteCustomSource = coleccion3;
             cbxTipoArticulo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbxTipoArticulo.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
-
-
 
         private void limpiarCombos()
         {
@@ -117,7 +114,7 @@ namespace TiendaLaLojanita.Views
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (this.txtId is null || this.txtId.Text == "")
+             if (this.txtId is null || this.txtId.Text == "")
             {
                 var resp = await this.CrearArticulo();
                 if (resp != null && resp > 0)
@@ -163,6 +160,8 @@ namespace TiendaLaLojanita.Views
                     MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            this.listaCodigos = [];
+            this.dgvCodsArticulos.Rows.Clear();
         }
 
         private ArticuloDTO CargarDatosRelacionados(ArticuloDTO art)
@@ -340,7 +339,7 @@ namespace TiendaLaLojanita.Views
                     art.ValorVenta.ToString("C2", new CultureInfo("en-US")),
                     art.Unidad,
                     art.UnidadValor.ToString().ToUpper()
-                    );
+                );
             }
         }
 
@@ -349,7 +348,7 @@ namespace TiendaLaLojanita.Views
             this.LimpiarFormulario();
         }
 
-        private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -362,13 +361,14 @@ namespace TiendaLaLojanita.Views
                 {
                     id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
                     this.CargarEditarArticulo(id);
+                }else if (dgvArticulos.Columns[e.ColumnIndex].Name == "Id"){
+                    var resp = await this.CargarCodigosArticulo();
                 }
             }
             catch
             {
                 throw;
             }
-
         }
 
         private void CargarEditarArticulo(int idArticulo)
@@ -528,7 +528,14 @@ namespace TiendaLaLojanita.Views
                 }
                 else if (dgvCodsArticulos.Columns[e.ColumnIndex].Name == "EliminarCodigos")
                 {
-                    dgvCodsArticulos.Rows.RemoveAt(dgvCodsArticulos.CurrentRow.Index);
+                    DataGridViewRow fila = dgvCodsArticulos.CurrentRow;
+                    if (!fila.IsNewRow) {
+                        dgvCodsArticulos.Rows.RemoveAt(fila.Index);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puedes eliminar la fila vacía de entrada de nuevos datos", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
             catch
