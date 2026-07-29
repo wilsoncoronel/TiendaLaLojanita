@@ -48,9 +48,9 @@
             dgvInventario = new DataGridView();
             IdInventario = new DataGridViewTextBoxColumn();
             Creacion = new DataGridViewTextBoxColumn();
-            Modificacion = new DataGridViewTextBoxColumn();
-            Reversion = new DataGridViewTextBoxColumn();
+            IdTransaccion = new DataGridViewTextBoxColumn();
             Transaccion = new DataGridViewTextBoxColumn();
+            Referencia = new DataGridViewTextBoxColumn();
             Reversar = new DataGridViewImageColumn();
             btnBusquedaArticulo = new Button();
             txtArticuloBusqueda = new TextBox();
@@ -59,15 +59,6 @@
             label3 = new Label();
             label2 = new Label();
             dgvDetallesInventario = new DataGridView();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Impuesto = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            Papeleria = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             label1 = new Label();
             ofdArchivos = new OpenFileDialog();
             groupBox4 = new GroupBox();
@@ -76,6 +67,18 @@
             groupBox5 = new GroupBox();
             dtpFechaResumen = new DateTimePicker();
             cbxReportes = new ComboBox();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            Papeleria = new DataGridViewTextBoxColumn();
+            FechaIngreso = new DataGridViewTextBoxColumn();
+            FechaExpiracion = new DataGridViewTextBoxColumn();
+            Lote = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -250,7 +253,7 @@
             // dgvInventario
             // 
             dgvInventario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvInventario.Columns.AddRange(new DataGridViewColumn[] { IdInventario, Creacion, Modificacion, Reversion, Transaccion, Reversar });
+            dgvInventario.Columns.AddRange(new DataGridViewColumn[] { IdInventario, Creacion, IdTransaccion, Transaccion, Referencia, Reversar });
             dgvInventario.Location = new Point(9, 70);
             dgvInventario.Name = "dgvInventario";
             dgvInventario.Size = new Size(648, 328);
@@ -269,23 +272,22 @@
             Creacion.Name = "Creacion";
             Creacion.ReadOnly = true;
             // 
-            // Modificacion
+            // IdTransaccion
             // 
-            Modificacion.HeaderText = "Modificación";
-            Modificacion.Name = "Modificacion";
-            Modificacion.ReadOnly = true;
-            // 
-            // Reversion
-            // 
-            Reversion.HeaderText = "Reversión";
-            Reversion.Name = "Reversion";
-            Reversion.ReadOnly = true;
+            IdTransaccion.HeaderText = "IdTransaccion";
+            IdTransaccion.Name = "IdTransaccion";
+            IdTransaccion.Visible = false;
             // 
             // Transaccion
             // 
             Transaccion.HeaderText = "Transacción";
             Transaccion.Name = "Transaccion";
             Transaccion.ReadOnly = true;
+            // 
+            // Referencia
+            // 
+            Referencia.HeaderText = "Referencia";
+            Referencia.Name = "Referencia";
             // 
             // Reversar
             // 
@@ -347,61 +349,11 @@
             // dgvDetallesInventario
             // 
             dgvDetallesInventario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesInventario.Columns.AddRange(new DataGridViewColumn[] { IdArticulo, Articulo, Descripcion, Impuesto, Cantidad, ValorCompra, ValorVenta, Papeleria, Eliminar });
-            dgvDetallesInventario.Location = new Point(669, 70);
+            dgvDetallesInventario.Columns.AddRange(new DataGridViewColumn[] { IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, Papeleria, FechaIngreso, FechaExpiracion, Lote, Codigo, Estado, Eliminar });
+            dgvDetallesInventario.Location = new Point(663, 70);
             dgvDetallesInventario.Name = "dgvDetallesInventario";
             dgvDetallesInventario.Size = new Size(945, 328);
             dgvDetallesInventario.TabIndex = 2;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "Id";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Artículo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripcion";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Impuesto
-            // 
-            Impuesto.HeaderText = "Impuesto";
-            Impuesto.Name = "Impuesto";
-            Impuesto.ReadOnly = true;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorCompra
-            // 
-            ValorCompra.HeaderText = "Valor Compra";
-            ValorCompra.Name = "ValorCompra";
-            // 
-            // ValorVenta
-            // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
-            // 
-            // Papeleria
-            // 
-            Papeleria.HeaderText = "Papeleria";
-            Papeleria.Name = "Papeleria";
-            Papeleria.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // label1
             // 
@@ -475,6 +427,70 @@
             cbxReportes.Text = "Seleccione Tipo Resumen";
             cbxReportes.SelectedIndexChanged += cbxReportes_SelectedIndexChanged;
             // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "Id";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Artículo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripcion";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "Valor Compra";
+            ValorCompra.Name = "ValorCompra";
+            // 
+            // Papeleria
+            // 
+            Papeleria.HeaderText = "Papeleria";
+            Papeleria.Name = "Papeleria";
+            Papeleria.ReadOnly = true;
+            // 
+            // FechaIngreso
+            // 
+            FechaIngreso.HeaderText = "Ingreso";
+            FechaIngreso.Name = "FechaIngreso";
+            // 
+            // FechaExpiracion
+            // 
+            FechaExpiracion.HeaderText = "Expiracion";
+            FechaExpiracion.Name = "FechaExpiracion";
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            // 
+            // Estado
+            // 
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -530,27 +546,30 @@
         private Label label7;
         private TextBox txtDocumento;
         private DataGridView dgvInventario;
-        private DataGridViewTextBoxColumn IdArticulo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Impuesto;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn Papeleria;
-        private DataGridViewImageColumn Eliminar;
         private Button btnGuardar;
         private Button btnCancelar;
         private Button btbBuscarInv;
-        private DataGridViewTextBoxColumn IdInventario;
-        private DataGridViewTextBoxColumn Creacion;
-        private DataGridViewTextBoxColumn Modificacion;
-        private DataGridViewTextBoxColumn Reversion;
-        private DataGridViewTextBoxColumn Transaccion;
-        private DataGridViewImageColumn Reversar;
         private Button btnExistenciasInventario;
         private GroupBox groupBox5;
         private ComboBox cbxReportes;
         private DateTimePicker dtpFechaResumen;
+        private DataGridViewTextBoxColumn IdInventario;
+        private DataGridViewTextBoxColumn Creacion;
+        private DataGridViewTextBoxColumn IdTransaccion;
+        private DataGridViewTextBoxColumn Transaccion;
+        private DataGridViewTextBoxColumn Referencia;
+        private DataGridViewImageColumn Reversar;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewTextBoxColumn Papeleria;
+        private DataGridViewTextBoxColumn FechaIngreso;
+        private DataGridViewTextBoxColumn FechaExpiracion;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn Estado;
+        private DataGridViewImageColumn Eliminar;
     }
 }

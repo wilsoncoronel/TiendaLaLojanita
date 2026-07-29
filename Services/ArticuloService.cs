@@ -82,22 +82,6 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<CodigoArticuloDTO>> ListaCodigosArticulos(int idArticulo)
-        {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaCodigosArticulos?idArticulo={idArticulo}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<CodigoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<CodigoArticuloDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
         public async Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo()
         {
             try
@@ -124,6 +108,23 @@ namespace TiendaLaLojanita.Services
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<List<MarcaDTO>> result = JsonConvert.DeserializeObject<Response<List<MarcaDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<TransaccionInventarioDTO>> ListaTransaccionInventario()
+        {
+            try
+            {
+                MarcaDTO MarcaDTO = new MarcaDTO();
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Configuraciones/ListarTransacciones");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<TransaccionInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<TransaccionInventarioDTO>>>(responseJson);
                 return result.Value;
             }
             catch

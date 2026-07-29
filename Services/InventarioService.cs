@@ -37,14 +37,14 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<InventarioDTO>> ListaInventario(DateOnly Inicio, DateOnly Fin)
+        public async Task<List<MovimientoDTO>> ListaInventario(DateOnly Inicio, DateOnly Fin)
         {
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaInventario?fechaInicio={Inicio:yyyy-MM-dd}&fechaFin={Fin:yyyy-MM-dd}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<InventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioDTO>>>(responseJson);
+                Response<List<MovimientoDTO>> result = JsonConvert.DeserializeObject<Response<List<MovimientoDTO>>>(responseJson);
                 return result.Value;
             }
             catch
@@ -69,14 +69,14 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<DetalleInventarioDTO>> ListaDetallesInventario(int IdInventario)
+        public async Task<List<InventarioLoteDTO>> ListaDetallesInventario(int IdMovimiento)
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaDetallesInventario?IdInventario={IdInventario}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaDetallesInventario?IdMovimiento={IdMovimiento}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<DetalleInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<DetalleInventarioDTO>>>(responseJson);
+                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
                 return result.Value;
             }
             catch

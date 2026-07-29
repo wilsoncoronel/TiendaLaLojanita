@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using System.ComponentModel;
+using System.DirectoryServices;
 using System.Globalization;
 using System.IO.Compression;
 using System.Xml;
@@ -23,7 +24,6 @@ namespace TiendaLaLojanita.Views
         private List<ImpuestoArticuloDTO> listaimpuestos;
         private ArticuloDTO artActual;
         private ArticuloEdicionDTO artEditarActual;
-        private List<CodigoArticuloCreacionDTO> listaCodigos = [];
         List<ArticuloDTO> listaArticulos;
         ProgressBar pro;
         private readonly IMarcaService marcaService;
@@ -160,8 +160,6 @@ namespace TiendaLaLojanita.Views
                     MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            this.listaCodigos = [];
-            this.dgvCodsArticulos.Rows.Clear();
         }
 
         private ArticuloDTO CargarDatosRelacionados(ArticuloDTO art)
@@ -208,7 +206,6 @@ namespace TiendaLaLojanita.Views
         private async Task<int> CrearArticulo()
         {
             ArticuloCreacionDTO articuloDto = new ArticuloCreacionDTO();
-            CargarCodigosArticulo();
             articuloDto.Codigo = txtId.Text;
             articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
@@ -224,7 +221,6 @@ namespace TiendaLaLojanita.Views
             articuloDto.FechaCaducidad = dtpCaducidad.Value;
             articuloDto.FechaCreacion = DateTime.Now;
             articuloDto.Papeleria = this.chckPapeleria.Checked;
-            articuloDto.ListaCodigosArticulosDTO = this.listaCodigos;
             var validator = new ArticuloValidator();
             ValidationResult result = validator.Validate(articuloDto);
             if (!result.IsValid)
@@ -239,23 +235,6 @@ namespace TiendaLaLojanita.Views
                 return await this.articuloService.CrearArticulo(articuloDto);
             }
         }
-
-        private void CargarCodigosArticulo()
-        {
-            listaCodigos = new List<CodigoArticuloCreacionDTO>();
-            foreach (DataGridViewRow fila in dgvCodsArticulos.Rows)
-            {
-                if(!fila.IsNewRow && fila.Cells[0].Value != null)
-                {
-                    this.listaCodigos.Add(new CodigoArticuloCreacionDTO
-                    {
-                        Codigo = Convert.ToString(fila.Cells[0].Value)
-                    });
-                }
-            }
-           
-        }
-
         private void RecorrerErrores(ValidationResult result)
         {
             if (result.Errors.Count > 1)
@@ -353,16 +332,14 @@ namespace TiendaLaLojanita.Views
             try
             {
                 int id = 0;
+                id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
                 if (e.ColumnIndex < 0)
                 {
                     MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (dgvArticulos.Columns[e.ColumnIndex].Name == "Editar")
                 {
-                    id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
                     this.CargarEditarArticulo(id);
-                }else if (dgvArticulos.Columns[e.ColumnIndex].Name == "Id"){
-                    var resp = await this.CargarCodigosArticulo();
                 }
             }
             catch
@@ -504,44 +481,6 @@ namespace TiendaLaLojanita.Views
             this.cargarCombos();
             pro.Hide();
             MessageBox.Show("Datos de configuracion recargados.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        }
-
-        private void dgvCodsArticulos_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                dgvCodsArticulos.Rows.Add();
-                int ultimaFila = dgvCodsArticulos.Rows.Count - 1;
-                dgvCodsArticulos.CurrentCell = dgvCodsArticulos.Rows[ultimaFila].Cells[0];
-            }
-        }
-
-        private void dgvCodsArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvCodsArticulos.Columns[e.ColumnIndex].Name == "EliminarCodigos")
-                {
-                    DataGridViewRow fila = dgvCodsArticulos.CurrentRow;
-                    if (!fila.IsNewRow) {
-                        dgvCodsArticulos.Rows.RemoveAt(fila.Index);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No puedes eliminar la fila vacía de entrada de nuevos datos", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            catch
-            {
-                throw;
-            }
 
         }
 

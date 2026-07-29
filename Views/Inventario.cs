@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,8 +24,8 @@ namespace TiendaLaLojanita.Views
         private readonly IProcesarExcel procesarExcel;
         private readonly ICompraService compraService;
         private readonly IProveedorService proveedorService;
-        private List<InventarioDTO> ListaInventario;
-        private List<DetalleInventarioDTO> ListaDetallesInventario;
+        private List<MovimientoDTO> ListaMovimiento;
+        private List<InventarioLoteDTO> ListaInventarioLote;
         private List<ProveedorDTO> ListaProveedores;
         private ProgressBar prog;
 
@@ -38,8 +39,8 @@ namespace TiendaLaLojanita.Views
             InitializeComponent();
             ListaProveedores = new List<ProveedorDTO>();
             ListaTranInv = new List<TransaccionInventarioDTO>();
-            ListaInventario = new List<InventarioDTO>();
-            ListaDetallesInventario = new List<DetalleInventarioDTO>();
+            ListaMovimiento = new List<MovimientoDTO>();
+            ListaInventarioLote = new List<InventarioLoteDTO>();
             this.inventarioService = inventarioService;
             this.procesarExcel = procesarExcel;
             this.compraService = compraService;
@@ -154,7 +155,7 @@ namespace TiendaLaLojanita.Views
             DateOnly fechaFin = DateOnly.FromDateTime(this.dtpFechaFin.Value);
             prog = new ProgressBar();
             prog.Show();
-            this.ListaInventario = await this.inventarioService.ListaInventario(fechaIni, fechaFin);
+            this.ListaMovimiento = await this.inventarioService.ListaInventario(fechaIni, fechaFin);
             prog.Hide();
             this.CargarTablaInv();
         }
@@ -162,24 +163,24 @@ namespace TiendaLaLojanita.Views
         private void CargarTablaInv()
         {
             this.dgvInventario.Rows.Clear();
-            foreach (var inv in ListaInventario)
+            foreach (var inv in ListaMovimiento)
             {
                 int index = this.dgvInventario.Rows.Add(new object[]
                 {
                     inv.Id,
-                    inv.FechaCreacion,
-                    Convert.ToString(inv.FechaActualizacion)?? "",
-                    Convert.ToString(inv.FechaReversion)?? "",
-                    inv.CompraDTO != null ? $"Compra Id: {inv.CompraDTO.Id}, Documento: {inv.CompraDTO.Documento}" : $"Venta Id: {inv.VentaDTO.Id}, Documento: {inv.VentaDTO.Documento}",
+                    inv.FechaIngreso,
+                    inv.IdTransaccion,
+                    inv.TransaccionDTO.Nombre,
+                    inv.Referencia,
                 });
             }
         }
 
         private async void CargarDetalles(int idInventario)
         {
-            this.ListaDetallesInventario.Clear();
-            this.ListaDetallesInventario = await this.inventarioService.ListaDetallesInventario(idInventario);
-            if (this.ListaDetallesInventario.Count > 0)
+            this.ListaInventarioLote.Clear();
+            this.ListaInventarioLote = await this.inventarioService.ListaDetallesInventario(idInventario);
+            if (this.ListaInventarioLote.Count > 0)
             {
                 this.CargarTablaDetallesInventario();
             }
@@ -187,18 +188,21 @@ namespace TiendaLaLojanita.Views
         private void CargarTablaDetallesInventario()
         {
             this.dgvDetallesInventario.Rows.Clear();
-            foreach (var detalle in ListaDetallesInventario)
+            foreach (var detalle in ListaInventarioLote)
             {
                 int index = this.dgvDetallesInventario.Rows.Add(new object[]
                 {
                     detalle.Id,
                     detalle.ArticuloDTO.Nombre,
                     detalle.ArticuloDTO.Descripcion,
-                    detalle.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto,
-                    detalle.Cantidad,
-                    detalle.PrecioCompra,
-                    detalle.PrecioVenta,
-                    detalle.ArticuloDTO.Papeleria == true ? "SI" : "NO"
+                    detalle.StockDisponible,
+                    detalle.CostoUnitario,
+                    detalle.ArticuloDTO.Papeleria == true ? "SI" : "NO",
+                    detalle.FechaIngreso.ToString("dd/MM/yyyy"),
+                    detalle.FechaExpiracion.HasValue ? detalle.FechaExpiracion.Value.ToString("dd/MM/yyyy") : "N/A",
+                    detalle.NumeroLote,
+                    detalle.Codigo,
+                    detalle.Estado == true ? "Activo":"Inactivo"
                 });
             }
         }

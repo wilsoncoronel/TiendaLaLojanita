@@ -31,9 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
-            dgvCodsArticulos = new DataGridView();
-            CodigoProductos = new DataGridViewTextBoxColumn();
-            EliminarCodigos = new DataGridViewImageColumn();
             btnRecargarDatosConfiguraciones = new Button();
             btnAgregarDatosConfiguraciones = new Button();
             chckPapeleria = new CheckBox();
@@ -69,6 +66,9 @@
             groupBox3 = new GroupBox();
             groupBox4 = new GroupBox();
             dgvCodigosArticulos = new DataGridView();
+            IdCodArt = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             btnBuscar = new Button();
             dtpFechaFinal = new DateTimePicker();
             label16 = new Label();
@@ -104,11 +104,7 @@
             btnAbrirArchivo = new Button();
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
-            IdCodArt = new DataGridViewTextBoxColumn();
-            Código = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCodsArticulos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudValorVenta).BeginInit();
@@ -124,7 +120,6 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(dgvCodsArticulos);
             groupBox1.Controls.Add(btnRecargarDatosConfiguraciones);
             groupBox1.Controls.Add(btnAgregarDatosConfiguraciones);
             groupBox1.Controls.Add(chckPapeleria);
@@ -154,29 +149,6 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
-            // 
-            // dgvCodsArticulos
-            // 
-            dgvCodsArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCodsArticulos.Columns.AddRange(new DataGridViewColumn[] { CodigoProductos, EliminarCodigos });
-            dgvCodsArticulos.Location = new Point(959, 17);
-            dgvCodsArticulos.Name = "dgvCodsArticulos";
-            dgvCodsArticulos.Size = new Size(240, 212);
-            dgvCodsArticulos.TabIndex = 25;
-            dgvCodsArticulos.CellClick += dgvCodsArticulos_CellClick;
-            dgvCodsArticulos.KeyDown += dgvCodsArticulos_KeyDown;
-            dgvCodsArticulos.KeyPress += dgvCodsArticulos_KeyPress;
-            // 
-            // CodigoProductos
-            // 
-            CodigoProductos.HeaderText = "Códigos Productos";
-            CodigoProductos.Name = "CodigoProductos";
-            // 
-            // EliminarCodigos
-            // 
-            EliminarCodigos.HeaderText = "Eliminar";
-            EliminarCodigos.Image = Properties.Resources._3687412_edit;
-            EliminarCodigos.Name = "EliminarCodigos";
             // 
             // btnRecargarDatosConfiguraciones
             // 
@@ -504,11 +476,30 @@
             // 
             dgvCodigosArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvCodigosArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { IdCodArt, Código, Eliminar });
+            dgvCodigosArticulos.Columns.AddRange(new DataGridViewColumn[] { IdCodArt, Codigo, Eliminar });
             dgvCodigosArticulos.Location = new Point(1189, 71);
             dgvCodigosArticulos.Name = "dgvCodigosArticulos";
             dgvCodigosArticulos.Size = new Size(319, 290);
             dgvCodigosArticulos.TabIndex = 8;
+            // 
+            // IdCodArt
+            // 
+            IdCodArt.HeaderText = "Id";
+            IdCodArt.Name = "IdCodArt";
+            IdCodArt.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Código";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = Properties.Resources.cancelar_resize;
+            Eliminar.Name = "Eliminar";
+            Eliminar.ReadOnly = true;
             // 
             // btnBuscar
             // 
@@ -749,25 +740,6 @@
             // 
             toolTip1.Tag = "Agregar Marcas/Tipos/Impuestos";
             // 
-            // IdCodArt
-            // 
-            IdCodArt.HeaderText = "Id";
-            IdCodArt.Name = "IdCodArt";
-            IdCodArt.ReadOnly = true;
-            // 
-            // Código
-            // 
-            Código.HeaderText = "Codigo";
-            Código.Name = "Código";
-            Código.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = Properties.Resources.cancelar_resize;
-            Eliminar.Name = "Eliminar";
-            Eliminar.ReadOnly = true;
-            // 
             // Registro_Articulos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -784,7 +756,6 @@
             Load += Registro_Articulos_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCodsArticulos).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -878,11 +849,8 @@
         private Button btnAgregarDatosConfiguraciones;
         private Button btnRecargarDatosConfiguraciones;
         private DataGridView dgvCodigosArticulos;
-        private DataGridView dgvCodsArticulos;
-        private DataGridViewTextBoxColumn CodigoProductos;
-        private DataGridViewImageColumn EliminarCodigos;
         private DataGridViewTextBoxColumn IdCodArt;
-        private DataGridViewTextBoxColumn Código;
+        private DataGridViewTextBoxColumn Codigo;
         private DataGridViewImageColumn Eliminar;
     }
 }

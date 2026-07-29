@@ -30,8 +30,6 @@ namespace TiendaLaLojanita.Validaciones
                 .GreaterThan(0).WithMessage("El valor de compra debe ser mayor a 0");
             RuleFor(x => x.ValorVenta)
                 .GreaterThan(0).WithMessage("El valor de venta debe ser mayor a 0");
-            RuleFor(x => x.ListaCodigosArticulosDTO)
-                .NotEmpty().WithMessage("El artículo debe tener al menos un código relacionado!");
         }
     }
 }
