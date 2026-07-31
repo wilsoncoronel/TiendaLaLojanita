@@ -226,6 +226,7 @@ namespace TiendaLaLojanita.Views
 
                 // Obtén el ID siempre, sin importar dónde haya hecho clic
                 int id = Convert.ToInt32(dgvInventario.Rows[e.RowIndex].Cells["IdInventario"].Value);
+                this.dgvDetallesInventario.Rows.Clear(); // Limpia la tabla de detalles antes de cargar nuevos datos
                 // Llama al método que necesites
                 if (dgvInventario.Columns[e.ColumnIndex].Name == "Reversar")
                 {
@@ -240,19 +241,15 @@ namespace TiendaLaLojanita.Views
         }
 
         private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (this.cbxTransaccion.Text == "Compra")
+        {    
+            if (cbxReportes.SelectedItem.ToString() == "Resumen Ventas al Día")
             {
+                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
 
-                if (cbxReportes.SelectedItem.ToString() == "Resumen Ventas al Día")
-                {
-                    MessageBoxFunction(cbxReportes.SelectedItem.ToString());
-
-                }
-                else if (cbxReportes.SelectedItem.ToString() == "Resumen Mensual")
-                {
-                    MessageBoxFunction(cbxReportes.SelectedItem.ToString());
-                }
+            }
+            else if (cbxReportes.SelectedItem.ToString() == "Resumen Mensual")
+            {
+                MessageBoxFunction(cbxReportes.SelectedItem.ToString());
             }
         }
 

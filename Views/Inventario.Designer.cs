@@ -59,14 +59,6 @@
             label3 = new Label();
             label2 = new Label();
             dgvDetallesInventario = new DataGridView();
-            label1 = new Label();
-            ofdArchivos = new OpenFileDialog();
-            groupBox4 = new GroupBox();
-            btnGuardar = new Button();
-            btnCancelar = new Button();
-            groupBox5 = new GroupBox();
-            dtpFechaResumen = new DateTimePicker();
-            cbxReportes = new ComboBox();
             IdArticulo = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -79,6 +71,14 @@
             Codigo = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
+            label1 = new Label();
+            ofdArchivos = new OpenFileDialog();
+            groupBox4 = new GroupBox();
+            btnGuardar = new Button();
+            btnCancelar = new Button();
+            groupBox5 = new GroupBox();
+            dtpFechaResumen = new DateTimePicker();
+            cbxReportes = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -254,7 +254,7 @@
             // 
             dgvInventario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvInventario.Columns.AddRange(new DataGridViewColumn[] { IdInventario, Creacion, IdTransaccion, Transaccion, Referencia, Reversar });
-            dgvInventario.Location = new Point(9, 70);
+            dgvInventario.Location = new Point(5, 70);
             dgvInventario.Name = "dgvInventario";
             dgvInventario.Size = new Size(648, 328);
             dgvInventario.TabIndex = 9;
@@ -355,6 +355,70 @@
             dgvDetallesInventario.Size = new Size(945, 328);
             dgvDetallesInventario.TabIndex = 2;
             // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "Id";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Artículo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripcion";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "Valor Compra";
+            ValorCompra.Name = "ValorCompra";
+            // 
+            // Papeleria
+            // 
+            Papeleria.HeaderText = "Papeleria";
+            Papeleria.Name = "Papeleria";
+            Papeleria.ReadOnly = true;
+            // 
+            // FechaIngreso
+            // 
+            FechaIngreso.HeaderText = "Ingreso";
+            FechaIngreso.Name = "FechaIngreso";
+            // 
+            // FechaExpiracion
+            // 
+            FechaExpiracion.HeaderText = "Expiracion";
+            FechaExpiracion.Name = "FechaExpiracion";
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            // 
+            // Estado
+            // 
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -426,70 +490,6 @@
             cbxReportes.TabIndex = 0;
             cbxReportes.Text = "Seleccione Tipo Resumen";
             cbxReportes.SelectedIndexChanged += cbxReportes_SelectedIndexChanged;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "Id";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Artículo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripcion";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorCompra
-            // 
-            ValorCompra.HeaderText = "Valor Compra";
-            ValorCompra.Name = "ValorCompra";
-            // 
-            // Papeleria
-            // 
-            Papeleria.HeaderText = "Papeleria";
-            Papeleria.Name = "Papeleria";
-            Papeleria.ReadOnly = true;
-            // 
-            // FechaIngreso
-            // 
-            FechaIngreso.HeaderText = "Ingreso";
-            FechaIngreso.Name = "FechaIngreso";
-            // 
-            // FechaExpiracion
-            // 
-            FechaExpiracion.HeaderText = "Expiracion";
-            FechaExpiracion.Name = "FechaExpiracion";
-            // 
-            // Lote
-            // 
-            Lote.HeaderText = "Lote";
-            Lote.Name = "Lote";
-            // 
-            // Codigo
-            // 
-            Codigo.HeaderText = "Codigo";
-            Codigo.Name = "Codigo";
-            // 
-            // Estado
-            // 
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // Inventario
             // 
