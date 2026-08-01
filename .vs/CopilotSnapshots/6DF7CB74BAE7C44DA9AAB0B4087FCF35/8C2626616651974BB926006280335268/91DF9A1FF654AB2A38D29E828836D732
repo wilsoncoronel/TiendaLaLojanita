@@ -327,8 +327,8 @@ namespace TiendaLaLojanita.Views
             SaveFileDialog guardar = new SaveFileDialog();
             guardar.FileName = $"Venta_{ventaActual.Id}_{ventaActual.Cliente.Nombres}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
 
-            // El recurso repote_venta está guardado como byte[] en Resources -> convertir a string usando UTF8
-            
+            string paginahtml_texto = Properties.Resources.repote_venta.ToString();
+            paginahtml_texto = paginahtml_texto.Replace("@CLIENTE", ventaActual.Cliente.Nombres);
 
             if (guardar.ShowDialog() == DialogResult.OK) {
                 using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
@@ -337,21 +337,10 @@ namespace TiendaLaLojanita.Views
                     PdfWriter writer = PdfWriter.GetInstance(doc, stream);
                     doc.Open();
                     doc.Add(new Phrase(""));
-                    PdfPTable table = new PdfPTable(1)
+                    using (StringReader sr = new StringReader(paginahtml_texto))
                     {
-                        WidthPercentage = 100,
-                    };
-
-                    PdfPCell celda1 = new PdfPCell()
-                    {
-                        BorderWidth = 1f,
-                        FixedHeight = 50f
-                    };
-
-                    Paragraph paragra = new Paragraph(ventaActual.Documento);
-                    celda1.AddElement(paragra);
-                    table.AddCell(celda1);
-                    doc.Add(table);
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, sr);
+                    }
                     doc.Close();
                     stream.Close();
                 }

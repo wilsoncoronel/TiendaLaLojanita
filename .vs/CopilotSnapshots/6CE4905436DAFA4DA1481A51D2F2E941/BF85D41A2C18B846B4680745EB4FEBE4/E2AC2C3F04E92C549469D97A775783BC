@@ -3,16 +3,11 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
-using System.IO;
 
 namespace TiendaLaLojanita.Views
 {
@@ -296,16 +291,37 @@ namespace TiendaLaLojanita.Views
             return listaArticulos;
         }
 
-        private async void btnGuardar_Click(object sender, EventArgs e)
+        private async void btnGuardar_Click(object sender)
         {
-            
+            var resp = 0;
+            var respEditar = false;
+            if (this.txtIdVenta is null || this.txtIdVenta.Text == "")
+            {
+                resp = await this.CrearVenta();
+                if (resp == 0) MessageBox.Show("No se pudo crear la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    int idVenta = resp;
+                    MessageBox.Show($"Venta creada con éxito con el ID: {idVenta}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.GenerarReporteVenta(idVenta, e);
+                    
+                }
+                this.LimpiarValores();
+                this.LimpiarFormulario();
+               
+            }
+            /*else
+            {
+                respEditar = await this.EditarCompra();
+                if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }*/
         }
 
-        private async void GenerarReporteVenta(int idVenta)
-        {
+       private async void GenerarReporteVenta(int idVenta)
+       {
             DialogResult respuesta = MessageBox.Show(
                     $"Quiere generar el PDF de la venta?",
-                    "Confirmar",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question
                 );
@@ -313,58 +329,16 @@ namespace TiendaLaLojanita.Views
             {
                 pro = new ProgressBar();
                 Show();
-                var ventaActual = new VentaDTO();
-                ventaActual = await this.CargarVentaActual(idVenta);
+                this.listaArticulos = new List<ArticuloDTO>();
+                this.listaArticulos = await this.CargarListaArticulos();
+                this.listaTemp = new List<ArticuloDTO>();
+                this.listaTemp = this.listaArticulos.ToList();
+                this.AutoCompleteArt();
                 Hide();
-                MessageBox.Show($"Reporte Generado!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                this.ImprimirVenta(ventaActual);
+                MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void ImprimirVenta(VentaDTO ventaActual)
-        {
-            SaveFileDialog guardar = new SaveFileDialog();
-            guardar.FileName = $"Venta_{ventaActual.Id}_{ventaActual.Cliente.Nombres}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
-
-            // El recurso repote_venta está guardado como byte[] en Resources -> convertir a string usando UTF8
-            
-
-            if (guardar.ShowDialog() == DialogResult.OK) {
-                using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
-                {
-                    Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
-                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
-                    doc.Open();
-                    doc.Add(new Phrase(""));
-                    PdfPTable table = new PdfPTable(1)
-                    {
-                        WidthPercentage = 100,
-                    };
-
-                    PdfPCell celda1 = new PdfPCell()
-                    {
-                        BorderWidth = 1f,
-                        FixedHeight = 50f
-                    };
-
-                    Paragraph paragra = new Paragraph(ventaActual.Documento);
-                    celda1.AddElement(paragra);
-                    table.AddCell(celda1);
-                    doc.Add(table);
-                    doc.Close();
-                    stream.Close();
-                }
-                    
-            }
-        }
-
-        private async Task<VentaDTO> CargarVentaActual(int idVenta)
-        {
-            VentaDTO ventaActual = new VentaDTO();
-            ventaActual = await this._ventaService.ObtenerVenta(idVenta);
-            return ventaActual;
-        }
         private async Task<int> CrearVenta()
         {
             try
@@ -676,11 +650,6 @@ namespace TiendaLaLojanita.Views
                     id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
                     this.ObtenerVenta(id);
                 }
-                else if (dgvVentas.Columns[e.ColumnIndex].Name == "Imprimir")
-                {
-                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
-                    this.GenerarReporteVenta(id);
-                }
             }
             catch
             {
@@ -838,33 +807,6 @@ namespace TiendaLaLojanita.Views
                 Hide();
                 MessageBox.Show($"Artículos recargados!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private async void btnGuardar_Click_1(object sender, EventArgs e)
-        {
-            var resp = 0;
-            var respEditar = false;
-            if (this.txtIdVenta is null || this.txtIdVenta.Text == "")
-            {
-                resp = await this.CrearVenta();
-                if (resp == 0) MessageBox.Show("No se pudo crear la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                {
-                    int idVenta = resp;
-                    MessageBox.Show($"Venta creada con éxito con el ID: {idVenta}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.GenerarReporteVenta(idVenta);
-
-                }
-                this.LimpiarValores();
-                this.LimpiarFormulario();
-
-            }
-            /*else
-            {
-                respEditar = await this.EditarCompra();
-                if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }*/
         }
     }
 }

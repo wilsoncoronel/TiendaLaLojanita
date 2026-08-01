@@ -85,6 +85,8 @@ namespace TiendaLaLojanita.Services
             }
         }
 
+       
+
         public async Task<int> CrearTransaccionInventario(InventarioCreacionDTO traInventario)
         {
             try

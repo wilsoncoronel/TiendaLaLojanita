@@ -47,3 +47,7 @@ C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLo
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.DatosConfiguraciones.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.FormularioResumenVentas.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Devolucion_Venta.resources
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\BouncyCastle.Cryptography.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\itextsharp.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\itextsharp.xmlworker.dll
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\TiendaLaLojanita.dll.config

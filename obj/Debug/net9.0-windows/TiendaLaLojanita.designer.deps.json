@@ -6,11 +6,41 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
+      "BouncyCastle.Cryptography/2.6.2": {
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.6.2.46322"
+          }
+        }
+      },
       "FluentValidation/12.0.0": {
         "runtime": {
           "lib/net8.0/FluentValidation.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.0.0"
+          }
+        }
+      },
+      "iTextSharp/5.5.13.6": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.6.2"
+        },
+        "runtime": {
+          "lib/net461/itextsharp.dll": {
+            "assemblyVersion": "5.5.13.6",
+            "fileVersion": "5.5.13.6"
+          }
+        }
+      },
+      "itextsharp.xmlworker/5.5.13.6": {
+        "dependencies": {
+          "iTextSharp": "5.5.13.6"
+        },
+        "runtime": {
+          "lib/net461/itextsharp.xmlworker.dll": {
+            "assemblyVersion": "5.5.13.6",
+            "fileVersion": "5.5.13.6"
           }
         }
       },
@@ -201,12 +231,33 @@
     }
   },
   "libraries": {
+    "BouncyCastle.Cryptography/2.6.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7oWOcvnntmMKNzDLsdxAYqApt+AjpRpP2CShjMfIa3umZ42UQMvH0tl1qAliYPNYO6vTdcGMqnRrCPmsfzTI1w==",
+      "path": "bouncycastle.cryptography/2.6.2",
+      "hashPath": "bouncycastle.cryptography.2.6.2.nupkg.sha512"
+    },
     "FluentValidation/12.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA==",
       "path": "fluentvalidation/12.0.0",
       "hashPath": "fluentvalidation.12.0.0.nupkg.sha512"
+    },
+    "iTextSharp/5.5.13.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v3gD7+SSRr/mCJK+sfTjfNScRsRzZhx4EXGFrMysPPCAnS475igheorWT5ChSVM+Tstozqu2kTY9l/kFZB1xDA==",
+      "path": "itextsharp/5.5.13.6",
+      "hashPath": "itextsharp.5.5.13.6.nupkg.sha512"
+    },
+    "itextsharp.xmlworker/5.5.13.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2gZMGmokMz8ck0ikgfO1UKOjzYgYgq5BEG//2/3VC6HY2k+zzLqGyKJQmlDbbo0NBTuU1mxZgRWWj4kxp6l9LA==",
+      "path": "itextsharp.xmlworker/5.5.13.6",
+      "hashPath": "itextsharp.xmlworker.5.5.13.6.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/6.0.0": {
       "type": "package",
