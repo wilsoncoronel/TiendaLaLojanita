@@ -302,11 +302,6 @@ namespace TiendaLaLojanita.Views
             return listaArticulos;
         }
 
-        private async void btnGuardar_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private async void GenerarReporteVenta(int idVenta)
         {
             DialogResult respuesta = MessageBox.Show(
@@ -969,12 +964,6 @@ namespace TiendaLaLojanita.Views
                 this.LimpiarFormulario();
 
             }
-            /*else
-            {
-                respEditar = await this.EditarCompra();
-                if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }*/
         }
     }
 }

@@ -15,6 +15,7 @@ namespace TiendaLaLojanita.Views
         private readonly IProveedorService proveedorService;
         private readonly IArticuloService articuloService;
         private readonly ICompraService compraService;
+        private readonly IInventarioService inventarioService;
         private List<ArticuloDTO> listaArticulos;
         private int contador = 0;
         private decimal imp = 0;
@@ -22,25 +23,29 @@ namespace TiendaLaLojanita.Views
         private int IdProveedor = 0;
         private List<EstadoCompraDTO> ListaEstados;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
+        private List<TransaccionInventarioDTO> ListaTransacciones;
         private decimal TotalGeneral = 0m;
         private List<ArticuloDTO> listaTemp;
         private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService)
+        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService, IInventarioService inventarioService)
         {
             InitializeComponent();
             this.proveedorService = proveedorService;
             this.articuloService = articuloService;
             this.compraService = compraService;
+            this.inventarioService = inventarioService;
             this.listaArticulos = new List<ArticuloDTO>();
+            this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
 
         private async void CargarDatosInciales()
         {
             this.ListaEstados = await this.compraService.ListarEstadosCompra();
+            this.ListaTransacciones = await this.inventarioService.ListaTransaccionesInventario();
             this.CargarCombos();
         }
         private void CargarCombos()
@@ -97,6 +102,7 @@ namespace TiendaLaLojanita.Views
                 compraEditarDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 compraEditarDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
                 compraEditarDTO.DetalleComprasEditarDto = new List<DetalleCompraEditarDTO>();
+                compraEditarDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id; ;
                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
                 {
                     if (row.IsNewRow) continue; // Saltar la fila nueva
@@ -146,6 +152,7 @@ namespace TiendaLaLojanita.Views
                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+                compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
                 {
                     if (row.IsNewRow) continue; // Saltar la fila nueva
@@ -365,6 +372,7 @@ namespace TiendaLaLojanita.Views
 
         private void CalcularTotales()
         {
+            
             decimal totImpuestos = 0m;
             this.dgvTotales.Rows.Clear();
 
@@ -568,14 +576,14 @@ namespace TiendaLaLojanita.Views
             this.dtpCompra.Value = compra.FechaCompra;
             this.cbxEstadoCompra.SelectedValue = compra.IdEstado;
             this.dgvDetalleCompra.Rows.Clear();
-            ArticuloDTO articuloActual = new ArticuloDTO();
+            //ArticuloDTO articuloActual = new ArticuloDTO();
             foreach (var detalle in compra.DetalleCompras)
             {
                 int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                     detalle.Id,
                     detalle.IdCompra,
-                    detalle.Articulo.Id,
-                    detalle.Articulo.Nombre,
+                    detalle.ArticuloDTO.Id,
+                    detalle.ArticuloDTO.Nombre,
                     detalle.Descripcion,
                     detalle.Cantidad,
                     detalle.ValorCompra,
@@ -592,12 +600,12 @@ namespace TiendaLaLojanita.Views
         {
             listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
             {
-                { detalle.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                { detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
                     {
                         new ImpuestoArticuloCalculadoDTO
                         {
-                            NombreImpuesto = detalle.Articulo.ImpuestoArticuloDto.Nombre,
-                            IdArticulo = detalle.Articulo.Id,
+                            NombreImpuesto = detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre,
+                            IdArticulo = detalle.ArticuloDTO.Id,
                             ValorImpuesto = detalle.ImpuestoValor,
                             ValorCompra = detalle.ValorCompra,
                             Id = detalle.Id,

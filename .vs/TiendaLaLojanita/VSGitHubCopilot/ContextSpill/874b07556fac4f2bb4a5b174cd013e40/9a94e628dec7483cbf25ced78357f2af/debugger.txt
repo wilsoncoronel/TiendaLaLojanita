@@ -1,0 +1,173 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 26972)
+
+## EXCEPTION
+Exception Type: System.NullReferenceException
+Exception Message: Object reference not set to an instance of an object.
+Piece of code that has the exception:
+```csharp C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\Views\Registro_Compras.cs
+139:         private async Task<int> CrearCompra()
+140:         {
+141:             try
+142:             {
+143:                 int idCompra = 0;
+144:                 CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
+145:                 compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+146:                 compraCreacionDTO.Documento = this.txtDocumento.Text;
+147:                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
+148:                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+149:                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+150:                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+151:                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+152:                 compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
+153:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+154:                 {
+155:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+156:                     DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+157:                     {
+158:                         ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+159:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+160:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+161:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+162:                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+163:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+164:                         Descripcion = row.Cells["Descripcion"].Value?.ToString()
+165:                     };
+166:                     compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+167:                 }
+168:                 var validator = new CompraValidator();
+169:                 ValidationResult result = validator.Validate(compraCreacionDTO);
+170: 
+171:                 if (!result.IsValid)
+172:                 {
+173:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+174:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+175:                 }
+176:                 else
+177:                 {
+178:                     idCompra = await this.compraService.RegistrarCompra(compraCreacionDTO);
+179:                     return idCompra;
+180:                 }
+181:                 return idCompra;
+182:             }
+183:             catch (Exception ex)
+184:             {
+185:                 throw ex;
+186:             }
+187:         }
+```
+Exception is on line 185
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 8484
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.CrearCompra
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+139:         private async Task<int> CrearCompra()
+140:         {
+141:             try
+142:             {
+143:                 int idCompra = 0;
+144:                 CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
+145:                 compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+146:                 compraCreacionDTO.Documento = this.txtDocumento.Text;
+147:                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
+148:                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+149:                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+150:                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+151:                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+152:                 compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
+153:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+154:                 {
+155:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+156:                     DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+157:                     {
+158:                         ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+159:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+160:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+161:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+162:                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+163:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+164:                         Descripcion = row.Cells["Descripcion"].Value?.ToString()
+165:                     };
+166:                     compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+167:                 }
+168:                 var validator = new CompraValidator();
+169:                 ValidationResult result = validator.Validate(compraCreacionDTO);
+170: 
+171:                 if (!result.IsValid)
+172:                 {
+173:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+174:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+175:                 }
+176:                 else
+177:                 {
+178:                     idCompra = await this.compraService.RegistrarCompra(compraCreacionDTO);
+179:                     return idCompra;
+180:                 }
+181:                 return idCompra;
+182:             }
+183:             catch (Exception ex)
+184:             {
+185:                 throw ex;
+186:             }
+187:         }
+```
+Current statement: line 185
+[2] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.btnGuardar_Click
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+64:         private async void btnGuardar_Click(object sender, EventArgs e)
+65:         {
+66:             var resp = 0;
+67:             var respEditar = false;
+68:             if (this.txtIdCompra is null || this.txtIdCompra.Text == "")
+69:             {
+70:                 resp = await this.CrearCompra();
+71:                 if (resp == 0) MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+72:                 else
+73:                 {
+74:                     int idCompra = resp;
+75:                     MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+76:                 }
+77:             }
+78:             else
+79:             {
+80:                 respEditar = await this.EditarCompra();
+81:                 if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+82:                 else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+83:             }
+84: 
+85:             this.LimpiarValores();
+86:         }
+```
+Current statement: line 70
+[3] [Código externo]
+[16] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             var services = new ServiceCollection();
+23:             ConfigureServices(services);
+24:             using (var serviceProvider = services.BuildServiceProvider())
+25:             {
+26:                 var form1 = new FrmLoggin(serviceProvider);
+27:                 Application.Run(form1);
+28:             }
+29:         }
+```
+Current statement: line 27
+
+## LOCALS
+Variable: 'this' of type 'TiendaLaLojanita.Views.Registro_Compras' is a complex object with child properties and has value: {TiendaLaLojanita.Views.Registro_Compras}
+Variable: 'ex' of type 'System.Exception {System.NullReferenceException}' is a complex object with child properties and has value: {"Object reference not set to an instance of an object."}
+
