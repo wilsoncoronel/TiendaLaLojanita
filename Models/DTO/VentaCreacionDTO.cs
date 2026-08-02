@@ -10,6 +10,7 @@ namespace TiendaLaLojanita.Models.DTO
     {
         public int IdCliente { get; set; }
         public string Documento { get; set; }
+        public int? IdTransaccion { get; set; }
         public DateTime FechaCompra { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int IdEstado { get; set; }

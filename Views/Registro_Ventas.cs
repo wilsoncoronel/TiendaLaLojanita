@@ -9,10 +9,13 @@ using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
+using System;
 using System.IO;
+using iText.Kernel.Pdf;
+using iText.Kernel.Geom;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 
 namespace TiendaLaLojanita.Views
 {
@@ -31,6 +34,7 @@ namespace TiendaLaLojanita.Views
         private decimal TotalGeneral = 0m;
         private List<EstadoVentaDTO> ListaEstados;
         private List<ArticuloDTO> listaTemp;
+        private List<TransaccionInventarioDTO> ListaTransacciones;
 
         ProgressBar pro;
         [Browsable(false)]
@@ -44,6 +48,7 @@ namespace TiendaLaLojanita.Views
             this._ventaService = ventaService;
             this.inventarioService = inventarioService;
             this.listaArticulos = new List<ArticuloDTO>();
+            this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
         private async void Registro_Ventas_Load(object sender, EventArgs e)
@@ -52,6 +57,7 @@ namespace TiendaLaLojanita.Views
             this.lblUsuario.Text = $"Usuario: {Sesion?.Usuario}";
             this.lblFechaIngreso.Text = $"Fecha Ingreso: {DateTime.Now.ToString("g")}";
             this.listaArticulos = await this.CargarListaArticulos();
+            this.ListaTransacciones = await this.inventarioService.ListaTransaccionesInventario();
             this.CargarDatosInciales();
             AutoCompleteArt();
         }
@@ -106,7 +112,7 @@ namespace TiendaLaLojanita.Views
         }
 
         private void txtIdentificaconCliente_KeyDown(object sender, KeyEventArgs e)
-        {
+        { 
             if (e.KeyCode == Keys.Enter)
             {
                 this.CargarCliente(this.txtIdentificaconCliente.Text);
@@ -235,6 +241,7 @@ namespace TiendaLaLojanita.Views
         private void CalcularTotales()
         {
             decimal totImpuestos = 0m;
+            this.TotalGeneral = 0;
             this.dgvTotales.Rows.Clear();
             foreach (var imp in this.listaImpuestos)
             {
@@ -253,7 +260,6 @@ namespace TiendaLaLojanita.Views
             this.TotalGeneral = TotalGeneral + totImpuestos;
             this.txtTotal.Text = this.TotalGeneral.ToString();
             this.TotalGeneral = 0m;
-
         }
 
         private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorVenta)
@@ -333,29 +339,123 @@ namespace TiendaLaLojanita.Views
             if (guardar.ShowDialog() == DialogResult.OK) {
                 using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
                 {
-                    Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
-                    PdfWriter writer = PdfWriter.GetInstance(doc, stream);
-                    doc.Open();
-                    doc.Add(new Phrase(""));
-                    PdfPTable table = new PdfPTable(1)
-                    {
-                        WidthPercentage = 100,
-                    };
 
-                    PdfPCell celda1 = new PdfPCell()
-                    {
-                        BorderWidth = 1f,
-                        FixedHeight = 50f
-                    };
+                using (PdfWriter writer = new PdfWriter(stream))
+                using (PdfDocument pdf = new PdfDocument(writer))
+                using (Document doc = new Document(pdf, PageSize.A4))
+                {
+                    // Ajustar márgenes si se desea ocupar todo el ancho de la hoja
+                    doc.SetMargins(10f, 10f, 10f, 10f);
+                        //Encabezado
+                        doc.Add(new Paragraph("______________________________________FACTURA______________________________________"))
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(12);
+                        // Encabezado: Datos tienda (izquierda) y Datos SRI (derecha) en el mismo nivel
+                        // Crear la tabla del encabezado con anchos relativos usando CreatePercentArray
+                        Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 50f, 50f }))
+                            .SetWidth(UnitValue.CreatePercentValue(100));
 
-                    Paragraph paragra = new Paragraph(ventaActual.Documento);
-                    celda1.AddElement(paragra);
-                    table.AddCell(celda1);
-                    doc.Add(table);
-                    doc.Close();
-                    stream.Close();
+                        Cell leftCell = new Cell();
+                        leftCell.Add(new Paragraph("Tabacundo barrio 18 de Septiembre").SetFontSize(12));
+                        leftCell.Add(new Paragraph("Pedro Moncayo - Ecuador").SetFontSize(12));
+                        leftCell.Add(new Paragraph($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}"));
+                        leftCell.SetBorder(iText.Layout.Borders.Border.NO_BORDER);
+                        leftCell.SetTextAlignment(TextAlignment.LEFT);
+
+                        Cell rightCell = new Cell();
+                        rightCell.Add(new Paragraph($"Venta: {ventaActual.Id}").SetFontSize(12));
+                        rightCell.Add(new Paragraph($"RUC/CI: 1700000000000").SetFontSize(12));
+                        rightCell.SetBorder(iText.Layout.Borders.Border.NO_BORDER);
+                        rightCell.SetTextAlignment(TextAlignment.RIGHT);
+
+                        headerTable.AddCell(leftCell);
+                        headerTable.AddCell(rightCell);
+
+                        doc.Add(headerTable);
+
+                        //Datos CLiente
+                        doc.Add(new Paragraph($"--------------------------------------------------------------------------------------------------------------------")).SetTextAlignment(TextAlignment.LEFT);
+                        doc.Add(new Paragraph($"Cliente: {ventaActual.Cliente.Nombres} {ventaActual.Cliente.Apellidos}")).SetTextAlignment(TextAlignment.LEFT);
+                        doc.Add(new Paragraph($"Direccion: {ventaActual.Cliente.DireccionDto.Descripcion}"));
+                        doc.Add(new Paragraph($"Telefono: {ventaActual.Cliente.Telefono}"));
+                        doc.Add(new Paragraph("\n"));
+
+                        //Tabla de productos
+                        // Definir anchos relativos por columna usando constructor con percent array
+                        // Evitar el uso de SetWidths (crea problemas en algunas versiones), usar el constructor y establecer el ancho total
+                        Table tabla = new Table(UnitValue.CreatePercentArray(new float[] { 10f, 50f, 10f, 15f, 15f }))
+                            .SetWidth(UnitValue.CreatePercentValue(100));
+                        // Mantener centrada si aplica visualmente (aunque al 100% ocupará todo el ancho disponible)
+                        tabla.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                        tabla.AddHeaderCell("Nro.");
+                        tabla.AddHeaderCell("Producto");
+                        tabla.AddHeaderCell("Cantidad");
+                        tabla.AddHeaderCell("Precio Unitario");
+                        tabla.AddHeaderCell("Total");
+                        decimal totalVenta = 0;
+                        int contador = 1;
+                        foreach (var detalle in ventaActual.DetalleVenta)
+                        {
+                            totalVenta += detalle.Cantidad * detalle.ValorVenta;
+                            tabla.AddCell( Convert.ToString(contador));
+                            tabla.AddCell(detalle.Articulo.Nombre);
+                            tabla.AddCell(detalle.Cantidad.ToString());
+                            tabla.AddCell(detalle.ValorVenta.ToString("C"));
+                            tabla.AddCell((detalle.Cantidad * detalle.ValorVenta).ToString("C"));
+                            contador++;
+                        }
+
+                        doc.Add(tabla);
+                        doc.Add(new Paragraph("\n"));
+
+                        // Calcular subtotal e impuestos agrupados por tipo (usar Articulo.ImpuestoArticuloDto como multiplicador 0.12/0.15)
+                        decimal subtotal = 0m;
+                        var impuestosPorTipo = new Dictionary<string, decimal>();
+                        foreach (var detalle in ventaActual.DetalleVenta ?? new List<DetalleVentaDTO>())
+                        {
+                            decimal linea = detalle.Cantidad * detalle.ValorVenta;
+                            subtotal += linea;
+                            var impDto = detalle.Articulo?.ImpuestoArticuloDto;
+                            decimal multiplicador = impDto?.ValorImpuesto ?? 0m; // 0.12, 0.15, o 0
+                            if (multiplicador > 0)
+                            {
+                                string key = $"{impDto.Nombre} {Math.Round(multiplicador * 100)}%"; // mostrar 12% cuando multiplicador = 0.12
+                                decimal impuestoLinea = linea * multiplicador; // multiplicador directo
+                                if (!impuestosPorTipo.ContainsKey(key)) impuestosPorTipo[key] = 0m;
+                                impuestosPorTipo[key] += impuestoLinea;
+                            }
+                        }
+
+                        // Crear tabla de totales (dos columnas) y alinearla a la derecha
+                        Table totalsTable = new Table(UnitValue.CreatePercentArray(new float[] { 70f, 30f }))
+                            .SetWidth(UnitValue.CreatePercentValue(40));
+                        totalsTable.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
+
+                        // Fila Subtotal
+                        totalsTable.AddCell(new Cell().Add(new Paragraph("Subtotal")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph(subtotal.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+
+                        // Filas por cada impuesto agrupado
+                        decimal sumaImpuestos = 0m;
+                        foreach (var kvp in impuestosPorTipo)
+                        {
+                            totalsTable.AddCell(new Cell().Add(new Paragraph(kvp.Key)).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                            totalsTable.AddCell(new Cell().Add(new Paragraph(kvp.Value.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+                            sumaImpuestos += kvp.Value;
+                        }
+
+                        // Fila Total (subtotal + impuestos)
+                        totalsTable.AddCell(new Cell().Add(new Paragraph("Total")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph((subtotal + sumaImpuestos).ToString("C")).SetFontSize(14)).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+
+                        doc.Add(totalsTable);
+
+                        // Pie de página
+                        doc.Add(new Paragraph("\nGracias por su compra.")
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(10));
+                    }
                 }
-                    
             }
         }
 
@@ -378,12 +478,13 @@ namespace TiendaLaLojanita.Views
                 ventaCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 ventaCreacionDTO.UsuarioCreadorId = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
                 ventaCreacionDTO.DetalleVentaCreacionDto = new List<DetalleVentaCreacionDTO>();
+                ventaCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "VENTA").Id;
                 foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
                 {
                     if (row.IsNewRow) continue; // Saltar la fila nueva
                     DetalleVentaCreacionDTO detalle = new DetalleVentaCreacionDTO
                     {
-                        ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+                        IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
@@ -527,22 +628,30 @@ namespace TiendaLaLojanita.Views
 
         private void CargarListaImpuestos(DetalleVentaDTO detalle)
         {
-            listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
+            // Si ya existe un diccionario para este tipo de impuesto, agregar al listado; si no, crear uno nuevo
+            string nombreImpuesto = detalle.Articulo?.ImpuestoArticuloDto?.Nombre ?? "SIN_IMPUESTO";
+            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(nombreImpuesto));
+            var nuevoImpuesto = new ImpuestoArticuloCalculadoDTO
             {
-                { detalle.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
-                    {
-                        new ImpuestoArticuloCalculadoDTO
-                        {
-                            NombreImpuesto = detalle.Articulo.ImpuestoArticuloDto.Nombre,
-                            IdArticulo = detalle.Articulo.Id,
-                            ValorImpuesto = detalle.ImpuestoValor,
-                            ValorVenta = detalle.ValorVenta,
-                            Id = detalle.Id,
-                            Cantidad = detalle.Cantidad
-                        }
-                    }
-                }
-            });
+                NombreImpuesto = nombreImpuesto,
+                IdArticulo = detalle.Articulo.Id,
+                ValorImpuesto = detalle.Articulo.ImpuestoArticuloDto.ValorImpuesto,
+                ValorVenta = detalle.ValorVenta,
+                Id = detalle.Id,
+                Cantidad = detalle.Cantidad
+            };
+
+            if (existente != null)
+            {
+                existente[nombreImpuesto].Add(nuevoImpuesto);
+            }
+            else
+            {
+                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
+                {
+                    { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO> { nuevoImpuesto } }
+                });
+            }
         }
         private void btnBuscarVenta_Click(object sender, EventArgs e)
         {
@@ -567,6 +676,7 @@ namespace TiendaLaLojanita.Views
             this.TotalGeneral = 0m;
             this.listaImpuestos.Clear();
             this.dgvTotales.Rows.Clear();
+            this.txtTotal.Text = "0";
         }
 
         private void EliminarImpuestoPorId(int id)

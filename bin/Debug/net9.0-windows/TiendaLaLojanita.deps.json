@@ -13,19 +13,10 @@
           "Microsoft.Extensions.DependencyInjection": "9.0.9",
           "Microsoft.Extensions.Http": "9.0.9",
           "Newtonsoft.Json": "13.0.4",
-          "iTextSharp": "5.5.13.6",
-          "itextsharp.xmlworker": "5.5.13.6"
+          "itext": "9.7.0"
         },
         "runtime": {
           "TiendaLaLojanita.dll": {}
-        }
-      },
-      "BouncyCastle.Cryptography/2.6.2": {
-        "runtime": {
-          "lib/net6.0/BouncyCastle.Cryptography.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.6.2.46322"
-          }
         }
       },
       "FluentValidation/12.0.0": {
@@ -36,25 +27,69 @@
           }
         }
       },
-      "iTextSharp/5.5.13.6": {
+      "itext/9.7.0": {
         "dependencies": {
-          "BouncyCastle.Cryptography": "2.6.2"
+          "Microsoft.DotNet.PlatformAbstractions": "1.1.0",
+          "Microsoft.Extensions.DependencyModel": "10.0.2",
+          "Microsoft.Extensions.Logging": "9.0.9",
+          "itext.commons": "9.7.0"
         },
         "runtime": {
-          "lib/net461/itextsharp.dll": {
-            "assemblyVersion": "5.5.13.6",
-            "fileVersion": "5.5.13.6"
+          "lib/netstandard2.0/itext.barcodes.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.bouncy-castle-connector.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.forms.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.io.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.kernel.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.layout.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.pdfa.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.pdfua.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.sign.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.styledxmlparser.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
+          },
+          "lib/netstandard2.0/itext.svg.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
           }
         }
       },
-      "itextsharp.xmlworker/5.5.13.6": {
+      "itext.commons/9.7.0": {
         "dependencies": {
-          "iTextSharp": "5.5.13.6"
+          "Microsoft.Extensions.Logging": "9.0.9",
+          "System.Text.Json": "10.0.2"
         },
         "runtime": {
-          "lib/net461/itextsharp.xmlworker.dll": {
-            "assemblyVersion": "5.5.13.6",
-            "fileVersion": "5.5.13.6"
+          "lib/netstandard2.0/itext.commons.dll": {
+            "assemblyVersion": "9.7.0.0",
+            "fileVersion": "9.7.0.0"
           }
         }
       },
@@ -67,6 +102,14 @@
           "lib/netstandard2.0/System.Net.Http.Formatting.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.61130.707"
+          }
+        }
+      },
+      "Microsoft.DotNet.PlatformAbstractions/1.1.0": {
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.DotNet.PlatformAbstractions.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
           }
         }
       },
@@ -120,6 +163,18 @@
           "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.925.41916"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyModel/10.0.2": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "10.0.2",
+          "System.Text.Json": "10.0.2"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.DependencyModel.dll": {
+            "assemblyVersion": "10.0.0.2",
+            "fileVersion": "10.0.225.61305"
           }
         }
       },
@@ -241,6 +296,48 @@
             "fileVersion": "1.0.2.22727"
           }
         }
+      },
+      "System.IO.Pipelines/10.0.2": {
+        "runtime": {
+          "lib/net9.0/System.IO.Pipelines.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          }
+        }
+      },
+      "System.Text.Encodings.Web/10.0.2": {
+        "runtime": {
+          "lib/net9.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll": {
+            "rid": "browser",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          },
+          "runtimes/win/lib/net9.0/System.Text.Encodings.Web.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          }
+        }
+      },
+      "System.Text.Json/10.0.2": {
+        "dependencies": {
+          "System.IO.Pipelines": "10.0.2",
+          "System.Text.Encodings.Web": "10.0.2"
+        },
+        "runtime": {
+          "lib/net9.0/System.Text.Json.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          }
+        }
       }
     }
   },
@@ -250,13 +347,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "BouncyCastle.Cryptography/2.6.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-7oWOcvnntmMKNzDLsdxAYqApt+AjpRpP2CShjMfIa3umZ42UQMvH0tl1qAliYPNYO6vTdcGMqnRrCPmsfzTI1w==",
-      "path": "bouncycastle.cryptography/2.6.2",
-      "hashPath": "bouncycastle.cryptography.2.6.2.nupkg.sha512"
-    },
     "FluentValidation/12.0.0": {
       "type": "package",
       "serviceable": true,
@@ -264,19 +354,19 @@
       "path": "fluentvalidation/12.0.0",
       "hashPath": "fluentvalidation.12.0.0.nupkg.sha512"
     },
-    "iTextSharp/5.5.13.6": {
+    "itext/9.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-v3gD7+SSRr/mCJK+sfTjfNScRsRzZhx4EXGFrMysPPCAnS475igheorWT5ChSVM+Tstozqu2kTY9l/kFZB1xDA==",
-      "path": "itextsharp/5.5.13.6",
-      "hashPath": "itextsharp.5.5.13.6.nupkg.sha512"
+      "sha512": "sha512-yQMjkvF5MjAzjDWf0AIyD1P1sjp/tRfAkXkKRTQsN1RjjfXcUNPZdbwcklPQTGt3MUGwPD8OYEmB76iTclEW3A==",
+      "path": "itext/9.7.0",
+      "hashPath": "itext.9.7.0.nupkg.sha512"
     },
-    "itextsharp.xmlworker/5.5.13.6": {
+    "itext.commons/9.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2gZMGmokMz8ck0ikgfO1UKOjzYgYgq5BEG//2/3VC6HY2k+zzLqGyKJQmlDbbo0NBTuU1mxZgRWWj4kxp6l9LA==",
-      "path": "itextsharp.xmlworker/5.5.13.6",
-      "hashPath": "itextsharp.xmlworker.5.5.13.6.nupkg.sha512"
+      "sha512": "sha512-QRmNM4ZxzKCXBqsh5Dq6duA/i+TRd5AH/46nkbi762jcb3BnZkm1EY3t+OfpiQLraFSZEFKGDLLSdRdFlgT7Bg==",
+      "path": "itext.commons/9.7.0",
+      "hashPath": "itext.commons.9.7.0.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/6.0.0": {
       "type": "package",
@@ -284,6 +374,13 @@
       "sha512": "sha512-zXeWP03dTo67AoDHUzR+/urck0KFssdCKOC+dq7Nv1V2YbFh/nIg09L0/3wSvyRONEdwxGB/ssEGmPNIIhAcAw==",
       "path": "microsoft.aspnet.webapi.client/6.0.0",
       "hashPath": "microsoft.aspnet.webapi.client.6.0.0.nupkg.sha512"
+    },
+    "Microsoft.DotNet.PlatformAbstractions/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Bl6KYfbFSIW3QIRHAp931iR5h01qHjKghdpAtncwbzNUs0+IUZ+XfwkIU0sQsR33ufGvi3u4dZMIYYFysjpHAA==",
+      "path": "microsoft.dotnet.platformabstractions/1.1.0",
+      "hashPath": "microsoft.dotnet.platformabstractions.1.1.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/9.0.9": {
       "type": "package",
@@ -319,6 +416,13 @@
       "sha512": "sha512-/hymojfWbE9AlDOa0mczR44m00Jj+T3+HZO0ZnVTI032fVycI0ZbNOVFP6kqZMcXiLSYXzR2ilcwaRi6dzeGyA==",
       "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.9",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.9.0.9.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyModel/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DHXzj/FKmUDmhzw7AHbMXbNNcgO8Cb9PDbYOUDICjFAdIALy2WbC6pm+dFKiAUNtcYMucZu2iMVw1ef/sdcZFw==",
+      "path": "microsoft.extensions.dependencymodel/10.0.2",
+      "hashPath": "microsoft.extensions.dependencymodel.10.0.2.nupkg.sha512"
     },
     "Microsoft.Extensions.Diagnostics/9.0.9": {
       "type": "package",
@@ -389,6 +493,27 @@
       "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
       "path": "newtonsoft.json.bson/1.0.2",
       "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
+    },
+    "System.IO.Pipelines/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EqMsn9r18ABvTDxrDce4OWDhBE3y+rR23ilG7Y3BudDKrDKrLG/hkD/JmeFZbctAPxSkCjyJ/Ddwbn/g7ufRJA==",
+      "path": "system.io.pipelines/10.0.2",
+      "hashPath": "system.io.pipelines.10.0.2.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ro4cLT4qpRy64crfLAy3ekihtXckeXrD5eI6qb6NDSEVyHcHsmH7KgN4dbnIuiBmXIoaCslx4SynLYxag1SLSQ==",
+      "path": "system.text.encodings.web/10.0.2",
+      "hashPath": "system.text.encodings.web.10.0.2.nupkg.sha512"
+    },
+    "System.Text.Json/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zy8ey7I16G9neZ6uzxrnYwS7pidElzN8XarsBjGu7lE2m7afTKMEe18KbY3ZSmh/z/bR40oxjd6hlUcmOEaMHw==",
+      "path": "system.text.json/10.0.2",
+      "hashPath": "system.text.json.10.0.2.nupkg.sha512"
     }
   }
 }

@@ -27,6 +27,7 @@ namespace TiendaLaLojanita.Views
         private List<MovimientoDTO> ListaMovimiento;
         private List<InventarioLoteDTO> ListaInventarioLote;
         private List<ProveedorDTO> ListaProveedores;
+        private List<TransaccionInventarioDTO> ListaTransacciones;
         private ProgressBar prog;
 
         private readonly IMarcaService marcaService;
@@ -41,6 +42,7 @@ namespace TiendaLaLojanita.Views
             ListaTranInv = new List<TransaccionInventarioDTO>();
             ListaMovimiento = new List<MovimientoDTO>();
             ListaInventarioLote = new List<InventarioLoteDTO>();
+            ListaTransacciones = new List<TransaccionInventarioDTO>();
             this.inventarioService = inventarioService;
             this.procesarExcel = procesarExcel;
             this.compraService = compraService;

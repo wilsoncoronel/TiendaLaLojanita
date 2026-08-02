@@ -73,13 +73,9 @@
               "target": "Package",
               "version": "[13.0.4, )"
             },
-            "iTextSharp": {
+            "itext": {
               "target": "Package",
-              "version": "[5.5.13.6, )"
-            },
-            "itextsharp.xmlworker": {
-              "target": "Package",
-              "version": "[5.5.13.6, )"
+              "version": "[9.7.0, )"
             }
           },
           "imports": [
