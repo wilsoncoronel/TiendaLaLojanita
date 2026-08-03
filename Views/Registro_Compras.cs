@@ -350,9 +350,9 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                 contador,
                 0,
-                "",
-                "",
                 articuloActual.Id,
+                "",
+                "",
                 articuloActual.Nombre,
                 articuloActual.Descripcion,
                 cant,
@@ -366,8 +366,8 @@ namespace TiendaLaLojanita.Views
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
             decimal valorImpuesto = (cant * articuloActual.ValorCompra) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-            fila.Cells[8].Value = valorImpuesto;
-            fila.Cells[9].Value = articuloActual.ValorCompra * cant;
+            fila.Cells[10].Value = valorImpuesto;
+            fila.Cells[11].Value = articuloActual.ValorCompra * cant;
             contador++;
         }
         private void LimpiarValores()
