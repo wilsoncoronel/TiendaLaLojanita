@@ -158,13 +158,16 @@ namespace TiendaLaLojanita.Views
                     if (row.IsNewRow) continue; // Saltar la fila nueva
                     DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
                     {
-                        ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+                        NumeroLote = row.Cells["Lote"].Value?.ToString(),
+                        Codigo = row.Cells["Codigo"].Value?.ToString(),
+                        IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
-                        Descripcion = row.Cells["Descripcion"].Value?.ToString()
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+                        FechaExpiracion = row.Cells["FechaExpiracion"].Value != null ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value)) : null
                     };
                     compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
                 }
@@ -347,6 +350,8 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                 contador,
                 0,
+                "",
+                "",
                 articuloActual.Id,
                 articuloActual.Nombre,
                 articuloActual.Descripcion,
@@ -355,6 +360,7 @@ namespace TiendaLaLojanita.Views
                 articuloActual.ValorVenta,
                 0,
                 0,
+                Convert.ToString(DateTime.Now)
             });
 
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
@@ -372,7 +378,6 @@ namespace TiendaLaLojanita.Views
 
         private void CalcularTotales()
         {
-            
             decimal totImpuestos = 0m;
             this.dgvTotales.Rows.Clear();
 

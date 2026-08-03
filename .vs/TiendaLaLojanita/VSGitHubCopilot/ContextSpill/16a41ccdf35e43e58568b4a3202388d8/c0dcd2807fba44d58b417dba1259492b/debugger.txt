@@ -1,0 +1,185 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 5212)
+
+## EXCEPTION
+Exception Type: System.FormatException
+Exception Message: The input string '' was not in a correct format.
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 7500
+[1] [Código externo]
+[3] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.dgvDetalleCompra_CellValueChanged_1
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+629:         private void dgvDetalleCompra_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
+630:         {
+631:             decimal cantida;
+632:             decimal valorCompra;
+633:             if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorCompra")
+634:             {
+635:                 DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
+636:                 if (decimal.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorCompra"].Value?.ToString(), out valorCompra))
+637:                 {
+638:                     fila.Cells["ValorTotal"].Value = cantida * valorCompra;
+639:                     this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToDecimal(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorCompra"].Value));
+640:                     this.CalcularTotales();
+641:                 }
+642:             }
+643:             this.imp = 0;
+644:         }
+```
+Current statement: line 639
+[4] [Código externo]
+[6] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.CargarDataGrid
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+313:         private void CargarDataGrid(ArticuloDTO articuloActual)
+314:         {
+315:             var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ImpuestoArticuloDto.Nombre));
+316:             if (existente != null)
+317:             {
+318:                 existente[articuloActual.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
+319:                 {
+320:                     NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
+321:                     IdArticulo = articuloActual.Id,
+322:                     ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
+323:                     ValorCompra = articuloActual.ValorCompra,
+324:                     Id = contador,
+325:                     Cantidad = cant
+326:                 });
+327:                 this.CalcularTotales();
+328:             }
+329:             else
+330:             {
+331:                 //this.CargarListaImpuestos(articuloActual);
+332:                 listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
+333:                 {
+334:                     { articuloActual.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+335:                         {
+336:                             new ImpuestoArticuloCalculadoDTO
+337:                             {
+338:                                 NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
+339:                                 IdArticulo = articuloActual.Id,
+340:                                 ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
+341:                                 ValorCompra = articuloActual.ValorCompra,
+342:                                 Id = contador,
+343:                                 Cantidad = cant
+344:                             }
+345:                         }
+346:                     }
+347:                 });
+348:                 this.CalcularTotales();
+349:             }
+350:             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
+351:                 contador,
+352:                 0,
+353:                 "",
+354:                 "",
+355:                 articuloActual.Id,
+356:                 articuloActual.Nombre,
+357:                 articuloActual.Descripcion,
+358:                 cant,
+359:                 articuloActual.ValorCompra,
+360:                 articuloActual.ValorVenta,
+361:                 0,
+362:                 0,
+363:                 Convert.ToString(DateTime.Now)
+364:             });
+365: 
+366:             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
+367:             DataGridViewCell celdaContador = fila.Cells[0];
+368:             decimal valorImpuesto = (cant * articuloActual.ValorCompra) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
+369:             fila.Cells[8].Value = valorImpuesto;
+370:             fila.Cells[9].Value = articuloActual.ValorCompra * cant;
+371:             contador++;
+372:         }
+```
+Current statement: line 369
+[7] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.BusquedaArticulo
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+263:         private void BusquedaArticulo()
+264:         {
+265:             ArticuloDTO articuloActual = new ArticuloDTO();
+266:             int temp = 0;
+267:             if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
+268:             else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
+269:             if (articuloActual is null || articuloActual.Id == 0)
+270:             {
+271:                 MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+272:                 this.txtArticuloBusqueda.Text = "";
+273:             }
+274:             else
+275:             {
+276:                 bool resp = this.ComprobarArticuloDgv(articuloActual.Id);
+277:                 if (resp)
+278:                 {
+279:                     foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+280:                     {
+281:                         if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Id)
+282:                         {
+283:                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
+284:                             this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
+285:                             this.CalcularTotales();
+286:                         }
+287:                     }
+288:                     this.LimpiarValores();
+289:                 }
+290:                 else
+291:                 {
+292:                     this.CargarDataGrid(articuloActual);
+293:                     this.LimpiarValores();
+294:                 }
+295:             }
+296:         }
+```
+Current statement: line 292
+[8] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.txtArticuloBusqueda_KeyDown_1
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+668:         private void txtArticuloBusqueda_KeyDown_1(object sender, KeyEventArgs e)
+669:         {
+670:             if (e.KeyCode == Keys.Enter)
+671:             {
+672:                 e.SuppressKeyPress = true; // Evita el sonido "ding"
+673:                 if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
+674:                 {
+675:                     this.BusquedaArticulo();
+676:                 }
+677:             }
+678:         }
+```
+Current statement: line 675
+[9] [Código externo]
+[22] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             var services = new ServiceCollection();
+23:             ConfigureServices(services);
+24:             using (var serviceProvider = services.BuildServiceProvider())
+25:             {
+26:                 var form1 = new FrmLoggin(serviceProvider);
+27:                 Application.Run(form1);
+28:             }
+29:         }
+```
+Current statement: line 27
+
+## LOCALS
+Variable: 'this' of type 'TiendaLaLojanita.Views.Registro_Compras' is a complex object with child properties and has value: {TiendaLaLojanita.Views.Registro_Compras}
+Variable: 'sender' of type 'object {System.Windows.Forms.DataGridView}' is a complex object with child properties and has value: {System.Windows.Forms.DataGridView}
+Variable: 'e' of type 'System.Windows.Forms.DataGridViewCellEventArgs' is a complex object with child properties and has value: {System.Windows.Forms.DataGridViewCellEventArgs}
+Variable: 'cantida' of type 'decimal' has value: 1
+Variable: 'valorCompra' of type 'decimal' has value: 0.00000000
+Variable: 'fila' of type 'System.Windows.Forms.DataGridViewRow' is a complex object with child properties and has value: {System.Windows.Forms.DataGridViewRow}
+

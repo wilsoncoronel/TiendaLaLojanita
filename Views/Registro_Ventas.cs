@@ -479,13 +479,15 @@ namespace TiendaLaLojanita.Views
                     if (row.IsNewRow) continue; // Saltar la fila nueva
                     DetalleVentaCreacionDTO detalle = new DetalleVentaCreacionDTO
                     {
+                       
                         IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
-                        ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
-                        Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper()
+                        ValotTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper(),
+                       
                     };
                     ventaCreacionDTO.DetalleVentaCreacionDto.Add(detalle);
                 }

@@ -53,17 +53,6 @@
             btnRecargarArticulos = new Button();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
-            Id = new DataGridViewTextBoxColumn();
-            IdVentaDet = new DataGridViewTextBoxColumn();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            ImpuestoValor = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
@@ -112,6 +101,17 @@
             txtCambio = new TextBox();
             txtPago = new TextBox();
             label19 = new Label();
+            Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
+            ImpuestoValor = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -371,70 +371,6 @@
             dgvDetallesVenta.CellClick += dgvDetallesVenta_CellClick;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged_1;
             dgvDetallesVenta.EditingControlShowing += dgvDetallesVenta_EditingControlShowing_1;
-            // 
-            // Id
-            // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // IdVentaDet
-            // 
-            IdVentaDet.HeaderText = "IdVentaDet";
-            IdVentaDet.Name = "IdVentaDet";
-            IdVentaDet.Visible = false;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "IdArticulo";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            IdArticulo.Visible = false;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Articulo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorCompra
-            // 
-            ValorCompra.HeaderText = "ValorCompra";
-            ValorCompra.Name = "ValorCompra";
-            ValorCompra.Visible = false;
-            // 
-            // ValorVenta
-            // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
-            // 
-            // ImpuestoValor
-            // 
-            ImpuestoValor.HeaderText = "ImpuestoValor";
-            ImpuestoValor.Name = "ImpuestoValor";
-            ImpuestoValor.Visible = false;
-            // 
-            // ValorTotal
-            // 
-            ValorTotal.HeaderText = "Valor Total";
-            ValorTotal.Name = "ValorTotal";
-            ValorTotal.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // txtArticuloBusqueda
             // 
@@ -853,6 +789,70 @@
             label19.TabIndex = 12;
             label19.Text = "Pago";
             // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            IdArticulo.Visible = false;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
+            // 
+            // ValorVenta
+            // 
+            ValorVenta.HeaderText = "Valor Venta";
+            ValorVenta.Name = "ValorVenta";
+            // 
+            // ImpuestoValor
+            // 
+            ImpuestoValor.HeaderText = "ImpuestoValor";
+            ImpuestoValor.Name = "ImpuestoValor";
+            ImpuestoValor.Visible = false;
+            // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "Valor Total";
+            ValorTotal.Name = "ValorTotal";
+            ValorTotal.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -945,17 +945,6 @@
         private TextBox txtDireccionCliente;
         private Label label17;
         private DataGridViewTextBoxColumn IdImpuesto;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn IdVentaDet;
-        private DataGridViewTextBoxColumn IdArticulo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn ImpuestoValor;
-        private DataGridViewTextBoxColumn ValorTotal;
-        private DataGridViewImageColumn Eliminar;
         private Button btnRecargarConfiguraciones;
         private Button btnAgregarCliente;
         private TabControl tabControl1;
@@ -979,5 +968,16 @@
         private DataGridViewTextBoxColumn Usuario;
         private DataGridViewImageColumn Imprimir;
         private DataGridViewImageColumn Editar;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn IdVentaDet;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewTextBoxColumn ValorVenta;
+        private DataGridViewTextBoxColumn ImpuestoValor;
+        private DataGridViewTextBoxColumn ValorTotal;
+        private DataGridViewImageColumn Eliminar;
     }
 }

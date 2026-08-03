@@ -219,7 +219,7 @@ namespace TiendaLaLojanita.Utilidad
 
                             var det = new DetalleCompraCreacionDTO
                             {
-                                ArticuloId = ParseInt(Get("IdArticulo")),
+                                IdArticulo = ParseInt(Get("IdArticulo")),
                                 Descripcion = Get("Descripcion"),
                                 Cantidad = ParseInt(Get("Cantidad")),
                                 ValorCompra = ParseDecimal(Get("ValorCompra")),
