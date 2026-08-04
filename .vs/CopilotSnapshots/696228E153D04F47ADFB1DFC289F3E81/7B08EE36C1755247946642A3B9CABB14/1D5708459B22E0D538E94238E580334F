@@ -646,39 +646,22 @@ namespace TiendaLaLojanita.Views
         }
         private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
-            var nombreImpuesto = detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre;
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(nombreImpuesto));
-            if (existente != null)
+            listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
             {
-                existente[nombreImpuesto].Add(new ImpuestoArticuloCalculadoDTO
-                {
-                    NombreImpuesto = nombreImpuesto,
-                    IdArticulo = detalle.ArticuloDTO.Id,
-                    ValorImpuesto = detalle.ImpuestoValor,
-                    ValorCompra = detalle.ValorCompra,
-                    Id = detalle.Id,
-                    Cantidad = detalle.Cantidad
-                });
-            }
-            else
-            {
-                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
-                {
-                    { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO>
+                { detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                    {
+                        new ImpuestoArticuloCalculadoDTO
                         {
-                            new ImpuestoArticuloCalculadoDTO
-                            {
-                                NombreImpuesto = nombreImpuesto,
-                                IdArticulo = detalle.ArticuloDTO.Id,
-                                ValorImpuesto = detalle.ImpuestoValor,
-                                ValorCompra = detalle.ValorCompra,
-                                Id = detalle.Id,
-                                Cantidad = detalle.Cantidad
-                            }
+                            NombreImpuesto = detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre,
+                            IdArticulo = detalle.ArticuloDTO.Id,
+                            ValorImpuesto = detalle.ImpuestoValor,
+                            ValorCompra = detalle.ValorCompra,
+                            Id = detalle.Id,
+                            Cantidad = detalle.Cantidad
                         }
                     }
-                });
-            }
+                }
+            });
         }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)

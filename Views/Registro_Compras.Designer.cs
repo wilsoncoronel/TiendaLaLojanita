@@ -88,7 +88,6 @@
             txtArticuloBusqueda = new TextBox();
             label10 = new Label();
             dgvDetalleCompra = new DataGridView();
-            tabPage2 = new TabPage();
             Id = new DataGridViewTextBoxColumn();
             IdCompra = new DataGridViewTextBoxColumn();
             IdArticulo = new DataGridViewTextBoxColumn();
@@ -103,6 +102,7 @@
             ValorTotal = new DataGridViewTextBoxColumn();
             FechaExpiracion = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
+            tabPage2 = new TabPage();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -649,22 +649,6 @@
             dgvDetalleCompra.CellValueChanged += dgvDetalleCompra_CellValueChanged_1;
             dgvDetalleCompra.EditingControlShowing += dgvDetalleCompra_EditingControlShowing_1;
             // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(dgvCompras);
-            tabPage2.Controls.Add(btnBuscarCompra);
-            tabPage2.Controls.Add(dtpFechaFinal);
-            tabPage2.Controls.Add(dtpFechaInicial);
-            tabPage2.Controls.Add(label6);
-            tabPage2.Controls.Add(label5);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1143, 437);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Compras";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
             // Id
             // 
             Id.HeaderText = "Id";
@@ -745,6 +729,22 @@
             Eliminar.Name = "Eliminar";
             Eliminar.Resizable = DataGridViewTriState.True;
             Eliminar.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(dgvCompras);
+            tabPage2.Controls.Add(btnBuscarCompra);
+            tabPage2.Controls.Add(dtpFechaFinal);
+            tabPage2.Controls.Add(dtpFechaInicial);
+            tabPage2.Controls.Add(label6);
+            tabPage2.Controls.Add(label5);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(1143, 437);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Compras";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // Registro_Compras
             // 
