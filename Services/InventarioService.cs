@@ -20,15 +20,15 @@ namespace TiendaLaLojanita.Services
             this._httpClient = httpClient.CreateClient("ApiClient");
         }
 
-        public async Task<List<ExistenciaDTO>> ExistenciasInventario()
+        public async Task<List<InventarioLoteDTO>> ExistenciasInventario(bool incluirCeros = false)
         {
             try
             {
                 ImpuestoArticuloDTO impuestoArticuloDTO = new ImpuestoArticuloDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ExistenciasInventario");
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ExistenciasInventario?incluirCeros={incluirCeros}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ExistenciaDTO>> result = JsonConvert.DeserializeObject<Response<List<ExistenciaDTO>>>(responseJson);
+                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
                 return result.Value;
             }
             catch

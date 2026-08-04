@@ -585,21 +585,25 @@ namespace TiendaLaLojanita.Views
             return listaCompras;
         }
 
-        private void dgvCompras_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvCompras_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 int id = 0;
+                id = Convert.ToInt32(dgvCompras.Rows[e.RowIndex].Cells["IdComp"].Value);
                 if (e.ColumnIndex < 0)
                 {
                     MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (dgvCompras.Columns[e.ColumnIndex].Name == "Editar")
                 {
-                    id = Convert.ToInt32(dgvCompras.Rows[e.RowIndex].Cells["IdComp"].Value);
                     this.listaImpuestos.Clear();
                     this.lblTotal.Text = "0,00";
                     this.ObtenerCompra(id);
+                }
+                else if (dgvCompras.Columns[e.ColumnIndex].Name == "Reversar")
+                {
+                    bool resp = await this.compraService.ReversarCompra(id);
                 }
             }
             catch

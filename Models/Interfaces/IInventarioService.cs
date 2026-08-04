@@ -9,7 +9,7 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface IInventarioService
     {
-        Task<List<ExistenciaDTO>> ExistenciasInventario();
+        Task<List<InventarioLoteDTO>> ExistenciasInventario(bool incluirCeros = false);
         Task<List<TransaccionInventarioDTO>> ListaTransaccionesInventario();
         Task<List<MovimientoDTO>> ListaInventario(DateOnly Inicio, DateOnly Fin);
         Task<List<InventarioLoteDTO>> ListaDetallesInventario(int IdInventario);

@@ -62,18 +62,6 @@
             label5 = new Label();
             dtpFechaInicial = new DateTimePicker();
             dgvCompras = new DataGridView();
-            IdComp = new DataGridViewTextBoxColumn();
-            FechaCompra = new DataGridViewTextBoxColumn();
-            ProveedorId = new DataGridViewTextBoxColumn();
-            Proveedor = new DataGridViewTextBoxColumn();
-            EstadoId = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            CreadorId = new DataGridViewTextBoxColumn();
-            Creador = new DataGridViewTextBoxColumn();
-            Imprimir = new DataGridViewImageColumn();
-            ActivarDesactivar = new DataGridViewImageColumn();
-            Editar = new DataGridViewImageColumn();
             groupBox3 = new GroupBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
@@ -103,6 +91,18 @@
             FechaExpiracion = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
+            IdComp = new DataGridViewTextBoxColumn();
+            FechaCompra = new DataGridViewTextBoxColumn();
+            ProveedorId = new DataGridViewTextBoxColumn();
+            Proveedor = new DataGridViewTextBoxColumn();
+            EstadoId = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            CreadorId = new DataGridViewTextBoxColumn();
+            Creador = new DataGridViewTextBoxColumn();
+            Imprimir = new DataGridViewImageColumn();
+            Reversar = new DataGridViewImageColumn();
+            Editar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -429,85 +429,12 @@
             // dgvCompras
             // 
             dgvCompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCompras.Columns.AddRange(new DataGridViewColumn[] { IdComp, FechaCompra, ProveedorId, Proveedor, EstadoId, Estado, Documento, CreadorId, Creador, Imprimir, ActivarDesactivar, Editar });
-            dgvCompras.Location = new Point(9, 42);
+            dgvCompras.Columns.AddRange(new DataGridViewColumn[] { IdComp, FechaCompra, ProveedorId, Proveedor, EstadoId, Estado, Documento, CreadorId, Creador, Imprimir, Reversar, Editar });
+            dgvCompras.Location = new Point(3, 42);
             dgvCompras.Name = "dgvCompras";
             dgvCompras.Size = new Size(1124, 277);
             dgvCompras.TabIndex = 0;
             dgvCompras.CellClick += dgvCompras_CellClick;
-            // 
-            // IdComp
-            // 
-            IdComp.HeaderText = "Id";
-            IdComp.Name = "IdComp";
-            IdComp.ReadOnly = true;
-            // 
-            // FechaCompra
-            // 
-            FechaCompra.HeaderText = "FechaCompra";
-            FechaCompra.Name = "FechaCompra";
-            FechaCompra.ReadOnly = true;
-            // 
-            // ProveedorId
-            // 
-            ProveedorId.HeaderText = "ProveedorId";
-            ProveedorId.Name = "ProveedorId";
-            ProveedorId.Resizable = DataGridViewTriState.True;
-            ProveedorId.SortMode = DataGridViewColumnSortMode.NotSortable;
-            ProveedorId.Visible = false;
-            // 
-            // Proveedor
-            // 
-            Proveedor.HeaderText = "Proveedor";
-            Proveedor.Name = "Proveedor";
-            Proveedor.ReadOnly = true;
-            // 
-            // EstadoId
-            // 
-            EstadoId.HeaderText = "EstadoId";
-            EstadoId.Name = "EstadoId";
-            EstadoId.Visible = false;
-            // 
-            // Estado
-            // 
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.HeaderText = "Documento";
-            Documento.Name = "Documento";
-            // 
-            // CreadorId
-            // 
-            CreadorId.HeaderText = "CreadorId";
-            CreadorId.Name = "CreadorId";
-            CreadorId.Visible = false;
-            // 
-            // Creador
-            // 
-            Creador.HeaderText = "Creador";
-            Creador.Name = "Creador";
-            Creador.ReadOnly = true;
-            // 
-            // Imprimir
-            // 
-            Imprimir.HeaderText = "Imprimir";
-            Imprimir.Image = Properties.Resources.imprimir_peque;
-            Imprimir.Name = "Imprimir";
-            // 
-            // ActivarDesactivar
-            // 
-            ActivarDesactivar.HeaderText = "Act/Desac";
-            ActivarDesactivar.Image = (Image)resources.GetObject("ActivarDesactivar.Image");
-            ActivarDesactivar.Name = "ActivarDesactivar";
-            // 
-            // Editar
-            // 
-            Editar.HeaderText = "Editar";
-            Editar.Image = (Image)resources.GetObject("Editar.Image");
-            Editar.Name = "Editar";
             // 
             // groupBox3
             // 
@@ -746,6 +673,79 @@
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // IdComp
+            // 
+            IdComp.HeaderText = "Id";
+            IdComp.Name = "IdComp";
+            IdComp.ReadOnly = true;
+            // 
+            // FechaCompra
+            // 
+            FechaCompra.HeaderText = "FechaCompra";
+            FechaCompra.Name = "FechaCompra";
+            FechaCompra.ReadOnly = true;
+            // 
+            // ProveedorId
+            // 
+            ProveedorId.HeaderText = "ProveedorId";
+            ProveedorId.Name = "ProveedorId";
+            ProveedorId.Resizable = DataGridViewTriState.True;
+            ProveedorId.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ProveedorId.Visible = false;
+            // 
+            // Proveedor
+            // 
+            Proveedor.HeaderText = "Proveedor";
+            Proveedor.Name = "Proveedor";
+            Proveedor.ReadOnly = true;
+            // 
+            // EstadoId
+            // 
+            EstadoId.HeaderText = "EstadoId";
+            EstadoId.Name = "EstadoId";
+            EstadoId.Visible = false;
+            // 
+            // Estado
+            // 
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.HeaderText = "Documento";
+            Documento.Name = "Documento";
+            // 
+            // CreadorId
+            // 
+            CreadorId.HeaderText = "CreadorId";
+            CreadorId.Name = "CreadorId";
+            CreadorId.Visible = false;
+            // 
+            // Creador
+            // 
+            Creador.HeaderText = "Creador";
+            Creador.Name = "Creador";
+            Creador.ReadOnly = true;
+            // 
+            // Imprimir
+            // 
+            Imprimir.HeaderText = "Imprimir";
+            Imprimir.Image = Properties.Resources.imprimir_peque;
+            Imprimir.Name = "Imprimir";
+            // 
+            // Reversar
+            // 
+            Reversar.HeaderText = "Reversar";
+            Reversar.Image = (Image)resources.GetObject("Reversar.Image");
+            Reversar.Name = "Reversar";
+            // 
+            // Editar
+            // 
+            Editar.HeaderText = "Editar";
+            Editar.Image = (Image)resources.GetObject("Editar.Image");
+            Editar.Name = "Editar";
+            // 
             // Registro_Compras
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -830,18 +830,6 @@
         private TabPage tabPage2;
         private Button btnProveedor;
         private Button btnRecargarArticulos;
-        private DataGridViewTextBoxColumn IdComp;
-        private DataGridViewTextBoxColumn FechaCompra;
-        private DataGridViewTextBoxColumn ProveedorId;
-        private DataGridViewTextBoxColumn Proveedor;
-        private DataGridViewTextBoxColumn EstadoId;
-        private DataGridViewTextBoxColumn Estado;
-        private DataGridViewTextBoxColumn Documento;
-        private DataGridViewTextBoxColumn CreadorId;
-        private DataGridViewTextBoxColumn Creador;
-        private DataGridViewImageColumn Imprimir;
-        private DataGridViewImageColumn ActivarDesactivar;
-        private DataGridViewImageColumn Editar;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn IdCompra;
         private DataGridViewTextBoxColumn IdArticulo;
@@ -856,5 +844,17 @@
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewTextBoxColumn FechaExpiracion;
         private DataGridViewImageColumn Eliminar;
+        private DataGridViewTextBoxColumn IdComp;
+        private DataGridViewTextBoxColumn FechaCompra;
+        private DataGridViewTextBoxColumn ProveedorId;
+        private DataGridViewTextBoxColumn Proveedor;
+        private DataGridViewTextBoxColumn EstadoId;
+        private DataGridViewTextBoxColumn Estado;
+        private DataGridViewTextBoxColumn Documento;
+        private DataGridViewTextBoxColumn CreadorId;
+        private DataGridViewTextBoxColumn Creador;
+        private DataGridViewImageColumn Imprimir;
+        private DataGridViewImageColumn Reversar;
+        private DataGridViewImageColumn Editar;
     }
 }

@@ -883,16 +883,17 @@ namespace TiendaLaLojanita.Views
 
         }
 
-        private void CargarVentanaExistencias(List<ExistenciaDTO> listaExistencias)
+        private void CargarVentanaExistencias(List<InventarioLoteDTO> listaExistencias)
         {
             Existencias existenciaForm = new Existencias(listaExistencias);
             existenciaForm.StartPosition = FormStartPosition.CenterScreen;
             existenciaForm.Show();
         }
 
-        private async Task<List<ExistenciaDTO>> ProcesarExistencias()
+        private async Task<List<InventarioLoteDTO>> ProcesarExistencias()
         {
-            var ListaExistenciasArticulos = await this.inventarioService.ExistenciasInventario();
+            
+            var ListaExistenciasArticulos = await this.inventarioService.ExistenciasInventario(true);
             return ListaExistenciasArticulos;
         }
 

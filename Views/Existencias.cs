@@ -13,8 +13,8 @@ namespace TiendaLaLojanita.Views
 {
     public partial class Existencias : Form
     {
-        private List<ExistenciaDTO> ListaExistencias = new List<ExistenciaDTO>();
-        public Existencias(List<ExistenciaDTO> existencias)
+        private List<InventarioLoteDTO> ListaExistencias = new List<InventarioLoteDTO>();
+        public Existencias(List<InventarioLoteDTO> existencias)
         {
             InitializeComponent();
             ListaExistencias = existencias;
@@ -32,8 +32,11 @@ namespace TiendaLaLojanita.Views
             {
                 int index = this.dgvExistencias.Rows.Add(new object[] {
                     exis.IdArticulo,
-                    exis.NombreArticulo,
-                    exis.TotalCantidad
+                    exis.NumeroLote,
+                    exis.Codigo,
+                    exis.ArticuloDTO.Nombre,
+                    exis.StockDisponible,
+                    exis.FechaExpiracion.HasValue ? exis.FechaExpiracion.Value.ToString("dd/MM/yyyy") : "N/A",
                 });
             }
         }

@@ -21,8 +21,7 @@ namespace TiendaLaLojanita.Services
         }
         public async Task<bool> EditarCompra(CompraEditarDTO compraDto)
         {
-            try
-            {
+           /*
                 string json = JsonConvert.SerializeObject(compraDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await this._httpClient.PutAsync($"api/Compras/EditarCompra", content);
@@ -30,10 +29,57 @@ namespace TiendaLaLojanita.Services
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
                 return result.Value;
-            }
-            catch
+            */
+            try
             {
-                throw;
+                string json = JsonConvert.SerializeObject(compraDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Compras/EditarCompra", content);
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show(
+                        $"Error editando la compra",
+                        "Error!!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
+                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                if (result == null || !result.status)
+                {
+                    MessageBox.Show(
+                        result?.msg ?? "Existen problemas editando la compra.",
+                        "No se puede editar!!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    return false;
+                }
+                return result.Value;
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(
+                   $"No se puede editar una venta ya reversada!!",
+                   "Error de reversión!!",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                );
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\nDetalle: {ex.Message}",
+                    "Error general",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
             }
         }
 
@@ -103,9 +149,20 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public Task<bool> ReversarCompra(int id)
+        public async Task<bool> ReversarCompra(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Compras/ReversarCompra?idCompra={id}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

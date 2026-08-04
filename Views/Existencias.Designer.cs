@@ -30,13 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Existencias));
             groupBox1 = new GroupBox();
+            btnBusqueda = new Button();
+            txtArticuloBusqueda = new TextBox();
+            label1 = new Label();
             dgvExistencias = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
+            NumeroLote = new DataGridViewTextBoxColumn();
+            codigo = new DataGridViewTextBoxColumn();
             NombreArticulo = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
-            label1 = new Label();
-            txtArticuloBusqueda = new TextBox();
-            btnBusqueda = new Button();
+            FechaExpiracion = new DataGridViewTextBoxColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvExistencias).BeginInit();
             SuspendLayout();
@@ -54,10 +57,36 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Lista Artículos en Inventario";
             // 
+            // btnBusqueda
+            // 
+            btnBusqueda.Image = (Image)resources.GetObject("btnBusqueda.Image");
+            btnBusqueda.Location = new Point(417, 21);
+            btnBusqueda.Name = "btnBusqueda";
+            btnBusqueda.Size = new Size(86, 43);
+            btnBusqueda.TabIndex = 3;
+            btnBusqueda.UseVisualStyleBackColor = true;
+            // 
+            // txtArticuloBusqueda
+            // 
+            txtArticuloBusqueda.Location = new Point(82, 32);
+            txtArticuloBusqueda.Name = "txtArticuloBusqueda";
+            txtArticuloBusqueda.Size = new Size(311, 23);
+            txtArticuloBusqueda.TabIndex = 2;
+            txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 35);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Artículo:";
+            // 
             // dgvExistencias
             // 
             dgvExistencias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvExistencias.Columns.AddRange(new DataGridViewColumn[] { Id, NombreArticulo, Cantidad });
+            dgvExistencias.Columns.AddRange(new DataGridViewColumn[] { Id, NumeroLote, codigo, NombreArticulo, Cantidad, FechaExpiracion });
             dgvExistencias.Location = new Point(5, 79);
             dgvExistencias.Name = "dgvExistencias";
             dgvExistencias.Size = new Size(759, 346);
@@ -68,6 +97,16 @@
             Id.HeaderText = "Id";
             Id.Name = "Id";
             Id.ReadOnly = true;
+            // 
+            // NumeroLote
+            // 
+            NumeroLote.HeaderText = "Lote";
+            NumeroLote.Name = "NumeroLote";
+            // 
+            // codigo
+            // 
+            codigo.HeaderText = "Codigo";
+            codigo.Name = "codigo";
             // 
             // NombreArticulo
             // 
@@ -81,31 +120,10 @@
             Cantidad.Name = "Cantidad";
             Cantidad.ReadOnly = true;
             // 
-            // label1
+            // FechaExpiracion
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 35);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Artículo:";
-            // 
-            // txtArticuloBusqueda
-            // 
-            txtArticuloBusqueda.Location = new Point(82, 32);
-            txtArticuloBusqueda.Name = "txtArticuloBusqueda";
-            txtArticuloBusqueda.Size = new Size(311, 23);
-            txtArticuloBusqueda.TabIndex = 2;
-            txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
-            // 
-            // btnBusqueda
-            // 
-            btnBusqueda.Image = (Image)resources.GetObject("btnBusqueda.Image");
-            btnBusqueda.Location = new Point(417, 21);
-            btnBusqueda.Name = "btnBusqueda";
-            btnBusqueda.Size = new Size(86, 43);
-            btnBusqueda.TabIndex = 3;
-            btnBusqueda.UseVisualStyleBackColor = true;
+            FechaExpiracion.HeaderText = "Expiracion";
+            FechaExpiracion.Name = "FechaExpiracion";
             // 
             // Existencias
             // 
@@ -126,11 +144,14 @@
 
         private GroupBox groupBox1;
         private DataGridView dgvExistencias;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn NombreArticulo;
-        private DataGridViewTextBoxColumn Cantidad;
         private Button btnBusqueda;
         private TextBox txtArticuloBusqueda;
         private Label label1;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn NumeroLote;
+        private DataGridViewTextBoxColumn codigo;
+        private DataGridViewTextBoxColumn NombreArticulo;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn FechaExpiracion;
     }
 }
