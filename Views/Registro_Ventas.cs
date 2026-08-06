@@ -115,7 +115,7 @@ namespace TiendaLaLojanita.Views
         { 
             if (e.KeyCode == Keys.Enter)
             {
-                this.CargarCliente(this.txtIdentificaconCliente.Text);
+                this.CargarCliente(this.txtIdentificaconCliente.Text.Trim());
                 e.SuppressKeyPress = true;
             }
         }
@@ -467,7 +467,6 @@ namespace TiendaLaLojanita.Views
                 int idVenta = 0;
                 VentaCreacionDTO ventaCreacionDTO = new VentaCreacionDTO();
                 ventaCreacionDTO.IdCliente = this.idCliente; // Reemplazar con el ID real del proveedor
-                ventaCreacionDTO.Documento = this.txtDocumento.Text;
                 ventaCreacionDTO.FechaCompra = this.dtpVenta.Value;
                 ventaCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadosVenta.SelectedValue); // Estado "Pendiente" por defecto
                 ventaCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
@@ -662,6 +661,7 @@ namespace TiendaLaLojanita.Views
 
         private void LimpiarFormulario()
         {
+            this.txtIdVenta.Text = "";
             this.txtIdentificaconCliente.Text = "";
             this.txtEmail.Text = "";
             this.txtDocumento.Text = "";

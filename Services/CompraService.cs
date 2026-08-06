@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using iText.Kernel.Pdf.Tagutils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using TiendaLaLojanita.Models;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
@@ -154,14 +156,50 @@ namespace TiendaLaLojanita.Services
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Compras/ReversarCompra?idCompra={id}");
-                response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-                return result.Value;
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show(
+                        $"Error de reversión, la compra ya tiene movimientos relacionados.\nNo se puede revertir!!",
+                        "Error!!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
+                var result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
+                if (result == null || !result.status)
+                {
+                    MessageBox.Show(
+                        result?.msg ?? "Existen problemas revirtiendo la compra.",
+                        "No se puede revertir!!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    return false;
+
+                }
+                return true;
             }
-            catch
+            catch (HttpRequestException ex)
             {
-                throw;
+                MessageBox.Show(
+                   $"No se pudo establecer conexión con el servidor.\nVerifica tu conexión a internet.",
+                   "Error de red",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                );
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\nDetalle: {ex.Message}",
+                    "Error general",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
             }
         }
     }

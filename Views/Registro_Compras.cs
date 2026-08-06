@@ -526,7 +526,7 @@ namespace TiendaLaLojanita.Views
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.CargarProveedor(this.txtIdentificacionProveedor.Text);
+                this.CargarProveedor(this.txtIdentificacionProveedor.Text.Trim());
                 e.SuppressKeyPress = true; // Evita el sonido de "ding" al presionar Enter
             }
         }
@@ -773,6 +773,7 @@ namespace TiendaLaLojanita.Views
         }
         private void LimpiarFormulario()
         {
+            this.txtIdCompra.Text = "";
             this.txtDocumento.Text = "";
             this.txtDireccion.Text = "";
             this.txtDocumento.Text = "";
