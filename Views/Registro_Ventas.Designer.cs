@@ -154,7 +154,7 @@
             // btnAgregarCliente
             // 
             btnAgregarCliente.Image = (Image)resources.GetObject("btnAgregarCliente.Image");
-            btnAgregarCliente.Location = new Point(443, 15);
+            btnAgregarCliente.Location = new Point(442, 13);
             btnAgregarCliente.Name = "btnAgregarCliente";
             btnAgregarCliente.Size = new Size(47, 34);
             btnAgregarCliente.TabIndex = 17;
@@ -164,7 +164,7 @@
             // txtDireccionCliente
             // 
             txtDireccionCliente.Enabled = false;
-            txtDireccionCliente.Location = new Point(177, 126);
+            txtDireccionCliente.Location = new Point(146, 126);
             txtDireccionCliente.Name = "txtDireccionCliente";
             txtDireccionCliente.Size = new Size(518, 23);
             txtDireccionCliente.TabIndex = 16;
@@ -233,7 +233,7 @@
             // txtEmail
             // 
             txtEmail.Enabled = false;
-            txtEmail.Location = new Point(177, 84);
+            txtEmail.Location = new Point(146, 84);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "pruebas@mail.com";
             txtEmail.Size = new Size(211, 23);
@@ -259,7 +259,7 @@
             // txtNombreCliente
             // 
             txtNombreCliente.Enabled = false;
-            txtNombreCliente.Location = new Point(177, 51);
+            txtNombreCliente.Location = new Point(146, 55);
             txtNombreCliente.Name = "txtNombreCliente";
             txtNombreCliente.Size = new Size(211, 23);
             txtNombreCliente.TabIndex = 4;
@@ -267,7 +267,7 @@
             // btnBuscarCliente
             // 
             btnBuscarCliente.Image = (Image)resources.GetObject("btnBuscarCliente.Image");
-            btnBuscarCliente.Location = new Point(397, 15);
+            btnBuscarCliente.Location = new Point(385, 13);
             btnBuscarCliente.Name = "btnBuscarCliente";
             btnBuscarCliente.Size = new Size(40, 34);
             btnBuscarCliente.TabIndex = 3;
@@ -285,7 +285,7 @@
             // 
             // txtIdentificaconCliente
             // 
-            txtIdentificaconCliente.Location = new Point(177, 20);
+            txtIdentificaconCliente.Location = new Point(146, 15);
             txtIdentificaconCliente.MaxLength = 13;
             txtIdentificaconCliente.Name = "txtIdentificaconCliente";
             txtIdentificaconCliente.PlaceholderText = "170000000000";

@@ -40,8 +40,6 @@ namespace TiendaLaLojanita.Validaciones
             RuleFor(x => x.DireccionCreacionDto.IdCiudad)
                 .GreaterThan(0).WithMessage("Debe seleccionar una ciudad.");
             RuleFor(x => x.DireccionCreacionDto.Descripcion)
-                .NotEmpty().WithMessage("El apellido es obligatorio.")
-                .NotNull().WithMessage("El nombre no puede ser nulo.")
                 .MaximumLength(200).WithMessage("La direccion no puede superar los 200 carácteres!!");
 
         }

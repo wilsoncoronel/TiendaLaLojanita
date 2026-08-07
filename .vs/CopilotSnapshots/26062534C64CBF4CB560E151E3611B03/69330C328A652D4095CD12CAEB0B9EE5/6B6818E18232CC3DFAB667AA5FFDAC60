@@ -89,13 +89,12 @@ namespace TiendaLaLojanita.Views
                     {
                         if (this.ListaClientes[i].Id == ClienteActual.Id)
                         {
-                            MapearEdicionAClienteDto(this.ListaClientes[i], this.ClienteEditar);
-                            break;
+                            this.ListaClientes[i] = ClienteActual;
                         }
                     }
                     this.CargarTablaClientes();
                     this.LimpiarFormulario();
-
+                    this.ClienteEditar = new ClienteEditarDTO();
                 }
                 else
                 {
@@ -144,28 +143,6 @@ namespace TiendaLaLojanita.Views
                 cliente.DireccionDto.Ciudad = this.ListaCiudades.FirstOrDefault(c => c.Id == ClienteActual.DireccionDto.IdCiudad);
             }
             return cliente;
-        }
-
-        private void MapearEdicionAClienteDto(ClienteDTO destino, ClienteEditarDTO origen)
-        {
-            if (destino == null || origen == null) return;
-            destino.Nombres = origen.Nombres;
-            destino.Apellidos = origen.Apellidos;
-            destino.Identificacion = origen.Identificacion;
-            destino.Telefono = origen.Telefono;
-            destino.Mail = origen.Mail;
-            destino.Estado = origen.Estado;
-            // actualizar tipo de identificación relacionado
-            destino.TipoIdentificacionDto = this.ListaTiposIdentificacion.FirstOrDefault(t => t.Id == origen.IdTipoIdentificacion);
-
-            if (destino.DireccionDto == null) destino.DireccionDto = new DireccionDTO();
-            if (origen.DireccionEdicionDto != null)
-            {
-                destino.DireccionDto.Id = origen.DireccionEdicionDto.Id;
-                destino.DireccionDto.Descripcion = origen.DireccionEdicionDto.Descripcion;
-                destino.DireccionDto.IdCiudad = origen.DireccionEdicionDto.IdCiudad;
-                destino.DireccionDto.Ciudad = this.ListaCiudades.FirstOrDefault(c => c.Id == origen.DireccionEdicionDto.IdCiudad);
-            }
         }
         private async void CargarDatosCombos()
         {

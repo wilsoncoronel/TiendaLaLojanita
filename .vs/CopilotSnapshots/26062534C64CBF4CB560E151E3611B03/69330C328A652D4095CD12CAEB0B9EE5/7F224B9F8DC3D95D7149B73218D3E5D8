@@ -89,13 +89,12 @@ namespace TiendaLaLojanita.Views
                     {
                         if (this.ListaClientes[i].Id == ClienteActual.Id)
                         {
-                            MapearEdicionAClienteDto(this.ListaClientes[i], this.ClienteEditar);
-                            break;
+                            this.ListaClientes[i] = ClienteActual;
                         }
                     }
                     this.CargarTablaClientes();
                     this.LimpiarFormulario();
-
+                    this.ClienteEditar = new ClienteEditarDTO();
                 }
                 else
                 {
@@ -155,6 +154,7 @@ namespace TiendaLaLojanita.Views
             destino.Telefono = origen.Telefono;
             destino.Mail = origen.Mail;
             destino.Estado = origen.Estado;
+            destino.FechaModificacion = origen.FechaModificacion;
             // actualizar tipo de identificación relacionado
             destino.TipoIdentificacionDto = this.ListaTiposIdentificacion.FirstOrDefault(t => t.Id == origen.IdTipoIdentificacion);
 
