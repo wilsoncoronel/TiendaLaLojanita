@@ -200,7 +200,7 @@ namespace TiendaLaLojanita.Views
                     detalle.StockDisponible,
                     detalle.CostoUnitario,
                     detalle.ArticuloDTO.Papeleria == true ? "SI" : "NO",
-                    detalle.FechaIngreso.ToString("dd/MM/yyyy"),
+                    detalle.FechaIngreso,
                     detalle.FechaExpiracion.HasValue ? detalle.FechaExpiracion.Value.ToString("dd/MM/yyyy") : "N/A",
                     detalle.NumeroLote,
                     detalle.Codigo,

@@ -133,14 +133,13 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<ArticuloDTO>> ListarTodosArticulos()
+        public async Task<List<InventarioLoteDTO>> ListarTodosArticulos()
         {
             try {
-                ArticuloDTO impuestoArticuloDTO = new ArticuloDTO();
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloDTO>>>(responseJson);
+                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
                 return result.Value;
 
             } catch {
