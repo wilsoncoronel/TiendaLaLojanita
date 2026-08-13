@@ -31,9 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            cbxPorcentajeGanancia = new ComboBox();
+            label17 = new Label();
             btnRecargarDatosConfiguraciones = new Button();
             btnAgregarDatosConfiguraciones = new Button();
-            chckPapeleria = new CheckBox();
             btnCancelar = new Button();
             btnGuardar = new Button();
             cbxEstado = new ComboBox();
@@ -83,6 +84,8 @@
             TipoArticulo = new DataGridViewTextBoxColumn();
             IdImpuesto = new DataGridViewTextBoxColumn();
             Impuesto = new DataGridViewTextBoxColumn();
+            IdPorcentaje = new DataGridViewTextBoxColumn();
+            Porcentaje = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
             FechaActualizacion = new DataGridViewTextBoxColumn();
@@ -115,9 +118,10 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(cbxPorcentajeGanancia);
+            groupBox1.Controls.Add(label17);
             groupBox1.Controls.Add(btnRecargarDatosConfiguraciones);
             groupBox1.Controls.Add(btnAgregarDatosConfiguraciones);
-            groupBox1.Controls.Add(chckPapeleria);
             groupBox1.Controls.Add(btnCancelar);
             groupBox1.Controls.Add(btnGuardar);
             groupBox1.Controls.Add(cbxEstado);
@@ -145,6 +149,24 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
             // 
+            // cbxPorcentajeGanancia
+            // 
+            cbxPorcentajeGanancia.FormattingEnabled = true;
+            cbxPorcentajeGanancia.Location = new Point(630, 188);
+            cbxPorcentajeGanancia.Name = "cbxPorcentajeGanancia";
+            cbxPorcentajeGanancia.Size = new Size(323, 23);
+            cbxPorcentajeGanancia.TabIndex = 26;
+            cbxPorcentajeGanancia.SelectedIndexChanged += cbxPorcentajeGanancia_SelectedIndexChanged;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(500, 190);
+            label17.Name = "label17";
+            label17.Size = new Size(118, 15);
+            label17.TabIndex = 25;
+            label17.Text = "Porcentaje Ganancia:";
+            // 
             // btnRecargarDatosConfiguraciones
             // 
             btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
@@ -159,7 +181,7 @@
             // btnAgregarDatosConfiguraciones
             // 
             btnAgregarDatosConfiguraciones.Image = (Image)resources.GetObject("btnAgregarDatosConfiguraciones.Image");
-            btnAgregarDatosConfiguraciones.Location = new Point(1205, 133);
+            btnAgregarDatosConfiguraciones.Location = new Point(1055, 146);
             btnAgregarDatosConfiguraciones.Name = "btnAgregarDatosConfiguraciones";
             btnAgregarDatosConfiguraciones.Size = new Size(137, 42);
             btnAgregarDatosConfiguraciones.TabIndex = 23;
@@ -167,20 +189,10 @@
             btnAgregarDatosConfiguraciones.UseVisualStyleBackColor = true;
             btnAgregarDatosConfiguraciones.Click += btnAgregarDatosConfiguraciones_Click;
             // 
-            // chckPapeleria
-            // 
-            chckPapeleria.AutoSize = true;
-            chckPapeleria.Location = new Point(589, 184);
-            chckPapeleria.Name = "chckPapeleria";
-            chckPapeleria.Size = new Size(130, 19);
-            chckPapeleria.TabIndex = 22;
-            chckPapeleria.Text = "Inventario Papelería";
-            chckPapeleria.UseVisualStyleBackColor = true;
-            // 
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1205, 84);
+            btnCancelar.Location = new Point(1056, 83);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(136, 43);
             btnCancelar.TabIndex = 21;
@@ -190,7 +202,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1205, 20);
+            btnGuardar.Location = new Point(1056, 19);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(136, 43);
             btnGuardar.TabIndex = 20;
@@ -417,6 +429,7 @@
             // nudValorVenta
             // 
             nudValorVenta.DecimalPlaces = 2;
+            nudValorVenta.Enabled = false;
             nudValorVenta.Location = new Point(431, 36);
             nudValorVenta.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorVenta.Name = "nudValorVenta";
@@ -529,7 +542,7 @@
             // 
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
+            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, IdPorcentaje, Porcentaje, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(6, 71);
             dgvArticulos.Name = "dgvArticulos";
             dgvArticulos.Size = new Size(1534, 290);
@@ -589,6 +602,17 @@
             // 
             Impuesto.HeaderText = "Impuesto";
             Impuesto.Name = "Impuesto";
+            // 
+            // IdPorcentaje
+            // 
+            IdPorcentaje.HeaderText = "IdPorcentaje";
+            IdPorcentaje.Name = "IdPorcentaje";
+            IdPorcentaje.Visible = false;
+            // 
+            // Porcentaje
+            // 
+            Porcentaje.HeaderText = "PorcentajeGanancia";
+            Porcentaje.Name = "Porcentaje";
             // 
             // Estado
             // 
@@ -784,7 +808,16 @@
         private Label lblUser;
         private Label lblFecha;
         private DataGridViewTextBoxColumn CambioEstado;
-        private CheckBox chckPapeleria;
+        private GroupBox groupBox6;
+        private Button btnAbrirArchivo;
+        private Label lblArchivo;
+        private OpenFileDialog ofdArticulos;
+        private Button btn;
+        private ToolTip toolTip1;
+        private Button btnAgregarDatosConfiguraciones;
+        private Button btnRecargarDatosConfiguraciones;
+        private Label label17;
+        private ComboBox cbxPorcentajeGanancia;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
@@ -795,6 +828,8 @@
         private DataGridViewTextBoxColumn TipoArticulo;
         private DataGridViewTextBoxColumn IdImpuesto;
         private DataGridViewTextBoxColumn Impuesto;
+        private DataGridViewTextBoxColumn IdPorcentaje;
+        private DataGridViewTextBoxColumn Porcentaje;
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewTextBoxColumn FechaCreacion;
         private DataGridViewTextBoxColumn FechaActualizacion;
@@ -804,13 +839,5 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
-        private GroupBox groupBox6;
-        private Button btnAbrirArchivo;
-        private Label lblArchivo;
-        private OpenFileDialog ofdArticulos;
-        private Button btn;
-        private ToolTip toolTip1;
-        private Button btnAgregarDatosConfiguraciones;
-        private Button btnRecargarDatosConfiguraciones;
     }
 }

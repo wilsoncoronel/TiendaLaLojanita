@@ -106,6 +106,7 @@
             // txtTelefono
             // 
             txtTelefono.Location = new Point(472, 15);
+            txtTelefono.MaxLength = 10;
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(178, 23);
             txtTelefono.TabIndex = 17;
@@ -171,6 +172,7 @@
             // txtIdentificacion
             // 
             txtIdentificacion.Location = new Point(149, 153);
+            txtIdentificacion.MaxLength = 13;
             txtIdentificacion.Name = "txtIdentificacion";
             txtIdentificacion.Size = new Size(221, 23);
             txtIdentificacion.TabIndex = 7;

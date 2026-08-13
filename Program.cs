@@ -45,6 +45,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IMarcaService, MarcaService>();
             services.AddScoped<ITiposArticulosService, TiposArticulosService>();
             services.AddScoped<IImpuestoService, ImpuestoService>();
+            services.AddScoped<IPorcentajeService, PorcentajeService>();
             services.AddScoped<IArticuloService, ArticuloService>();
             services.AddScoped<IMapeosArticulos, MapeosArticulos>();
             services.AddScoped<IMapeosClientes, MapeosClientes>();

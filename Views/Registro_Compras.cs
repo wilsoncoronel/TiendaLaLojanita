@@ -17,7 +17,7 @@ namespace TiendaLaLojanita.Views
         private readonly ICompraService compraService;
         private readonly IInventarioService inventarioService;
         private DateTimePicker dateTimePicker;
-        private List<InventarioLoteDTO> listaArticulos;
+        private List<ArticuloInventarioDTO> listaArticulos;
         private int contador = 0;
         private decimal imp = 0;
         private int cant = 1;
@@ -26,7 +26,7 @@ namespace TiendaLaLojanita.Views
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private List<TransaccionInventarioDTO> ListaTransacciones;
         private decimal TotalGeneral = 0m;
-        private List<InventarioLoteDTO> listaTemp;
+        private List<ArticuloInventarioDTO> listaTemp;
         private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -38,9 +38,44 @@ namespace TiendaLaLojanita.Views
             this.articuloService = articuloService;
             this.compraService = compraService;
             this.inventarioService = inventarioService;
-            this.listaArticulos = new List<InventarioLoteDTO>();
+            this.listaArticulos = new List<ArticuloInventarioDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
+        }
+
+        // KeyPress handler para la columna Lote: solo letras A-Z y dígitos 0-9. Convierte letras a mayúsculas al teclear.
+        private void textBox_KeyPressLote(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            if (char.IsLetter(e.KeyChar))
+            {
+                e.KeyChar = char.ToUpperInvariant(e.KeyChar);
+                e.Handled = false;
+                return;
+            }
+
+            if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // Bloquear cualquier otro carácter (espacios, signos, acentos, etc.)
+            e.Handled = true;
+        }
+
+        // Leave handler para forzar mayúsculas en texto pegado
+        private void TextBox_Leave_ToUpper(object? sender, EventArgs e)
+        {
+            if (sender is TextBox txt && txt.Text != null)
+            {
+                txt.Text = txt.Text.ToUpperInvariant();
+            }
         }
 
         private async void CargarDatosInciales()
@@ -202,9 +237,9 @@ namespace TiendaLaLojanita.Views
         {
             this.CargarProveedor(this.txtIdentificacionProveedor.Text);
         }
-        private async Task<List<InventarioLoteDTO>> CargarListaArticulos()
+        private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
         {
-            List<InventarioLoteDTO> listaArticulos;
+            List<ArticuloInventarioDTO> listaArticulos;
             listaArticulos = await this.articuloService.ListarTodosArticulos();
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
@@ -246,20 +281,20 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private List<InventarioLoteDTO> BuscarNombreArticulo(string pNom)
+        private List<ArticuloInventarioDTO> BuscarNombreArticulo(string pNom)
         {
-            var listaTemp = new List<InventarioLoteDTO>();
+            var listaTemp = new List<ArticuloInventarioDTO>();
             listaTemp = this.listaArticulos.ToList();
-            return listaTemp.Where(art => art.ArticuloDTO.Nombre.Contains(pNom)).ToList();
+            return listaTemp.Where(art => art.Articulo.Nombre.Contains(pNom)).ToList();
         }
 
         private void AutoCompleteArt()
         {
             AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
-            List<InventarioLoteDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
-            foreach (InventarioLoteDTO art in listaArticuloAuto)
+            List<ArticuloInventarioDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloInventarioDTO art in listaArticuloAuto)
             {
-                colArticulo.Add(art.ArticuloDTO.Nombre);
+                colArticulo.Add(art.Articulo.Nombre);
             }
             this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -268,26 +303,38 @@ namespace TiendaLaLojanita.Views
 
         private void BusquedaArticulo()
         {
-            InventarioLoteDTO articuloActual = new InventarioLoteDTO();
+            // Usar Trim() en la entrada para ignorar espacios en blanco al inicio/final
+            string query = this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
+            ArticuloInventarioDTO articuloActual = null;
             int temp = 0;
-            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
-            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.ArticuloDTO.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
-            if (articuloActual is null || articuloActual.Id == 0)
+            // Primero intentar buscar por código (string) sin depender de TryParse
+            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo != null && art.Codigo.Equals(query, StringComparison.OrdinalIgnoreCase));
+            // Si no se encuentra por código, intentar buscar por Id si la entrada es numérica
+            if (articuloActual == null && int.TryParse(query, out temp))
+            {
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Id == temp);
+            }
+            // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
+            if (articuloActual == null)
+            {
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase));
+            }
+            if (articuloActual is null || articuloActual.Articulo.Id == 0)
             {
                 MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Id);
+                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Id)
+                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
+                            this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
                             this.CalcularTotales();
                         }
                     }
@@ -317,17 +364,18 @@ namespace TiendaLaLojanita.Views
                 }
             }
         }
-        private void CargarDataGrid(InventarioLoteDTO articuloActual)
+        private void CargarDataGrid(ArticuloInventarioDTO articuloActual)
         {
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre));
+            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
             if (existente != null)
             {
-                existente[articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
+                existente[articuloActual.Articulo.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
                 {
-                    NombreImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre,
-                    IdArticulo = articuloActual.Id,
-                    ValorImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto,
-                    ValorCompra = articuloActual.ArticuloDTO.ValorCompra,
+
+                    NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
+                    IdArticulo = articuloActual.Articulo.Id,
+                    ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
+                    ValorCompra = articuloActual.Articulo.ValorCompra,
                     Id = contador,
                     Cantidad = cant
                 });
@@ -338,14 +386,14 @@ namespace TiendaLaLojanita.Views
                 //this.CargarListaImpuestos(articuloActual);
                 listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
                 {
-                    { articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                    { articuloActual.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
                         {
                             new ImpuestoArticuloCalculadoDTO
                             {
-                                NombreImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre,
-                                IdArticulo = articuloActual.Id,
-                                ValorImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorCompra = articuloActual.ArticuloDTO.ValorCompra,
+                                NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
+                                IdArticulo = articuloActual.Articulo.Id,
+                                ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
+                                ValorCompra = articuloActual.Articulo.ValorCompra,
                                 Id = contador,
                                 Cantidad = cant
                             }
@@ -357,14 +405,14 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                 contador,
                 0,
-                articuloActual.Id,
-                "",
-                "",
-                articuloActual.ArticuloDTO.Nombre,
-                articuloActual.ArticuloDTO.Descripcion,
+                articuloActual.Articulo.Id,
+                articuloActual.NumeroLote,
+                articuloActual.Codigo,
+                articuloActual.Articulo.Nombre,
+                articuloActual.Articulo.Descripcion,
                 cant,
-                articuloActual.ArticuloDTO.ValorCompra,
-                articuloActual.ArticuloDTO.ValorVenta,
+                articuloActual.Articulo.ValorCompra,
+                articuloActual.Articulo.ValorVenta,
                 0,
                 0,
                 Convert.ToString(DateTime.Now)
@@ -372,9 +420,9 @@ namespace TiendaLaLojanita.Views
 
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.ArticuloDTO.ValorCompra) * articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto;
+            decimal valorImpuesto = (cant * articuloActual.Articulo.ValorCompra) * articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto;
             fila.Cells[10].Value = valorImpuesto;
-            fila.Cells[11].Value = articuloActual.ArticuloDTO.ValorCompra * cant;
+            fila.Cells[11].Value = articuloActual.Articulo.ValorCompra * cant;
             contador++;
         }
         private void LimpiarValores()
@@ -385,11 +433,9 @@ namespace TiendaLaLojanita.Views
 
         private void CalcularTotales()
         {
-            // Usar variables locales para evitar acumulaci F3n entre llamadas
             decimal totImpuestosLocal = 0m;
             decimal totalValorCompraLocal = 0m;
             this.dgvTotales.Rows.Clear();
-
             foreach (var imp in this.listaImpuestos)
             {
                 foreach (var nom in imp)
@@ -397,18 +443,15 @@ namespace TiendaLaLojanita.Views
                     // Calcular el impuesto sobre ValorCompra (seg FAn especificaci F3n)
                     decimal impuestoTotal = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
                     decimal subtotalValorCompra = nom.Value.Sum(x => x.ValorCompra * Convert.ToDecimal(x.Cantidad));
-
                     this.dgvTotales.Rows.Add(new object[]
                     {
                         nom.Key,
                         impuestoTotal,
                     });
-
                     totImpuestosLocal += impuestoTotal;
                     totalValorCompraLocal += subtotalValorCompra;
                 }
             }
-
             decimal totalGeneralLocal = totalValorCompraLocal + totImpuestosLocal;
             // Actualizar la etiqueta con formato en-US
             this.lblTotal.Text = totalGeneralLocal.ToString("C2", new CultureInfo("en-US"));
@@ -779,6 +822,7 @@ namespace TiendaLaLojanita.Views
             this.txtDocumento.Text = "";
             this.txtRazonSocial.Text = "";
             this.txtTelefono.Text = "";
+            this.txtIdentificacionProveedor.Text = "";
             this.dgvDetalleCompra.Rows.Clear();
             this.contador = 0;
             this.TotalGeneral = 0m;
@@ -809,9 +853,9 @@ namespace TiendaLaLojanita.Views
             {
                 prog = new ProgressBar();
                 prog.Show();
-                this.listaArticulos = new List<InventarioLoteDTO>();
+                this.listaArticulos = new List<ArticuloInventarioDTO>();
                 this.listaArticulos = await this.CargarListaArticulos();
-                this.listaTemp = new List<InventarioLoteDTO>();
+                this.listaTemp = new List<ArticuloInventarioDTO>();
                 this.listaTemp = this.listaArticulos.ToList();
                 this.AutoCompleteArt();
                 prog.Hide();
@@ -837,6 +881,22 @@ namespace TiendaLaLojanita.Views
                         TextBox textBox = e.Control as TextBox;
                         textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPressPunto);
                         textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPressPunto);
+                    }
+                    break;
+                case "Lote":
+                    if (e.Control is TextBox)
+                    {
+                        TextBox textBox = e.Control as TextBox;
+                        // Remover handlers anteriores para evitar duplicados
+                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPress);
+                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPressPunto);
+                        textBox.KeyPress -= new KeyPressEventHandler(textBox_KeyPressLote);
+                        textBox.Leave -= new EventHandler(TextBox_Leave_ToUpper);
+
+                        // Asociar handler que permite solo letras y dígitos y fuerza mayúsculas al teclear
+                        textBox.KeyPress += new KeyPressEventHandler(textBox_KeyPressLote);
+                        // Asociar Leave para convertir cualquier texto (p.ej. pegado) a mayúsculas
+                        textBox.Leave += new EventHandler(TextBox_Leave_ToUpper);
                     }
                     break;
             }

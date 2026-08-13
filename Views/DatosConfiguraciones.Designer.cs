@@ -91,6 +91,25 @@
             label6 = new Label();
             txtIdImpuesto = new TextBox();
             label5 = new Label();
+            tabPage4 = new TabPage();
+            btnLimpiarPorcentaje = new Button();
+            btnGuardarPorcentaje = new Button();
+            groupBox8 = new GroupBox();
+            cbxEstadoPor = new ComboBox();
+            label16 = new Label();
+            label4 = new Label();
+            label14 = new Label();
+            txtPorcentajeValor = new TextBox();
+            label15 = new Label();
+            txtPorcentaje = new TextBox();
+            txtIdPorcentaje = new TextBox();
+            groupBox7 = new GroupBox();
+            dgvPorcentajes = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            Porcentaje = new DataGridViewTextBoxColumn();
+            ValorPorcen = new DataGridViewTextBoxColumn();
+            EstadoPor = new DataGridViewTextBoxColumn();
+            EditarPor = new DataGridViewImageColumn();
             btnCerrarDatosConf = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -106,6 +125,10 @@
             ((System.ComponentModel.ISupportInitialize)dgvImpuestos).BeginInit();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudValorImpuesto).BeginInit();
+            tabPage4.SuspendLayout();
+            groupBox8.SuspendLayout();
+            groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPorcentajes).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -113,6 +136,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Location = new Point(1, 21);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -654,6 +678,170 @@
             label5.TabIndex = 0;
             label5.Text = "IdImpuesto:";
             // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(btnLimpiarPorcentaje);
+            tabPage4.Controls.Add(btnGuardarPorcentaje);
+            tabPage4.Controls.Add(groupBox8);
+            tabPage4.Controls.Add(groupBox7);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(1198, 388);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Porcentaje Ganancia";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btnLimpiarPorcentaje
+            // 
+            btnLimpiarPorcentaje.Image = Properties.Resources.clear;
+            btnLimpiarPorcentaje.Location = new Point(253, 319);
+            btnLimpiarPorcentaje.Name = "btnLimpiarPorcentaje";
+            btnLimpiarPorcentaje.Size = new Size(129, 54);
+            btnLimpiarPorcentaje.TabIndex = 9;
+            btnLimpiarPorcentaje.UseVisualStyleBackColor = true;
+            btnLimpiarPorcentaje.Click += btnLimpiarPorcentaje_Click;
+            // 
+            // btnGuardarPorcentaje
+            // 
+            btnGuardarPorcentaje.Image = Properties.Resources._4856668_resize;
+            btnGuardarPorcentaje.Location = new Point(47, 319);
+            btnGuardarPorcentaje.Name = "btnGuardarPorcentaje";
+            btnGuardarPorcentaje.Size = new Size(129, 54);
+            btnGuardarPorcentaje.TabIndex = 8;
+            btnGuardarPorcentaje.UseVisualStyleBackColor = true;
+            btnGuardarPorcentaje.Click += btnGuardarPorcentaje_Click;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(cbxEstadoPor);
+            groupBox8.Controls.Add(label16);
+            groupBox8.Controls.Add(label4);
+            groupBox8.Controls.Add(label14);
+            groupBox8.Controls.Add(txtPorcentajeValor);
+            groupBox8.Controls.Add(label15);
+            groupBox8.Controls.Add(txtPorcentaje);
+            groupBox8.Controls.Add(txtIdPorcentaje);
+            groupBox8.Location = new Point(16, 14);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new Size(431, 299);
+            groupBox8.TabIndex = 7;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "Datos Porcentajes";
+            // 
+            // cbxEstadoPor
+            // 
+            cbxEstadoPor.FormattingEnabled = true;
+            cbxEstadoPor.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
+            cbxEstadoPor.Location = new Point(99, 155);
+            cbxEstadoPor.Name = "cbxEstadoPor";
+            cbxEstadoPor.Size = new Size(217, 23);
+            cbxEstadoPor.TabIndex = 7;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(24, 42);
+            label16.Name = "label16";
+            label16.Size = new Size(20, 15);
+            label16.TabIndex = 6;
+            label16.Text = "Id:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(24, 81);
+            label4.Name = "label4";
+            label4.Size = new Size(66, 15);
+            label4.TabIndex = 0;
+            label4.Text = "Porcentaje:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(24, 119);
+            label14.Name = "label14";
+            label14.Size = new Size(36, 15);
+            label14.TabIndex = 1;
+            label14.Text = "Valor:";
+            // 
+            // txtPorcentajeValor
+            // 
+            txtPorcentajeValor.Location = new Point(99, 116);
+            txtPorcentajeValor.Name = "txtPorcentajeValor";
+            txtPorcentajeValor.Size = new Size(217, 23);
+            txtPorcentajeValor.TabIndex = 5;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(24, 158);
+            label15.Name = "label15";
+            label15.Size = new Size(45, 15);
+            label15.TabIndex = 2;
+            label15.Text = "Estado:";
+            // 
+            // txtPorcentaje
+            // 
+            txtPorcentaje.Location = new Point(99, 78);
+            txtPorcentaje.Name = "txtPorcentaje";
+            txtPorcentaje.Size = new Size(217, 23);
+            txtPorcentaje.TabIndex = 4;
+            // 
+            // txtIdPorcentaje
+            // 
+            txtIdPorcentaje.Enabled = false;
+            txtIdPorcentaje.Location = new Point(99, 39);
+            txtIdPorcentaje.Name = "txtIdPorcentaje";
+            txtIdPorcentaje.Size = new Size(78, 23);
+            txtIdPorcentaje.TabIndex = 3;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(dgvPorcentajes);
+            groupBox7.Location = new Point(462, 14);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(720, 359);
+            groupBox7.TabIndex = 6;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Lista Porcentajes";
+            // 
+            // dgvPorcentajes
+            // 
+            dgvPorcentajes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPorcentajes.Columns.AddRange(new DataGridViewColumn[] { Id, Porcentaje, ValorPorcen, EstadoPor, EditarPor });
+            dgvPorcentajes.Location = new Point(12, 24);
+            dgvPorcentajes.Name = "dgvPorcentajes";
+            dgvPorcentajes.Size = new Size(698, 319);
+            dgvPorcentajes.TabIndex = 0;
+            dgvPorcentajes.CellClick += dgvPorcentajes_CellClick;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            // 
+            // Porcentaje
+            // 
+            Porcentaje.HeaderText = "Porcentaje";
+            Porcentaje.Name = "Porcentaje";
+            // 
+            // ValorPorcen
+            // 
+            ValorPorcen.HeaderText = "Valor";
+            ValorPorcen.Name = "ValorPorcen";
+            // 
+            // EstadoPor
+            // 
+            EstadoPor.HeaderText = "Estado";
+            EstadoPor.Name = "EstadoPor";
+            // 
+            // EditarPor
+            // 
+            EditarPor.HeaderText = "Editar";
+            EditarPor.Image = Properties.Resources._10336582_edit;
+            EditarPor.Name = "EditarPor";
+            // 
             // btnCerrarDatosConf
             // 
             btnCerrarDatosConf.Image = Properties.Resources.cancelar_resize;
@@ -691,6 +879,11 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudValorImpuesto).EndInit();
+            tabPage4.ResumeLayout(false);
+            groupBox8.ResumeLayout(false);
+            groupBox8.PerformLayout();
+            groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvPorcentajes).EndInit();
             ResumeLayout(false);
         }
 
@@ -759,5 +952,24 @@
         private DataGridViewTextBoxColumn Descripcion;
         private DataGridViewImageColumn EditarImpuesto;
         private Button btnCerrarDatosConf;
+        private TabPage tabPage4;
+        private GroupBox groupBox8;
+        private GroupBox groupBox7;
+        private TextBox txtPorcentajeValor;
+        private TextBox txtPorcentaje;
+        private TextBox txtIdPorcentaje;
+        private Label label15;
+        private Label label14;
+        private Label label4;
+        private Button btnLimpiarPorcentaje;
+        private Button btnGuardarPorcentaje;
+        private ComboBox cbxEstadoPor;
+        private Label label16;
+        private DataGridView dgvPorcentajes;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Porcentaje;
+        private DataGridViewTextBoxColumn ValorPorcen;
+        private DataGridViewTextBoxColumn EstadoPor;
+        private DataGridViewImageColumn EditarPor;
     }
 }

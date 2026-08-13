@@ -26,14 +26,14 @@ namespace TiendaLaLojanita.Views
         private readonly IArticuloService articuloService;
         private readonly IVentaService _ventaService;
         private readonly IInventarioService inventarioService;
-        private List<InventarioLoteDTO> listaArticulos;
+        private List<ArticuloInventarioDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
         private int contador = 0;
         private int cant = 1;
         private decimal TotalGeneral = 0m;
         private List<EstadoVentaDTO> ListaEstados;
-        private List<InventarioLoteDTO> listaTemp;
+        private List<ArticuloInventarioDTO> listaTemp;
         private List<TransaccionInventarioDTO> ListaTransacciones;
 
         ProgressBar pro;
@@ -47,7 +47,7 @@ namespace TiendaLaLojanita.Views
             this.articuloService = articuloService;
             this._ventaService = ventaService;
             this.inventarioService = inventarioService;
-            this.listaArticulos = new List<InventarioLoteDTO>();
+            this.listaArticulos = new List<ArticuloInventarioDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
@@ -122,20 +122,20 @@ namespace TiendaLaLojanita.Views
 
 
 
-        private List<InventarioLoteDTO> BuscarNombreArticulo(string pNom)
+        private List<ArticuloInventarioDTO> BuscarNombreArticulo(string pNom)
         {
-            listaTemp = new List<InventarioLoteDTO>();
+            listaTemp = new List<ArticuloInventarioDTO>();
             listaTemp = this.listaArticulos.ToList();
-            return listaTemp.Where(art => art.ArticuloDTO.Nombre.Contains(pNom)).ToList();
+            return listaTemp.Where(art => art.Articulo.Nombre.Contains(pNom)).ToList();
         }
 
         private void AutoCompleteArt()
         {
             AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
-            List<InventarioLoteDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
-            foreach (InventarioLoteDTO art in listaArticuloAuto)
+            List<ArticuloInventarioDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloInventarioDTO art in listaArticuloAuto)
             {
-                colArticulo.Add(art.ArticuloDTO.Nombre);
+                colArticulo.Add(art.Articulo.Nombre);
             }
             this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -144,26 +144,26 @@ namespace TiendaLaLojanita.Views
 
         private void BusquedaArticulo()
         {
-            InventarioLoteDTO articuloActual = new InventarioLoteDTO();
+            ArticuloInventarioDTO articuloActual = new ArticuloInventarioDTO();
             int temp = 0;
-            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
-            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.ArticuloDTO.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
-            if (articuloActual is null || articuloActual.Id == 0)
+            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Articulo.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
+            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
+            if (articuloActual is null || articuloActual.Articulo.Id == 0)
             {
                 MessageBox.Show("No se encontró ningún artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Id);
+                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Id)
+                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
+                            this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
                             this.CalcularTotales();
                         }
                     }
@@ -177,17 +177,17 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void CargarDataGrid(InventarioLoteDTO articuloActual)
+        private void CargarDataGrid(ArticuloInventarioDTO articuloActual)
         {
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre));
+            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
             if (existente != null)
             {
-                existente[articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
+                existente[articuloActual.Articulo.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
                 {
-                    NombreImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre,
-                    IdArticulo = articuloActual.Id,
-                    ValorImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto,
-                    ValorVenta = articuloActual.ArticuloDTO.ValorVenta,
+                    NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
+                    IdArticulo = articuloActual.Articulo.Id,
+                    ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
+                    ValorVenta = articuloActual.Articulo.ValorVenta,
                     Id = contador,
                     Cantidad = cant
                 });
@@ -196,14 +196,14 @@ namespace TiendaLaLojanita.Views
             {
                 listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
                 {
-                    { articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                    { articuloActual.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
                         {
                             new ImpuestoArticuloCalculadoDTO
                             {
-                                NombreImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.Nombre,
-                                IdArticulo = articuloActual.Id,
-                                ValorImpuesto = articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorVenta = articuloActual.ArticuloDTO.ValorVenta,
+                                NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
+                                IdArticulo = articuloActual.Articulo.Id,
+                                ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
+                                ValorVenta = articuloActual.Articulo.ValorVenta,
                                 Id = contador,
                                 Cantidad = cant
                             }
@@ -215,21 +215,21 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetallesVenta.Rows.Add(new object[] {
                 contador,
                 0,
-                articuloActual.Id,
-                articuloActual.ArticuloDTO.Nombre,
-                articuloActual.ArticuloDTO.Descripcion,
+                articuloActual.Articulo.Id,
+                articuloActual.Articulo.Nombre,
+                articuloActual.Articulo.Descripcion,
                 cant,
-                articuloActual.ArticuloDTO.ValorCompra,
-                articuloActual.ArticuloDTO.ValorVenta,
+                articuloActual.Articulo.ValorCompra,
+                articuloActual.Articulo.ValorVenta,
                 0,
                 0,
             });
 
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.ArticuloDTO.ValorVenta) * articuloActual.ArticuloDTO.ImpuestoArticuloDto.ValorImpuesto;
+            decimal valorImpuesto = (cant * articuloActual.Articulo.ValorVenta) * articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto;
             fila.Cells[8].Value = valorImpuesto;
-            fila.Cells[9].Value = articuloActual.ArticuloDTO.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
+            fila.Cells[9].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
             contador++;
         }
 
@@ -290,9 +290,9 @@ namespace TiendaLaLojanita.Views
             return false;
         }
 
-        private async Task<List<InventarioLoteDTO>> CargarListaArticulos()
+        private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
         {
-            List<InventarioLoteDTO> listaArticulos;
+            List<ArticuloInventarioDTO> listaArticulos;
             listaArticulos = await this.articuloService.ListarTodosArticulos();
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
@@ -765,7 +765,7 @@ namespace TiendaLaLojanita.Views
         private async void btnRecargarConfiguraciones_Click(object sender, EventArgs e)
         {
             this.CargarDatosInciales();
-            this.listaArticulos = new List<InventarioLoteDTO>();
+            this.listaArticulos = new List<ArticuloInventarioDTO>();
             this.listaArticulos = await this.CargarListaArticulos();
         }
 
@@ -938,9 +938,9 @@ namespace TiendaLaLojanita.Views
             {
                 pro = new ProgressBar();
                 Show();
-                this.listaArticulos = new List<InventarioLoteDTO>();
+                this.listaArticulos = new List<ArticuloInventarioDTO>();
                 this.listaArticulos = await this.CargarListaArticulos();
-                this.listaTemp = new List<InventarioLoteDTO>();
+                this.listaTemp = new List<ArticuloInventarioDTO>();
                 this.listaTemp = this.listaArticulos.ToList();
                 this.AutoCompleteArt();
                 Hide();

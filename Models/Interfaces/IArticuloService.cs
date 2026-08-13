@@ -15,8 +15,9 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<bool> DesactivarArticulo(int id);
         Task<List<TipoArticuloDTO>> ListaTipoArticulo();
         Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo();
+        Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias();
         Task<List<MarcaDTO>> ListaMarcaArticulo();
         Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal);
-        Task<List<InventarioLoteDTO>> ListarTodosArticulos();
+        Task<List<ArticuloInventarioDTO>> ListarTodosArticulos();
     }
 }

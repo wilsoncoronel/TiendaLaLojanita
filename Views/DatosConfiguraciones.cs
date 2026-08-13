@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Models;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Services;
@@ -22,6 +23,7 @@ namespace TiendaLaLojanita.Views
         private readonly IMarcaService marcaService;
         private readonly ITiposArticulosService tipoArticuloService;
         private readonly IImpuestoService impuestoService;
+        private readonly IPorcentajeService porcentajeService;
         private List<TipoArticuloDTO> ListasTiposArticulos;
         private List<ImpuestoArticuloDTO> ListasImpuestos;
         private MarcaDTO MarcaActual;
@@ -29,19 +31,24 @@ namespace TiendaLaLojanita.Views
         private TipoArticuloEditarDTO TipoArticuloEditarDTO;
         private MarcaEditarDTO marcaEditarActual;
         private ImpuestoArticuloDTO impActual;
+        private PorcentajeGananciaCreacionDTO porcenCreacionActual;
+        private PorcentajeGananciaDTO porcenActual;
         private ImpuestoArticuloEditarDTO impuestoEditarActualDto;
         private List<EstadoImpuestoDTO> ListaEstadosImpuestos;
+        private List<PorcentajeGananciaDTO> ListaPorcentajes;
 
-        public DatosConfiguraciones(IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService)
+        public DatosConfiguraciones(IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService)
         {
             InitializeComponent();
             ListaMarcas = new List<MarcaDTO>();
             ListasTiposArticulos = new List<TipoArticuloDTO>();
             ListasImpuestos = new List<ImpuestoArticuloDTO>();
             ListaEstadosImpuestos = new List<EstadoImpuestoDTO>();
+            ListaPorcentajes = new List<PorcentajeGananciaDTO>();
             this.marcaService = marcaService;
             this.tipoArticuloService = tipoArticuloService;
             this.impuestoService = impuestoService;
+            this.porcentajeService = porcentajeService;
             this.CargarListas();
             this.cbxEstadoVisual.SelectedIndex = 0;
             this.cbxEstadoTipo.SelectedIndex = 0;
@@ -59,7 +66,8 @@ namespace TiendaLaLojanita.Views
             this.ListasImpuestos.Clear();
             this.ListasImpuestos = await this.impuestoService.ListarImpuestos();
             this.cargarTablaImpuestos();
-
+            this.ListaPorcentajes = await this.porcentajeService.ListarPorcentajes();
+            this.cargarTablaPorcentajes();
         }
 
         private void CargarTablaMarcas()
@@ -562,5 +570,159 @@ namespace TiendaLaLojanita.Views
         {
             this.Close();
         }
+
+        private async void btnGuardarPorcentaje_Click(object sender, EventArgs e)
+        {
+            if (this.txtIdPorcentaje is null || this.txtIdPorcentaje.Text == "")
+            {
+                var resp = await this.CrearPorcentaje();
+                if (resp != null && resp > 0)
+                {
+                    MessageBox.Show($"Impuesto artículo creado con éxito con el id: {resp}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var idPorcentaje = resp;
+                    this.porcenActual = new PorcentajeGananciaDTO();
+                    this.porcenActual.Id = idPorcentaje;
+                    this.porcenActual.PorcentajeGanancia = this.porcenCreacionActual.PorcentajeGanancia;
+                    this.porcenActual.Valor = this.porcenCreacionActual.Valor;
+                    this.porcenActual.EstadoVisual = this.porcenCreacionActual.EstadoVisual;
+                    this.ListaPorcentajes.Add(this.porcenActual);
+                    this.porcenActual = new PorcentajeGananciaDTO();
+                    this.porcenCreacionActual = new PorcentajeGananciaCreacionDTO();
+                    
+                    this.cargarTablaPorcentajes();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el porcentaje!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                this.CargarPorcentajeDTO();
+                var resp = await this.ModificarPorcentaje();
+                if (resp)
+                {
+                    MessageBox.Show($"Porcentaje con el id: {porcenActual.Id}, editado correctamente!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    PorcentajeGananciaDTO por = new PorcentajeGananciaDTO
+                    {
+                        Id = this.porcenActual.Id,
+                        PorcentajeGanancia = this.porcenActual.PorcentajeGanancia,
+                        Valor = this.porcenActual.Valor,
+                        EstadoVisual = this.porcenActual.EstadoVisual
+                    };
+                    for (int i = 0; i < this.ListaPorcentajes.Count; i++)
+                    {
+                        if (this.ListaPorcentajes[i].Id == por.Id)
+                        {
+                            this.ListaPorcentajes[i] = por;
+                        }
+                    }
+                    this.cargarTablaPorcentajes();
+                    this.LimpiarFormularioPorcentajes();
+                    this.porcenActual = new PorcentajeGananciaDTO();
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el porcentaje", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void cargarTablaPorcentajes()
+        {
+            this.dgvPorcentajes.Rows.Clear();
+            foreach (var porcentaje in ListaPorcentajes)
+            {
+                int index = this.dgvPorcentajes.Rows.Add(new object[]
+                {
+                    porcentaje.Id,
+                    porcentaje.PorcentajeGanancia,
+                    porcentaje.Valor,
+                    porcentaje.EstadoVisual? "Visible": "No Visible"
+                });
+            }
+        }
+
+        private void CargarPorcentajeDTO()
+        {
+            this.porcenActual = new PorcentajeGananciaDTO();
+            this.porcenActual.Id = Convert.ToInt32(txtIdPorcentaje.Text);
+            this.porcenActual.PorcentajeGanancia = txtPorcentaje.Text.ToUpper();
+            this.porcenActual.Valor = Convert.ToDecimal(txtPorcentajeValor.Text);
+            this.porcenActual.EstadoVisual = cbxEstadoPor.SelectedIndex == 0 ? true : false;
+        }
+        private void CargarPOrcentajeEditarDTO(int idPorcentaje)
+        {
+            PorcentajeGananciaDTO porcenActual = this.ListaPorcentajes.FirstOrDefault(i => i.Id == idPorcentaje);
+            this.txtIdPorcentaje.Text = Convert.ToString(porcenActual.Id);
+            this.txtPorcentaje.Text = porcenActual.PorcentajeGanancia;
+            this.txtPorcentajeValor.Text = porcenActual.Valor.ToString();
+            this.cbxEstadoPor.SelectedIndex = porcenActual.EstadoVisual ? 0 : 1;
+        }
+        private async Task<bool> ModificarPorcentaje()
+        {
+            bool resultado = await this.porcentajeService.EditarPorcentaje(this.porcenActual);
+            return resultado;
+        }
+        private async Task<int> CrearPorcentaje()
+        {
+            PorcentajeGananciaCreacionDTO porcentajeDto = new PorcentajeGananciaCreacionDTO();
+            porcentajeDto.PorcentajeGanancia = txtPorcentaje.Text.ToUpper();
+            porcentajeDto.Valor = Convert.ToDecimal(txtPorcentajeValor.Text);
+            porcentajeDto.EstadoVisual = cbxEstadoPor.SelectedIndex == 0 ? true : false;
+            var validator = new PorcentajeValidator();
+            ValidationResult result = validator.Validate(porcentajeDto);
+            if (!result.IsValid)
+            {
+                RecorrerErrores(result);
+                return 0;
+            }
+            else
+            {
+                this.LimpiarFormularioPorcentajes();
+                this.porcenCreacionActual = new PorcentajeGananciaCreacionDTO
+                {
+                    PorcentajeGanancia = porcentajeDto.PorcentajeGanancia,
+                    Valor = porcentajeDto.Valor,
+                    EstadoVisual = porcentajeDto.EstadoVisual
+                };
+                return await this.porcentajeService.CrearPorcentaje(porcenCreacionActual);
+            }
+        }
+
+        private void LimpiarFormularioPorcentajes()
+        {
+            txtIdPorcentaje.Clear();
+            txtPorcentaje.Text = "";
+            txtPorcentajeValor.Text = "0";
+            if (cbxEstadoPor.Items.Count > 0) cbxEstadoPor.SelectedIndex = 0;
+        }
+
+        private void dgvPorcentajes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int id = 0;
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvPorcentajes.Columns[e.ColumnIndex].Name == "EditarPor")
+                {
+                    id = Convert.ToInt32(dgvPorcentajes.Rows[e.RowIndex].Cells["Id"].Value);
+                    this.CargarPOrcentajeEditarDTO(id);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void btnLimpiarPorcentaje_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormularioPorcentajes();
+        }
+
     }
 }

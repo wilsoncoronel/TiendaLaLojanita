@@ -99,6 +99,23 @@ namespace TiendaLaLojanita.Services
             }
         }
 
+        public async Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias()
+        {
+            try
+            {
+                PorcentajeGananciaDTO porcentajeGananciaDTO = new PorcentajeGananciaDTO();
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarPorcentajes");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+                Response<List<PorcentajeGananciaDTO>> result = JsonConvert.DeserializeObject<Response<List<PorcentajeGananciaDTO>>>(responseJson);
+                return result.Value;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<List<MarcaDTO>> ListaMarcaArticulo()
         {
             try
@@ -133,13 +150,13 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<InventarioLoteDTO>> ListarTodosArticulos()
+        public async Task<List<ArticuloInventarioDTO>> ListarTodosArticulos()
         {
             try {
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
+                Response<List<ArticuloInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloInventarioDTO>>>(responseJson);
                 return result.Value;
 
             } catch {

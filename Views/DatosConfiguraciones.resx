@@ -117,6 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="IdMarca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Marca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Descrip.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Visualizacion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Editar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnGuardar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAAAapJREFUSEvtkjtPwlAYhvkdOqk7RiUEXMQEaxxc9Deoo0ajGAOKcikIxIiX1UQg
+        OhhMDEwOLF4mF9HBAFYKVLyAgrTFxc8eKEZSQdow8ibP0pz3fXJyKmtFcrT2r7ZhJ7uKOVhL7wKJd0yE
+        8a6pME6QlI1MpuuyG6CsmOuzm5+qHW58jZMAok+XgM7JMHASSKTSQD0K8YYo0HmSELxMwE4wBZiTyWrt
+        tIKf+zvYOmsVI5nfT4JSH4fNY6IkQT2NJfOm1hM9/KQwTZJw30icnxSmaRJD3MZPCiNWYjp8gCFjBDyn
+        cWkS5RJVlnBc3RAQu69NJBoDu58SL0FgDqbEiIuB0Q26LpWOaIkUREnGt1iY8TINMe2lYcxdvo0oie+c
+        gWKxCAzLVlGgafgoFCCXz//wmsnCdkDCwx9cMKXB32O1QBJJf1dL0pBk0JqDAfM7+M6qH7ceFQnq9RvT
+        /0sUi0mQzxKSJKgnn4vWl2jMGRO6LmIvlOHKjfH0/ALuk3ipp15JgcpAmvlJYVRmsl3JHVAuk7jTH7Fd
+        h28bxnl0Z0M91Ec7/GQrYiOTfQOEiFCeqmtspwAAAABJRU5ErkJggg==
+</value>
+  </data>
   <metadata name="IdTipoArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -153,48 +182,19 @@
   <metadata name="EditarImpuesto.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="IdMarca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Id.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Marca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Porcentaje.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Descrip.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="ValorPorcen.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Visualizacion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="EstadoPor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Editar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="EditarPor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="IdMarca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Marca.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Descrip.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Visualizacion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Editar.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnGuardar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAapJREFUSEvtkjtPwlAYhvkdOqk7RiUEXMQEaxxc9Deoo0ajGAOKcikIxIiX1UQg
-        OhhMDEwOLF4mF9HBAFYKVLyAgrTFxc8eKEZSQdow8ibP0pz3fXJyKmtFcrT2r7ZhJ7uKOVhL7wKJd0yE
-        8a6pME6QlI1MpuuyG6CsmOuzm5+qHW58jZMAok+XgM7JMHASSKTSQD0K8YYo0HmSELxMwE4wBZiTyWrt
-        tIKf+zvYOmsVI5nfT4JSH4fNY6IkQT2NJfOm1hM9/KQwTZJw30icnxSmaRJD3MZPCiNWYjp8gCFjBDyn
-        cWkS5RJVlnBc3RAQu69NJBoDu58SL0FgDqbEiIuB0Q26LpWOaIkUREnGt1iY8TINMe2lYcxdvo0oie+c
-        gWKxCAzLVlGgafgoFCCXz//wmsnCdkDCwx9cMKXB32O1QBJJf1dL0pBk0JqDAfM7+M6qH7ceFQnq9RvT
-        /0sUi0mQzxKSJKgnn4vWl2jMGRO6LmIvlOHKjfH0/ALuk3ipp15JgcpAmvlJYVRmsl3JHVAuk7jTH7Fd
-        h28bxnl0Z0M91Ec7/GQrYiOTfQOEiFCeqmtspwAAAABJRU5ErkJggg==
-</value>
-  </data>
 </root>
