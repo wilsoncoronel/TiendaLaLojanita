@@ -144,13 +144,24 @@ namespace TiendaLaLojanita.Views
 
         private void BusquedaArticulo()
         {
-            ArticuloInventarioDTO articuloActual = new ArticuloInventarioDTO();
+            string query = this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
+            ArticuloInventarioDTO articuloActual = null;
             int temp = 0;
-            if (int.TryParse(txtArticuloBusqueda.Text, out temp)) articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo == this.txtArticuloBusqueda.Text || art.Articulo.Id == Convert.ToInt32(this.txtArticuloBusqueda.Text));
-            else articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre.ToUpper() == this.txtArticuloBusqueda.Text.ToUpper());
+            // Primero intentar buscar por código (string) sin depender de TryParse
+            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo != null && art.Codigo.Equals(query, StringComparison.OrdinalIgnoreCase));
+            // Si no se encuentra por código, intentar buscar por Id si la entrada es numérica
+            if (articuloActual == null && int.TryParse(query, out temp))
+            {
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Id == temp);
+            }
+            // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
+            if (articuloActual == null)
+            {
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase));
+            }
             if (articuloActual is null || articuloActual.Articulo.Id == 0)
             {
-                MessageBox.Show("No se encontró ningún artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
