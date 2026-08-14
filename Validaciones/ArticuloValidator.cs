@@ -28,8 +28,6 @@ namespace TiendaLaLojanita.Validaciones
                 .NotEmpty().WithMessage("La unidad valor es obligatorio.").GreaterThan(0).WithMessage("La unidadd valor debe ser mayor a 0");
             RuleFor(x => x.ValorCompra)
                 .GreaterThan(0).WithMessage("El valor de compra debe ser mayor a 0");
-            RuleFor(x => x.ValorVenta)
-                .GreaterThan(0).WithMessage("El valor de venta debe ser mayor a 0");
         }
     }
 }

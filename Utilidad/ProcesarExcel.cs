@@ -111,13 +111,13 @@ namespace TiendaLaLojanita.Utilidad
                                 EstadoVisual = ParseBool(Get("EstadoVisual")),
                                 Estado = ParseBool(Get("Estado")),
                                 ValorCompra = ParseDecimal(Get("ValorCompra")),
-                                ValorVenta = ParseDecimal(Get("ValorVenta")),
                                 UnidadValor = ParseDecimal(Get("UnidadValor")),
                                 Descripcion = Get("Descripcion"),
                                 Unidad = Get("Unidad"),
                                 IdMarca = ParseInt(Get("IdMarca")),
                                 IdTipoArticulo = ParseInt(Get("IdTipoArticulo")),
                                 IdImpuesto = ParseInt(Get("IdImpuesto")),
+                                IdPorcentajeGanancia = ParseInt(Get("IdPorcentajeGanancia")),
                                 Papeleria = ParseBoolNullable(Get("Papeleria"))
                             };
 

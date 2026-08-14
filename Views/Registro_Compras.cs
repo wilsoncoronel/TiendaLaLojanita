@@ -326,7 +326,7 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id);
+                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id, articuloActual.NumeroLote);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
@@ -349,9 +349,7 @@ namespace TiendaLaLojanita.Views
         }
 
         private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorCompra)
-        
         {
-
             foreach (var c in this.listaImpuestos)
             {
                 foreach (var imp in c)
@@ -492,11 +490,11 @@ namespace TiendaLaLojanita.Views
             }
             listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
         }
-        private bool ComprobarArticuloDgv(int idArticulo)
+        private bool ComprobarArticuloDgv(int idArticulo, string numeroLote)
         {
             foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
             {
-                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo)
+                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == numeroLote)
                 {
                     return true;
                     break;

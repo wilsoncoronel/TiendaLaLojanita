@@ -61,15 +61,11 @@
             Cantidad = new DataGridViewTextBoxColumn();
             ValorCompra = new DataGridViewTextBoxColumn();
             ValorVenta = new DataGridViewTextBoxColumn();
-            ImpuestoValor = new DataGridViewTextBoxColumn();
             ValorTotal = new DataGridViewTextBoxColumn();
             Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
-            dgvTotales = new DataGridView();
-            Impuesto = new DataGridViewTextBoxColumn();
-            Valor = new DataGridViewTextBoxColumn();
             txtTotal = new TextBox();
             label10 = new Label();
             tabPage2 = new TabPage();
@@ -118,7 +114,6 @@
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).BeginInit();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTotales).BeginInit();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             groupBox4.SuspendLayout();
@@ -363,7 +358,7 @@
             // 
             dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ImpuestoValor, ValorTotal, Eliminar });
+            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(17, 58);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(856, 305);
@@ -418,12 +413,6 @@
             ValorVenta.HeaderText = "Valor Venta";
             ValorVenta.Name = "ValorVenta";
             // 
-            // ImpuestoValor
-            // 
-            ImpuestoValor.HeaderText = "ImpuestoValor";
-            ImpuestoValor.Name = "ImpuestoValor";
-            ImpuestoValor.Visible = false;
-            // 
             // ValorTotal
             // 
             ValorTotal.HeaderText = "Valor Total";
@@ -455,44 +444,20 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(dgvTotales);
             groupBox3.Controls.Add(txtTotal);
             groupBox3.Controls.Add(label10);
             groupBox3.Location = new Point(890, 58);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(257, 305);
+            groupBox3.Size = new Size(257, 73);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Totales";
-            // 
-            // dgvTotales
-            // 
-            dgvTotales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTotales.Columns.AddRange(new DataGridViewColumn[] { Impuesto, Valor });
-            dgvTotales.Location = new Point(11, 22);
-            dgvTotales.Name = "dgvTotales";
-            dgvTotales.Size = new Size(240, 221);
-            dgvTotales.TabIndex = 8;
-            // 
-            // Impuesto
-            // 
-            Impuesto.Frozen = true;
-            Impuesto.HeaderText = "Impuesto";
-            Impuesto.Name = "Impuesto";
-            Impuesto.ReadOnly = true;
-            // 
-            // Valor
-            // 
-            Valor.Frozen = true;
-            Valor.HeaderText = "Valor";
-            Valor.Name = "Valor";
-            Valor.ReadOnly = true;
             // 
             // txtTotal
             // 
             txtTotal.Enabled = false;
             txtTotal.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtTotal.Location = new Point(148, 256);
+            txtTotal.Location = new Point(131, 22);
             txtTotal.Name = "txtTotal";
             txtTotal.PlaceholderText = "000";
             txtTotal.Size = new Size(100, 33);
@@ -502,7 +467,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(25, 259);
+            label10.Location = new Point(25, 25);
             label10.Name = "label10";
             label10.Size = new Size(56, 25);
             label10.TabIndex = 6;
@@ -832,6 +797,7 @@
             // 
             // txtCambio
             // 
+            txtCambio.Enabled = false;
             txtCambio.Location = new Point(1276, 354);
             txtCambio.Name = "txtCambio";
             txtCambio.Size = new Size(186, 23);
@@ -882,7 +848,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTotales).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
@@ -977,7 +942,6 @@
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn ValorCompra;
         private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn ImpuestoValor;
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewImageColumn Eliminar;
     }

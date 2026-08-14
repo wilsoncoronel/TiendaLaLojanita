@@ -166,15 +166,15 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id);
+                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id, articuloActual.NumeroLote);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id)
+                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == articuloActual.NumeroLote)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
+                            //this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
                             this.CalcularTotales();
                         }
                     }
@@ -190,7 +190,7 @@ namespace TiendaLaLojanita.Views
 
         private void CargarDataGrid(ArticuloInventarioDTO articuloActual)
         {
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
+            /*var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
             if (existente != null)
             {
                 existente[articuloActual.Articulo.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
@@ -221,8 +221,7 @@ namespace TiendaLaLojanita.Views
                         }
                     }
                 });
-            }
-            this.CalcularTotales();
+            }*/
             int index = this.dgvDetallesVenta.Rows.Add(new object[] {
                 contador,
                 0,
@@ -233,15 +232,13 @@ namespace TiendaLaLojanita.Views
                 articuloActual.Articulo.ValorCompra,
                 articuloActual.Articulo.ValorVenta,
                 0,
-                0,
             });
 
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.Articulo.ValorVenta) * articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto;
-            fila.Cells[8].Value = valorImpuesto;
-            fila.Cells[9].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
+            fila.Cells[8].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
             contador++;
+            this.CalcularTotales();
         }
 
         private void LimpiarValores()
@@ -251,29 +248,18 @@ namespace TiendaLaLojanita.Views
         }
         private void CalcularTotales()
         {
-            decimal totImpuestos = 0m;
             this.TotalGeneral = 0;
-            this.dgvTotales.Rows.Clear();
-            foreach (var imp in this.listaImpuestos)
+            //this.dgvTotales.Rows.Clear();
+            foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
             {
-                foreach (var nom in imp)
-                {
-                    this.dgvTotales.Rows.Add(new object[]
-                    {
-                        nom.Key,
-                        nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad)),
-                    });
-                    totImpuestos = totImpuestos + nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * x.Cantidad));
-                    TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorVenta * x.Cantidad));
-                }
+                this.TotalGeneral += Convert.ToDecimal(row.Cells["ValorTotal"].Value);
             }
 
-            this.TotalGeneral = TotalGeneral + totImpuestos;
             this.txtTotal.Text = this.TotalGeneral.ToString();
             this.TotalGeneral = 0m;
         }
 
-        private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorVenta)
+        /*private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorVenta)
         {
             foreach (var c in this.listaImpuestos)
             {
@@ -286,13 +272,13 @@ namespace TiendaLaLojanita.Views
                     });
                 }
             }
-        }
+        }*/
 
-        private bool ComprobarArticuloDgv(int idArticulo)
+        private bool ComprobarArticuloDgv(int idArticulo, string numeroLote)
         {
             foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
             {
-                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo)
+                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == numeroLote)
                 {
                     return true;
                     break;
@@ -494,7 +480,7 @@ namespace TiendaLaLojanita.Views
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                        ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+                        ImpuestoValor = 0,
                         ValotTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper(),
                        
@@ -842,7 +828,7 @@ namespace TiendaLaLojanita.Views
                 if (decimal.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorVenta"].Value?.ToString(), out valorVenta))
                 {
                     fila.Cells["ValorTotal"].Value = cantida * valorVenta;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToDecimal(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
+                    //this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToDecimal(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorVenta"].Value));
                     this.CalcularTotales();
                 }
             }
@@ -852,6 +838,7 @@ namespace TiendaLaLojanita.Views
 
         private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evita el sonido "ding"
@@ -933,7 +920,12 @@ namespace TiendaLaLojanita.Views
         private void CalcularCambio()
         {
             this.txtTotal.Text = string.IsNullOrWhiteSpace(this.txtTotal.Text) ? "0" : this.txtTotal.Text;
-            this.txtCambio.Text = Convert.ToString(Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text));
+            var valorSinTrans = Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text);
+            if(valorSinTrans < 0)
+            {
+                valorSinTrans = valorSinTrans * -1;
+            }
+            this.txtCambio.Text = Convert.ToString(valorSinTrans);
         }
 
 

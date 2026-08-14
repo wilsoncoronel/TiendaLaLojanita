@@ -623,46 +623,6 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        /// <summary>
-        /// Calcula y asigna el ValorVenta para cada artículo que viene desde el Excel
-        /// usando las listas cargadas de impuestos y porcentajes.
-        /// </summary>
-        /// <param name="articulos">Lista de artículos leídos desde Excel</param>
-        private void calcularvalorVentaarticulosExcel(List<ArticuloCreacionDTO> articulos)
-        {
-            if (articulos == null || articulos.Count == 0) return;
-
-            foreach (var art in articulos)
-            {
-                try
-                {
-                    decimal impuesto = 0m;
-                    var imp = this.listaimpuestos?.FirstOrDefault(x => x.Id == art.IdImpuesto);
-                    if (imp != null) impuesto = imp.ValorImpuesto;
-
-                    decimal valorImpuesto = art.ValorCompra * impuesto;
-                    decimal valorCompraFin = art.ValorCompra + valorImpuesto;
-
-                    decimal porcentaje = 0m;
-                    if (art.IdPorcentajeGanancia.HasValue)
-                    {
-                        var por = this.listaPorcentajeGanancias?.FirstOrDefault(x => x.Id == art.IdPorcentajeGanancia.Value);
-                        if (por != null) porcentaje = por.Valor;
-                    }
-
-                    decimal valorPorcentaje = valorCompraFin * porcentaje;
-                    decimal valorVenta = valorCompraFin + valorPorcentaje;
-
-                    // Mantener consistencia con el cálculo de la UI: redondeo a 2 decimales
-                    art.ValorVenta = Math.Round(valorVenta, 2);
-                }
-                catch
-                {
-                    // Ignorar errores en cálculo de un artículo concreto y dejar ValorVenta por defecto
-                }
-            }
-        }
-
         private void nudValorVenta_KeyPress(object sender, KeyPressEventArgs e)
         {
             this.ControlAccesoTeclado(sender, e);
@@ -682,26 +642,6 @@ namespace TiendaLaLojanita.Views
                 var (sheet, sharedStrings) = this.procesarExcel.LeerExcel(lblArchivo.Text);
                 articulosExcel = this.procesarExcel.LeerShetArticulo(sheet, sharedStrings);
 
-                // Primero calcular el valor de venta para cada articulo cargado desde Excel
-                this.calcularvalorVentaarticulosExcel(articulosExcel);
-
-                // Validar cada artículo usando el validador específico para importación (Validaciones.ExcelArticuloValidator)
-                var validator = new Validaciones.ExcelArticuloValidator();
-                var articulosInvalidos = new List<(ArticuloCreacionDTO Art, List<string> Errores)>();
-
-                for (int i = 0; i < articulosExcel.Count; i++)
-                {
-                    var art = articulosExcel[i];
-                    var errores = validator.ValidateArticulo(art, this.listaMarcas, this.listaTipoArticulo, this.listaimpuestos, this.listaPorcentajeGanancias);
-                    if (errores.Any()) articulosInvalidos.Add((art, errores));
-                }
-
-                // Si se encontraron artículos inválidos, mostrar en el DataGridView de errores y anular la carga
-                if (articulosInvalidos.Any())
-                {
-                    MessageBox.Show("Se encontraron artículos inválidos. Se ha detenido la importación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
 
                 DialogResult respuesta = MessageBox.Show(
                     $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
@@ -714,6 +654,7 @@ namespace TiendaLaLojanita.Views
                 if (respuesta == DialogResult.OK)
                 {
                     // 👉 El usuario presionó OK
+                    // GuardarArticulosEnBaseDeDatos(articulosExcel);
                     pro = new ProgressBar();
                     pro.Show();
                     var resp = await this.EnviarArticulosBd(articulosExcel);
