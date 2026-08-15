@@ -290,7 +290,7 @@ namespace TiendaLaLojanita.Views
         private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
         {
             List<ArticuloInventarioDTO> listaArticulos;
-            listaArticulos = await this.articuloService.ListarTodosArticulos();
+            listaArticulos = await this.articuloService.ListarTodosArticulos(true);
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
                 MessageBox.Show("No se encontraron articulos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -401,22 +401,8 @@ namespace TiendaLaLojanita.Views
                         doc.Add(new Paragraph("\n"));
 
                         // Calcular subtotal e impuestos agrupados por tipo (usar Articulo.ImpuestoArticuloDto como multiplicador 0.12/0.15)
-                        decimal subtotal = 0m;
-                        var impuestosPorTipo = new Dictionary<string, decimal>();
-                        foreach (var detalle in ventaActual.DetalleVenta ?? new List<DetalleVentaDTO>())
-                        {
-                            decimal linea = detalle.Cantidad * detalle.ValorVenta;
-                            subtotal += linea;
-                            var impDto = detalle.Articulo?.ImpuestoArticuloDto;
-                            decimal multiplicador = impDto?.ValorImpuesto ?? 0m; // 0.12, 0.15, o 0
-                            if (multiplicador > 0)
-                            {
-                                string key = $"{impDto.Nombre} {Math.Round(multiplicador * 100)}%"; // mostrar 12% cuando multiplicador = 0.12
-                                decimal impuestoLinea = linea * multiplicador; // multiplicador directo
-                                if (!impuestosPorTipo.ContainsKey(key)) impuestosPorTipo[key] = 0m;
-                                impuestosPorTipo[key] += impuestoLinea;
-                            }
-                        }
+                        
+                       
 
                         // Crear tabla de totales (dos columnas) y alinearla a la derecha
                         Table totalsTable = new Table(UnitValue.CreatePercentArray(new float[] { 70f, 30f }))
@@ -424,22 +410,10 @@ namespace TiendaLaLojanita.Views
                         totalsTable.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
 
                         // Fila Subtotal
-                        totalsTable.AddCell(new Cell().Add(new Paragraph("Subtotal")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-                        totalsTable.AddCell(new Cell().Add(new Paragraph(subtotal.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph("Total")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph(totalVenta.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
 
                         // Filas por cada impuesto agrupado
-                        decimal sumaImpuestos = 0m;
-                        foreach (var kvp in impuestosPorTipo)
-                        {
-                            totalsTable.AddCell(new Cell().Add(new Paragraph(kvp.Key)).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-                            totalsTable.AddCell(new Cell().Add(new Paragraph(kvp.Value.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
-                            sumaImpuestos += kvp.Value;
-                        }
-
-                        // Fila Total (subtotal + impuestos)
-                        totalsTable.AddCell(new Cell().Add(new Paragraph("Total")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-                        totalsTable.AddCell(new Cell().Add(new Paragraph((subtotal + sumaImpuestos).ToString("C")).SetFontSize(14)).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
-
                         doc.Add(totalsTable);
 
                         // Pie de página

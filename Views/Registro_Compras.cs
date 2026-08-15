@@ -240,10 +240,10 @@ namespace TiendaLaLojanita.Views
         private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
         {
             List<ArticuloInventarioDTO> listaArticulos;
-            listaArticulos = await this.articuloService.ListarTodosArticulos();
+            listaArticulos = await this.articuloService.ListarTodosArticulos(false);
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
-                MessageBox.Show("No se encontraron articulos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se encontraron artículos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return listaArticulos;
         }
@@ -434,22 +434,27 @@ namespace TiendaLaLojanita.Views
             decimal totImpuestosLocal = 0m;
             decimal totalValorCompraLocal = 0m;
             this.dgvTotales.Rows.Clear();
-            foreach (var imp in this.listaImpuestos)
-            {
-                foreach (var nom in imp)
+            
+                foreach (var imp in this.listaImpuestos)
                 {
-                    // Calcular el impuesto sobre ValorCompra (seg FAn especificaci F3n)
-                    decimal impuestoTotal = nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
-                    decimal subtotalValorCompra = nom.Value.Sum(x => x.ValorCompra * Convert.ToDecimal(x.Cantidad));
-                    this.dgvTotales.Rows.Add(new object[]
+                    foreach (var nom in imp)
                     {
+                        // Calcular el impuesto sobre ValorCompra (seg FAn especificaci F3n)
+                        decimal impuestoTotal = 0;
+                        if (this.txtIdCompra.Text == "")
+                             impuestoTotal= nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
+                        else
+                            impuestoTotal = nom.Value.Sum(x => x.ValorImpuesto * Convert.ToDecimal(x.Cantidad));
+                        decimal subtotalValorCompra = nom.Value.Sum(x => x.ValorCompra * Convert.ToDecimal(x.Cantidad));
+                        this.dgvTotales.Rows.Add(new object[]
+                        {
                         nom.Key,
                         impuestoTotal,
-                    });
-                    totImpuestosLocal += impuestoTotal;
-                    totalValorCompraLocal += subtotalValorCompra;
+                        });
+                        totImpuestosLocal += impuestoTotal;
+                        totalValorCompraLocal += subtotalValorCompra;
+                    }
                 }
-            }
             decimal totalGeneralLocal = totalValorCompraLocal + totImpuestosLocal;
             // Actualizar la etiqueta con formato en-US
             this.lblTotal.Text = totalGeneralLocal.ToString("C2", new CultureInfo("en-US"));

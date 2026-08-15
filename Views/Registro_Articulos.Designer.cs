@@ -407,7 +407,7 @@
             // nudUnidadValor
             // 
             nudUnidadValor.Location = new Point(402, 36);
-            nudUnidadValor.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            nudUnidadValor.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudUnidadValor.Name = "nudUnidadValor";
             nudUnidadValor.Size = new Size(120, 23);
             nudUnidadValor.TabIndex = 27;

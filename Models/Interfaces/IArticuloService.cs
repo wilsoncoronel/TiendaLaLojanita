@@ -18,6 +18,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias();
         Task<List<MarcaDTO>> ListaMarcaArticulo();
         Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal);
-        Task<List<ArticuloInventarioDTO>> ListarTodosArticulos();
+        Task<List<ArticuloInventarioDTO>> ListarTodosArticulos(bool esVenta);
     }
 }

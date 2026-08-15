@@ -69,7 +69,6 @@ namespace TiendaLaLojanita.Services
         {
             try
             {
-               
                 HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
@@ -150,10 +149,10 @@ namespace TiendaLaLojanita.Services
             }
         }
 
-        public async Task<List<ArticuloInventarioDTO>> ListarTodosArticulos()
+        public async Task<List<ArticuloInventarioDTO>> ListarTodosArticulos(bool esVenta)
         {
             try {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos");
+                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos?esVenta={esVenta}");
                 response.EnsureSuccessStatusCode();
                 string responseJson = await response.Content.ReadAsStringAsync();
                 Response<List<ArticuloInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloInventarioDTO>>>(responseJson);
