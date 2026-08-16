@@ -10,6 +10,9 @@
     <Compile Update="Views\Devolucion_Venta.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\ErroresRegistroArticuloExcel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Existencias.cs">
       <SubType>Form</SubType>
     </Compile>

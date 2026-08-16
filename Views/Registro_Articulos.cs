@@ -700,6 +700,7 @@ namespace TiendaLaLojanita.Views
                 if (articulosInvalidos.Any())
                 {
                     MessageBox.Show("Se encontraron artículos inválidos. Se ha detenido la importación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ErroresRegistroArticuloExcel erroArti = new ErroresRegistroArticuloExcel();
                     return;
                 }
 

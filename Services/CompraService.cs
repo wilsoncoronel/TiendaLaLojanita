@@ -23,15 +23,6 @@ namespace TiendaLaLojanita.Services
         }
         public async Task<bool> EditarCompra(CompraEditarDTO compraDto)
         {
-           /*
-                string json = JsonConvert.SerializeObject(compraDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Compras/EditarCompra", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-                return result.Value;
-            */
             try
             {
                 string json = JsonConvert.SerializeObject(compraDto);
