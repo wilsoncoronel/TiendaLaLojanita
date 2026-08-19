@@ -19,6 +19,8 @@ namespace TiendaLaLojanita
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             var services = new ServiceCollection();
             ConfigureServices(services);
             using (var serviceProvider = services.BuildServiceProvider())
@@ -27,7 +29,50 @@ namespace TiendaLaLojanita
                 Application.Run(form1);
             }
         }
+        private static void Application_ThreadException(
+        object sender,
+        ThreadExceptionEventArgs e)
+        {
+            ManejarExcepcion(e.Exception);
+        }
 
+        private static void CurrentDomain_UnhandledException(
+        object sender,
+        UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                ManejarExcepcion(ex);
+            }
+        }
+        private static void ManejarExcepcion(Exception ex)
+        {
+            string mensaje;
+
+            if (ex is NullReferenceException)
+            {
+                mensaje =
+                    "Se produjo un error al intentar acceder a un objeto " +
+                    "que no está disponible.\n\n" +
+                    "Verifique los datos e intente nuevamente.";
+            }
+            else if (ex is InvalidOperationException)
+            {
+                mensaje =
+                    "La operación solicitada no puede realizarse en el estado actual.";
+            }
+            else
+            {
+                mensaje =
+                    "Ocurrió un error inesperado en la aplicación.";
+            }
+
+            MessageBox.Show(
+                mensaje,
+                "Error de aplicación",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddHttpClient("ApiClient", client =>
@@ -40,7 +85,9 @@ namespace TiendaLaLojanita
                 client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json")
                     );
+                client.Timeout = TimeSpan.FromSeconds(30);
             });
+            services.AddScoped<ApiClient>();
             services.AddScoped<ILogginService, LogginService>();
             services.AddScoped<IMarcaService, MarcaService>();
             services.AddScoped<ITiposArticulosService, TiposArticulosService>();
@@ -64,6 +111,7 @@ namespace TiendaLaLojanita
             services.AddScoped<Cliente>();
             services.AddScoped<Proveedor>();
             services.AddScoped<DatosConfiguraciones>();
+            services.AddScoped<Devolucion_Venta>();
         }
     }
 }

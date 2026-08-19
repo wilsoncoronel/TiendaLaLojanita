@@ -105,7 +105,7 @@ namespace TiendaLaLojanita.Views
                     this.CargarTablaProveedores();
                     this.LimpiarFormulario();
                     this.ProveedorEditar = new ProveedorEditarDTO();
-                   
+
                 }
                 else
                 {
@@ -290,6 +290,11 @@ namespace TiendaLaLojanita.Views
         private void btnCerraProveedor_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtIdentificacion_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

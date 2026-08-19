@@ -129,6 +129,7 @@
             txtIdentificacion.Name = "txtIdentificacion";
             txtIdentificacion.Size = new Size(199, 23);
             txtIdentificacion.TabIndex = 25;
+            txtIdentificacion.KeyDown += txtIdentificacion_KeyDown;
             // 
             // label13
             // 

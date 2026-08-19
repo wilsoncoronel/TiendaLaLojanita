@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Views;
 
 namespace TiendaLaLojanita
@@ -17,7 +18,7 @@ namespace TiendaLaLojanita
             sesionDto = new SesionDTO();
             this.servicePorvider = servicePorvider;
         }
-        private async void GetPermisos(string user, string password)
+        private async Task GetPermisos(string user, string password)
         {
             var logginService = servicePorvider.GetRequiredService<ILogginService>();
             prog = new System.Windows.Forms.ProgressBar();
@@ -40,9 +41,9 @@ namespace TiendaLaLojanita
         }
 
 
-        private void btbIngresar_Click(object sender, EventArgs e)
+        private async void btbIngresar_Click(object sender, EventArgs e)
         {
-            this.VerificacionDatos();
+            await this.VerificacionDatos();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -50,15 +51,16 @@ namespace TiendaLaLojanita
             this.Close();
         }
 
-        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        private async void txtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.VerificacionDatos();
+                e.SuppressKeyPress = true;
+                await this.VerificacionDatos();
             }
         }
 
-        private void VerificacionDatos()
+        private async Task VerificacionDatos()
         {
             string usuario = txtUsurio.Text.Trim();
             string password = txtPassword.Text.Trim();
@@ -72,11 +74,11 @@ namespace TiendaLaLojanita
             Cursor = Cursors.WaitCursor;
             try
             {
-                GetPermisos(txtUsurio.Text, txtPassword.Text);
+                await GetPermisos(txtUsurio.Text, txtPassword.Text);
             }
-            catch (Exception ex)
+            catch (ApiException ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ApiErrorHandler.Mostrar(ex);
             }
             finally
             {

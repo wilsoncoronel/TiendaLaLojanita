@@ -103,22 +103,9 @@ namespace TiendaLaLojanita.Views
         }
         private async void Registro_Articulos_Load(object sender, EventArgs e)
         {
-            try
-            {
-                await cargarConfiguraciones();
-
-                CargarCombos();
-
-                IdUsuario = Sesion.Id;
-            }
-            catch (ApiException ex)
-            {
-                ApiErrorHandler.Mostrar(ex);
-
-                // Opcional: cerrar el formulario si no puede
-                // continuar sin las configuraciones.
-                this.Close();
-            }
+            await this.cargarConfiguraciones();
+            this.cargarCombos();
+            IdUsuario = this.Sesion.Id;
         }
         private async Task cargarConfiguraciones()
         {
@@ -128,60 +115,62 @@ namespace TiendaLaLojanita.Views
             this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
         }
 
-        private void CargarCombos()
+        private void cargarCombos()
         {
-            ConfigurarCombo(
-                cbxPorcentajeGanancia,
-                listaPorcentajeGanancias,
-                "PorcentajeGanancia",
-                listaPorcentajeGanancias.Select(x => x.PorcentajeGanancia));
+            this.cbxPorcentajeGanancia.DataSource = listaPorcentajeGanancias;
+            this.cbxPorcentajeGanancia.DisplayMember = "PorcentajeGanancia";
+            this.cbxPorcentajeGanancia.ValueMember = "Id";
 
-            ConfigurarCombo(
-                cbxImpuesto,
-                listaimpuestos,
-                "Nombre",
-                listaimpuestos.Select(x => x.Nombre));
+            this.cbxImpuesto.DataSource = listaimpuestos;
+            this.cbxImpuesto.DisplayMember = "Nombre";
+            this.cbxImpuesto.ValueMember = "Id";
+            this.cbxMarca.DataSource = listaMarcas;
+            this.cbxMarca.DisplayMember = "Nombre";
+            this.cbxMarca.ValueMember = "Id";
+            this.cbxTipoArticulo.DataSource = listaTipoArticulo;
+            this.cbxTipoArticulo.DisplayMember = "Nombre";
+            this.cbxTipoArticulo.ValueMember = "Id";
+            this.lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            this.lblUser.Text = Sesion.Usuario;
 
-            ConfigurarCombo(
-                cbxMarca,
-                listaMarcas,
-                "Nombre",
-                listaMarcas.Select(x => x.Nombre));
-
-            ConfigurarCombo(
-                cbxTipoArticulo,
-                listaTipoArticulo,
-                "Nombre",
-                listaTipoArticulo.Select(x => x.Nombre));
-
-            lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            lblUser.Text = Sesion.Usuario;
-        }
-
-        private void ConfigurarCombo<T>(
-        ComboBox combo,
-        object lista,
-        string displayMember,
-        IEnumerable<T> valores)
-        {
-            combo.DataSource = lista;
-            combo.DisplayMember = displayMember;
-            combo.ValueMember = "Id";
-
-            combo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            combo.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            var coleccion = new AutoCompleteStringCollection();
-
-            foreach (var valor in valores)
+            AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
+            AutoCompleteStringCollection coleccion2 = new AutoCompleteStringCollection();
+            AutoCompleteStringCollection coleccion3 = new AutoCompleteStringCollection();
+            AutoCompleteStringCollection coleccion4 = new AutoCompleteStringCollection();
+            foreach (var imp in listaimpuestos)
             {
-                if (valor != null)
-                {
-                    coleccion.Add(
-                        valor.ToString()!.ToUpperInvariant());
-                }
+                coleccion.Add(Convert.ToString(imp.Nombre).ToUpper());
             }
-            combo.AutoCompleteCustomSource = coleccion;
+
+            foreach (var marc in listaMarcas)
+            {
+                coleccion2.Add(Convert.ToString(marc.Nombre).ToUpper());
+            }
+
+            foreach (var tipArt in listaTipoArticulo)
+            {
+                coleccion3.Add(Convert.ToString(tipArt.Nombre).ToUpper());
+            }
+            foreach (var porcen in listaPorcentajeGanancias)
+            {
+                coleccion4.Add(Convert.ToString(porcen.PorcentajeGanancia).ToUpper());
+            }
+
+            cbxImpuesto.AutoCompleteCustomSource = coleccion;
+            cbxImpuesto.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxImpuesto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            cbxMarca.AutoCompleteCustomSource = coleccion2;
+            cbxMarca.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxMarca.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            cbxTipoArticulo.AutoCompleteCustomSource = coleccion3;
+            cbxTipoArticulo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxTipoArticulo.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            cbxPorcentajeGanancia.AutoCompleteCustomSource = coleccion4;
+            cbxPorcentajeGanancia.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbxPorcentajeGanancia.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         private void limpiarCombos()
@@ -193,26 +182,29 @@ namespace TiendaLaLojanita.Views
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            try
+            if (this.txtId is null || this.txtId.Text == "")
             {
-                if (string.IsNullOrWhiteSpace(txtId?.Text))
+                var resp = await this.CrearArticulo();
+                if (resp != null && resp > 0)
                 {
-                    var idArticulo = await this.CrearArticulo();
-                    if (idArticulo > 0)
-                    {
-                        MessageBox.Show($"Artículo creado con éxito con el id: {idArticulo}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.artActual.Id = idArticulo;
-                        ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
-                        artiTemp.Codigo = Convert.ToString(idArticulo);
-                        this.listaArticulos.Add(artiTemp);
-                        this.artActual = new ArticuloDTO();
-                        this.CargarTabla(this.listaArticulos);
-                    }
-                    return;
+                    MessageBox.Show($"Artículo creado con éxito con el id: {resp}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.artActual.Id = resp;
+                    ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
+                    artiTemp.Codigo = Convert.ToString(resp);
+                    this.listaArticulos.Add(artiTemp);
+                    this.artActual = new ArticuloDTO();
+                    this.CargarTabla(this.listaArticulos);
                 }
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
                 this.CargarEditarArticuloDTO();
-                var editado = await this.EditarArticulo();
-                if (editado)
+                var resp = await this.EditarArticulo();
+                if (resp)
                 {
                     MessageBox.Show($"Artículo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
@@ -231,10 +223,10 @@ namespace TiendaLaLojanita.Views
                     this.LimpiarFormulario();
                     this.artEditarActual = new ArticuloEdicionDTO();
                 }
-            }
-            catch (ApiException ex)
-            {
-                ApiErrorHandler.Mostrar(ex);
+                else
+                {
+                    MessageBox.Show($"No se pudo crear el artículo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -242,6 +234,7 @@ namespace TiendaLaLojanita.Views
         {
             if (this.artEditarActual != null)
             {
+
                 art.MarcaDTO = this.listaMarcas.FirstOrDefault(m => m.Id == artEditarActual.IdMarca);
                 art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artEditarActual.IdTipoArticulo);
                 art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artEditarActual.IdImpuesto);
@@ -318,13 +311,13 @@ namespace TiendaLaLojanita.Views
         {
             if (result.Errors.Count > 1)
             {
-                MessageBox.Show($"Error de Validación, hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error de Validación,  hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 foreach (var error in result.Errors)
                 {
-                    MessageBox.Show(error.ErrorMessage, $"Error de Validación, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(error.ErrorMessage, $"Error de Validacion, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -347,23 +340,19 @@ namespace TiendaLaLojanita.Views
 
         private async Task<List<ArticuloDTO>> CargarListaArticulos(DateOnly fechaIni, DateOnly fechaFin)
         {
-            this.listaArticulos =
-            await this.articuloService.ListaArticulos(fechaIni, fechaFin);
-
-            if (this.listaArticulos is null ||
-                this.listaArticulos.Count == 0)
+            try
             {
-                MessageBox.Show(
-                    "No existen artículos registrados en ese rango de fechas. " +
-                    "Intente cambiando el rango de fechas actual.",
-                    "Sin resultados",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                return new List<ArticuloDTO>();
+                this.listaArticulos = await this.articuloService.ListaArticulos(fechaIni, fechaFin);
+                if (listaArticulos is null || listaArticulos.Count == 0)
+                {
+                    MessageBox.Show($"No existen articulos registrados en ese rango de fechas, Intente cambiando el rango de fechas actual!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return listaArticulos;
             }
-
-            return this.listaArticulos;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private async void btnBuscar_Click(object sender, EventArgs e)
@@ -444,51 +433,41 @@ namespace TiendaLaLojanita.Views
 
         private async void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Ignorar clics en encabezados
-            if (e.RowIndex < 0)
-                return;
-            // Validar columna
-            if (e.ColumnIndex < 0)
-                return;
-            if (dgvArticulos.Columns[e.ColumnIndex].Name == "Editar")
+            try
             {
-                int id = Convert.ToInt32(
-                dgvArticulos.Rows[e.RowIndex]
-                    .Cells["Id"]
-                    .Value);
-                this.CargarEditarArticulo(id);
+                int id = 0;
+                id = Convert.ToInt32(dgvArticulos.Rows[e.RowIndex].Cells["Id"].Value);
+                if (e.ColumnIndex < 0)
+                {
+                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dgvArticulos.Columns[e.ColumnIndex].Name == "Editar")
+                {
+                    this.CargarEditarArticulo(id);
+                }
+            }
+            catch
+            {
+                throw;
             }
         }
 
         private void CargarEditarArticulo(int idArticulo)
         {
-            ArticuloDTO? articuloActual =
-                this.listaArticulos.FirstOrDefault(
-                    a => a.Id == idArticulo);
-
-            if (articuloActual == null)
-            {
-                MessageBox.Show(
-                    "No se encontró el artículo seleccionado.",
-                    "Artículo no encontrado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-            this.txtNombre.Text = articuloActual.Nombre?.ToUpper() ?? string.Empty;
-            this.txtDescripcion.Text = articuloActual.Descripcion?.ToUpper() ?? string.Empty;
-            this.txtId.Text = articuloActual.Id.ToString();
-            this.txtUnidad.Text = articuloActual.Unidad?.ToUpper() ?? string.Empty;
+            ArticuloDTO articuloActual = this.listaArticulos.FirstOrDefault(a => a.Id == idArticulo);
+            this.txtNombre.Text = articuloActual.Nombre.ToUpper();
+            this.txtDescripcion.Text = articuloActual.Descripcion.ToUpper();
+            this.txtId.Text = Convert.ToString(articuloActual.Id);
+            this.txtUnidad.Text = articuloActual.Unidad.ToUpper();
             this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
             this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);
             this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
             this.dtpCaducidad.Value = articuloActual.FechaCaducidad ?? DateTime.Now;
             this.dtpCreacion.Value = articuloActual.FechaCreacion;
             this.cbxEstado.SelectedIndex = articuloActual.Estado ? 0 : 1;
-            this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto?.Id ?? 0;
-            this.cbxMarca.SelectedValue = articuloActual.MarcaDTO?.Id ?? 0;
-            this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO?.Id ?? 0;
+            this.cbxImpuesto.SelectedValue = articuloActual.ImpuestoArticuloDto.Id;
+            this.cbxMarca.SelectedValue = articuloActual.MarcaDTO.Id;
+            this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO.Id;
             this.cbxPorcentajeGanancia.SelectedValue = articuloActual.PorcentajeDTO?.Id ?? 0;
         }
 
@@ -735,17 +714,18 @@ namespace TiendaLaLojanita.Views
                 // Capturas la respuesta del usuario
                 if (respuesta == DialogResult.OK)
                 {
-                    // El usuario presionó OK
+                    // 👉 El usuario presionó OK
                     pro = new ProgressBar();
                     pro.Show();
                     var resp = await this.EnviarArticulosBd(articulosExcel);
                     pro.Hide();
                     if (resp) MessageBox.Show($"Artículos registrados sin error!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else MessageBox.Show($"Ocurrio un error al registrar los Artículos!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
                 else
                 {
-                    // El usuario presionó Cancelar o cerró el cuadro
+                    // 👉 El usuario presionó Cancelar o cerró el cuadro
                     MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -781,32 +761,19 @@ namespace TiendaLaLojanita.Views
         {
             pro = new ProgressBar();
             pro.Show();
-            try
-            {
-                await this.cargarConfiguraciones();
-                CargarCombos();
-                MessageBox.Show(
-                    "Datos de configuración recargados correctamente.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            catch (ApiException ex)
-            {
-                ApiErrorHandler.Mostrar(ex);
-            }
-            finally
-            {
-                pro.Hide();
-                pro.Dispose();
-                pro = null;
-            }
+            await this.cargarConfiguraciones();
+            this.cargarCombos();
+            pro.Hide();
+            MessageBox.Show("Datos de configuracion recargados.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void dgvCodsArticulos_KeyPress(object sender, KeyPressEventArgs e)
         {
             var control = sender as NumericUpDown;
+
             string textoActual = control.Text;
+
             // Permitimos dígitos, el separador decimal y la tecla de retroceso (para borrar)
             if (char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back || char.IsLetter(e.KeyChar))
             {
