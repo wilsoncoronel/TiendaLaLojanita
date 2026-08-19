@@ -8,38 +8,25 @@ namespace TiendaLaLojanita.Services
 {
     public class ArticuloService : IArticuloService
     {
-        private readonly HttpClient _httpClient;
+        private readonly ApiClient _apiClient;
 
-        public ArticuloService(IHttpClientFactory httpClientFactory)
+        public ArticuloService(ApiClient apiClient)
         {
-            this._httpClient = httpClientFactory.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
         public async Task<int> CrearArticulo(ArticuloCreacionDTO articuloDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(articuloDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Articulo/CrearArticulo",content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-                return result.Value;
-            }
-            catch {
-                throw;
-            }
+            var response = await _apiClient.PostAsync<int>("api/Articulo/CrearArticulo",articuloDto);
+            return response.Value;
         }
 
         public async Task<bool> CrearArticuloLista(List<ArticuloCreacionDTO> listaArticulosDto)
         {
-            string json = JsonConvert.SerializeObject(listaArticulosDto);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Articulo/CrearArticulosLista", content);
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-            return result.Value;
+            var response = await _apiClient.PostAsync<bool>(
+                "api/Articulo/CrearArticulosLista",
+                listaArticulosDto);
+
+            return response.Value;
         }
 
         public Task<bool> DesactivarArticulo(int id)
@@ -49,136 +36,50 @@ namespace TiendaLaLojanita.Services
 
         public async Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(articuloEdicionDTO);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Articulo/EditarArticulo", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.PutAsync<bool>("api/Articulo/EditarArticulo",articuloEdicionDTO);
+            return response.Value;
         }
 
         public async Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<ArticuloDTO>>($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+            return response.Value ?? new List<ArticuloDTO>();
         }
 
         public async Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo()
         {
-            try
-            {
-                ImpuestoArticuloDTO impuestoArticuloDTO = new ImpuestoArticuloDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/CargarListaImpuestosArticulos");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ImpuestoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ImpuestoArticuloDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<ImpuestoArticuloDTO>>($"api/Articulo/CargarListaImpuestosArticulos");
+            return response.Value ?? new List<ImpuestoArticuloDTO>();
         }
 
         public async Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias()
         {
-            try
-            {
-                PorcentajeGananciaDTO porcentajeGananciaDTO = new PorcentajeGananciaDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarPorcentajes");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<PorcentajeGananciaDTO>> result = JsonConvert.DeserializeObject<Response<List<PorcentajeGananciaDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<PorcentajeGananciaDTO>>($"api/Articulo/ListarPorcentajes");
+            return response.Value ?? new List<PorcentajeGananciaDTO>();
         }
 
         public async Task<List<MarcaDTO>> ListaMarcaArticulo()
         {
-            try
-            {
-                MarcaDTO MarcaDTO = new MarcaDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/CargarListaMarcasArticulos");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<MarcaDTO>> result = JsonConvert.DeserializeObject<Response<List<MarcaDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<MarcaDTO>>($"api/Articulo/CargarListaMarcasArticulos");
+            return response.Value ?? new List<MarcaDTO>();
         }
 
         public async Task<List<TransaccionInventarioDTO>> ListaTransaccionInventario()
         {
-            try
-            {
-                MarcaDTO MarcaDTO = new MarcaDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Configuraciones/ListarTransacciones");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<TransaccionInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<TransaccionInventarioDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<TransaccionInventarioDTO>>($"api/Configuraciones/ListarTransacciones");
+            return response.Value?? new List<TransaccionInventarioDTO>();
         }
 
         public async Task<List<ArticuloInventarioDTO>> ListarTodosArticulos(bool esVenta)
         {
-            try {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/ListarTodosArticulos?esVenta={esVenta}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ArticuloInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ArticuloInventarioDTO>>>(responseJson);
-                return result.Value;
-
-            } catch {
-                throw;
-            }
-            
+            var response = await _apiClient.GetAsync<List<ArticuloInventarioDTO>>($"api/Articulo/ListarTodosArticulos?esVenta={esVenta}");
+            return response.Value ?? new List<ArticuloInventarioDTO>();
         }
 
         public async Task<List<TipoArticuloDTO>> ListaTipoArticulo()
         {
-            try
-            {
-                TipoArticuloDTO TipoArticuloDTO = new TipoArticuloDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Articulo/CargarListaTiposArticulos");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<TipoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<TipoArticuloDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<TipoArticuloDTO>>($"api/Articulo/CargarListaTiposArticulos");
+            return response.Value ?? new List<TipoArticuloDTO>();
         }
     }
 }

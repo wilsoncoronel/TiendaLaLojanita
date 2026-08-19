@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
@@ -292,9 +293,111 @@ namespace TiendaLaLojanita.Views
             this.Close();
         }
 
-        private void txtIdentificacion_KeyDown(object sender, KeyEventArgs e)
+        private async void txtIdentificacion_KeyDown(object sender,KeyEventArgs e)
         {
+            if (e.KeyCode != Keys.Enter)
+                return;
 
+            var tipoSeleccionado =
+                cbxTipIdentificacion.SelectedItem as TipoIdentificacionDTO;
+
+            if (tipoSeleccionado == null)
+                return;
+
+            if (!string.Equals(
+                tipoSeleccionado.Nombre,
+                "RUC",
+                StringComparison.OrdinalIgnoreCase))
+                return;
+
+            string identificacion = txtIdentificacion.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(identificacion))
+            {
+                MessageBox.Show(
+                    "Ingrese el número de RUC.",
+                    "Dato requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            prog = new ProgressBar();
+            prog.Show();
+
+            try
+            {
+                var sriContribuyente =
+                    await _proveedorService.ConsultarRUC(
+                        identificacion);
+
+                if (sriContribuyente == null)
+                {
+                    MessageBox.Show(
+                        "No se encontró información para el RUC ingresado.",
+                        "RUC no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                txtRazonSocial.Text =
+                    sriContribuyente.RazonSocial ?? string.Empty;
+
+                string[] partes =
+                    (sriContribuyente.RazonSocial ?? string.Empty)
+                    .Split(
+                        ' ',
+                        StringSplitOptions.RemoveEmptyEntries);
+
+                txtApellidos.Text =
+                    string.Join(" ", partes.Take(2));
+
+                txtNombres.Text =
+                    string.Join(" ", partes.Skip(2));
+
+                txtDireccion.Text =
+                    sriContribuyente.Establecimiento
+                        ?.DireccionCompleta
+                    ?? string.Empty;
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show(
+                    "No se pudo establecer comunicación con el servicio del SRI.\n" +
+                    "Verifique su conexión a Internet e inténtelo nuevamente.",
+                    "Error de conexión",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show(
+                    "La consulta al SRI tardó demasiado tiempo y fue cancelada.",
+                    "Tiempo de espera agotado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                prog?.Hide();
+                prog?.Dispose();
+                prog = null;
+            }
         }
     }
 }

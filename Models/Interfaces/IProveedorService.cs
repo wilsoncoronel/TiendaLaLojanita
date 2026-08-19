@@ -9,6 +9,7 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface IProveedorService
     {
+        Task<SriContribuyenteDTO> ConsultarRUC(string ruc);
         Task<ProveedorDTO> ObtenerProveedorCI(string identificacion);
         Task<int> CrearProveedor(ProveedorCreacionDTO proveedorCreacionDto);
         Task<bool> EditarProveedor(ProveedorEditarDTO proveedorEditarDTO);
