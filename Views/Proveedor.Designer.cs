@@ -117,7 +117,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Location = new Point(8, 8);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(655, 395);
+            groupBox1.Size = new Size(655, 389);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Proveedor";
@@ -336,7 +336,7 @@
             groupBox2.Size = new Size(655, 98);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Datos DIrección";
+            groupBox2.Text = "Datos Dirección";
             // 
             // cbxCiudad
             // 

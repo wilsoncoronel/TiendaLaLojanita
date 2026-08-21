@@ -11,28 +11,28 @@
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\proveedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\proveedorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\proveedorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\interfaces\\iporcentajeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iporcentajeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\interfaces\\iproveedorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iproveedorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\mapeos\\mapeoproveedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:mapeos\\mapeoproveedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\frmloggin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -55,19 +55,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Registro_Compras.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
+              "RelativeToolTip": "Views\\Registro_Compras.cs",
+              "ViewState": "AgIAABMBAAAAAAAAAAAAAB0BAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-20T16:10:38.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ArticuloService.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ArticuloService.cs",
+              "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ArticuloService.cs",
+              "RelativeToolTip": "Services\\ArticuloService.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-20T15:16:38.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "FrmLoggin.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
               "RelativeDocumentMoniker": "Views\\FrmLoggin.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
               "RelativeToolTip": "Views\\FrmLoggin.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAswAwAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA7wAwAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-19T18:50:29.827Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "FrmLoggin.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\FrmLoggin.cs",
               "RelativeDocumentMoniker": "Views\\FrmLoggin.cs",
@@ -79,33 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MapeoProveedor.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeoProveedor.cs",
-              "RelativeDocumentMoniker": "Mapeos\\MapeoProveedor.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeoProveedor.cs",
-              "RelativeToolTip": "Mapeos\\MapeoProveedor.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-19T18:18:06.438Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "IProveedorService.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IProveedorService.cs",
-              "RelativeDocumentMoniker": "Models\\Interfaces\\IProveedorService.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IProveedorService.cs",
-              "RelativeToolTip": "Models\\Interfaces\\IProveedorService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-19T18:16:15.238Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "IPorcentajeService.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IPorcentajeService.cs",
               "RelativeDocumentMoniker": "Models\\Interfaces\\IPorcentajeService.cs",
@@ -118,13 +118,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "ProveedorService.cs",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ProveedorService.cs",
               "RelativeDocumentMoniker": "Services\\ProveedorService.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ProveedorService.cs",
               "RelativeToolTip": "Services\\ProveedorService.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAADoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-19T17:59:59.156Z",
               "EditorCaption": ""
@@ -137,7 +137,7 @@
               "RelativeDocumentMoniker": "Views\\Proveedor.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Proveedor.cs",
               "RelativeToolTip": "Views\\Proveedor.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAADwvy8BAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAP4AAAAAAAAAAAAQwBABAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-18T23:34:23.265Z",
               "EditorCaption": ""

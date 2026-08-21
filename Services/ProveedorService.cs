@@ -41,7 +41,6 @@ namespace TiendaLaLojanita.Services
         {
             var response = await _apiClient.GetAsync<List<CiudadDTO>>($"api/Proveedor/ListarCiudades");
             return response.Value ?? new List<CiudadDTO>();
-            
         }
 
         public async Task<List<ProveedorDTO>> ListarProveedores()
@@ -56,9 +55,9 @@ namespace TiendaLaLojanita.Services
             return response.Value ?? new List<TipoIdentificacionDTO>();
         }
 
-        public async Task<ProveedorDTO> ObtenerProveedorCI(string identificacion)
+        public async Task<ProveedorDTO> ObtenerProveedorCI(string identificacion, bool verPersona)
         {
-            var response = await _apiClient.GetAsync<ProveedorDTO>($"api/Proveedor/BuscarProveedorCI?identificacion={identificacion}");
+            var response = await _apiClient.GetAsync<ProveedorDTO>($"api/Proveedor/BuscarProveedorCI?identificacion={identificacion}?verPersona={verPersona}");
             return response.Value ?? new ProveedorDTO();
         }
     }

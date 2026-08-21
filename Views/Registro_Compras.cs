@@ -260,7 +260,7 @@ namespace TiendaLaLojanita.Views
                 try
                 {
                     prog.Show();
-                    ProveedorDTO proveedor = await this.proveedorService.ObtenerProveedorCI(identificacion);
+                    ProveedorDTO proveedor = await this.proveedorService.ObtenerProveedorCI(identificacion, false);
                     prog.Hide();
                     if (proveedor is null)
                     {

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -35,7 +36,6 @@ namespace TiendaLaLojanita.Views
             ListaProveedores = new List<ProveedorDTO>();
             this.CargarDatosCombos();
             this.CargarListaProveedores();
-
         }
 
         private async void CargarListaProveedores()
@@ -298,7 +298,7 @@ namespace TiendaLaLojanita.Views
             if (e.KeyCode != Keys.Enter)
                 return;
 
-            var tipoSeleccionado =
+            /*var tipoSeleccionado =
                 cbxTipIdentificacion.SelectedItem as TipoIdentificacionDTO;
 
             if (tipoSeleccionado == null)
@@ -308,18 +308,18 @@ namespace TiendaLaLojanita.Views
                 tipoSeleccionado.Nombre,
                 "RUC",
                 StringComparison.OrdinalIgnoreCase))
-                return;
+                return;*/
+
 
             string identificacion = txtIdentificacion.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(identificacion))
+            if (string.IsNullOrWhiteSpace(identificacion)|| identificacion.Length > 13)
             {
                 MessageBox.Show(
-                    "Ingrese el número de RUC.",
+                    "Ingrese número valido de RUC, Identificación o Pasaporte.",
                     "Dato requerido",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
                 return;
             }
 
@@ -366,6 +366,15 @@ namespace TiendaLaLojanita.Views
             catch (ApiException ex)
             {
                 ApiErrorHandler.Mostrar(ex);
+                MessageBox.Show(
+                    "Desea crear el proveedor con el identificador actual!!" +
+                    "Info.",
+                    "Acciones",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.CrearProveedorDesdeBD(this.txtIdentificacion.Text, true);
+
             }
             catch (HttpRequestException)
             {
@@ -398,6 +407,13 @@ namespace TiendaLaLojanita.Views
                 prog?.Dispose();
                 prog = null;
             }
+        }
+        
+        private async Task<ProveedorDTO> CrearProveedorDesdeBD(string CI, bool bandera)
+        {
+            var proveedor = await this._proveedorService.ObtenerProveedorCI(CI, bandera);
+            return proveedor;
+
         }
     }
 }
