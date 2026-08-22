@@ -25,7 +25,6 @@ namespace TiendaLaLojanita.Services
             var response = await _apiClient.PostAsync<bool>(
                 "api/Articulo/CrearArticulosLista",
                 listaArticulosDto);
-
             return response.Value;
         }
 

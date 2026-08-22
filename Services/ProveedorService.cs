@@ -57,7 +57,7 @@ namespace TiendaLaLojanita.Services
 
         public async Task<ProveedorDTO> ObtenerProveedorCI(string identificacion, bool verPersona)
         {
-            var response = await _apiClient.GetAsync<ProveedorDTO>($"api/Proveedor/BuscarProveedorCI?identificacion={identificacion}?verPersona={verPersona}");
+            var response = await _apiClient.GetAsync<ProveedorDTO>($"api/Proveedor/BuscarProveedorCI?identificacion={identificacion}&verPersona={verPersona}");
             return response.Value ?? new ProveedorDTO();
         }
     }

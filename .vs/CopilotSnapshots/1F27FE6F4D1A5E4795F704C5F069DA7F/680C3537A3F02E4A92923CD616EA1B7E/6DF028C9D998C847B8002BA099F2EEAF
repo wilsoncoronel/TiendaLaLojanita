@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -294,65 +293,139 @@ namespace TiendaLaLojanita.Views
             this.Close();
         }
 
-        private async void txtIdentificacion_KeyDown(object sender,KeyEventArgs e)  { 
-            if (e.KeyCode != Keys.Enter)          
-                return;       
-            string identificacion = txtIdentificacion.Text.Trim();       
-            if (string.IsNullOrWhiteSpace(identificacion)|| identificacion.Length > 13){
-                MessageBox.Show("Ingrese número valido de RUC, Identificación o Pasaporte.","Dato requerido",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                return;      
-            }       
-            prog = new ProgressBar();      
-            prog.Show();      
-            try      
-            {          
-                var sriContribuyente = await _proveedorService.ConsultarRUC(identificacion);
-                if (sriContribuyente == null){
-                    MessageBox.Show("No se encontró información para el RUC ingresado.","RUC no encontrado",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                    return;          
-                }           
-                txtRazonSocial.Text = sriContribuyente.RazonSocial ?? string.Empty;           
-                string[] partes = (sriContribuyente.RazonSocial ?? string.Empty).Split(' ',StringSplitOptions.RemoveEmptyEntries);
-                txtApellidos.Text = string.Join(" ", partes.Take(2));
-                txtNombres.Text = string.Join(" ", partes.Skip(2));
-                txtDireccion.Text = sriContribuyente.Establecimiento?.DireccionCompleta ?? string.Empty;
-            }catch (ApiException ex){          
-                ApiErrorHandler.Mostrar(ex);
-            }      
-            catch (HttpRequestException)      
-            {          
-                MessageBox.Show("No se pudo establecer comunicación con el servicio del SRI.\n" +
-                    "Verifique su conexión a Internet e inténtelo nuevamente.",
-                    "Error de conexión",             
-                    MessageBoxButtons.OK,              
-                    MessageBoxIcon.Error);      
-            }      catch (TaskCanceledException)
-            {          MessageBox.Show(              
-                "La consulta al SRI tardó demasiado tiempo y fue cancelada.",              
-                "Tiempo de espera agotado",              
-                MessageBoxButtons.OK,              
-                MessageBoxIcon.Warning);      
-            }      
-            catch (Exception ex)      
-            {          
-                MessageBox.Show(              
-                    $"Ocurrió un error inesperado.\n\n{ex.Message}",
-                    "Error",             
+        private async void txtIdentificacion_KeyDown(object sender,KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            string identificacion = txtIdentificacion.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(identificacion)|| identificacion.Length > 13)
+            {
+                MessageBox.Show(
+                    "Ingrese número valido de RUC, Identificación o Pasaporte.",
+                    "Dato requerido",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);      
-            }      
-            finally      
-            {          
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            prog = new ProgressBar();
+            prog.Show();
+
+            try
+            {
+                var sriContribuyente =
+                    await _proveedorService.ConsultarRUC(
+                        identificacion);
+
+                if (sriContribuyente == null)
+                {
+                    await BuscarProveedorEnBaseDatos(
+                    identificacion);
+                    return;
+                }
+                CargarDatosProveedorSRI(sriContribuyente);
+               
+            }
+            catch (ApiException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await BuscarProveedorEnBaseDatos(identificacion);
+                }
+                else
+                {
+                    ApiErrorHandler.Mostrar(ex);
+                }
+                
+
+            }
+            finally
+            {
                 prog?.Hide();
                 prog?.Dispose();
                 prog = null;
-            }  
-        }           
-        private async Task<ProveedorDTO>CrearProveedorDesdeBD(string CI, bool bandera)  
-        {      
-            var proveedor = await this._proveedorService.ObtenerProveedorCI(CI, bandera);      
-            return proveedor;   
+            }
+        }
+
+        private void CargarDatosProveedorSRI(SriContribuyenteDTO sriContribuyente)
+        {
+            txtRazonSocial.Text =
+                sriContribuyente.RazonSocial ?? string.Empty;
+
+            string[] partes =
+                (sriContribuyente.RazonSocial ?? string.Empty)
+                .Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries);
+
+            txtApellidos.Text =
+                string.Join(" ", partes.Take(2));
+
+            txtNombres.Text =
+                string.Join(" ", partes.Skip(2));
+
+            txtDireccion.Text =
+                sriContribuyente.Establecimiento
+                    ?.DireccionCompleta
+                ?? string.Empty;
+        }
+
+        private async Task BuscarProveedorEnBaseDatos(string identificacion)
+        {
+            var respuesta = MessageBox.Show(
+                "No se encontró información del contribuyente en el SRI.\n\n" +
+                "¿Desea buscar la información en la base de datos local?",
+                "Proveedor no encontrado",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respuesta != DialogResult.Yes)
+                return;
+
+            var proveedor =
+                await CrearProveedorDesdeBD(
+                    identificacion,
+                    true);
+
+            if (proveedor == null)
+            {
+                MessageBox.Show(
+                    "No existe una persona o proveedor registrado con esta identificación.",
+                    "No encontrado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            CargarDatosProveedorBD(proveedor);
+        }
+        private async Task<ProveedorDTO> CrearProveedorDesdeBD(string CI, bool bandera)
+        {
+            var proveedor = await this._proveedorService.ObtenerProveedorCI(CI, bandera);
+            return proveedor;
+
+        }
+
+        private void CargarDatosProveedorBD(
+        ProveedorDTO proveedor)
+        {
+            txtRazonSocial.Text =
+                proveedor.RazonSocial ?? string.Empty;
+
+            txtApellidos.Text =
+                proveedor.Apellidos ?? string.Empty;
+
+            txtNombres.Text =
+                proveedor.Nombres ?? string.Empty;
+
+            txtIdentificacion.Text =
+                proveedor.Identificacion ?? string.Empty;
+
+            txtDireccion.Text =
+                proveedor.DireccionDto?.Descripcion ?? string.Empty;
         }
     }
 }
-    

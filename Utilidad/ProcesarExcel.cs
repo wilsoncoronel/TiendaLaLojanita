@@ -12,7 +12,7 @@ namespace TiendaLaLojanita.Utilidad
     public interface IProcesarExcel
     {
         (string sheetXml, List<string> sharedStrings) LeerExcel(string rutaArchivo);
-        List<ArticuloCreacionDTO> LeerShetArticulo(string sheetXml, List<string> sharedStrings);
+        List<ArticuloCreacionDTO> LeerShetArticulo(string sheetXml, List<string> sharedStrings, int idUsuario);
         List<DetalleCompraCreacionDTO> LeerShetDetallesCompra(string sheetXml, List<string> sharedStrings);
     }
 
@@ -50,7 +50,7 @@ namespace TiendaLaLojanita.Utilidad
             }
         }
 
-        public List<ArticuloCreacionDTO> LeerShetArticulo(string sheetXml, List<string> sharedStrings)
+        public List<ArticuloCreacionDTO> LeerShetArticulo(string sheetXml, List<string> sharedStrings, int idUsuario)
         {
             List<ArticuloCreacionDTO> listaArticulos = new List<ArticuloCreacionDTO>();
             List<string> encabezados = new List<string>();
@@ -104,21 +104,20 @@ namespace TiendaLaLojanita.Utilidad
                             var art = new ArticuloCreacionDTO
                             {
                                 Nombre = Get("Nombre"),
-                                Codigo = Get("Codigo"),
-                                IdUsuarioCreador = ParseInt(Get("IdUsuarioCreador")),
-                                FechaCreacion = ParseFecha(Get("FechaCreacion")),
-                                FechaCaducidad = ParseFecha(Get("FechaCaducidad")),
-                                EstadoVisual = ParseBool(Get("EstadoVisual")),
-                                Estado = ParseBool(Get("Estado")),
+                                FechaCreacion = DateTime.Now,
+                                FechaCaducidad = DateTime.Now,
+                                IdUsuarioCreador = idUsuario,
+                                EstadoVisual = true,
+                                Estado = true,
                                 ValorCompra = ParseDecimal(Get("ValorCompra")),
                                 UnidadValor = ParseDecimal(Get("UnidadValor")),
-                                Descripcion = Get("Descripcion"),
+                                Descripcion = "INGRESO POR ARCHIVO",
                                 Unidad = Get("Unidad"),
                                 IdMarca = ParseInt(Get("IdMarca")),
                                 IdTipoArticulo = ParseInt(Get("IdTipoArticulo")),
                                 IdImpuesto = ParseInt(Get("IdImpuesto")),
                                 IdPorcentajeGanancia = ParseInt(Get("IdPorcentajeGanancia")),
-                                Papeleria = ParseBoolNullable(Get("Papeleria"))
+                                Papeleria = false
                             };
 
                             listaArticulos.Add(art);

@@ -57,7 +57,6 @@ namespace TiendaLaLojanita.Validaciones
                 errores.Add("Impuesto no encontrado o IdImpuesto inválido.");
             if (art.IdPorcentajeGanancia.HasValue && !porcentajes.Any(p => p.Id == art.IdPorcentajeGanancia.Value))
                 errores.Add("Porcentaje de ganancia no encontrado o IdPorcentaje inválido.");
-
             return errores;
         }
     }

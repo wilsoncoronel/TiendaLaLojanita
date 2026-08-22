@@ -38,13 +38,7 @@ namespace TiendaLaLojanita.Views
 
             this.dataGridView1.Columns.Clear();
 
-            this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = nameof(ArticuloCreacionDTO.Codigo),
-                HeaderText = "Código",
-                Width = 100,
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });
+            
 
             this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -158,7 +152,6 @@ namespace TiendaLaLojanita.Views
             {
                 var fila = new object[]
                 {
-                    error.Articulo?.Codigo ?? string.Empty,
                     error.Articulo?.Nombre ?? string.Empty,
                     error.Articulo?.Descripcion ?? string.Empty,
                     error.Articulo?.IdMarca.ToString() ?? string.Empty,

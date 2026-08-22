@@ -284,7 +284,6 @@ namespace TiendaLaLojanita.Views
         private async Task<int> CrearArticulo()
         {
             ArticuloCreacionDTO articuloDto = new ArticuloCreacionDTO();
-            articuloDto.Codigo = txtId.Text;
             articuloDto.Descripcion = txtDescripcion.Text.ToUpper();
             articuloDto.IdUsuarioCreador = IdUsuario;
             articuloDto.Nombre = this.txtNombre.Text.ToUpper();
@@ -696,64 +695,145 @@ namespace TiendaLaLojanita.Views
 
         private async void btnAbrirArchivo_Click(object sender, EventArgs e)
         {
-            List<ArticuloCreacionDTO> articulosExcel = new List<ArticuloCreacionDTO>();
-            if (ofdArticulos.ShowDialog() == DialogResult.OK)
+            if (ofdArticulos.ShowDialog() != DialogResult.OK)
+                return;
+
+            lblArchivo.Text = ofdArticulos.FileName;
+
+            try
             {
-                lblArchivo.Text = ofdArticulos.FileName;
-                var (sheet, sharedStrings) = this.procesarExcel.LeerExcel(lblArchivo.Text);
-                articulosExcel = this.procesarExcel.LeerShetArticulo(sheet, sharedStrings);
+                // Leer Excel
+                var (sheet, sharedStrings) =
+                    this.procesarExcel.LeerExcel(ofdArticulos.FileName);
 
-                // Primero calcular el valor de venta para cada articulo cargado desde Excel
-                this.calcularvalorVentaarticulosExcel(articulosExcel);
+                var articulosExcel =
+                    this.procesarExcel.LeerShetArticulo(
+                        sheet,
+                        sharedStrings,
+                        this.IdUsuario);
 
-                // Validar cada artículo usando el validador específico para importación (Validaciones.ExcelArticuloValidator)
-                var validator = new Validaciones.ExcelArticuloValidator();
-                var articulosInvalidos = new List<(ArticuloCreacionDTO Art, List<string> Errores)>();
-
-                for (int i = 0; i < articulosExcel.Count; i++)
+                if (articulosExcel == null || !articulosExcel.Any())
                 {
-                    var art = articulosExcel[i];
-                    var errores = validator.ValidateArticulo(art, this.listaMarcas, this.listaTipoArticulo, this.listaimpuestos, this.listaPorcentajeGanancias);
-                    if (errores.Any()) articulosInvalidos.Add((art, errores));
-                }
+                    MessageBox.Show(
+                        "El archivo seleccionado no contiene artículos para importar.",
+                        "Archivo vacío",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
-                // Si se encontraron artículos inválidos, mostrar en el DataGridView de errores y anular la carga
-                if (articulosInvalidos.Any())
-                {
-                    MessageBox.Show("Se encontraron artículos inválidos. Se ha detenido la importación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    ErroresRegistroArticuloExcel erroArti = new ErroresRegistroArticuloExcel();
                     return;
                 }
 
-                DialogResult respuesta = MessageBox.Show(
-                    $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
-                    "Confirmación",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question
-                );
+                // Calcular valor de venta
+                this.calcularvalorVentaarticulosExcel(articulosExcel);
 
-                // Capturas la respuesta del usuario
-                if (respuesta == DialogResult.OK)
+                // Validar artículos
+                var validator =
+                    new Validaciones.ExcelArticuloValidator();
+
+                var articulosInvalidos =
+                    new List<(ArticuloCreacionDTO Art, List<string> Errores)>();
+
+                foreach (var articulo in articulosExcel)
                 {
-                    // El usuario presionó OK
-                    pro = new ProgressBar();
-                    pro.Show();
-                    var resp = await this.EnviarArticulosBd(articulosExcel);
-                    pro.Hide();
-                    if (resp) MessageBox.Show($"Artículos registrados sin error!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else MessageBox.Show($"Ocurrio un error al registrar los Artículos!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var errores = validator.ValidateArticulo(
+                        articulo,
+                        this.listaMarcas,
+                        this.listaTipoArticulo,
+                        this.listaimpuestos,
+                        this.listaPorcentajeGanancias);
+
+                    if (errores.Any())
+                    {
+                        articulosInvalidos.Add(
+                            (articulo, errores));
+                    }
                 }
-                else
+
+                // Mostrar errores
+                if (articulosInvalidos.Any())
                 {
-                    // El usuario presionó Cancelar o cerró el cuadro
-                    MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        $"Se encontraron {articulosInvalidos.Count} artículos con errores. " +
+                        "Se ha detenido la importación.",
+                        "Errores de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
                 }
+
+                // Confirmar importación
+                DialogResult respuesta = MessageBox.Show(
+                    $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel.\n\n" +
+                    "¿Está seguro de guardarlos en la base de datos?",
+                    "Confirmación de importación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
+
+                if (respuesta != DialogResult.OK)
+                {
+                    MessageBox.Show(
+                        "Operación cancelada.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                await RegistrarArticulosExcel(articulosExcel);
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error al procesar el archivo Excel.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task RegistrarArticulosExcel(List<ArticuloCreacionDTO> articulosExcel)
+        {
+            pro = new ProgressBar();
+            pro.Show();
+
+            try
+            {
+                bool resp =
+                    await this.EnviarArticulosBd(articulosExcel);
+
+                if (resp)
+                {
+                    MessageBox.Show(
+                        "Artículos registrados correctamente.",
+                        "Proceso completado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                MessageBox.Show(
+                    "No fue posible registrar los artículos.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                pro?.Hide();
+                pro?.Dispose();
+                pro = null;
             }
         }
 
         private async Task<bool> EnviarArticulosBd(List<ArticuloCreacionDTO> articulos)
         {
-            return await this.articuloService.CrearArticuloLista(articulos);
+            return await articuloService.CrearArticuloLista(articulos);
         }
 
         public void Show()
