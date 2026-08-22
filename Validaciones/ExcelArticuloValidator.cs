@@ -19,6 +19,8 @@ namespace TiendaLaLojanita.Validaciones
 
             RuleFor(x => x.IdMarca)
                 .GreaterThan(0).WithMessage("Debe indicar un IdMarca válido para la importación.");
+            RuleFor(x => x.IdPorcentajeGanancia)
+                .GreaterThan(0).WithMessage("Debe indicar un IdPorcentaje válido para la importación.");
 
             RuleFor(x => x.IdTipoArticulo)
                 .GreaterThan(0).WithMessage("Debe indicar un IdTipoArticulo válido para la importación.");

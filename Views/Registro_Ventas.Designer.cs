@@ -53,16 +53,6 @@
             btnRecargarArticulos = new Button();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
-            Id = new DataGridViewTextBoxColumn();
-            IdVentaDet = new DataGridViewTextBoxColumn();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
@@ -108,6 +98,18 @@
             txtCambio = new TextBox();
             txtPago = new TextBox();
             label19 = new Label();
+            Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
+            Lote = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -358,7 +360,7 @@
             // 
             dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, Eliminar });
+            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, Lote, Codigo, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(17, 58);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(856, 305);
@@ -366,64 +368,6 @@
             dgvDetallesVenta.CellClick += dgvDetallesVenta_CellClick;
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged_1;
             dgvDetallesVenta.EditingControlShowing += dgvDetallesVenta_EditingControlShowing_1;
-            // 
-            // Id
-            // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // IdVentaDet
-            // 
-            IdVentaDet.HeaderText = "IdVentaDet";
-            IdVentaDet.Name = "IdVentaDet";
-            IdVentaDet.Visible = false;
-            // 
-            // IdArticulo
-            // 
-            IdArticulo.HeaderText = "IdArticulo";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            IdArticulo.Visible = false;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Articulo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // ValorCompra
-            // 
-            ValorCompra.HeaderText = "ValorCompra";
-            ValorCompra.Name = "ValorCompra";
-            ValorCompra.Visible = false;
-            // 
-            // ValorVenta
-            // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
-            // 
-            // ValorTotal
-            // 
-            ValorTotal.HeaderText = "Valor Total";
-            ValorTotal.Name = "ValorTotal";
-            ValorTotal.ReadOnly = true;
-            // 
-            // Eliminar
-            // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
             // 
             // txtArticuloBusqueda
             // 
@@ -820,6 +764,76 @@
             label19.TabIndex = 12;
             label19.Text = "Pago";
             // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            Lote.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            IdArticulo.Visible = false;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
+            // 
+            // ValorVenta
+            // 
+            ValorVenta.HeaderText = "Valor Venta";
+            ValorVenta.Name = "ValorVenta";
+            // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "Valor Total";
+            ValorTotal.Name = "ValorTotal";
+            ValorTotal.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -936,6 +950,8 @@
         private DataGridViewImageColumn Editar;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn IdVentaDet;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Codigo;
         private DataGridViewTextBoxColumn IdArticulo;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;

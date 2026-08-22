@@ -157,7 +157,7 @@ namespace TiendaLaLojanita.Views
             // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
             if (articuloActual == null)
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase));
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase) || art.NumeroLote.Equals(query, StringComparison.OrdinalIgnoreCase));
             }
             if (articuloActual is null || articuloActual.Articulo.Id == 0)
             {
@@ -166,12 +166,12 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id, articuloActual.NumeroLote);
+                bool resp = this.ComprobarArticuloDgv(articuloActual);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == articuloActual.NumeroLote)
+                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id && row.Cells["Lote"].Value != null && row.Cells["Lote"].Value.ToString() == articuloActual.NumeroLote)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
                             //this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
@@ -225,6 +225,8 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetallesVenta.Rows.Add(new object[] {
                 contador,
                 0,
+                articuloActual.NumeroLote,
+                articuloActual.Codigo,
                 articuloActual.Articulo.Id,
                 articuloActual.Articulo.Nombre,
                 articuloActual.Articulo.Descripcion,
@@ -274,11 +276,11 @@ namespace TiendaLaLojanita.Views
             }
         }*/
 
-        private bool ComprobarArticuloDgv(int idArticulo, string numeroLote)
+        private bool ComprobarArticuloDgv(ArticuloInventarioDTO articuloInventario)
         {
             foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
             {
-                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == numeroLote)
+                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.IdArticulo && row.Cells["Lote"].Value != null && row.Cells["Lote"].Value.ToString() == articuloInventario.NumeroLote && row.Cells["Codigo"].Value.ToString() == articuloInventario.Codigo)
                 {
                     return true;
                     break;

@@ -67,52 +67,109 @@ namespace TiendaLaLojanita.Views
         {
             prog = new ProgressBar();
             prog.Show();
-            if (this.txtIdProveedor is null || this.txtIdProveedor.Text == "")
+
+            try
             {
-                var resp = await this.CrearProveedor();
-                prog.Close();
-                if (resp != null && resp > 0)
+                if (string.IsNullOrWhiteSpace(txtIdProveedor?.Text))
                 {
-                    MessageBox.Show($"Proveedor creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.ProveedorActual.Id = resp;
-                    ProveedorDTO proTemp = this.CargarDatosRelacionados(this.ProveedorActual);
-                    this.ListaProveedores.Add(proTemp);
-                    this.ProveedorActual = new ProveedorDTO();
-                    this.CargarTablaProveedores();
+                    int? idProveedor = await CrearProveedor();
+
+                    if (idProveedor is null || idProveedor <= 0)
+                    {
+                        MessageBox.Show(
+                            "No se pudo crear el proveedor.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return;
+                    }
+
+                    MessageBox.Show(
+                        $"Proveedor creado con éxito con el id: {idProveedor}",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    ProveedorActual.Id = idProveedor.Value;
+
+                    ProveedorDTO proTemp =
+                        CargarDatosRelacionados(ProveedorActual);
+
+                    ListaProveedores.Add(proTemp);
+
+                    ProveedorActual = new ProveedorDTO();
+
+                    CargarTablaProveedores();
+
+                    LimpiarFormulario();
                 }
                 else
                 {
-                    MessageBox.Show($"No se pudo crear el proveedor!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CargarProveedor();
+
+                    bool editado = await EditarProveedor();
+
+                    if (!editado)
+                    {
+                        MessageBox.Show(
+                            "No se pudo editar el proveedor.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return;
+                    }
+
+                    MessageBox.Show(
+                        $"Proveedor con el id: {ProveedorEditar.Id}, editado correctamente.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    var proveedorActualizado =
+                        mapeos.MapeoProveedorEditarDtoAProveedorDto(
+                            ProveedorEditar);
+
+                    proveedorActualizado =
+                        CargarDatosRelacionados(proveedorActualizado);
+
+                    proveedorActualizado.FechaCreacion =
+                        fechaCreacionTemp;
+
+                    int indice = ListaProveedores.FindIndex(
+                        p => p.Id == proveedorActualizado.Id);
+
+                    if (indice >= 0)
+                    {
+                        ListaProveedores[indice] =
+                            proveedorActualizado;
+                    }
+
+                    CargarTablaProveedores();
+
+                    LimpiarFormulario();
+
+                    ProveedorEditar = new ProveedorEditarDTO();
                 }
             }
-            else
+            catch (ApiException ex)
             {
-                this.CargarProveedor();
-                var resp = await this.EditarProveedor();
-                prog.Close();
-                if (resp)
-                {
-                    MessageBox.Show($"Proveedor con el id: {ProveedorEditar.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    var prove = this.mapeos.MapeoProveedorEditarDtoAProveedorDto(this.ProveedorEditar);
-                    prove = this.CargarDatosRelacionados(prove);
-                    prove.FechaCreacion = this.fechaCreacionTemp;
-                    for (int i = 0; i < this.ListaProveedores.Count; i++)
-                    {
-                        if (this.ListaProveedores[i].Id == prove.Id)
-                        {
-                            this.ListaProveedores[i] = prove;
-                        }
-                    }
-                    this.CargarTablaProveedores();
-                    this.LimpiarFormulario();
-                    this.ProveedorEditar = new ProveedorEditarDTO();
-
-                }
-                else
-                {
-                    MessageBox.Show($"No se pudo crear el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                prog?.Close();
+                prog?.Dispose();
+                prog = null;
             }
         }
 

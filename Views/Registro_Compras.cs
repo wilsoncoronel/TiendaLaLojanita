@@ -6,6 +6,7 @@ using System.Globalization;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
@@ -247,37 +248,68 @@ namespace TiendaLaLojanita.Views
             }
             return listaArticulos;
         }
-        private async void CargarProveedor(string identificacion)
+        private async Task CargarProveedor(string identificacion)
         {
+            if (string.IsNullOrWhiteSpace(identificacion))
+            {
+                MessageBox.Show(
+                    "Debe ingresar una identificación válida.",
+                    "Dato requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
 
             prog = new ProgressBar();
-            if (identificacion is null || identificacion == "")
+
+            try
             {
-                MessageBox.Show("Debe ingresar una identificacion valida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                prog.Show();
+                ProveedorDTO proveedor =
+                    await proveedorService.ObtenerProveedorCI(
+                        identificacion.Trim(),
+                        false);
+
+                if (proveedor is null)
+                {
+                    MessageBox.Show(
+                        "No se encontró ningún proveedor con la identificación ingresada.",
+                        "Proveedor no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                IdProveedor = proveedor.Id;
+                txtRazonSocial.Text =
+                    proveedor.RazonSocial ?? string.Empty;
+                txtTelefono.Text =
+                    proveedor.Telefono ?? string.Empty;
+                txtDireccion.Text =
+                    $"{proveedor.DireccionDto?.Descripcion ?? string.Empty} " +
+                    $"{proveedor.DireccionDto?.Ciudad?.Nombre ?? string.Empty}"
+                    .Trim();
             }
-            else
+            catch (ApiException ex)
             {
-                try
-                {
-                    prog.Show();
-                    ProveedorDTO proveedor = await this.proveedorService.ObtenerProveedorCI(identificacion, false);
-                    prog.Hide();
-                    if (proveedor is null)
-                    {
-                        MessageBox.Show("No se encontró ningún proveedor con la identificación ingresada!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    this.IdProveedor = proveedor.Id;
-                    this.txtRazonSocial.Text = proveedor.RazonSocial;
-                    this.txtTelefono.Text = proveedor.Telefono;
-
-                    this.txtDireccion.Text = $"{proveedor.DireccionDto.Descripcion} {proveedor.DireccionDto.Ciudad.Nombre}";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrio un error al buscar el proveedor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.txtIdentificacionProveedor.Text = "";
-
-                }
+                ApiErrorHandler.Mostrar(ex);
+                txtIdentificacionProveedor.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado al buscar el proveedor.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                txtIdentificacionProveedor.Clear();
+            }
+            finally
+            {
+                prog?.Hide();
+                prog?.Dispose();
+                prog = null;
             }
         }
 
@@ -317,7 +349,7 @@ namespace TiendaLaLojanita.Views
             // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
             if (articuloActual == null)
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase));
+                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase) || art.NumeroLote.Equals(query, StringComparison.OrdinalIgnoreCase));
             }
             if (articuloActual is null || articuloActual.Articulo.Id == 0)
             {
@@ -326,7 +358,7 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual.Articulo.Id, articuloActual.NumeroLote);
+                bool resp = this.ComprobarArticuloDgv(articuloActual);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
@@ -495,11 +527,11 @@ namespace TiendaLaLojanita.Views
             }
             listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
         }
-        private bool ComprobarArticuloDgv(int idArticulo, string numeroLote)
+        private bool ComprobarArticuloDgv(ArticuloInventarioDTO articuloInventario )
         {
             foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
             {
-                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == idArticulo && row.Cells["NumeroLote"].Value != null && row.Cells["NumeroLote"].Value.ToString() == numeroLote)
+                 if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.IdArticulo && row.Cells["Lote"].Value != null && row.Cells["Lote"].Value.ToString() == articuloInventario.NumeroLote && row.Cells["Codigo"].Value.ToString() == articuloInventario.Codigo)
                 {
                     return true;
                     break;
