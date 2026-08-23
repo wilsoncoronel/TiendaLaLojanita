@@ -12,55 +12,28 @@ namespace TiendaLaLojanita.Services
 {
     public class TiposArticulosService : ITiposArticulosService
     {
-        private readonly HttpClient _httpClient;
-        public TiposArticulosService(IHttpClientFactory httpClient)
+        private readonly ApiClient _apiClient;
+        public TiposArticulosService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
         public async Task<int> CrearTipoArticulo(TipoArticuloCreacionDTO marcaCreacionDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(marcaCreacionDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Configuraciones/CrearTipoArticulo", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearTipoArticulo", marcaCreacionDto);
+            return response.Value;
         }
 
         public async Task<bool> EditarTipoArticulo(TipoArticuloEditarDTO tipoArticuloEditarDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(tipoArticuloEditarDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // Cadena sin caracteres ocultos
-                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Configuraciones/EditarTipoArticulo", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarTipoArticulo", tipoArticuloEditarDto);
+            return response.Value;
+           
         }
 
         public async Task<List<TipoArticuloDTO>> ListarTiposArticulos()
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Configuraciones/ListarTiposArticulos");
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<List<TipoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<TipoArticuloDTO>>>(responseJson);
-            return result.Value;
+            var response = await this._apiClient.GetAsync<List<TipoArticuloDTO>>($"api/Configuraciones/ListarTiposArticulos");
+            return response.Value;
         }
     }
 }

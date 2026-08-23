@@ -13,11 +13,11 @@ namespace TiendaLaLojanita.Services
 {
     public class VentaService : IVentaService
     {
-        private readonly HttpClient _httpClient;
+        private readonly ApiClient _apiClient;
        
-        public VentaService(IHttpClientFactory httpClient)
+        public VentaService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
         public Task<bool> EditarVenta(VentaEditarDTO ventaDto)
         {
@@ -26,68 +26,27 @@ namespace TiendaLaLojanita.Services
 
         public async Task<List<EstadoVentaDTO>> ListarEstadosVenta()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Ventas/ListarEstadosVenta");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<EstadoVentaDTO>> result = JsonConvert.DeserializeObject<Response<List<EstadoVentaDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<EstadoVentaDTO>>($"api/Ventas/ListarEstadosVenta");
+            return response.Value;
         }
 
         public async Task<List<VentaMinDTO>> ListarVenta(DateOnly fechaInicial, DateOnly fechaFinal)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Ventas/ListarVentas?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<VentaMinDTO>> result = JsonConvert.DeserializeObject<Response<List<VentaMinDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<VentaMinDTO>>($"api/Ventas/ListarVentas?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+            return response.Value;
         }
 
         public async Task<VentaDTO> ObtenerVenta(int idVenta)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Ventas/ObtenerVenta?idVenta={idVenta}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<VentaDTO> result = JsonConvert.DeserializeObject<Response<VentaDTO>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<VentaDTO>($"api/Ventas/ObtenerVenta?idVenta={idVenta}");
+            return response.Value;
         }
 
         public async Task<int> RegistrarVenta(VentaCreacionDTO ventaDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(ventaDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Ventas/RegistrarVenta", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PostAsync<int>($"api/Ventas/RegistrarVenta", ventaDto);
+            return response.Value;
+            
         }
 
         public Task<bool> ReversarVenta(int id)

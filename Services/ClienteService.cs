@@ -13,112 +13,46 @@ namespace TiendaLaLojanita.Services
 {
     public class ClienteService : IClienteService
     {
-        private HttpClient _httpClient;
-        public ClienteService(IHttpClientFactory httpClient)
+        private ApiClient _apiClient;
+        public ClienteService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
 
         public async Task<int> CrearCliente(ClienteCreacionDTO clienteCreacionDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(clienteCreacionDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Cliente/CrearCliente", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PostAsync<int>($"api/Cliente/CrearCliente", clienteCreacionDto);
+            return response.Value;
         }
 
         public async Task<bool> EditarCliente(ClienteEditarDTO clienteEditarDto)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(clienteEditarDto);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // Cadena sin caracteres ocultos
-                HttpResponseMessage response = await this._httpClient.PutAsync($"api/Cliente/EditarCliente", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PutAsync<bool>($"api/Cliente/EditarCliente", clienteEditarDto);
+            return response.Value;
         }
 
         public async Task<ClienteDTO> ObtenerClienteCI(string identificacion)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Cliente/BuscarClienteCI?identificacion={identificacion}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<ClienteDTO> result = JsonConvert.DeserializeObject<Response<ClienteDTO>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<ClienteDTO>($"api/Cliente/BuscarClienteCI?identificacion={identificacion}");
+            return response.Value;
+            
         }
 
         public async Task<List<TipoIdentificacionDTO>> ListarTiposIdentificacion()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Cliente/ListarTiposIdentificacion");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<TipoIdentificacionDTO>> result = JsonConvert.DeserializeObject<Response<List<TipoIdentificacionDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<TipoIdentificacionDTO>>($"api/Cliente/ListarTiposIdentificacion");
+            return response.Value;
         }
-
-        //api/Cliente/ListarCiudades
         public async Task<List<CiudadDTO>> ListarCiudades()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Cliente/ListarCiudades");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<CiudadDTO>> result = JsonConvert.DeserializeObject<Response<List<CiudadDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<CiudadDTO>>($"api/Cliente/ListarCiudades");
+            return response.Value;
         }
 
         public async Task<List<ClienteDTO>> ListarClientes()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Cliente/ListarClientes");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<ClienteDTO>> result = JsonConvert.DeserializeObject<Response<List<ClienteDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<ClienteDTO>>($"api/Cliente/ListarClientes");
+            return response.Value;
         }
     }
 }

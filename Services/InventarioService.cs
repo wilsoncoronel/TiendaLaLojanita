@@ -14,145 +14,58 @@ namespace TiendaLaLojanita.Services
 {
     public class InventarioService : IInventarioService
     {
-        private HttpClient _httpClient;
-        public InventarioService(IHttpClientFactory httpClient)
+        private ApiClient _apiClient;
+        public InventarioService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
 
         public async Task<List<InventarioLoteDTO>> ExistenciasInventario(bool incluirCeros = false)
         {
-            try
-            {
-                ImpuestoArticuloDTO impuestoArticuloDTO = new ImpuestoArticuloDTO();
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ExistenciasInventario?incluirCeros={incluirCeros}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<InventarioLoteDTO>>($"api/Inventario/ExistenciasInventario?incluirCeros={incluirCeros}");
+            return response.Value;
         }
 
         public async Task<List<MovimientoDTO>> ListaInventario(DateOnly Inicio, DateOnly Fin)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaInventario?fechaInicio={Inicio:yyyy-MM-dd}&fechaFin={Fin:yyyy-MM-dd}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<MovimientoDTO>> result = JsonConvert.DeserializeObject<Response<List<MovimientoDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<MovimientoDTO>>($"api/Inventario/ListaInventario?fechaInicio={Inicio:yyyy-MM-dd}&fechaFin={Fin:yyyy-MM-dd}");
+            return response.Value;
         }
 
         public async Task<List<TransaccionInventarioDTO>> ListaTransaccionesInventario()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaTransaccionesInventario");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<TransaccionInventarioDTO>> result = JsonConvert.DeserializeObject<Response<List<TransaccionInventarioDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<TransaccionInventarioDTO>>($"api/Inventario/ListaTransaccionesInventario");
+            return response.Value;
         }
 
         public async Task<List<InventarioLoteDTO>> ListaDetallesInventario(int IdMovimiento)
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ListaDetallesInventario?IdMovimiento={IdMovimiento}");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<InventarioLoteDTO>> result = JsonConvert.DeserializeObject<Response<List<InventarioLoteDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<InventarioLoteDTO>>($"api/Inventario/ListaDetallesInventario?IdMovimiento={IdMovimiento}");
+            return response.Value;
         }
 
        
 
         public async Task<int> CrearTransaccionInventario(InventarioCreacionDTO traInventario)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(traInventario);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this._httpClient.PostAsync($"api/Inventario/RegistrarTransaccionInventario", content);
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await this._apiClient.PostAsync<int>($"api/Inventario/RegistrarTransaccionInventario", traInventario);
+            return response.Value;
         }
 
         public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiario(DateTime fechaResumen)
-        {
-            try
-            {
-                DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
-                var fechaStr = fechaActual.ToString("yyyy-MM-dd");
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ResumenVentasDiario?fechaResumen={fechaStr}");
-                string responseJson = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                {
-                    // Mostrar/registrar el cuerpo para diagnóstico del servidor
-                    MessageBox.Show($"Operación fallida. Status {(int)response.StatusCode}: {response.ReasonPhrase}\n{responseJson}", "Aviso", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
-                    response.EnsureSuccessStatusCode(); // lanzará la excepción original
-                }
-                
-                Response<List<ResumenVentasDiarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ResumenVentasDiarioDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Operación fallida."+ ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                throw;
-            }
+        {   
+            DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
+            var fechaStr = fechaActual.ToString("yyyy-MM-dd");
+            var response = await _apiClient.GetAsync<List<ResumenVentasDiarioDTO>>($"api/Inventario/ResumenVentasDiario?fechaResumen={fechaStr}");
+            return response.Value;
         }
 
         public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasMensual(DateTime fechaResumen)
         {
-            try
-            {
-                DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
-                var fechaStr = fechaActual.ToString("yyyy-MM-dd");
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Inventario/ResumenVentasMensual?fechaResumen={fechaStr}");
-                string responseJson = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
-                {
-                    // Mostrar/registrar el cuerpo para diagnóstico del servidor
-                    MessageBox.Show($"Operación fallida. Status {(int)response.StatusCode}: {response.ReasonPhrase}\n{responseJson}", "Aviso", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
-                    response.EnsureSuccessStatusCode(); // lanzará la excepción original
-                }
-                Response<List<ResumenVentasDiarioDTO>> result = JsonConvert.DeserializeObject<Response<List<ResumenVentasDiarioDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                MessageBox.Show("Operación fallida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                throw;
-            }
+            DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
+            var fechaStr = fechaActual.ToString("yyyy-MM-dd");
+            var response = await _apiClient.GetAsync<List<ResumenVentasDiarioDTO>>($"api/Inventario/ResumenVentasMensual?fechaResumen={fechaStr}");
+            return response.Value;
         }
     }
-    
 }

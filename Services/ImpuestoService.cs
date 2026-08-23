@@ -12,57 +12,35 @@ namespace TiendaLaLojanita.Services
 {
     internal class ImpuestoService : IImpuestoService
     {
-        private readonly HttpClient _httpClient;
+        private readonly ApiClient _apiClient;
 
-        public ImpuestoService(IHttpClientFactory httpClient)
+        public ImpuestoService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
         public async Task<int> CrearImpuesto(ImpuestoArticuloCreacionDTO impuestoCreacionDto)
         {
-            string json = JsonConvert.SerializeObject(impuestoCreacionDto);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Configuraciones/CrearImpuesto", content);
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-            return result.Value;
+            
+            var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearImpuesto", impuestoCreacionDto);
+            return response.Value;
         }
 
         public async Task<bool> EditarImpuesto(ImpuestoArticuloEditarDTO impuestoEditarDto)
         {
-            string json = JsonConvert.SerializeObject(impuestoEditarDto);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PutAsync($"api/Configuraciones/EditarImpuesto", content);
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-            return result.Value;
+            var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarImpuesto", impuestoEditarDto);
+            return response.Value;
         }
 
         public async Task<List<EstadoImpuestoDTO>> ListarEstadosImpuestos()
         {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"api/Configuraciones/ListarEstados");
-                response.EnsureSuccessStatusCode();
-                string responseJson = await response.Content.ReadAsStringAsync();
-                Response<List<EstadoImpuestoDTO>> result = JsonConvert.DeserializeObject<Response<List<EstadoImpuestoDTO>>>(responseJson);
-                return result.Value;
-            }
-            catch
-            {
-                throw;
-            }
+            var response = await _apiClient.GetAsync<List<EstadoImpuestoDTO>>($"api/Configuraciones/ListarEstados");
+            return response.Value;
         }
 
         public async Task<List<ImpuestoArticuloDTO>> ListarImpuestos()
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Configuraciones/ListarImpuestosArticulos");
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<List<ImpuestoArticuloDTO>> result = JsonConvert.DeserializeObject<Response<List<ImpuestoArticuloDTO>>>(responseJson);
-            return result.Value;
+            var response = await this._apiClient.GetAsync<List<ImpuestoArticuloDTO>>($"api/Configuraciones/ListarImpuestosArticulos");
+            return response.Value;
         }
     }
 }

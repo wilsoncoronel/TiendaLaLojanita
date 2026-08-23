@@ -12,42 +12,28 @@ namespace TiendaLaLojanita.Services
 {
     public class MarcaService : IMarcaService
     {
-        private readonly HttpClient _httpClient;
+        private readonly ApiClient _apiClient;
 
-        public MarcaService(IHttpClientFactory httpClient)
+        public MarcaService(ApiClient apiClient)
         {
-            this._httpClient = httpClient.CreateClient("ApiClient");
+            this._apiClient = apiClient;
         }
         public async Task<int> CrearMarca(MarcaCreacionDTO marcaCreacionDto)
         {
-            string json = JsonConvert.SerializeObject(marcaCreacionDto);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PostAsync($"api/Configuraciones/CrearMarca", content);
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<int> result = JsonConvert.DeserializeObject<Response<int>>(responseJson);
-            return result.Value;
+            var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearMarca", marcaCreacionDto);
+            return response.Value;
         } 
 
         public async Task<bool> EditarMarca(MarcaEditarDTO marcaEditarDto)
         {
-            string json = JsonConvert.SerializeObject(marcaEditarDto);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await this._httpClient.PutAsync($"api/Configuraciones/EditarMarca", content);
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<bool> result = JsonConvert.DeserializeObject<Response<bool>>(responseJson);
-            return result.Value;
+            var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarMarca", marcaEditarDto);
+            return response.Value;
         } 
 
         public async Task<List<MarcaDTO>> ListarMarcas()
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"api/Configuraciones/ListarMarcas");
-            response.EnsureSuccessStatusCode();
-            string responseJson = await response.Content.ReadAsStringAsync();
-            Response<List<MarcaDTO>> result = JsonConvert.DeserializeObject<Response<List<MarcaDTO>>>(responseJson);
-            return result.Value;
-
+            var response = await this._apiClient.GetAsync<List<MarcaDTO>>($"api/Configuraciones/ListarMarcas");
+            return response.Value;
         }
     }
 }
