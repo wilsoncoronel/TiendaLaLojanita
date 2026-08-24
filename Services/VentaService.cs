@@ -46,7 +46,6 @@ namespace TiendaLaLojanita.Services
         {
             var response = await this._apiClient.PostAsync<int>($"api/Ventas/RegistrarVenta", ventaDto);
             return response.Value;
-            
         }
 
         public Task<bool> ReversarVenta(int id)
