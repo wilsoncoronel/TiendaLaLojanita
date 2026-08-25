@@ -1,7 +1,6 @@
 using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
-using TiendaLaLojanita.Models;
 using TiendaLaLojanita.Models.DTO;
 
 namespace TiendaLaLojanita.Validaciones

@@ -1,5 +1,4 @@
 ﻿using FluentValidation.Results;
-using TiendaLaLojanita.Models;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Validaciones;

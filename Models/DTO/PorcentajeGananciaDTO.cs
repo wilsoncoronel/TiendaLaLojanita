@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TiendaLaLojanita.Models
+namespace TiendaLaLojanita.Models.DTO
 {
     public class PorcentajeGananciaDTO
     {
