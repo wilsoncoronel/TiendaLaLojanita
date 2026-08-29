@@ -24,8 +24,8 @@ namespace TiendaLaLojanita.Validaciones
             RuleFor(x => x.IdTipoArticulo)
                 .GreaterThan(0).WithMessage("Debe indicar un IdTipoArticulo válido para la importación.");
 
-            RuleFor(x => x.Unidad)
-                .MaximumLength(10).WithMessage("La unidad no puede exceder los 10 caracteres.");
+            RuleFor(x => x.IdUnidad)
+                .GreaterThan(0).WithMessage("Debe indicar una unidad de medida válido para la importación.");
 
             RuleFor(x => x.UnidadValor)
                 .GreaterThan(0).WithMessage("La unidad valor debe ser mayor que 0 para la importación.");

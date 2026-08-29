@@ -19,12 +19,14 @@ namespace TiendaLaLojanita.Views
         private readonly ITiposArticulosService tipoArticuloService;
         private readonly IImpuestoService impuestoService;
         private readonly IPorcentajeService porcentajeService;
+        private readonly IUnidadService unidadService;
         private readonly IMapeosArticulos mapeos;
         private readonly IProcesarExcel procesarExcel;
         private List<MarcaDTO> listaMarcas;
         private List<TipoArticuloDTO> listaTipoArticulo;
         private List<ImpuestoArticuloDTO> listaimpuestos;
         private List<PorcentajeGananciaDTO> listaPorcentajeGanancias;
+        private List<UnidadMedidaDTO> listaUnidades;
         private ArticuloDTO artActual;
         private ArticuloEdicionDTO artEditarActual;
         List<ArticuloDTO> listaArticulos;
@@ -37,7 +39,8 @@ namespace TiendaLaLojanita.Views
 
         private int IdUsuario;
 
-        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService)
+        public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService, 
+            ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
         {
             InitializeComponent();
             this.articuloService = articuloService;
@@ -49,9 +52,11 @@ namespace TiendaLaLojanita.Views
             this.dtpFechaFinal.Value = DateTime.Now;
             this.listaArticulos = new List<ArticuloDTO>();
             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
+            this.listaUnidades = new List<UnidadMedidaDTO>();
             this.tipoArticuloService = tipoArticuloService;
             this.impuestoService = impuestoService;
             this.porcentajeService = porcentajeService;
+            this.unidadService = unidadService;
             // Suscribir TextChanged de los TextBox internos de los NumericUpDown para normalizar pegado
             try
             {
@@ -106,6 +111,7 @@ namespace TiendaLaLojanita.Views
             try
             {
                 await cargarConfiguraciones();
+                this.cbxEstado.SelectedIndex = 0;
 
                 CargarCombos();
 
@@ -126,6 +132,7 @@ namespace TiendaLaLojanita.Views
             this.listaMarcas = await this.articuloService.ListaMarcaArticulo();
             this.listaTipoArticulo = await this.articuloService.ListaTipoArticulo();
             this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
+            this.listaUnidades = await this.unidadService.ListarUnidades();
         }
 
         private void CargarCombos()
@@ -147,6 +154,12 @@ namespace TiendaLaLojanita.Views
                 listaMarcas,
                 "Nombre",
                 listaMarcas.Select(x => x.Nombre));
+
+            ConfigurarCombo(
+                cbxUnidadesMedidaPeso,
+                listaUnidades,
+                "Nombre",
+                listaUnidades.Select(x => x.Nombre));
 
             ConfigurarCombo(
                 cbxTipoArticulo,
@@ -190,6 +203,7 @@ namespace TiendaLaLojanita.Views
             this.listaimpuestos = [];
             this.listaTipoArticulo = [];
             this.listaPorcentajeGanancias = [];
+            this.listaUnidades = [];
         }
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -246,6 +260,7 @@ namespace TiendaLaLojanita.Views
                 art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artEditarActual.IdTipoArticulo);
                 art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artEditarActual.IdImpuesto);
                 art.PorcentajeDTO = this.listaPorcentajeGanancias.FirstOrDefault(p => p.Id == artEditarActual.IdPorcentajeGanancia);
+                art.UnidadMedidaDto = this.listaUnidades.FirstOrDefault(u => u.Id == artEditarActual.IdUnidad);
             }
             else if (this.artActual != null)
             {
@@ -253,6 +268,7 @@ namespace TiendaLaLojanita.Views
                 art.TipoArticuloDTO = this.listaTipoArticulo.FirstOrDefault(t => t.Id == artActual.IdTipoArticulo);
                 art.ImpuestoArticuloDto = this.listaimpuestos.FirstOrDefault(i => i.Id == artActual.IdImpuesto);
                 art.PorcentajeDTO = this.listaPorcentajeGanancias.FirstOrDefault(p => p.Id == artActual.IdPorcentajeGanancia);
+                art.UnidadMedidaDto = this.listaUnidades.FirstOrDefault(u => u.Id == artActual.IdUnidad);
             }
             return art;
         }
@@ -268,7 +284,7 @@ namespace TiendaLaLojanita.Views
             this.artEditarActual.IdTipoArticulo = Convert.ToInt32(cbxTipoArticulo.SelectedValue);
             this.artEditarActual.IdImpuesto = Convert.ToInt32(cbxImpuesto.SelectedValue);
             this.artEditarActual.IdPorcentajeGanancia = Convert.ToInt32(cbxPorcentajeGanancia.SelectedValue);
-            this.artEditarActual.Unidad = txtUnidad.Text;
+            this.artEditarActual.IdUnidad = Convert.ToInt32(cbxUnidadesMedidaPeso.SelectedValue);
             this.artEditarActual.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
             this.artEditarActual.FechaCaducidad = dtpCaducidad.Value;
             this.artEditarActual.FechaActualizacion = DateTime.Now;
@@ -293,7 +309,7 @@ namespace TiendaLaLojanita.Views
             articuloDto.IdTipoArticulo = Convert.ToInt32(cbxTipoArticulo.SelectedValue);
             articuloDto.IdImpuesto = Convert.ToInt32(cbxImpuesto.SelectedValue);
             articuloDto.IdPorcentajeGanancia = Convert.ToInt32(cbxPorcentajeGanancia.SelectedValue);
-            articuloDto.Unidad = txtUnidad.Text.ToUpper();
+            articuloDto.IdUnidad = Convert.ToInt32(cbxUnidadesMedidaPeso.SelectedValue);
             articuloDto.Estado = (cbxEstado.SelectedIndex == 0);
             articuloDto.UnidadValor = Convert.ToDecimal(nudUnidadValor.Value);
             articuloDto.FechaCaducidad = dtpCaducidad.Value;
@@ -335,13 +351,14 @@ namespace TiendaLaLojanita.Views
             txtNombre.Clear();
             nudValorCompra.Value = 0;
             nudValorVenta.Value = 0;
-            txtUnidad.Clear();
             nudUnidadValor.Value = 0;
             dtpCaducidad.Value = DateTime.Now;
             if (cbxImpuesto.Items.Count > 0) cbxImpuesto.SelectedIndex = 0;
             if (cbxMarca.Items.Count > 0) cbxMarca.SelectedIndex = 0;
             if (cbxTipoArticulo.Items.Count > 0) cbxTipoArticulo.SelectedIndex = 0;
             if (cbxPorcentajeGanancia.Items.Count>0) cbxPorcentajeGanancia.SelectedIndex = 0;
+            if (cbxUnidadesMedidaPeso.Items.Count > 0) cbxUnidadesMedidaPeso.SelectedIndex = 0;
+            this.cbxEstado.SelectedIndex = 0;
         }
 
         private async Task<List<ArticuloDTO>> CargarListaArticulos(DateOnly fechaIni, DateOnly fechaFin)
@@ -409,7 +426,7 @@ namespace TiendaLaLojanita.Views
                 var valorCompra = art != null ? art.ValorCompra.ToString("C2", new System.Globalization.CultureInfo("en-US")) : string.Empty;
                 var valorVenta = art != null ? art.ValorVenta.ToString("C2", new System.Globalization.CultureInfo("en-US")) : string.Empty;
 
-                var unidad = art?.Unidad?.ToUpper() ?? string.Empty;
+                var unidad = art?.UnidadMedidaDto?.Nombre ?? "SIN UNIDAD DE MEDIDA";
                 var unidadValor = art?.UnidadValor.HasValue == true ? art.UnidadValor.Value.ToString().ToUpper() : string.Empty;
 
                 dgvArticulos.Rows.Add(
@@ -478,7 +495,6 @@ namespace TiendaLaLojanita.Views
             this.txtNombre.Text = articuloActual.Nombre?.ToUpper() ?? string.Empty;
             this.txtDescripcion.Text = articuloActual.Descripcion?.ToUpper() ?? string.Empty;
             this.txtId.Text = articuloActual.Id.ToString();
-            this.txtUnidad.Text = articuloActual.Unidad?.ToUpper() ?? string.Empty;
             this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
             this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);
             this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
@@ -489,6 +505,7 @@ namespace TiendaLaLojanita.Views
             this.cbxMarca.SelectedValue = articuloActual.MarcaDTO?.Id ?? 0;
             this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO?.Id ?? 0;
             this.cbxPorcentajeGanancia.SelectedValue = articuloActual.PorcentajeDTO?.Id ?? 0;
+            this.cbxUnidadesMedidaPeso.SelectedValue = articuloActual.UnidadMedidaDto?.Id ?? 0;
         }
 
         private void nudValorCompra_KeyPress(object sender, KeyPressEventArgs e)
@@ -852,7 +869,8 @@ namespace TiendaLaLojanita.Views
             ITiposArticulosService tipoArticuloService = this.tipoArticuloService;
             IImpuestoService impuestoService = this.impuestoService;
             IPorcentajeService porcentajeService = this.porcentajeService;
-            DatosConfiguraciones datConf = new DatosConfiguraciones(marcaService, tipoArticuloService, impuestoService, porcentajeService);
+            IUnidadService unidadService = this.unidadService;
+            DatosConfiguraciones datConf = new DatosConfiguraciones(marcaService, tipoArticuloService, impuestoService, porcentajeService, unidadService);
             datConf.StartPosition = FormStartPosition.CenterScreen;
             datConf.Show();
         }

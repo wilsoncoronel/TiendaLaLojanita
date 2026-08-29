@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Services;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
@@ -20,6 +22,7 @@ namespace TiendaLaLojanita.Views
     {
         private readonly IClienteService _clienteService;
         private readonly IMapeosClientes mapeos;
+        private readonly IProveedorService _proveedorService;
         private List<TipoIdentificacionDTO> ListaTiposIdentificacion;
         private List<CiudadDTO> ListaCiudades;
         private ClienteDTO ClienteActual;
@@ -27,12 +30,13 @@ namespace TiendaLaLojanita.Views
         private ClienteEditarDTO ClienteEditar;
         private ProgressBar prog;
 
-        public Cliente(IClienteService clienteService, IMapeosClientes mapeos)
+        public Cliente(IClienteService clienteService, IMapeosClientes mapeos, IProveedorService proveedorService)
         {
             this.ClienteActual = new ClienteDTO();
             InitializeComponent();
             this._clienteService = clienteService;
             this.mapeos = mapeos;
+            this._proveedorService = proveedorService;
             ListaTiposIdentificacion = new List<TipoIdentificacionDTO>();
             this.CargarDatosCombos();
             this.ListaCiudades = new List<CiudadDTO>();
@@ -58,49 +62,99 @@ namespace TiendaLaLojanita.Views
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
             prog = new ProgressBar();
-            prog.Show();
-            if (this.txtIdCLiente is null || this.txtIdCLiente.Text == "")
-            {
-                var resp = await this.CrearCliente();
-                prog.Close();
-                if (resp != null && resp > 0)
-                {
-                    MessageBox.Show($"Cliente creado con éxito con el id: {resp}", "Exito!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.ClienteActual.Id = resp;
-                    ClienteDTO cliTemp = this.CargarDatosRelacionados(this.ClienteActual);
-                    this.ListaClientes.Add(cliTemp);
-                    this.ClienteActual = new ClienteDTO();
-                    this.CargarTablaClientes();
-                }
-                else
-                {
-                    MessageBox.Show($"No se pudo crear el cliente!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                this.CargarCliente();
-                var resp = await this.EditarCliente();
-                prog.Close();
-                if (resp)
-                {
-                    MessageBox.Show($"Cliente con el id: {ClienteActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    for (int i = 0; i < this.ListaClientes.Count; i++)
-                    {
-                        if (this.ListaClientes[i].Id == ClienteActual.Id)
-                        {
-                            MapearEdicionAClienteDto(this.ListaClientes[i], this.ClienteEditar);
-                            break;
-                        }
-                    }
-                    this.CargarTablaClientes();
-                    this.LimpiarFormulario();
 
-                }
-                else
+            try
+            {
+                prog.Show();
+
+                bool esNuevo = string.IsNullOrWhiteSpace(txtIdCLiente?.Text);
+
+                if (esNuevo)
                 {
-                    MessageBox.Show($"No se pudo crear el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    int idCliente = await CrearCliente();
+
+                    if (idCliente <= 0)
+                        return;
+
+                    ClienteActual.Id = idCliente;
+
+                    ClienteDTO clienteTemp =
+                        CargarDatosRelacionados(ClienteActual);
+
+                    ListaClientes.Add(clienteTemp);
+
+                    MessageBox.Show(
+                        $"Cliente creado con éxito con el id: {idCliente}",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    ClienteActual = new ClienteDTO();
+
+                    CargarTablaClientes();
+
+                    LimpiarFormulario();
+
+                    return;
                 }
+
+                // EDITAR CLIENTE
+                CargarCliente();
+
+                bool editado = await EditarCliente();
+
+                if (!editado)
+                {
+                    MessageBox.Show(
+                        "No se pudo editar el cliente.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                for (int i = 0; i < ListaClientes.Count; i++)
+                {
+                    if (ListaClientes[i].Id == ClienteActual.Id)
+                    {
+                        MapearEdicionAClienteDto(
+                            ListaClientes[i],
+                            ClienteEditar);
+
+                        break;
+                    }
+                }
+
+                CargarTablaClientes();
+
+                MessageBox.Show(
+                    $"Cliente con el id: {ClienteActual.Id} editado correctamente.",
+                    "Éxito",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                LimpiarFormulario();
+
+                ClienteEditar = new ClienteEditarDTO();
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                prog?.Close();
+                prog?.Dispose();
+                prog = null;
             }
         }
         private async Task<bool> EditarCliente()
@@ -134,7 +188,6 @@ namespace TiendaLaLojanita.Views
         {
             if (this.ClienteEditar != null)
             {
-
                 cliente.TipoIdentificacionDto = this.ListaTiposIdentificacion.FirstOrDefault(ti => ti.Id == ClienteActual.TipoIdentificacionDto.Id);
                 cliente.DireccionDto.Ciudad = this.ListaCiudades.FirstOrDefault(c => c.Id == ClienteActual.DireccionDto.IdCiudad);
             }
@@ -261,22 +314,15 @@ namespace TiendaLaLojanita.Views
 
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            int id = 0;
+            if (e.ColumnIndex < 0)
             {
-                int id = 0;
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvClientes.Columns[e.ColumnIndex].Name == "Editar")
-                {
-                    id = Convert.ToInt32(dgvClientes.Rows[e.RowIndex].Cells["Id"].Value);
-                    this.CargarCliente(id);
-                }
+                MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch
+            else if (dgvClientes.Columns[e.ColumnIndex].Name == "Editar")
             {
-                throw;
+                id = Convert.ToInt32(dgvClientes.Rows[e.RowIndex].Cells["Id"].Value);
+                this.CargarCliente(id);
             }
         }
 
@@ -299,6 +345,98 @@ namespace TiendaLaLojanita.Views
         private void btnCerrarCliente_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private async void txtIdentificacion_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            e.SuppressKeyPress = true;
+            e.Handled = true;
+
+            string identificacion = txtIdentificacion.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(identificacion))
+            {
+                MessageBox.Show(
+                    "Ingrese una identificación válida.",
+                    "Dato requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            if (identificacion.Length > 13)
+            {
+                MessageBox.Show(
+                    "La identificación no puede superar los 13 caracteres.",
+                    "Identificación inválida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            prog = new ProgressBar();
+
+            try
+            {
+                prog.Show();
+
+                var sriContribuyente =
+                    await _proveedorService.ConsultarRUC(
+                        identificacion,
+                        true);
+
+                if (sriContribuyente is null)
+                {
+                    MessageBox.Show(
+                        "No se encontró información para la identificación ingresada.",
+                        "Contribuyente no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                string razonSocial =
+                    sriContribuyente.RazonSocial ?? string.Empty;
+
+                string[] partes = razonSocial.Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries);
+
+                txtApellidos.Text =
+                    string.Join(" ", partes.Take(2));
+
+                txtNombres.Text =
+                    string.Join(" ", partes.Skip(2));
+
+                txtDireccion.Text =
+                    sriContribuyente.Establecimiento
+                        ?.DireccionCompleta
+                    ?? string.Empty;
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado.\n\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                prog?.Close();
+                prog?.Dispose();
+                prog = null;
+            }
         }
     }
 }

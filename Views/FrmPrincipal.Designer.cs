@@ -62,6 +62,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCerrar;
             ClientSize = new Size(800, 450);
             Controls.Add(btnCerrar);
             Controls.Add(tabControl1);

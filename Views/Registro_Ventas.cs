@@ -26,6 +26,7 @@ namespace TiendaLaLojanita.Views
         private readonly IArticuloService articuloService;
         private readonly IVentaService _ventaService;
         private readonly IInventarioService inventarioService;
+        private readonly IProveedorService proveedorService;
         private List<ArticuloInventarioDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
@@ -40,13 +41,14 @@ namespace TiendaLaLojanita.Views
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService)
+        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService)
         {
             InitializeComponent();
             this.clienteService = clienteService;
             this.articuloService = articuloService;
             this._ventaService = ventaService;
             this.inventarioService = inventarioService;
+            this.proveedorService = proveedorService;
             this.listaArticulos = new List<ArticuloInventarioDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
@@ -669,7 +671,8 @@ namespace TiendaLaLojanita.Views
         {
             IClienteService clienteService = this.clienteService;
             IMapeosClientes mapeos = new MapeosClientes();
-            Cliente clienteForm = new Cliente(clienteService, mapeos);
+            IProveedorService proveedorService = this.proveedorService;
+            Cliente clienteForm = new Cliente(clienteService, mapeos, proveedorService);
             clienteForm.StartPosition = FormStartPosition.CenterScreen;
             clienteForm.Show();
         }
@@ -904,7 +907,6 @@ namespace TiendaLaLojanita.Views
             this.txtCambio.Text = Convert.ToString(valorSinTrans);
         }
 
-
         private async void btnRecargarArticulos_Click_1(object sender, EventArgs e)
         {
             DialogResult respuesta = MessageBox.Show(
@@ -944,7 +946,6 @@ namespace TiendaLaLojanita.Views
                 }
                 this.LimpiarValores();
                 this.LimpiarFormulario();
-
             }
         }
     }

@@ -558,11 +558,14 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1438, 558);
+            ControlBox = false;
             Controls.Add(btnCancelar);
             Controls.Add(groupBox3);
             Controls.Add(btnGuardar);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Proveedor";
             Text = "Proveedor";
             groupBox1.ResumeLayout(false);

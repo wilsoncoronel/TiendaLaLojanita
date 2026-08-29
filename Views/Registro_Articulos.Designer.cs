@@ -56,7 +56,6 @@
             label2 = new Label();
             label1 = new Label();
             label10 = new Label();
-            txtUnidad = new TextBox();
             label11 = new Label();
             label12 = new Label();
             label13 = new Label();
@@ -65,6 +64,7 @@
             nudValorVenta = new NumericUpDown();
             nudValorCompra = new NumericUpDown();
             groupBox3 = new GroupBox();
+            cbxUnidadesMedidaPeso = new ComboBox();
             groupBox4 = new GroupBox();
             btnBuscar = new Button();
             dtpFechaFinal = new DateTimePicker();
@@ -369,14 +369,6 @@
             label10.TabIndex = 19;
             label10.Text = "Unidad:";
             // 
-            // txtUnidad
-            // 
-            txtUnidad.Location = new Point(98, 36);
-            txtUnidad.Name = "txtUnidad";
-            txtUnidad.PlaceholderText = "ML/GR/UNI";
-            txtUnidad.Size = new Size(215, 23);
-            txtUnidad.TabIndex = 20;
-            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -430,7 +422,7 @@
             // 
             nudValorVenta.DecimalPlaces = 2;
             nudValorVenta.Enabled = false;
-            nudValorVenta.Location = new Point(431, 36);
+            nudValorVenta.Location = new Point(449, 34);
             nudValorVenta.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorVenta.Name = "nudValorVenta";
             nudValorVenta.Size = new Size(169, 23);
@@ -450,8 +442,8 @@
             // groupBox3
             // 
             groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox3.Controls.Add(cbxUnidadesMedidaPeso);
             groupBox3.Controls.Add(nudUnidadValor);
-            groupBox3.Controls.Add(txtUnidad);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(label10);
             groupBox3.Location = new Point(772, 250);
@@ -460,6 +452,14 @@
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Unidad/Peso Artículo";
+            // 
+            // cbxUnidadesMedidaPeso
+            // 
+            cbxUnidadesMedidaPeso.FormattingEnabled = true;
+            cbxUnidadesMedidaPeso.Location = new Point(84, 34);
+            cbxUnidadesMedidaPeso.Name = "cbxUnidadesMedidaPeso";
+            cbxUnidadesMedidaPeso.Size = new Size(201, 23);
+            cbxUnidadesMedidaPeso.TabIndex = 28;
             // 
             // groupBox4
             // 
@@ -780,7 +780,6 @@
         private TextBox txtId;
         private Label label5;
         private Label label11;
-        private TextBox txtUnidad;
         private Label label10;
         private Label label9;
         private Label label12;
@@ -839,5 +838,6 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
+        private ComboBox cbxUnidadesMedidaPeso;
     }
 }

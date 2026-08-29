@@ -30,7 +30,9 @@ namespace TiendaLaLojanita.Models.DTO
         public int IdImpuesto { get; set; }
         public bool? Papeleria { get; set; }
         public int? IdPorcentajeGanancia { get; set; }
+        public int IdUnidad { get; set; }
         public virtual PorcentajeGananciaDTO? PorcentajeDTO { get; set; }
+        public UnidadMedidaDTO UnidadMedidaDto { get; set; }
 
     }
 }

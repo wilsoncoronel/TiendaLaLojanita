@@ -103,6 +103,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IInventarioService, InventarioService>();
             services.AddScoped<IMapeoProveedor, MapeoProveedor>();
             services.AddScoped<IProcesarExcel, ProcesarExcel>();
+            services.AddScoped<IUnidadService, UnidadService>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();

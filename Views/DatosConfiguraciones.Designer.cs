@@ -110,6 +110,25 @@
             ValorPorcen = new DataGridViewTextBoxColumn();
             EstadoPor = new DataGridViewTextBoxColumn();
             EditarPor = new DataGridViewImageColumn();
+            tabPage5 = new TabPage();
+            groupBox10 = new GroupBox();
+            dgvUnidadesMedida = new DataGridView();
+            IdUni = new DataGridViewTextBoxColumn();
+            NombreUni = new DataGridViewTextBoxColumn();
+            EstadoUni = new DataGridViewTextBoxColumn();
+            EstadoVisualUni = new DataGridViewTextBoxColumn();
+            EditarUni = new DataGridViewImageColumn();
+            btnLimpiarUni = new Button();
+            btnGuardarUni = new Button();
+            groupBox9 = new GroupBox();
+            cbxEstadoVisualUnidad = new ComboBox();
+            label20 = new Label();
+            label17 = new Label();
+            cbxEstadoUnidad = new ComboBox();
+            label18 = new Label();
+            txtNombreUnidad = new TextBox();
+            label19 = new Label();
+            txtIdUnidad = new TextBox();
             btnCerrarDatosConf = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -129,6 +148,10 @@
             groupBox8.SuspendLayout();
             groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPorcentajes).BeginInit();
+            tabPage5.SuspendLayout();
+            groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvUnidadesMedida).BeginInit();
+            groupBox9.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -137,6 +160,7 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage5);
             tabControl1.Location = new Point(1, 21);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -842,6 +866,172 @@
             EditarPor.Image = Properties.Resources._10336582_edit;
             EditarPor.Name = "EditarPor";
             // 
+            // tabPage5
+            // 
+            tabPage5.Controls.Add(groupBox10);
+            tabPage5.Controls.Add(btnLimpiarUni);
+            tabPage5.Controls.Add(btnGuardarUni);
+            tabPage5.Controls.Add(groupBox9);
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new Padding(3);
+            tabPage5.Size = new Size(1198, 388);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Unidades de Medida/Peso";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            groupBox10.Controls.Add(dgvUnidadesMedida);
+            groupBox10.Location = new Point(355, 6);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Size = new Size(798, 367);
+            groupBox10.TabIndex = 12;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "Lista Unidades";
+            // 
+            // dgvUnidadesMedida
+            // 
+            dgvUnidadesMedida.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUnidadesMedida.Columns.AddRange(new DataGridViewColumn[] { IdUni, NombreUni, EstadoUni, EstadoVisualUni, EditarUni });
+            dgvUnidadesMedida.Location = new Point(15, 24);
+            dgvUnidadesMedida.Name = "dgvUnidadesMedida";
+            dgvUnidadesMedida.Size = new Size(769, 328);
+            dgvUnidadesMedida.TabIndex = 0;
+            dgvUnidadesMedida.CellClick += dgvUnidadesMedida_CellClick;
+            // 
+            // IdUni
+            // 
+            IdUni.HeaderText = "Id";
+            IdUni.Name = "IdUni";
+            // 
+            // NombreUni
+            // 
+            NombreUni.HeaderText = "Nombre";
+            NombreUni.Name = "NombreUni";
+            // 
+            // EstadoUni
+            // 
+            EstadoUni.HeaderText = "Estado";
+            EstadoUni.Name = "EstadoUni";
+            // 
+            // EstadoVisualUni
+            // 
+            EstadoVisualUni.HeaderText = "EstadoVisual";
+            EstadoVisualUni.Name = "EstadoVisualUni";
+            // 
+            // EditarUni
+            // 
+            EditarUni.HeaderText = "Editar";
+            EditarUni.Image = Properties.Resources._10336582_edit;
+            EditarUni.Name = "EditarUni";
+            // 
+            // btnLimpiarUni
+            // 
+            btnLimpiarUni.Image = Properties.Resources.clear;
+            btnLimpiarUni.Location = new Point(213, 319);
+            btnLimpiarUni.Name = "btnLimpiarUni";
+            btnLimpiarUni.Size = new Size(129, 54);
+            btnLimpiarUni.TabIndex = 11;
+            btnLimpiarUni.UseVisualStyleBackColor = true;
+            btnLimpiarUni.Click += btnLimpiarUni_Click;
+            // 
+            // btnGuardarUni
+            // 
+            btnGuardarUni.Image = Properties.Resources._4856668_resize;
+            btnGuardarUni.Location = new Point(7, 319);
+            btnGuardarUni.Name = "btnGuardarUni";
+            btnGuardarUni.Size = new Size(129, 54);
+            btnGuardarUni.TabIndex = 10;
+            btnGuardarUni.UseVisualStyleBackColor = true;
+            btnGuardarUni.Click += btnGuardarUni_Click;
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(cbxEstadoVisualUnidad);
+            groupBox9.Controls.Add(label20);
+            groupBox9.Controls.Add(label17);
+            groupBox9.Controls.Add(cbxEstadoUnidad);
+            groupBox9.Controls.Add(label18);
+            groupBox9.Controls.Add(txtNombreUnidad);
+            groupBox9.Controls.Add(label19);
+            groupBox9.Controls.Add(txtIdUnidad);
+            groupBox9.Location = new Point(7, 6);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(335, 297);
+            groupBox9.TabIndex = 6;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Datos Unidades Medida";
+            // 
+            // cbxEstadoVisualUnidad
+            // 
+            cbxEstadoVisualUnidad.FormattingEnabled = true;
+            cbxEstadoVisualUnidad.Items.AddRange(new object[] { "VISIBLE", "NO VISIBLE" });
+            cbxEstadoVisualUnidad.Location = new Point(136, 162);
+            cbxEstadoVisualUnidad.Name = "cbxEstadoVisualUnidad";
+            cbxEstadoVisualUnidad.Size = new Size(121, 23);
+            cbxEstadoVisualUnidad.TabIndex = 7;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(45, 165);
+            label20.Name = "label20";
+            label20.Size = new Size(73, 15);
+            label20.TabIndex = 6;
+            label20.Text = "EstadoVisual";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(45, 48);
+            label17.Name = "label17";
+            label17.Size = new Size(20, 15);
+            label17.TabIndex = 0;
+            label17.Text = "Id:";
+            // 
+            // cbxEstadoUnidad
+            // 
+            cbxEstadoUnidad.FormattingEnabled = true;
+            cbxEstadoUnidad.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
+            cbxEstadoUnidad.Location = new Point(136, 121);
+            cbxEstadoUnidad.Name = "cbxEstadoUnidad";
+            cbxEstadoUnidad.Size = new Size(121, 23);
+            cbxEstadoUnidad.TabIndex = 5;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(45, 87);
+            label18.Name = "label18";
+            label18.Size = new Size(54, 15);
+            label18.TabIndex = 1;
+            label18.Text = "Nombre:";
+            // 
+            // txtNombreUnidad
+            // 
+            txtNombreUnidad.Location = new Point(157, 84);
+            txtNombreUnidad.Name = "txtNombreUnidad";
+            txtNombreUnidad.Size = new Size(100, 23);
+            txtNombreUnidad.TabIndex = 4;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(45, 124);
+            label19.Name = "label19";
+            label19.Size = new Size(45, 15);
+            label19.TabIndex = 2;
+            label19.Text = "Estado:";
+            // 
+            // txtIdUnidad
+            // 
+            txtIdUnidad.Enabled = false;
+            txtIdUnidad.Location = new Point(157, 48);
+            txtIdUnidad.Name = "txtIdUnidad";
+            txtIdUnidad.Size = new Size(100, 23);
+            txtIdUnidad.TabIndex = 3;
+            // 
             // btnCerrarDatosConf
             // 
             btnCerrarDatosConf.Image = Properties.Resources.cancelar_resize;
@@ -857,8 +1047,11 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1212, 442);
+            ControlBox = false;
             Controls.Add(btnCerrarDatosConf);
             Controls.Add(tabControl1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "DatosConfiguraciones";
             Text = "DatosConfiguraciones";
             Load += DatosConfiguraciones_Load;
@@ -884,6 +1077,11 @@
             groupBox8.PerformLayout();
             groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvPorcentajes).EndInit();
+            tabPage5.ResumeLayout(false);
+            groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvUnidadesMedida).EndInit();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -971,5 +1169,24 @@
         private DataGridViewTextBoxColumn ValorPorcen;
         private DataGridViewTextBoxColumn EstadoPor;
         private DataGridViewImageColumn EditarPor;
+        private TabPage tabPage5;
+        private Label label19;
+        private Label label18;
+        private Label label17;
+        private GroupBox groupBox9;
+        private ComboBox cbxEstadoUnidad;
+        private TextBox txtNombreUnidad;
+        private TextBox txtIdUnidad;
+        private GroupBox groupBox10;
+        private DataGridView dgvUnidadesMedida;
+        private Button btnLimpiarUni;
+        private Button btnGuardarUni;
+        private DataGridViewTextBoxColumn IdUni;
+        private DataGridViewTextBoxColumn NombreUni;
+        private DataGridViewTextBoxColumn EstadoUni;
+        private DataGridViewTextBoxColumn EstadoVisualUni;
+        private DataGridViewImageColumn EditarUni;
+        private ComboBox cbxEstadoVisualUnidad;
+        private Label label20;
     }
 }

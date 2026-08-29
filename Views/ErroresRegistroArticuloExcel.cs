@@ -88,13 +88,13 @@ namespace TiendaLaLojanita.Views
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
 
-            this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+           /* this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = nameof(ArticuloCreacionDTO.Unidad),
                 HeaderText = "Unidad",
                 Width = 90,
                 SortMode = DataGridViewColumnSortMode.NotSortable
-            });
+            });*/
 
             this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -158,7 +158,7 @@ namespace TiendaLaLojanita.Views
                     error.Articulo?.IdTipoArticulo.ToString() ?? string.Empty,
                     error.Articulo?.IdImpuesto.ToString() ?? string.Empty,
                     error.Articulo?.IdPorcentajeGanancia?.ToString() ?? string.Empty,
-                    error.Articulo?.Unidad ?? string.Empty,
+                    error.Articulo?.IdUnidad.ToString() ?? string.Empty,
                     error.Articulo?.UnidadValor.ToString(CultureInfo.InvariantCulture) ?? string.Empty,
                     error.Articulo?.ValorCompra.ToString(CultureInfo.InvariantCulture) ?? string.Empty,
                     error.Articulo?.ValorVenta.ToString(CultureInfo.InvariantCulture) ?? string.Empty,

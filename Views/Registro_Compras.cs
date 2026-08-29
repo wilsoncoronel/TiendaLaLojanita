@@ -493,31 +493,7 @@ namespace TiendaLaLojanita.Views
             // Mantener el campo de clase sincronizado con el total calculado (no acumulativo)
             this.TotalGeneral = totalGeneralLocal;
         }
-
-        /*private void CalcularTotales()
-        {
-            decimal totImpuestos = 0m;
-            this.dgvTotales.Rows.Clear();
-
-            foreach (var imp in this.listaImpuestos)
-            {
-                foreach (var nom in imp)
-                {
-                    this.dgvTotales.Rows.Add(new object[]
-                    {
-                        nom.Key,
-                        nom.Value.Sum(x => x.ValorImpuesto * (x.ValorVenta * Convert.ToDecimal( x.Cantidad))),
-                    });
-                    totImpuestos = totImpuestos + nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
-                    TotalGeneral = TotalGeneral + (nom.Value.Sum(x => x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
-                }
-            }
-
-            this.TotalGeneral = TotalGeneral + totImpuestos;
-            this.lblTotal.Text = this.TotalGeneral.ToString("C2", new CultureInfo("en-US"));
-            this.TotalGeneral = 0m;
-        }*/
-
+        
         private void EliminarImpuestoPorId(int id)
         {
             foreach (var dic in listaImpuestos)
@@ -600,13 +576,15 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void txtIdentificacionProveedor_KeyDown(object sender, KeyEventArgs e)
+        private async void txtIdentificacionProveedor_KeyDown(object sender,KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.CargarProveedor(this.txtIdentificacionProveedor.Text.Trim());
-                e.SuppressKeyPress = true; // Evita el sonido de "ding" al presionar Enter
-            }
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            e.SuppressKeyPress = true;
+            e.Handled = true;
+
+            await CargarProveedor(txtIdentificacionProveedor.Text.Trim());
         }
 
         private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)

@@ -363,7 +363,7 @@ namespace TiendaLaLojanita.Views
             prog.Show();      
             try      
             {          
-                var sriContribuyente = await _proveedorService.ConsultarRUC(identificacion);
+                var sriContribuyente = await _proveedorService.ConsultarRUC(identificacion, true);
                 if (sriContribuyente == null){
                     MessageBox.Show("No se encontró información para el RUC ingresado.","RUC no encontrado",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     return;          

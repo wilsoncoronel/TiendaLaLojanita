@@ -141,7 +141,7 @@
             // cbxTipoIdentificacion
             // 
             cbxTipoIdentificacion.FormattingEnabled = true;
-            cbxTipoIdentificacion.Location = new Point(150, 114);
+            cbxTipoIdentificacion.Location = new Point(150, 57);
             cbxTipoIdentificacion.Name = "cbxTipoIdentificacion";
             cbxTipoIdentificacion.Size = new Size(220, 23);
             cbxTipoIdentificacion.TabIndex = 13;
@@ -149,7 +149,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(12, 114);
+            label7.Location = new Point(12, 57);
             label7.Name = "label7";
             label7.Size = new Size(108, 15);
             label7.TabIndex = 12;
@@ -157,25 +157,26 @@
             // 
             // txtNombres
             // 
-            txtNombres.Location = new Point(149, 44);
+            txtNombres.Location = new Point(149, 128);
             txtNombres.Name = "txtNombres";
             txtNombres.Size = new Size(221, 23);
             txtNombres.TabIndex = 9;
             // 
             // txtApellidos
             // 
-            txtApellidos.Location = new Point(149, 73);
+            txtApellidos.Location = new Point(149, 161);
             txtApellidos.Name = "txtApellidos";
             txtApellidos.Size = new Size(221, 23);
             txtApellidos.TabIndex = 8;
             // 
             // txtIdentificacion
             // 
-            txtIdentificacion.Location = new Point(149, 153);
+            txtIdentificacion.Location = new Point(149, 96);
             txtIdentificacion.MaxLength = 13;
             txtIdentificacion.Name = "txtIdentificacion";
             txtIdentificacion.Size = new Size(221, 23);
             txtIdentificacion.TabIndex = 7;
+            txtIdentificacion.KeyDown += txtIdentificacion_KeyDown;
             // 
             // txtEmail
             // 
@@ -195,7 +196,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(11, 43);
+            label5.Location = new Point(11, 131);
             label5.Name = "label5";
             label5.Size = new Size(59, 15);
             label5.TabIndex = 4;
@@ -204,7 +205,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(11, 76);
+            label4.Location = new Point(11, 164);
             label4.Name = "label4";
             label4.Size = new Size(59, 15);
             label4.TabIndex = 3;
@@ -213,7 +214,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(11, 156);
+            label3.Location = new Point(11, 99);
             label3.Name = "label3";
             label3.Size = new Size(82, 15);
             label3.TabIndex = 2;
@@ -250,7 +251,7 @@
             // 
             txtDireccion.Location = new Point(147, 22);
             txtDireccion.Name = "txtDireccion";
-            txtDireccion.Size = new Size(221, 23);
+            txtDireccion.Size = new Size(501, 23);
             txtDireccion.TabIndex = 11;
             // 
             // groupBox2
@@ -446,11 +447,14 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1515, 465);
+            ControlBox = false;
             Controls.Add(groupBox3);
             Controls.Add(btnCerrar);
             Controls.Add(btnGuardar);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Cliente";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cliente";

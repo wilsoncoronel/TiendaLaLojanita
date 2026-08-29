@@ -13,7 +13,7 @@ namespace TiendaLaLojanita.Models.DTO
         public int IdMarca { get; set; }
 
         public int IdTipoArticulo { get; set; }
-
+        public int IdUnidad { get; set; }
         public int IdUsuarioCreador { get; set; }
 
         public int IdImpuesto { get; set; }

@@ -112,7 +112,7 @@ namespace TiendaLaLojanita.Utilidad
                                 ValorCompra = ParseDecimal(Get("ValorCompra")),
                                 UnidadValor = ParseDecimal(Get("UnidadValor")),
                                 Descripcion = "INGRESO POR ARCHIVO",
-                                Unidad = Get("Unidad"),
+                                IdUnidad = ParseInt(Get("IdUnidad")),
                                 IdMarca = ParseInt(Get("IdMarca")),
                                 IdTipoArticulo = ParseInt(Get("IdTipoArticulo")),
                                 IdImpuesto = ParseInt(Get("IdImpuesto")),

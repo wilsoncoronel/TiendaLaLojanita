@@ -24,8 +24,8 @@ namespace TiendaLaLojanita.Validaciones
                 .GreaterThan(0).WithMessage("Debe seleccionar un tipo de articulo.");
             RuleFor(x => x.IdPorcentajeGanancia)
                 .GreaterThan(0).WithMessage("Debe seleccionar un porcentaje de ganancia.");
-            RuleFor(x => x.Unidad)
-                .MaximumLength(10).WithMessage("La unidad no puede exceder los 10 caracteres.");
+            RuleFor(x => x.IdUnidad)
+                .GreaterThan(0).WithMessage("Debe seleccionar una unidad de valor.");
             RuleFor(x => x.UnidadValor)
                 .NotEmpty().WithMessage("La unidad valor es obligatorio.").GreaterThan(0).WithMessage("La unidadd valor debe ser mayor a 0");
             RuleFor(x => x.ValorCompra)

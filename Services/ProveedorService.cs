@@ -19,9 +19,9 @@ namespace TiendaLaLojanita.Services
             _apiClient = apiClient;
         }
 
-        public async Task<SriContribuyenteDTO> ConsultarRUC(string ruc)
+        public async Task<SriContribuyenteDTO> ConsultarRUC(string ruc, bool esProveedor)
         {
-            var response = await _apiClient.GetAsync<SriContribuyenteDTO>($"api/Proveedor/ConsultarRuc?ruc={ruc}");
+            var response = await _apiClient.GetAsync<SriContribuyenteDTO>($"api/Proveedor/ConsultarRuc?ruc={ruc}&esProveedor={esProveedor}");
             return response.Value?? new SriContribuyenteDTO();  
         }
 
