@@ -438,5 +438,10 @@ namespace TiendaLaLojanita.Views
                 prog = null;
             }
         }
+
+        private void Cliente_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

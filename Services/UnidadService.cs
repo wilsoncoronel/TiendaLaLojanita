@@ -21,7 +21,7 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
-        public async Task<bool> EditarUnidad(UnidadEditarDTO clienteEditarDto)
+        public async Task<bool> EditarUnidad(UnidadMedidaDTO clienteEditarDto)
         {
             var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarUnidadMedida", clienteEditarDto);
             return response.Value;

@@ -104,6 +104,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IMapeoProveedor, MapeoProveedor>();
             services.AddScoped<IProcesarExcel, ProcesarExcel>();
             services.AddScoped<IUnidadService, UnidadService>();
+            services.AddScoped<ISistemaService, SistemaService>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();
@@ -113,6 +114,7 @@ namespace TiendaLaLojanita
             services.AddScoped<Proveedor>();
             services.AddScoped<DatosConfiguraciones>();
             services.AddScoped<Devolucion_Venta>();
+            services.AddScoped<Admin_Usuarios>();
         }
     }
 }

@@ -775,6 +775,9 @@ namespace TiendaLaLojanita.Views
                         "Errores de validación",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
+
+                    //ErroresRegistroArticuloExcel erroresArtView = new ErroresRegistroArticuloExcel(articulosInvalidos);
+
                     return;
                 }
 
@@ -817,7 +820,6 @@ namespace TiendaLaLojanita.Views
         {
             pro = new ProgressBar();
             pro.Show();
-
             try
             {
                 bool resp =

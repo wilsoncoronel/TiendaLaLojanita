@@ -42,7 +42,7 @@
             groupBox1.Size = new Size(1278, 435);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Errores Articulos";
+            groupBox1.Text = "Errores Artículos";
             // 
             // dataGridView1
             // 
@@ -60,6 +60,7 @@
             Controls.Add(groupBox1);
             Name = "ErroresRegistroArticuloExcel";
             Text = "ErroresRegistroArticuloExcel";
+            Load += ErroresRegistroArticuloExcel_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

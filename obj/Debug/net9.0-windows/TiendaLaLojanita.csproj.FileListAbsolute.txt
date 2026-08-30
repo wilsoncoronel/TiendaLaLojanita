@@ -69,3 +69,4 @@ C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\runtimes\b
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.Text.Encodings.Web.dll
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.ErroresRegistroArticuloExcel.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Devolucion_Compra.resources
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Admin_Usuarios.resources

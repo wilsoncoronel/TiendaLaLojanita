@@ -807,7 +807,7 @@ namespace TiendaLaLojanita.Views
                     this.unidadActual = new UnidadMedidaDTO();
                     this.unidadCreacionActual = new UnidadCreacionDTO();
 
-                    this.cargarTablaPorcentajes();
+                    this.cargarTablaUnidades();
                 }
                 else
                 {
@@ -874,7 +874,7 @@ namespace TiendaLaLojanita.Views
 
         private async Task<bool> ModificarUnidad()
         {
-            bool resultado = await this.porcentajeService.EditarPorcentaje(this.porcenActual);
+            bool resultado = await this.unidadService.EditarUnidad(this.unidadActual);
             return resultado;
         }
 

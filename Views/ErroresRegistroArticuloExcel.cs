@@ -38,7 +38,7 @@ namespace TiendaLaLojanita.Views
 
             this.dataGridView1.Columns.Clear();
 
-            
+
 
             this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -88,13 +88,13 @@ namespace TiendaLaLojanita.Views
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
 
-           /* this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = nameof(ArticuloCreacionDTO.Unidad),
-                HeaderText = "Unidad",
-                Width = 90,
-                SortMode = DataGridViewColumnSortMode.NotSortable
-            });*/
+            this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+             {
+                 Name = nameof(ArticuloCreacionDTO.IdUnidad),
+                 HeaderText = "Id Unidad",
+                 Width = 90,
+                 SortMode = DataGridViewColumnSortMode.NotSortable
+             });
 
             this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -187,6 +187,11 @@ namespace TiendaLaLojanita.Views
                 e.CellStyle.SelectionForeColor = Color.Black;
                 e.CellStyle.Font = new Font(e.CellStyle.Font, FontStyle.Bold);
             }
+        }
+
+        private void ErroresRegistroArticuloExcel_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -458,6 +458,7 @@
             Name = "Cliente";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cliente";
+            Load += Cliente_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

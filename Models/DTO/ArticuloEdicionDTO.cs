@@ -33,8 +33,6 @@ namespace TiendaLaLojanita.Models.DTO
 
         public DateTime? FechaActualizacion { get; set; }
 
-        public string? Unidad { get; set; }
-
         public decimal? UnidadValor { get; set; }
 
         public decimal ValorCompra { get; set; }

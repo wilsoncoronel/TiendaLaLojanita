@@ -9,8 +9,8 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface IUnidadService
     {
-        Task<int> CreaUnidad(UnidadMedidaDTO marcaCreacionDto);
-        Task<bool> EditarUnidad(UnidadEditarDTO clienteEditarDto);
+        Task<int> CreaUnidad(UnidadMedidaDTO unidadCrearDto);
+        Task<bool> EditarUnidad(UnidadMedidaDTO unidadEditarDto);
         Task<List<UnidadMedidaDTO>> ListarUnidades();
     }
 }
