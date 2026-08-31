@@ -70,3 +70,4 @@ C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\bin\Debug\net9.0-windows\runtimes\w
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.ErroresRegistroArticuloExcel.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Devolucion_Compra.resources
 C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Admin_Usuarios.resources
+C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Formulario_Personas.resources

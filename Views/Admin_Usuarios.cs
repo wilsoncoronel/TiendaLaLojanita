@@ -16,7 +16,7 @@ namespace TiendaLaLojanita.Views
     {
         private readonly ISistemaService _sistemaService;
         private List<PersonaDTO> ListaPersonas;
-
+        private ProgressBar progressBar;
         public Admin_Usuarios(ISistemaService sistemaService)
         {
             InitializeComponent();
@@ -35,10 +35,10 @@ namespace TiendaLaLojanita.Views
             this.ListaPersonas = await this._sistemaService.ListaPersonas();
             return ListaPersonas;
         }
-        
+
         private void CargarTablaPersonas()
         {
-            if(this.ListaPersonas.Count > 0)
+            if (this.ListaPersonas.Count > 0)
             {
                 this.dgvPersonas.Rows.Clear();
                 foreach (var cli in ListaPersonas)
@@ -63,6 +63,21 @@ namespace TiendaLaLojanita.Views
                 }
             }
         }
-        
+
+        private void dgvPersonas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+            // Validar columna
+            if (e.ColumnIndex < 0)
+                return;
+            if (dgvPersonas.Columns[e.ColumnIndex].Name == "Ver")
+            {
+                progressBar = new ProgressBar();
+                progressBar.Show();
+                Formulario_Personas formPer = new Formulario_Personas();
+                formPer.ShowDialog();
+            }
+        }
     }
 }
