@@ -47,6 +47,5 @@ namespace TiendaLaLojanita.Models.DTO
         public string Password { get; set; }
         public RolDTO Rol { get; set; }
         public bool EstadoVisualUsuario { get; set; }
-
     }
 }

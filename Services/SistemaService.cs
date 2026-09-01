@@ -22,9 +22,14 @@ namespace TiendaLaLojanita.Services
             return response.Value ?? new List<PersonaDTO>();
         }
 
-        public async Task<PersonaCompletoDTO> BuscarPersonaCompleto()
+        public async Task<List<RolDTO>> ListaRoles()
         {
-            var response = await _apiClient.GetAsync<PersonaCompletoDTO>($"api/Sistemas/ListarPersonas");
+            var response = await _apiClient.GetAsync<List<RolDTO>>($"api/Sistemas/ListarRoles");
+            return response.Value ?? new List<RolDTO>();
+        }
+        public async Task<PersonaCompletoDTO> BuscarPersonaCompleto(int IdPersona)
+        {
+            var response = await _apiClient.GetAsync<PersonaCompletoDTO>($"api/Sistemas/BuscarPersonas?idPersona={IdPersona}");
             return response.Value ?? new PersonaCompletoDTO();
         }
     }

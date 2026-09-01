@@ -10,5 +10,7 @@ namespace TiendaLaLojanita.Models.Interfaces
     public interface ISistemaService
     {
         Task<List<PersonaDTO>> ListaPersonas();
+        Task<PersonaCompletoDTO> BuscarPersonaCompleto(int IdPersona);
+        Task<List<RolDTO>> ListaRoles();
     }
 }

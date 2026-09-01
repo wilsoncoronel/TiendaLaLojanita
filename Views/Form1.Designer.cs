@@ -36,15 +36,13 @@
             groupBox1 = new GroupBox();
             txtTelefono = new TextBox();
             label10 = new Label();
-            cbxEstado = new ComboBox();
-            label9 = new Label();
             cbxTipoIdentificacion = new ComboBox();
             label7 = new Label();
             txtNombres = new TextBox();
             txtApellidos = new TextBox();
             txtIdentificacion = new TextBox();
             txtEmail = new TextBox();
-            txtIdCLiente = new TextBox();
+            txtId = new TextBox();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -56,26 +54,26 @@
             cbxEstadoCliente = new ComboBox();
             label1 = new Label();
             groupBox4 = new GroupBox();
-            comboBox1 = new ComboBox();
+            cbxEstadoVisualProv = new ComboBox();
             textBox2 = new TextBox();
             label15 = new Label();
             label14 = new Label();
-            comboBox2 = new ComboBox();
+            cbxEstadoProv = new ComboBox();
             label16 = new Label();
             textBox1 = new TextBox();
             label13 = new Label();
             groupBox5 = new GroupBox();
-            comboBox3 = new ComboBox();
-            textBox3 = new TextBox();
+            cbxEstadoUsuario = new ComboBox();
+            txtPassword = new TextBox();
             label20 = new Label();
             label19 = new Label();
             label18 = new Label();
             txtUsuario = new TextBox();
             cbxRol = new ComboBox();
             label17 = new Label();
-            checkBox2 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox4 = new CheckBox();
+            chxUser = new CheckBox();
+            chxCliente = new CheckBox();
+            chxProveedor = new CheckBox();
             btnGuardar = new Button();
             btnCancelar = new Button();
             groupBox2.SuspendLayout();
@@ -135,15 +133,13 @@
             // 
             groupBox1.Controls.Add(txtTelefono);
             groupBox1.Controls.Add(label10);
-            groupBox1.Controls.Add(cbxEstado);
-            groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(cbxTipoIdentificacion);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(txtNombres);
             groupBox1.Controls.Add(txtApellidos);
             groupBox1.Controls.Add(txtIdentificacion);
             groupBox1.Controls.Add(txtEmail);
-            groupBox1.Controls.Add(txtIdCLiente);
+            groupBox1.Controls.Add(txtId);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
@@ -158,7 +154,7 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(191, 288);
+            txtTelefono.Location = new Point(192, 239);
             txtTelefono.MaxLength = 10;
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(178, 23);
@@ -167,29 +163,11 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(12, 296);
+            label10.Location = new Point(11, 247);
             label10.Name = "label10";
             label10.Size = new Size(55, 15);
             label10.TabIndex = 16;
             label10.Text = "Telefono:";
-            // 
-            // cbxEstado
-            // 
-            cbxEstado.FormattingEnabled = true;
-            cbxEstado.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
-            cbxEstado.Location = new Point(199, 242);
-            cbxEstado.Name = "cbxEstado";
-            cbxEstado.Size = new Size(171, 23);
-            cbxEstado.TabIndex = 15;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(11, 250);
-            label9.Name = "label9";
-            label9.Size = new Size(42, 15);
-            label9.TabIndex = 14;
-            label9.Text = "Estado";
             // 
             // cbxTipoIdentificacion
             // 
@@ -237,13 +215,13 @@
             txtEmail.Size = new Size(221, 23);
             txtEmail.TabIndex = 6;
             // 
-            // txtIdCLiente
+            // txtId
             // 
-            txtIdCLiente.Enabled = false;
-            txtIdCLiente.Location = new Point(149, 15);
-            txtIdCLiente.Name = "txtIdCLiente";
-            txtIdCLiente.Size = new Size(221, 23);
-            txtIdCLiente.TabIndex = 5;
+            txtId.Enabled = false;
+            txtId.Location = new Point(149, 15);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(221, 23);
+            txtId.TabIndex = 5;
             // 
             // label5
             // 
@@ -306,8 +284,8 @@
             // cbxEstadoVisualCliente
             // 
             cbxEstadoVisualCliente.FormattingEnabled = true;
-            cbxEstadoVisualCliente.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
-            cbxEstadoVisualCliente.Location = new Point(111, 74);
+            cbxEstadoVisualCliente.Items.AddRange(new object[] { "VISIBLE", "NO VISIBLE" });
+            cbxEstadoVisualCliente.Location = new Point(97, 65);
             cbxEstadoVisualCliente.Name = "cbxEstadoVisualCliente";
             cbxEstadoVisualCliente.Size = new Size(171, 23);
             cbxEstadoVisualCliente.TabIndex = 20;
@@ -315,7 +293,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(25, 77);
+            label12.Location = new Point(11, 68);
             label12.Name = "label12";
             label12.Size = new Size(79, 15);
             label12.TabIndex = 19;
@@ -325,7 +303,7 @@
             // 
             cbxEstadoCliente.FormattingEnabled = true;
             cbxEstadoCliente.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
-            cbxEstadoCliente.Location = new Point(111, 29);
+            cbxEstadoCliente.Location = new Point(97, 20);
             cbxEstadoCliente.Name = "cbxEstadoCliente";
             cbxEstadoCliente.Size = new Size(171, 23);
             cbxEstadoCliente.TabIndex = 18;
@@ -333,7 +311,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(25, 32);
+            label1.Location = new Point(11, 23);
             label1.Name = "label1";
             label1.Size = new Size(45, 15);
             label1.TabIndex = 0;
@@ -341,11 +319,11 @@
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(comboBox1);
+            groupBox4.Controls.Add(cbxEstadoVisualProv);
             groupBox4.Controls.Add(textBox2);
             groupBox4.Controls.Add(label15);
             groupBox4.Controls.Add(label14);
-            groupBox4.Controls.Add(comboBox2);
+            groupBox4.Controls.Add(cbxEstadoProv);
             groupBox4.Controls.Add(label16);
             groupBox4.Controls.Add(textBox1);
             groupBox4.Controls.Add(label13);
@@ -356,14 +334,14 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Datos Proveedor";
             // 
-            // comboBox1
+            // cbxEstadoVisualProv
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
-            comboBox1.Location = new Point(108, 136);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(171, 23);
-            comboBox1.TabIndex = 24;
+            cbxEstadoVisualProv.FormattingEnabled = true;
+            cbxEstadoVisualProv.Items.AddRange(new object[] { "NO VISIBLE", "VISIBLE" });
+            cbxEstadoVisualProv.Location = new Point(108, 136);
+            cbxEstadoVisualProv.Name = "cbxEstadoVisualProv";
+            cbxEstadoVisualProv.Size = new Size(171, 23);
+            cbxEstadoVisualProv.TabIndex = 24;
             // 
             // textBox2
             // 
@@ -390,14 +368,14 @@
             label14.TabIndex = 2;
             label14.Text = "Descripción:";
             // 
-            // comboBox2
+            // cbxEstadoProv
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
-            comboBox2.Location = new Point(108, 96);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(171, 23);
-            comboBox2.TabIndex = 22;
+            cbxEstadoProv.FormattingEnabled = true;
+            cbxEstadoProv.Items.AddRange(new object[] { "INACTIVO", "ACTIVO" });
+            cbxEstadoProv.Location = new Point(108, 96);
+            cbxEstadoProv.Name = "cbxEstadoProv";
+            cbxEstadoProv.Size = new Size(171, 23);
+            cbxEstadoProv.TabIndex = 22;
             // 
             // label16
             // 
@@ -426,8 +404,8 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(comboBox3);
-            groupBox5.Controls.Add(textBox3);
+            groupBox5.Controls.Add(cbxEstadoUsuario);
+            groupBox5.Controls.Add(txtPassword);
             groupBox5.Controls.Add(label20);
             groupBox5.Controls.Add(label19);
             groupBox5.Controls.Add(label18);
@@ -441,20 +419,21 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "Datos Usuario";
             // 
-            // comboBox3
+            // cbxEstadoUsuario
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(109, 147);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(174, 23);
-            comboBox3.TabIndex = 16;
+            cbxEstadoUsuario.FormattingEnabled = true;
+            cbxEstadoUsuario.Items.AddRange(new object[] { "INACTIVO", "ACTIVO" });
+            cbxEstadoUsuario.Location = new Point(109, 147);
+            cbxEstadoUsuario.Name = "cbxEstadoUsuario";
+            cbxEstadoUsuario.Size = new Size(174, 23);
+            cbxEstadoUsuario.TabIndex = 16;
             // 
-            // textBox3
+            // txtPassword
             // 
-            textBox3.Location = new Point(112, 107);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(168, 23);
-            textBox3.TabIndex = 6;
+            txtPassword.Location = new Point(112, 107);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(168, 23);
+            txtPassword.TabIndex = 6;
             // 
             // label20
             // 
@@ -507,35 +486,35 @@
             label17.TabIndex = 0;
             label17.Text = "Rol:";
             // 
-            // checkBox2
+            // chxUser
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(349, 19);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(66, 19);
-            checkBox2.TabIndex = 19;
-            checkBox2.Text = "Usuario";
-            checkBox2.UseVisualStyleBackColor = true;
+            chxUser.AutoSize = true;
+            chxUser.Location = new Point(349, 19);
+            chxUser.Name = "chxUser";
+            chxUser.Size = new Size(66, 19);
+            chxUser.TabIndex = 19;
+            chxUser.Text = "Usuario";
+            chxUser.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chxCliente
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(539, 19);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(63, 19);
-            checkBox3.TabIndex = 20;
-            checkBox3.Text = "Cliente";
-            checkBox3.UseVisualStyleBackColor = true;
+            chxCliente.AutoSize = true;
+            chxCliente.Location = new Point(539, 19);
+            chxCliente.Name = "chxCliente";
+            chxCliente.Size = new Size(63, 19);
+            chxCliente.TabIndex = 20;
+            chxCliente.Text = "Cliente";
+            chxCliente.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chxProveedor
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(729, 19);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(80, 19);
-            checkBox4.TabIndex = 21;
-            checkBox4.Text = "Proveedor";
-            checkBox4.UseVisualStyleBackColor = true;
+            chxProveedor.AutoSize = true;
+            chxProveedor.Location = new Point(729, 19);
+            chxProveedor.Name = "chxProveedor";
+            chxProveedor.Size = new Size(80, 19);
+            chxProveedor.TabIndex = 21;
+            chxProveedor.Text = "Proveedor";
+            chxProveedor.UseVisualStyleBackColor = true;
             // 
             // btnGuardar
             // 
@@ -563,9 +542,9 @@
             ClientSize = new Size(1202, 609);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
-            Controls.Add(checkBox4);
-            Controls.Add(checkBox3);
-            Controls.Add(checkBox2);
+            Controls.Add(chxProveedor);
+            Controls.Add(chxCliente);
+            Controls.Add(chxUser);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -598,15 +577,13 @@
         private GroupBox groupBox1;
         private TextBox txtTelefono;
         private Label label10;
-        private ComboBox cbxEstado;
-        private Label label9;
         private ComboBox cbxTipoIdentificacion;
         private Label label7;
         private TextBox txtNombres;
         private TextBox txtApellidos;
         private TextBox txtIdentificacion;
         private TextBox txtEmail;
-        private TextBox txtIdCLiente;
+        private TextBox txtId;
         private Label label5;
         private Label label4;
         private Label label3;
@@ -618,11 +595,11 @@
         private ComboBox cbxEstadoCliente;
         private Label label1;
         private GroupBox groupBox4;
-        private ComboBox comboBox1;
+        private ComboBox cbxEstadoVisualProv;
         private TextBox textBox2;
         private Label label15;
         private Label label14;
-        private ComboBox comboBox2;
+        private ComboBox cbxEstadoProv;
         private Label label16;
         private TextBox textBox1;
         private Label label13;
@@ -633,11 +610,11 @@
         private Label label18;
         private Label label20;
         private Label label19;
-        private ComboBox comboBox3;
-        private TextBox textBox3;
-        private CheckBox checkBox2;
-        private CheckBox checkBox3;
-        private CheckBox checkBox4;
+        private ComboBox cbxEstadoUsuario;
+        private TextBox txtPassword;
+        private CheckBox chxUser;
+        private CheckBox chxCliente;
+        private CheckBox chxProveedor;
         private Button btnGuardar;
         private Button btnCancelar;
     }
