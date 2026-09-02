@@ -59,11 +59,15 @@ namespace TiendaLaLojanita.Utilidad
             using (var reader = XmlReader.Create(new StringReader(sheetXml)))
             {
                 List<string> fila = new List<string>();
+                int filaNumero = 0;
 
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "row")
                     {
+                        // Intentar leer el atributo 'r' que indica el número de fila en el XML de la hoja
+                        var rAttr = reader.GetAttribute("r");
+                        if (!int.TryParse(rAttr, out filaNumero)) filaNumero = 0;
                         fila = new List<string>();
                     }
                     else if (reader.NodeType == XmlNodeType.Element && reader.Name == "c")
@@ -101,7 +105,7 @@ namespace TiendaLaLojanita.Utilidad
                                 fila.ElementAtOrDefault(encabezados.FindIndex(e => 
                                     e.Equals(nombreCol, StringComparison.OrdinalIgnoreCase))) ?? "";
 
-                            var art = new ArticuloCreacionDTO
+                            var art = new TiendaLaLojanita.Models.DTO.ArticuloCreacionExcelDTO
                             {
                                 Nombre = Get("Nombre"),
                                 FechaCreacion = DateTime.Now,
@@ -110,7 +114,7 @@ namespace TiendaLaLojanita.Utilidad
                                 EstadoVisual = true,
                                 Estado = true,
                                 ValorCompra = ParseDecimal(Get("ValorCompra")),
-                                UnidadValor = ParseDecimal(Get("UnidadValor")),
+                                UnidadValor = ParseDecimal(Get("ValorUnidad")),
                                 Descripcion = "INGRESO POR ARCHIVO",
                                 IdUnidad = ParseInt(Get("IdUnidad")),
                                 IdMarca = ParseInt(Get("IdMarca")),
@@ -119,6 +123,9 @@ namespace TiendaLaLojanita.Utilidad
                                 IdPorcentajeGanancia = ParseInt(Get("IdPorcentajeGanancia")),
                                 Papeleria = false
                             };
+
+                            // Asignar número de fila leída en el Excel para facilitar el reporte de errores
+                            art.FilaExcel = filaNumero;
 
                             listaArticulos.Add(art);
                         }

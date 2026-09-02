@@ -1,21 +1,22 @@
 ﻿using FluentValidation.Results;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TiendaLaLojanita.Mapeos;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
-using System;
-using System.IO;
-using iText.Kernel.Pdf;
-using iText.Kernel.Geom;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
 
 namespace TiendaLaLojanita.Views
 {
@@ -80,46 +81,71 @@ namespace TiendaLaLojanita.Views
             this.CargarCliente(this.txtIdentificaconCliente.Text);
         }
 
-        private async void CargarCliente(string identificacion)
+        private async Task CargarCliente(string identificacion)
         {
-            pro = new ProgressBar();
-            if (identificacion is null || identificacion == "")
+            if (string.IsNullOrWhiteSpace(identificacion))
             {
-                MessageBox.Show("Debe ingresar una identificacion valida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Debe ingresar una identificación válida.",
+                    "Dato requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
             }
-            else
+
+            try
             {
-                try
+                pro = new ProgressBar();
+                pro.Show();
+
+                ClienteDTO cliente = await this.clienteService.ObtenerClienteCI(
+                    identificacion.Trim());
+
+                if (cliente is null)
                 {
-                    pro.Show();
-                    ClienteDTO cliente = await this.clienteService.ObtenerClienteCI(identificacion);
-                    pro.Hide();
-                    if (cliente is null)
-                    {
-                        MessageBox.Show("No se encontró ningún cliente con la identificación ingresada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    this.txtIdentificaconCliente.Text = identificacion;
-                    this.txtNombreCliente.Text = cliente.Nombres;
-                    this.txtTelefono.Text = cliente.Telefono;
-                    this.txtEmail.Text = cliente.Mail;
-                    this.txtDireccionCliente.Text = $"Dirección: {cliente.DireccionDto.Descripcion}, Ciudad: {cliente.DireccionDto.Ciudad.Nombre}";
-                    this.idCliente = cliente.Id;
+                    MessageBox.Show(
+                        "No se encontró ningún cliente con la identificación ingresada.",
+                        "Cliente no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrio un error al buscar el cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.txtIdentificaconCliente.Text = "";
-                }
+
+                this.txtNombreCliente.Text = cliente.Nombres ?? string.Empty;
+                this.txtTelefono.Text = cliente.Telefono ?? string.Empty;
+                this.txtEmail.Text = cliente.Mail ?? string.Empty;
+
+                this.txtDireccionCliente.Text =
+                    $"Dirección: {cliente.DireccionDto?.Descripcion ?? string.Empty}, " +
+                    $"Ciudad: {cliente.DireccionDto?.Ciudad?.Nombre ?? string.Empty}";
+
+                this.idCliente = cliente.Id;
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+                this.txtIdentificaconCliente.Clear();
+            }
+            finally
+            {
+                pro?.Hide();
+                pro?.Dispose();
+                pro = null;
             }
         }
 
-        private void txtIdentificaconCliente_KeyDown(object sender, KeyEventArgs e)
-        { 
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.CargarCliente(this.txtIdentificaconCliente.Text.Trim());
-                e.SuppressKeyPress = true;
-            }
+        private async void txtIdentificaconCliente_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            e.SuppressKeyPress = true;
+
+            string identificacion = this.txtIdentificaconCliente.Text.Trim();
+
+            await CargarCliente(identificacion);
         }
 
 

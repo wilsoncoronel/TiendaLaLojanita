@@ -747,12 +747,11 @@ namespace TiendaLaLojanita.Views
                 var validator =
                     new Validaciones.ExcelArticuloValidator();
 
-                var articulosInvalidos =
-                    new List<(ArticuloCreacionDTO Art, List<string> Errores)>();
+                var articulosInvalidos = new List<ArticuloErrorExcelDTO>();
 
                 foreach (var articulo in articulosExcel)
                 {
-                    var errores = validator.ValidateArticulo(
+                    var (errores, camposInvalidos) = validator.ValidateArticulo(
                         articulo,
                         this.listaMarcas,
                         this.listaTipoArticulo,
@@ -761,8 +760,13 @@ namespace TiendaLaLojanita.Views
 
                     if (errores.Any())
                     {
-                        articulosInvalidos.Add(
-                            (articulo, errores));
+                        articulosInvalidos.Add(new ArticuloErrorExcelDTO
+                        {
+                            Articulo = articulo,
+                            Errores = errores,
+                            CamposInvalidos = camposInvalidos,
+                            Fila = (articulo as TiendaLaLojanita.Models.DTO.ArticuloCreacionExcelDTO)?.FilaExcel ?? 0
+                        });
                     }
                 }
 
@@ -770,13 +774,13 @@ namespace TiendaLaLojanita.Views
                 if (articulosInvalidos.Any())
                 {
                     MessageBox.Show(
-                        $"Se encontraron {articulosInvalidos.Count} artículos con errores. " +
-                        "Se ha detenido la importación.",
+                        $"Se encontraron {articulosInvalidos.Count} artículos con errores. Se ha detenido la importación.",
                         "Errores de validación",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
 
-                    //ErroresRegistroArticuloExcel erroresArtView = new ErroresRegistroArticuloExcel(articulosInvalidos);
+                    using var erroresArtView = new ErroresRegistroArticuloExcel(articulosInvalidos);
+                    erroresArtView.ShowDialog();
 
                     return;
                 }

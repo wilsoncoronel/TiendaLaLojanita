@@ -39,7 +39,7 @@
             groupBox1.Controls.Add(dataGridView1);
             groupBox1.Location = new Point(12, 3);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1278, 435);
+            groupBox1.Size = new Size(1577, 528);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Errores Artículos";
@@ -49,14 +49,14 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(14, 23);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1247, 397);
+            dataGridView1.Size = new Size(1557, 499);
             dataGridView1.TabIndex = 0;
             // 
             // ErroresRegistroArticuloExcel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1302, 450);
+            ClientSize = new Size(1601, 543);
             Controls.Add(groupBox1);
             Name = "ErroresRegistroArticuloExcel";
             Text = "ErroresRegistroArticuloExcel";

@@ -55,12 +55,12 @@
             label1 = new Label();
             groupBox4 = new GroupBox();
             cbxEstadoVisualProv = new ComboBox();
-            textBox2 = new TextBox();
+            txtDescripcionProveedor = new TextBox();
             label15 = new Label();
             label14 = new Label();
             cbxEstadoProv = new ComboBox();
             label16 = new Label();
-            textBox1 = new TextBox();
+            txtRazonSocialProveedor = new TextBox();
             label13 = new Label();
             groupBox5 = new GroupBox();
             cbxEstadoUsuario = new ComboBox();
@@ -283,6 +283,7 @@
             // 
             // cbxEstadoVisualCliente
             // 
+            cbxEstadoVisualCliente.Enabled = false;
             cbxEstadoVisualCliente.FormattingEnabled = true;
             cbxEstadoVisualCliente.Items.AddRange(new object[] { "VISIBLE", "NO VISIBLE" });
             cbxEstadoVisualCliente.Location = new Point(97, 65);
@@ -301,6 +302,7 @@
             // 
             // cbxEstadoCliente
             // 
+            cbxEstadoCliente.Enabled = false;
             cbxEstadoCliente.FormattingEnabled = true;
             cbxEstadoCliente.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstadoCliente.Location = new Point(97, 20);
@@ -320,12 +322,12 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(cbxEstadoVisualProv);
-            groupBox4.Controls.Add(textBox2);
+            groupBox4.Controls.Add(txtDescripcionProveedor);
             groupBox4.Controls.Add(label15);
             groupBox4.Controls.Add(label14);
             groupBox4.Controls.Add(cbxEstadoProv);
             groupBox4.Controls.Add(label16);
-            groupBox4.Controls.Add(textBox1);
+            groupBox4.Controls.Add(txtRazonSocialProveedor);
             groupBox4.Controls.Add(label13);
             groupBox4.Location = new Point(674, 178);
             groupBox4.Name = "groupBox4";
@@ -336,19 +338,21 @@
             // 
             // cbxEstadoVisualProv
             // 
+            cbxEstadoVisualProv.Enabled = false;
             cbxEstadoVisualProv.FormattingEnabled = true;
-            cbxEstadoVisualProv.Items.AddRange(new object[] { "NO VISIBLE", "VISIBLE" });
+            cbxEstadoVisualProv.Items.AddRange(new object[] { "VISIBLE", "NO VISIBLE" });
             cbxEstadoVisualProv.Location = new Point(108, 136);
             cbxEstadoVisualProv.Name = "cbxEstadoVisualProv";
             cbxEstadoVisualProv.Size = new Size(171, 23);
             cbxEstadoVisualProv.TabIndex = 24;
             // 
-            // textBox2
+            // txtDescripcionProveedor
             // 
-            textBox2.Location = new Point(108, 57);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(401, 23);
-            textBox2.TabIndex = 3;
+            txtDescripcionProveedor.Enabled = false;
+            txtDescripcionProveedor.Location = new Point(108, 57);
+            txtDescripcionProveedor.Name = "txtDescripcionProveedor";
+            txtDescripcionProveedor.Size = new Size(401, 23);
+            txtDescripcionProveedor.TabIndex = 3;
             // 
             // label15
             // 
@@ -370,8 +374,9 @@
             // 
             // cbxEstadoProv
             // 
+            cbxEstadoProv.Enabled = false;
             cbxEstadoProv.FormattingEnabled = true;
-            cbxEstadoProv.Items.AddRange(new object[] { "INACTIVO", "ACTIVO" });
+            cbxEstadoProv.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstadoProv.Location = new Point(108, 96);
             cbxEstadoProv.Name = "cbxEstadoProv";
             cbxEstadoProv.Size = new Size(171, 23);
@@ -386,12 +391,13 @@
             label16.TabIndex = 21;
             label16.Text = "Estado:";
             // 
-            // textBox1
+            // txtRazonSocialProveedor
             // 
-            textBox1.Location = new Point(108, 19);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(401, 23);
-            textBox1.TabIndex = 1;
+            txtRazonSocialProveedor.Enabled = false;
+            txtRazonSocialProveedor.Location = new Point(108, 19);
+            txtRazonSocialProveedor.Name = "txtRazonSocialProveedor";
+            txtRazonSocialProveedor.Size = new Size(401, 23);
+            txtRazonSocialProveedor.TabIndex = 1;
             // 
             // label13
             // 
@@ -421,8 +427,9 @@
             // 
             // cbxEstadoUsuario
             // 
+            cbxEstadoUsuario.Enabled = false;
             cbxEstadoUsuario.FormattingEnabled = true;
-            cbxEstadoUsuario.Items.AddRange(new object[] { "INACTIVO", "ACTIVO" });
+            cbxEstadoUsuario.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstadoUsuario.Location = new Point(109, 147);
             cbxEstadoUsuario.Name = "cbxEstadoUsuario";
             cbxEstadoUsuario.Size = new Size(174, 23);
@@ -430,6 +437,7 @@
             // 
             // txtPassword
             // 
+            txtPassword.Enabled = false;
             txtPassword.Location = new Point(112, 107);
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(168, 23);
@@ -464,6 +472,7 @@
             // 
             // txtUsuario
             // 
+            txtUsuario.Enabled = false;
             txtUsuario.Location = new Point(112, 66);
             txtUsuario.Name = "txtUsuario";
             txtUsuario.Size = new Size(168, 23);
@@ -471,6 +480,7 @@
             // 
             // cbxRol
             // 
+            cbxRol.Enabled = false;
             cbxRol.FormattingEnabled = true;
             cbxRol.Location = new Point(109, 26);
             cbxRol.Name = "cbxRol";
@@ -495,6 +505,7 @@
             chxUser.TabIndex = 19;
             chxUser.Text = "Usuario";
             chxUser.UseVisualStyleBackColor = true;
+            chxUser.CheckedChanged += chxUser_CheckedChanged;
             // 
             // chxCliente
             // 
@@ -505,6 +516,7 @@
             chxCliente.TabIndex = 20;
             chxCliente.Text = "Cliente";
             chxCliente.UseVisualStyleBackColor = true;
+            chxCliente.CheckedChanged += chxCliente_CheckedChanged;
             // 
             // chxProveedor
             // 
@@ -515,20 +527,22 @@
             chxProveedor.TabIndex = 21;
             chxProveedor.Text = "Proveedor";
             chxProveedor.UseVisualStyleBackColor = true;
+            chxProveedor.CheckedChanged += chxProveedor_CheckedChanged;
             // 
             // btnGuardar
             // 
             btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(349, 551);
+            btnGuardar.Location = new Point(349, 555);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(186, 46);
             btnGuardar.TabIndex = 22;
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
             btnCancelar.Image = Properties.Resources.cancelar_resize;
-            btnCancelar.Location = new Point(644, 551);
+            btnCancelar.Location = new Point(644, 555);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(186, 46);
             btnCancelar.TabIndex = 23;
@@ -596,12 +610,12 @@
         private Label label1;
         private GroupBox groupBox4;
         private ComboBox cbxEstadoVisualProv;
-        private TextBox textBox2;
+        private TextBox txtDescripcionProveedor;
         private Label label15;
         private Label label14;
         private ComboBox cbxEstadoProv;
         private Label label16;
-        private TextBox textBox1;
+        private TextBox txtRazonSocialProveedor;
         private Label label13;
         private GroupBox groupBox5;
         private TextBox txtUsuario;

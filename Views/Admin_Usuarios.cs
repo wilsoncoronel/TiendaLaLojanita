@@ -83,7 +83,7 @@ namespace TiendaLaLojanita.Views
                 var persona = await this._sistemaService.BuscarPersonaCompleto(id);
                 if (persona is null)
                 {
-                    MessageBox.Show($"No se puedo obter informacion de esta persona!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"No se puedo obtener información de esta persona!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     progressBar.Hide();
                     return;
                 }

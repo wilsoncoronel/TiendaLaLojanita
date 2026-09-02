@@ -62,7 +62,7 @@
             groupBox1.Controls.Add(dgvPersonas);
             groupBox1.Location = new Point(8, 4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1464, 563);
+            groupBox1.Size = new Size(1743, 561);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Admin Personas";
@@ -101,7 +101,7 @@
             dgvPersonas.Columns.AddRange(new DataGridViewColumn[] { Id, IdTipoIdentificacion, TipoIdentificacion, Identificacion, Nombres, Apellidos, Telefono, Email, Direccion, Ciudad, Creacion, Modificacion, Usuario, Cliente, Proveedor, Ver });
             dgvPersonas.Location = new Point(21, 74);
             dgvPersonas.Name = "dgvPersonas";
-            dgvPersonas.Size = new Size(1427, 472);
+            dgvPersonas.Size = new Size(1716, 472);
             dgvPersonas.TabIndex = 0;
             dgvPersonas.CellClick += dgvPersonas_CellClick;
             // 
@@ -197,7 +197,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1481, 577);
+            ClientSize = new Size(1763, 577);
             Controls.Add(groupBox1);
             Name = "Admin_Usuarios";
             Text = "Admin_Usuarios";

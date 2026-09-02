@@ -42,23 +42,43 @@ namespace TiendaLaLojanita.Validaciones
         /// en los catálogos cargados (marcas, tipos, impuestos, porcentajes).
         /// Devuelve la lista de mensajes de error encontrados (vacía si es válido).
         /// </summary>
-        public List<string> ValidateArticulo(ArticuloCreacionDTO art, IEnumerable<MarcaDTO> marcas, IEnumerable<TipoArticuloDTO> tipos, IEnumerable<ImpuestoArticuloDTO> impuestos, IEnumerable<PorcentajeGananciaDTO> porcentajes)
+        public (List<string> Errores, List<string> CamposInvalidos) ValidateArticulo(ArticuloCreacionDTO art, IEnumerable<MarcaDTO> marcas, IEnumerable<TipoArticuloDTO> tipos, IEnumerable<ImpuestoArticuloDTO> impuestos, IEnumerable<PorcentajeGananciaDTO> porcentajes)
         {
             var errores = new List<string>();
+            var camposInvalidos = new List<string>();
 
             var resultado = this.Validate(art);
             if (!resultado.IsValid)
+            {
                 errores.AddRange(resultado.Errors.Select(e => e.ErrorMessage));
+                camposInvalidos.AddRange(resultado.Errors.Select(e => e.PropertyName).Where(p => !string.IsNullOrWhiteSpace(p)).Distinct());
+            }
 
             if (!marcas.Any(m => m.Id == art.IdMarca))
+            {
                 errores.Add("Marca no encontrada o IdMarca inválido.");
+                camposInvalidos.Add(nameof(art.IdMarca));
+            }
             if (!tipos.Any(t => t.Id == art.IdTipoArticulo))
+            {
                 errores.Add("Tipo de artículo no encontrado o IdTipoArticulo inválido.");
+                camposInvalidos.Add(nameof(art.IdTipoArticulo));
+            }
             if (!impuestos.Any(i => i.Id == art.IdImpuesto))
+            {
                 errores.Add("Impuesto no encontrado o IdImpuesto inválido.");
+                camposInvalidos.Add(nameof(art.IdImpuesto));
+            }
             if (art.IdPorcentajeGanancia.HasValue && !porcentajes.Any(p => p.Id == art.IdPorcentajeGanancia.Value))
+            {
                 errores.Add("Porcentaje de ganancia no encontrado o IdPorcentaje inválido.");
-            return errores;
+                camposInvalidos.Add(nameof(art.IdPorcentajeGanancia));
+            }
+
+            // Asegurar que no haya duplicados en campos inválidos
+            camposInvalidos = camposInvalidos.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+
+            return (errores, camposInvalidos);
         }
     }
 }
