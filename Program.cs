@@ -113,6 +113,7 @@ namespace TiendaLaLojanita
             services.AddScoped<Cliente>();
             services.AddScoped<Proveedor>();
             services.AddScoped<DatosConfiguraciones>();
+            services.AddScoped<Devolucion_Compra>();
             services.AddScoped<Devolucion_Venta>();
             services.AddScoped<Admin_Usuarios>();
         }
