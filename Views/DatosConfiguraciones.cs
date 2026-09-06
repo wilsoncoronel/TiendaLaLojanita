@@ -848,12 +848,12 @@ namespace TiendaLaLojanita.Views
 
         private async Task<int> CrearUnidad()
         {
-            PorcentajeGananciaCreacionDTO porcentajeDto = new PorcentajeGananciaCreacionDTO();
-            porcentajeDto.PorcentajeGanancia = txtPorcentaje.Text.ToUpper();
-            porcentajeDto.Valor = Convert.ToDecimal(txtPorcentajeValor.Text);
-            porcentajeDto.EstadoVisual = cbxEstadoPor.SelectedIndex == 0 ? true : false;
-            var validator = new PorcentajeValidator();
-            ValidationResult result = validator.Validate(porcentajeDto);
+            UnidadCreacionDTO unidadDto = new UnidadCreacionDTO();
+            unidadDto.Nombre = txtNombreUnidad.Text.ToUpper();
+            unidadDto.Estado= cbxEstadoUnidad.SelectedIndex == 0 ? true : false;
+            unidadDto.EstadoVisual = cbxEstadoVisualUnidad.SelectedIndex == 0 ? true : false;
+            var validator = new UnidadCreacionValidator();
+            ValidationResult result = validator.Validate(unidadDto);
             if (!result.IsValid)
             {
                 RecorrerErrores(result);
@@ -861,14 +861,14 @@ namespace TiendaLaLojanita.Views
             }
             else
             {
-                this.LimpiarFormularioPorcentajes();
-                this.porcenCreacionActual = new PorcentajeGananciaCreacionDTO
+                this.LimpiarFormularioUnidades();
+                this.unidadCreacionActual = new UnidadCreacionDTO
                 {
-                    PorcentajeGanancia = porcentajeDto.PorcentajeGanancia,
-                    Valor = porcentajeDto.Valor,
-                    EstadoVisual = porcentajeDto.EstadoVisual
+                    Nombre = unidadDto.Nombre,
+                    Estado = unidadDto.Estado,
+                    EstadoVisual = unidadDto.EstadoVisual
                 };
-                return await this.porcentajeService.CrearPorcentaje(porcenCreacionActual);
+                return await this.unidadService.CreaUnidad(this.unidadCreacionActual);
             }
         }
 

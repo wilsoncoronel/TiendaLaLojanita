@@ -53,6 +53,7 @@ namespace TiendaLaLojanita.Views
             this.listaArticulos = new List<ArticuloDTO>();
             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
             this.listaUnidades = new List<UnidadMedidaDTO>();
+
             this.tipoArticuloService = tipoArticuloService;
             this.impuestoService = impuestoService;
             this.porcentajeService = porcentajeService;

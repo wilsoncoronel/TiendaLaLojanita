@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace TiendaLaLojanita.Models.DTO
     {
         public string Nombre { get; set; } = null!;
         public bool Estado { get; set; }
+        public bool EstadoVisual { get; set; }
     }
 }

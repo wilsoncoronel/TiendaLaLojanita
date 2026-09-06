@@ -15,15 +15,15 @@ namespace TiendaLaLojanita.Services
         {
             this._apiClient = apiClient;
         }
-        public async Task<int> CreaUnidad(UnidadMedidaDTO marcaCreacionDto)
+        public async Task<int> CreaUnidad(UnidadCreacionDTO unidadCreacionDto)
         {
-            var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearUnidadMedida", marcaCreacionDto);
+            var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearUnidadMedida", unidadCreacionDto);
             return response.Value;
         }
 
-        public async Task<bool> EditarUnidad(UnidadMedidaDTO clienteEditarDto)
+        public async Task<bool> EditarUnidad(UnidadMedidaDTO unidadMedidaDTO)
         {
-            var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarUnidadMedida", clienteEditarDto);
+            var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarUnidadMedida", unidadMedidaDTO);
             return response.Value;
         }
 
