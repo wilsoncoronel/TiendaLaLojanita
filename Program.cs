@@ -85,7 +85,7 @@ namespace TiendaLaLojanita
                 client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json")
                     );
-                client.Timeout = TimeSpan.FromSeconds(30);
+                client.Timeout = TimeSpan.FromSeconds(60);
             });
             services.AddScoped<ApiClient>();
             services.AddScoped<ILogginService, LogginService>();
@@ -105,6 +105,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IProcesarExcel, ProcesarExcel>();
             services.AddScoped<IUnidadService, UnidadService>();
             services.AddScoped<ISistemaService, SistemaService>();
+            services.AddScoped<IDevolucionCompraService, DevolucionCompraService>();
             services.AddScoped<FrmPrincipal>();
             services.AddScoped<Registro_Articulos>();
             services.AddScoped<Registro_Ventas>();

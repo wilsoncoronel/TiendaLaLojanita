@@ -12,6 +12,8 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<int> RegistrarCompra(CompraCreacionDTO compraDto);
         Task<bool> EditarCompra(CompraEditarDTO compraDto);
         Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal);
+        Task<List<CompraMinDTO>> ListaCompraDevolucion(string busquedaCompra);
+        Task<List<DetalleCompraDTO>> ListarDetallesCompra(int idCompra);
         Task<CompraDTO> ObtenerCompra(int idCompra);
         Task<bool> ReversarCompra(int id);
         Task<List<EstadoCompraDTO>> ListarEstadosCompra();

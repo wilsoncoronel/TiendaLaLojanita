@@ -133,6 +133,16 @@ namespace TiendaLaLojanita.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap full_selection_icon_ {
+            get {
+                object obj = ResourceManager.GetObject("full_selection_icon_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("gratis-png-iconos-de-la-computadora-recargar-restaurar-icono-removebg-preview", resourceCulture);

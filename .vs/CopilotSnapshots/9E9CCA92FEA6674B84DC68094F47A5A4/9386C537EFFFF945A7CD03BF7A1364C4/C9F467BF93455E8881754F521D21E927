@@ -198,13 +198,6 @@ namespace TiendaLaLojanita.Views
 
         private void dgvDetalleDevolucion_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 ||
-                e.ColumnIndex < 0 ||
-                dgvDetalleDevolucion.Rows[e.RowIndex].IsNewRow)
-            {
-                return;
-            }
-
             if (dgvDetalleDevolucion.Columns[e.ColumnIndex].Name == "Quitar")
             {
                 dgvDetalleDevolucion.Rows.RemoveAt(e.RowIndex);

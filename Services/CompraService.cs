@@ -27,9 +27,21 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
+        public async Task<List<CompraMinDTO>> ListaCompraDevolucion(string busquedaCompra)
+        {
+            var response = await _apiClient.GetAsync<List<CompraMinDTO>>($"api/Compras/ListarComprasDevolucion?busquedaCompra={busquedaCompra}");
+            return response.Value;
+        }
+
         public async Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal)
         {
             var response = await _apiClient.GetAsync<List<CompraMinDTO>>($"api/Compras/ListarCompras?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+            return response.Value;
+        }
+
+        public async Task<List<DetalleCompraDTO>> ListarDetallesCompra(int idCompra)
+        {
+            var response = await _apiClient.GetAsync<List<DetalleCompraDTO>>($"api/Compras/ListarDetallesCompra?idCompra={idCompra}");
             return response.Value;
         }
 
