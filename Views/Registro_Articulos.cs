@@ -728,7 +728,7 @@ namespace TiendaLaLojanita.Views
                     this.procesarExcel.LeerShetArticulo(
                         sheet,
                         sharedStrings,
-                        this.IdUsuario);
+                        this.IdUsuario);                                     
 
                 if (articulosExcel == null || !articulosExcel.Any())
                 {

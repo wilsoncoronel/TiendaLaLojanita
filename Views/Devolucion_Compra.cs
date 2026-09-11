@@ -126,6 +126,7 @@ namespace TiendaLaLojanita.Views
             this.CrearDevolucionCompra();
         }
 
+        
         private async void CrearDevolucionCompra()
         {
             if (this.txtId.Text == "")
@@ -136,9 +137,9 @@ namespace TiendaLaLojanita.Views
 
                 var devolucionCompra = this.CargarDevolucionCompra();
                 prog = new ProgressBar();
-                Show();
+                prog.Show();
                 var resultado = await this.devolucionCompraService.CrearDevolucionCompra(devolucionCompra);
-                Hide();
+                prog.Hide();
                 if (resultado > 0)
                 {
                     MessageBox.Show("Devolución de compra creada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
