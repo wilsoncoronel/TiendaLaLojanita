@@ -27,7 +27,7 @@ namespace TiendaLaLojanita.Views
         private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
         private List<TransaccionInventarioDTO> ListaTransacciones;
         private decimal TotalGeneral = 0m;
-        private List<ArticuloInventarioDTO> listaTemp;
+        private List<ArticuloCompraDTO> listaTemp;
         private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -313,24 +313,25 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private List<ArticuloInventarioDTO> BuscarNombreArticulo(string pNom)
+        private List<ArticuloCompraDTO> BuscarNombreArticulo(string pNom)
         {
-            var listaTemp = new List<ArticuloInventarioDTO>();
+            var listaTemp = new List<ArticuloCompraDTO>();
             listaTemp = this.listaArticulos.ToList();
-            return listaTemp.Where(art => art.Articulo.Nombre.Contains(pNom)).ToList();
+            return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
         }
 
         private void AutoCompleteArt()
         {
             AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
-            List<ArticuloInventarioDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
-            foreach (ArticuloInventarioDTO art in listaArticuloAuto)
+            List<ArticuloCompraDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloCompraDTO art in listaArticuloAuto)
             {
-                colArticulo.Add(art.Articulo.Nombre);
+                colArticulo.Add(art.Nombre);
             }
             this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
         
 
         private async void BusquedaArticulo()
@@ -372,7 +373,7 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
-                    this.CargarDataGrid(articuloActual);
+                    this.CargarDataGrid(articuloCompra);
                     this.LimpiarValores();
                 }
             }
@@ -433,14 +434,14 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                 contador,
                 0,
-                articuloActual.Articulo.Id,
-                articuloActual.NumeroLote,
-                articuloActual.Codigo,
-                articuloActual.Articulo.Nombre,
-                articuloActual.Articulo.Descripcion,
+                articuloActual.Id,
+                "",
+                "",
+                articuloActual.Nombre,
+                articuloActual.Descripcion,
                 cant,
-                articuloActual.Articulo.ValorCompra,
-                articuloActual.Articulo.ValorVenta,
+                articuloActual.ValorCompra,
+                articuloActual.ValorVenta,
                 0,
                 0,
                 Convert.ToString(DateTime.Now)
@@ -448,9 +449,9 @@ namespace TiendaLaLojanita.Views
 
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.Articulo.ValorCompra) * articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto;
+            decimal valorImpuesto = (cant * articuloActual.ValorCompra) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
             fila.Cells[10].Value = valorImpuesto;
-            fila.Cells[11].Value = articuloActual.Articulo.ValorCompra * cant;
+            fila.Cells[11].Value = articuloActual.ValorCompra * cant;
             contador++;
         }
         private void LimpiarValores()
@@ -864,9 +865,9 @@ namespace TiendaLaLojanita.Views
             {
                 prog = new ProgressBar();
                 prog.Show();
-                this.listaArticulos = new List<ArticuloInventarioDTO>();
+                this.listaArticulos = new List<ArticuloCompraDTO>();
                 this.listaArticulos = await this.CargarListaArticulos();
-                this.listaTemp = new List<ArticuloInventarioDTO>();
+                this.listaTemp = new List<ArticuloCompraDTO>();
                 this.listaTemp = this.listaArticulos.ToList();
                 this.AutoCompleteArt();
                 prog.Hide();
