@@ -119,7 +119,7 @@ namespace TiendaLaLojanita.Utilidad
                                 IdUnidad = ParseInt(Get("IdUnidad")),
                                 IdMarca = ParseInt(Get("IdMarca")),
                                 IdTipoArticulo = ParseInt(Get("IdTipoArticulo")),
-                                IdImpuesto = ParseInt(Get("IdImpuesto")),
+                                //IdImpuesto = ParseInt(Get("IdImpuesto")),
                                 IdPorcentajeGanancia = ParseInt(Get("IdPorcentajeGanancia")),
                                 Papeleria = false
                             };

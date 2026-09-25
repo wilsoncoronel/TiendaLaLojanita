@@ -18,7 +18,7 @@ namespace TiendaLaLojanita.Views
         private readonly ICompraService compraService;
         private readonly IInventarioService inventarioService;
         private DateTimePicker dateTimePicker;
-        private List<ArticuloInventarioDTO> listaArticulos;
+        private List<ArticuloCompraDTO> listaArticulos;
         private int contador = 0;
         private decimal imp = 0;
         private int cant = 1;
@@ -39,7 +39,7 @@ namespace TiendaLaLojanita.Views
             this.articuloService = articuloService;
             this.compraService = compraService;
             this.inventarioService = inventarioService;
-            this.listaArticulos = new List<ArticuloInventarioDTO>();
+            this.listaArticulos = new List<ArticuloCompraDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
         }
@@ -238,10 +238,10 @@ namespace TiendaLaLojanita.Views
         {
             this.CargarProveedor(this.txtIdentificacionProveedor.Text);
         }
-        private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
+        private async Task<List<ArticuloCompraDTO>> CargarListaArticulos()
         {
-            List<ArticuloInventarioDTO> listaArticulos;
-            listaArticulos = await this.articuloService.ListarTodosArticulos(false);
+            List<ArticuloCompraDTO> listaArticulos = new List<ArticuloCompraDTO>();
+            listaArticulos = await this.articuloService.ListaCompraArticulos();
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
                 MessageBox.Show("No se encontraron artículos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -331,42 +331,40 @@ namespace TiendaLaLojanita.Views
             this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
+        
 
-        private void BusquedaArticulo()
+        private async void BusquedaArticulo()
         {
             // Usar Trim() en la entrada para ignorar espacios en blanco al inicio/final
             string query = this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
-            ArticuloInventarioDTO articuloActual = null;
+            ArticuloCompraDTO articuloActual = null;
             int temp = 0;
             // Primero intentar buscar por código (string) sin depender de TryParse
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo != null && art.Codigo.Equals(query, StringComparison.OrdinalIgnoreCase));
-            // Si no se encuentra por código, intentar buscar por Id si la entrada es numérica
-            if (articuloActual == null && int.TryParse(query, out temp))
+            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre != null && art.Nombre == query || art.Id.ToString() == query);
+
+            if(articuloActual == null)
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Id == temp);
+                MessageBox.Show("No se encontró ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
-            if (articuloActual == null)
+            var articuloCompra = await this.articuloService.ObtenerArticuloId(articuloActual.Id);
+            if (articuloCompra is null || articuloCompra.Id == 0)
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase) || art.NumeroLote.Equals(query, StringComparison.OrdinalIgnoreCase));
-            }
-            if (articuloActual is null || articuloActual.Articulo.Id == 0)
-            {
-                MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se encontro ningun artículo con el nombre o id ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
             {
-                bool resp = this.ComprobarArticuloDgv(articuloActual);
+                bool resp = this.ComprobarArticuloDgv(articuloCompra);
                 if (resp)
                 {
                     foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id)
+                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Id)
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
+                            this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
                             this.CalcularTotales();
                         }
                     }
@@ -394,18 +392,18 @@ namespace TiendaLaLojanita.Views
                 }
             }
         }
-        private void CargarDataGrid(ArticuloInventarioDTO articuloActual)
+        private void CargarDataGrid(ArticuloDTO articuloActual)
         {
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
+            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ImpuestoArticuloDto.Nombre));
             if (existente != null)
             {
-                existente[articuloActual.Articulo.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
+                existente[articuloActual.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
                 {
 
-                    NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
-                    IdArticulo = articuloActual.Articulo.Id,
-                    ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
-                    ValorCompra = articuloActual.Articulo.ValorCompra,
+                    NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
+                    IdArticulo = articuloActual.Id,
+                    ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
+                    ValorCompra = articuloActual.ValorCompra,
                     Id = contador,
                     Cantidad = cant
                 });
@@ -416,14 +414,14 @@ namespace TiendaLaLojanita.Views
                 //this.CargarListaImpuestos(articuloActual);
                 listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
                 {
-                    { articuloActual.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
+                    { articuloActual.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
                         {
                             new ImpuestoArticuloCalculadoDTO
                             {
-                                NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
-                                IdArticulo = articuloActual.Articulo.Id,
-                                ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorCompra = articuloActual.Articulo.ValorCompra,
+                                NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
+                                IdArticulo = articuloActual.Id,
+                                ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
+                                ValorCompra = articuloActual.ValorCompra,
                                 Id = contador,
                                 Cantidad = cant
                             }
@@ -503,11 +501,11 @@ namespace TiendaLaLojanita.Views
             }
             listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
         }
-        private bool ComprobarArticuloDgv(ArticuloInventarioDTO articuloInventario )
+        private bool ComprobarArticuloDgv(ArticuloDTO articuloInventario )
         {
             foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
             {
-                 if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.IdArticulo && row.Cells["Lote"].Value != null && row.Cells["Lote"].Value.ToString() == articuloInventario.NumeroLote && row.Cells["Codigo"].Value.ToString() == articuloInventario.Codigo)
+                 if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.Id)
                 {
                     return true;
                     break;
@@ -851,7 +849,7 @@ namespace TiendaLaLojanita.Views
             IMapeoProveedor mapeos = new MapeoProveedor();
             Proveedor prov = new Proveedor(proveedorService, mapeos);
             prov.StartPosition = FormStartPosition.CenterScreen;
-            prov.Show();
+            prov.ShowDialog();
         }
 
         private async void btnRecargarArticulos_Click(object sender, EventArgs e)

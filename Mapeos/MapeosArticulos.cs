@@ -23,7 +23,6 @@ namespace TiendaLaLojanita.Mapeos
                 Id = articuloDto.Id,
                 IdMarca = articuloDto.IdMarca,
                 IdTipoArticulo = articuloDto.IdTipoArticulo,
-                IdImpuesto = articuloDto.IdImpuesto,
                 IdPorcentajeGanancia = articuloDto.IdPorcentajeGanancia,
                 IdUnidad = articuloDto.IdUnidad,
                 Nombre = articuloDto.Nombre,
@@ -36,7 +35,8 @@ namespace TiendaLaLojanita.Mapeos
                 UnidadValor = articuloDto.UnidadValor,
                 ValorCompra = articuloDto.ValorCompra,
                 ValorVenta = articuloDto.ValorVenta,
-                Papeleria = articuloDto.Papeleria
+                Papeleria = articuloDto.Papeleria,
+                
             };
         }
 
@@ -47,7 +47,6 @@ namespace TiendaLaLojanita.Mapeos
                 Id = articuloDto.Id,
                 IdMarca = articuloDto.IdMarca,
                 IdTipoArticulo = articuloDto.IdTipoArticulo,
-                IdImpuesto = articuloDto.IdImpuesto,
                 IdPorcentajeGanancia = articuloDto.IdPorcentajeGanancia,
                 IdUnidad = articuloDto.IdUnidad,
                 Nombre = articuloDto.Nombre,
@@ -69,7 +68,6 @@ namespace TiendaLaLojanita.Mapeos
             return new ArticuloDTO {
                 IdMarca = articuloDto.IdMarca,
                 IdTipoArticulo = articuloDto.IdTipoArticulo,
-                IdImpuesto = articuloDto.IdImpuesto,
                 IdPorcentajeGanancia = articuloDto.IdPorcentajeGanancia,
                 Nombre = articuloDto.Nombre,
                 FechaCreacion = DateTime.Now,

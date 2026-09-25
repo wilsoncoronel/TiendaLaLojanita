@@ -127,6 +127,11 @@ namespace TiendaLaLojanita.Services
             string responseJson =
                 await response.Content.ReadAsStringAsync();
 
+            System.Diagnostics.Debug.WriteLine(
+                $"Respuesta API: {(int)response.StatusCode} {response.StatusCode}; " +
+                $"Content-Type: {response.Content.Headers.ContentType}; " +
+                $"Body: {responseJson}");
+
             Response<T>? result = null;
 
             // Intentamos deserializar la respuesta estándar de nuestra API
@@ -139,7 +144,9 @@ namespace TiendaLaLojanita.Services
                 }
                 catch(JsonException)
                 {
-                    throw new ApiException(HttpStatusCode.InternalServerError, "El servidor devolvió una respuesta inválida.");
+                    throw new ApiException(
+                        response.StatusCode,
+                        "El servidor devolvió una respuesta inválida.");
                     // La respuesta no tiene el formato esperado.
                 }
             }

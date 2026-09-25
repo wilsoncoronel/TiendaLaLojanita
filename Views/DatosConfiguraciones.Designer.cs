@@ -74,21 +74,20 @@
             groupBox4 = new GroupBox();
             dgvImpuestos = new DataGridView();
             IdImpuesto = new DataGridViewTextBoxColumn();
-            IdEstadoImp = new DataGridViewTextBoxColumn();
-            EstadoImpuesto = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
+            TipoCalculo = new DataGridViewTextBoxColumn();
             Valor = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
+            EstadoImpuesto = new DataGridViewTextBoxColumn();
             EditarImpuesto = new DataGridViewImageColumn();
             groupBox3 = new GroupBox();
-            txtDescripcionImpuesto = new TextBox();
+            txtValorImp = new TextBox();
             label9 = new Label();
-            nudValorImpuesto = new NumericUpDown();
+            cbxEstadoImpuesto = new ComboBox();
             label8 = new Label();
+            txtTipoCalculoImp = new TextBox();
+            label6 = new Label();
             txtNombreImpuesto = new TextBox();
             label7 = new Label();
-            cbxEstadoImpuesto = new ComboBox();
-            label6 = new Label();
             txtIdImpuesto = new TextBox();
             label5 = new Label();
             tabPage4 = new TabPage();
@@ -143,7 +142,6 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvImpuestos).BeginInit();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudValorImpuesto).BeginInit();
             tabPage4.SuspendLayout();
             groupBox8.SuspendLayout();
             groupBox7.SuspendLayout();
@@ -549,7 +547,7 @@
             // dgvImpuestos
             // 
             dgvImpuestos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvImpuestos.Columns.AddRange(new DataGridViewColumn[] { IdImpuesto, IdEstadoImp, EstadoImpuesto, Nombre, Valor, Descripcion, EditarImpuesto });
+            dgvImpuestos.Columns.AddRange(new DataGridViewColumn[] { IdImpuesto, Nombre, TipoCalculo, Valor, EstadoImpuesto, EditarImpuesto });
             dgvImpuestos.Location = new Point(6, 19);
             dgvImpuestos.Name = "dgvImpuestos";
             dgvImpuestos.Size = new Size(677, 351);
@@ -562,24 +560,17 @@
             IdImpuesto.Name = "IdImpuesto";
             IdImpuesto.ReadOnly = true;
             // 
-            // IdEstadoImp
-            // 
-            IdEstadoImp.HeaderText = "IdEstado";
-            IdEstadoImp.Name = "IdEstadoImp";
-            IdEstadoImp.ReadOnly = true;
-            IdEstadoImp.Visible = false;
-            // 
-            // EstadoImpuesto
-            // 
-            EstadoImpuesto.HeaderText = "Estado Impuesto";
-            EstadoImpuesto.Name = "EstadoImpuesto";
-            EstadoImpuesto.ReadOnly = true;
-            // 
             // Nombre
             // 
             Nombre.HeaderText = "Nombre";
             Nombre.Name = "Nombre";
             Nombre.ReadOnly = true;
+            // 
+            // TipoCalculo
+            // 
+            TipoCalculo.HeaderText = "Tipo Calculo";
+            TipoCalculo.Name = "TipoCalculo";
+            TipoCalculo.ReadOnly = true;
             // 
             // Valor
             // 
@@ -587,11 +578,11 @@
             Valor.Name = "Valor";
             Valor.ReadOnly = true;
             // 
-            // Descripcion
+            // EstadoImpuesto
             // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
-            Descripcion.ReadOnly = true;
+            EstadoImpuesto.HeaderText = "Estado Impuesto";
+            EstadoImpuesto.Name = "EstadoImpuesto";
+            EstadoImpuesto.ReadOnly = true;
             // 
             // EditarImpuesto
             // 
@@ -602,14 +593,14 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(txtDescripcionImpuesto);
+            groupBox3.Controls.Add(txtValorImp);
             groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(nudValorImpuesto);
+            groupBox3.Controls.Add(cbxEstadoImpuesto);
             groupBox3.Controls.Add(label8);
+            groupBox3.Controls.Add(txtTipoCalculoImp);
+            groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(txtNombreImpuesto);
             groupBox3.Controls.Add(label7);
-            groupBox3.Controls.Add(cbxEstadoImpuesto);
-            groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(txtIdImpuesto);
             groupBox3.Controls.Add(label5);
             groupBox3.Location = new Point(4, 6);
@@ -619,71 +610,71 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Datos Impuestos";
             // 
-            // txtDescripcionImpuesto
+            // txtValorImp
             // 
-            txtDescripcionImpuesto.Location = new Point(129, 174);
-            txtDescripcionImpuesto.Name = "txtDescripcionImpuesto";
-            txtDescripcionImpuesto.Size = new Size(334, 23);
-            txtDescripcionImpuesto.TabIndex = 9;
+            txtValorImp.Location = new Point(127, 117);
+            txtValorImp.Name = "txtValorImp";
+            txtValorImp.Size = new Size(122, 23);
+            txtValorImp.TabIndex = 11;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(23, 174);
+            label9.Location = new Point(28, 120);
             label9.Name = "label9";
-            label9.Size = new Size(72, 15);
-            label9.TabIndex = 8;
-            label9.Text = "Descripción:";
+            label9.Size = new Size(36, 15);
+            label9.TabIndex = 10;
+            label9.Text = "Valor:";
             // 
-            // nudValorImpuesto
+            // cbxEstadoImpuesto
             // 
-            nudValorImpuesto.DecimalPlaces = 2;
-            nudValorImpuesto.Location = new Point(129, 133);
-            nudValorImpuesto.Name = "nudValorImpuesto";
-            nudValorImpuesto.Size = new Size(178, 23);
-            nudValorImpuesto.TabIndex = 7;
+            cbxEstadoImpuesto.FormattingEnabled = true;
+            cbxEstadoImpuesto.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
+            cbxEstadoImpuesto.Location = new Point(128, 150);
+            cbxEstadoImpuesto.Name = "cbxEstadoImpuesto";
+            cbxEstadoImpuesto.Size = new Size(121, 23);
+            cbxEstadoImpuesto.TabIndex = 9;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(23, 135);
+            label8.Location = new Point(27, 150);
             label8.Name = "label8";
-            label8.Size = new Size(36, 15);
-            label8.TabIndex = 6;
-            label8.Text = "Valor:";
+            label8.Size = new Size(45, 15);
+            label8.TabIndex = 8;
+            label8.Text = "Estado:";
+            // 
+            // txtTipoCalculoImp
+            // 
+            txtTipoCalculoImp.Location = new Point(128, 85);
+            txtTipoCalculoImp.Name = "txtTipoCalculoImp";
+            txtTipoCalculoImp.Size = new Size(224, 23);
+            txtTipoCalculoImp.TabIndex = 7;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(23, 88);
+            label6.Name = "label6";
+            label6.Size = new Size(76, 15);
+            label6.TabIndex = 6;
+            label6.Text = "Tipo Cálculo:";
             // 
             // txtNombreImpuesto
             // 
-            txtNombreImpuesto.Location = new Point(129, 97);
+            txtNombreImpuesto.Location = new Point(129, 54);
             txtNombreImpuesto.Name = "txtNombreImpuesto";
-            txtNombreImpuesto.Size = new Size(334, 23);
+            txtNombreImpuesto.Size = new Size(223, 23);
             txtNombreImpuesto.TabIndex = 5;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(23, 100);
+            label7.Location = new Point(23, 57);
             label7.Name = "label7";
             label7.Size = new Size(54, 15);
             label7.TabIndex = 4;
             label7.Text = "Nombre:";
-            // 
-            // cbxEstadoImpuesto
-            // 
-            cbxEstadoImpuesto.FormattingEnabled = true;
-            cbxEstadoImpuesto.Location = new Point(129, 56);
-            cbxEstadoImpuesto.Name = "cbxEstadoImpuesto";
-            cbxEstadoImpuesto.Size = new Size(178, 23);
-            cbxEstadoImpuesto.TabIndex = 3;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(23, 59);
-            label6.Name = "label6";
-            label6.Size = new Size(98, 15);
-            label6.TabIndex = 2;
-            label6.Text = "Estado Impuesto:";
             // 
             // txtIdImpuesto
             // 
@@ -1071,7 +1062,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvImpuestos).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudValorImpuesto).EndInit();
             tabPage4.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
@@ -1107,13 +1097,7 @@
         private Button btbGuardarImpuesto;
         private Label label5;
         private Label label7;
-        private ComboBox cbxEstadoImpuesto;
-        private Label label6;
         private TextBox txtIdImpuesto;
-        private TextBox txtDescripcionImpuesto;
-        private Label label9;
-        private NumericUpDown nudValorImpuesto;
-        private Label label8;
         private TextBox txtNombreImpuesto;
         private GroupBox groupBox5;
         private Label label10;
@@ -1142,13 +1126,6 @@
         private DataGridViewTextBoxColumn Descrip;
         private DataGridViewTextBoxColumn Visualizacion;
         private DataGridViewImageColumn Editar;
-        private DataGridViewTextBoxColumn IdImpuesto;
-        private DataGridViewTextBoxColumn IdEstadoImp;
-        private DataGridViewTextBoxColumn EstadoImpuesto;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn Valor;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewImageColumn EditarImpuesto;
         private Button btnCerrarDatosConf;
         private TabPage tabPage4;
         private GroupBox groupBox8;
@@ -1188,5 +1165,17 @@
         private DataGridViewImageColumn EditarUni;
         private ComboBox cbxEstadoVisualUnidad;
         private Label label20;
+        private ComboBox cbxEstadoImpuesto;
+        private Label label8;
+        private TextBox txtTipoCalculoImp;
+        private Label label6;
+        private DataGridViewTextBoxColumn IdImpuesto;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn TipoCalculo;
+        private DataGridViewTextBoxColumn Valor;
+        private DataGridViewTextBoxColumn EstadoImpuesto;
+        private DataGridViewImageColumn EditarImpuesto;
+        private TextBox txtValorImp;
+        private Label label9;
     }
 }

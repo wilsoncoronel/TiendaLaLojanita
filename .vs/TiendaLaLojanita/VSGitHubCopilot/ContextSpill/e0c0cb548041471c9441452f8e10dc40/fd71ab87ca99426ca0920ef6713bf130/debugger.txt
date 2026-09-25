@@ -1,0 +1,256 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 20160)
+
+## EXCEPTION
+The debugger analyzed the exception, and determined that it was caused by: System.Windows.Forms.DataGridViewCell.Value.get devolvió null. YOU MUST USE THIS AS PART OF YOUR ANALYSIS.
+Exception Type: System.NullReferenceException
+Exception Message: Object reference not set to an instance of an object.
+Piece of code that has the exception:
+```csharp C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\Views\Registro_Articulos.cs
+628:         private void CalcularValorVentaSiListo()
+629:         {
+630:             // Si falta impuesto o porcentaje no hacemos nada y dejamos el valor actual
+631:             if (dgvImpuestosArticulos.Columns == null || cbxPorcentajeGanancia.SelectedValue == null) return;
+632: 
+633:             DataGridViewRow fila = this.dgvImpuestosArticulos.Rows.Cast<DataGridViewRow>().
+634:                 FirstOrDefault(r => r.Cells["TipoCalculo"].Value.ToString() != null && r.Cells["TipoCalculo"].Value.ToString() == "PORCENTAJE");
+635: 
+636:             if(fila == null) return;
+637:                 
+638: 
+639:             if (!int.TryParse(fila.Cells["IdImp"].Value.ToString(), out int idImpuesto) || idImpuesto <= 0) return;
+640:             if (!int.TryParse(cbxPorcentajeGanancia.SelectedValue.ToString(), out int idPorcentaje) || idPorcentaje <= 0) return;
+641:             if (nudValorCompra.Value <= 0m) return;
+642: 
+643:             CalcularValorVenta(idImpuesto, idPorcentaje);
+644:         }
+```
+Exception is on line 634 (`r.Cells["TipoCalculo"].Value.ToString() != null && r.Cells["TipoCalculo"].Value.ToString() == "PORCENTAJE"`)
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 33820
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.CalcularValorVentaSiListo.AnonymousMethod__46_0
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+628:         private void CalcularValorVentaSiListo()
+629:         {
+630:             // Si falta impuesto o porcentaje no hacemos nada y dejamos el valor actual
+631:             if (dgvImpuestosArticulos.Columns == null || cbxPorcentajeGanancia.SelectedValue == null) return;
+632: 
+633:             DataGridViewRow fila = this.dgvImpuestosArticulos.Rows.Cast<DataGridViewRow>().
+634:                 FirstOrDefault(r => r.Cells["TipoCalculo"].Value.ToString() != null && r.Cells["TipoCalculo"].Value.ToString() == "PORCENTAJE");
+635: 
+636:             if(fila == null) return;
+637:                 
+638: 
+639:             if (!int.TryParse(fila.Cells["IdImp"].Value.ToString(), out int idImpuesto) || idImpuesto <= 0) return;
+640:             if (!int.TryParse(cbxPorcentajeGanancia.SelectedValue.ToString(), out int idPorcentaje) || idPorcentaje <= 0) return;
+641:             if (nudValorCompra.Value <= 0m) return;
+642: 
+643:             CalcularValorVenta(idImpuesto, idPorcentaje);
+644:         }
+```
+Current statement: line 634 (`r.Cells["TipoCalculo"].Value.ToString() != null && r.Cells["TipoCalculo"].Value.ToString() == "PORCENTAJE"`)
+[2] [Código externo]
+[4] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.CalcularValorVentaSiListo
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+628:         private void CalcularValorVentaSiListo()
+629:         {
+630:             // Si falta impuesto o porcentaje no hacemos nada y dejamos el valor actual
+631:             if (dgvImpuestosArticulos.Columns == null || cbxPorcentajeGanancia.SelectedValue == null) return;
+632: 
+633:             DataGridViewRow fila = this.dgvImpuestosArticulos.Rows.Cast<DataGridViewRow>().
+634:                 FirstOrDefault(r => r.Cells["TipoCalculo"].Value.ToString() != null && r.Cells["TipoCalculo"].Value.ToString() == "PORCENTAJE");
+635: 
+636:             if(fila == null) return;
+637:                 
+638: 
+639:             if (!int.TryParse(fila.Cells["IdImp"].Value.ToString(), out int idImpuesto) || idImpuesto <= 0) return;
+640:             if (!int.TryParse(cbxPorcentajeGanancia.SelectedValue.ToString(), out int idPorcentaje) || idPorcentaje <= 0) return;
+641:             if (nudValorCompra.Value <= 0m) return;
+642: 
+643:             CalcularValorVenta(idImpuesto, idPorcentaje);
+644:         }
+```
+Current statement: lines 633-634
+[5] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos..ctor.AnonymousMethod__22_0
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+44:         public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService,
+45:             ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
+46:         {
+47:             InitializeComponent();
+48:             this.articuloService = articuloService;
+49:             this.mapeos = mapeos;
+50:             this.procesarExcel = procesarExcel;
+51:             this.marcaService = marcaService;
+52:             this.limpiarCombos();
+53:             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
+54:             this.dtpFechaFinal.Value = DateTime.Now;
+55:             this.listaArticulos = new List<ArticuloDTO>();
+56:             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
+57:             this.listaUnidades = new List<UnidadMedidaDTO>();
+58: 
+59:             this.tipoArticuloService = tipoArticuloService;
+60:             this.impuestoService = impuestoService;
+61:             this.porcentajeService = porcentajeService;
+62:             this.unidadService = unidadService;
+63:             // Suscribir TextChanged de los TextBox internos de los NumericUpDown para normalizar pegado
+64:             try
+65:             {
+66:                 // Asegurar que los NumericUpDown permitan solo 4 decimales
+67:                 this.nudValorCompra.DecimalPlaces = 4;
+68:                 this.nudValorVenta.DecimalPlaces = 4;
+69:                 this.nudUnidadValor.DecimalPlaces = 4;
+70: 
+71:                 var tbCompra = this.nudValorCompra.Controls.OfType<TextBox>().FirstOrDefault();
+72:                 if (tbCompra != null) tbCompra.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorCompra);
+73: 
+74:                 var tbVenta = this.nudValorVenta.Controls.OfType<TextBox>().FirstOrDefault();
+75:                 if (tbVenta != null) tbVenta.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorVenta);
+76: 
+77:                 var tbUnidad = this.nudUnidadValor.Controls.OfType<TextBox>().FirstOrDefault();
+78:                 if (tbUnidad != null) tbUnidad.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudUnidadValor);
+79: 
+80:                 // Asegurar que los NumericUpDown muestren 0 al inicio (evita que el Text interno quede vacío)
+81:                 try
+82:                 {
+83:                     if (this.nudValorCompra.Minimum <= 0 && this.nudValorCompra.Value == 0) this.nudValorCompra.Value = 0m;
+84:                     if (this.nudValorVenta.Minimum <= 0 && this.nudValorVenta.Value == 0) this.nudValorVenta.Value = 0m;
+85:                     if (this.nudUnidadValor.Minimum <= 0 && this.nudUnidadValor.Value == 0) this.nudUnidadValor.Value = 0m;
+86:                 }
+87:                 catch
+88:                 {
+89:                     // Ignorar si no es posible asignar en tiempo de diseño
+90:                 }
+91:             }
+92:             catch
+93:             {
+94:                 // Ignorar si no se pueden obtener los controles en tiempo de diseño
+95:             }
+96:             // Suscribir eventos para cálculo de valor de venta
+97:             try
+98:             {
+99:                 // Calcular sólo al presionar Enter o al perder el foco del control de compra
+100:                 this.nudValorCompra.KeyDown += nudValorCompra_KeyDown;
+101:                 this.nudValorCompra.Leave += nudValorCompra_Leave;
+102: 
+103:                 // Recalcular si el usuario cambia la selección de impuesto o porcentaje (si ya hay valor de compra)
+104:                 // this.cbxImpuesto.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+105:                 this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+106:             }
+107:             catch
+108:             {
+109:                 // Si no existen los controles en tiempo de diseño, ignorar
+110:             }
+111:         }
+```
+Current statement: line 105 (`CalcularValorVentaSiListo()`)
+[6] [Código externo]
+[11] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.ConfigurarCombo<string>
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+177:         private void ConfigurarCombo<T>(
+178:         ComboBox combo,
+179:         object lista,
+180:         string displayMember,
+181:         IEnumerable<T> valores)
+182:         {
+183:             combo.DataSource = lista;
+184:             combo.DisplayMember = displayMember;
+185:             combo.ValueMember = "Id";
+186: 
+187:             combo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+188:             combo.AutoCompleteSource = AutoCompleteSource.CustomSource;
+189: 
+190:             var coleccion = new AutoCompleteStringCollection();
+191: 
+192:             foreach (var valor in valores)
+193:             {
+194:                 if (valor != null)
+195:                 {
+196:                     coleccion.Add(
+197:                         valor.ToString()!.ToUpperInvariant());
+198:                 }
+199:             }
+200:             combo.AutoCompleteCustomSource = coleccion;
+201:         }
+```
+Current statement: line 183
+[12] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.CargarCombos
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+141:         private void CargarCombos()
+142:         {
+143:             ConfigurarCombo(
+144:                 cbxPorcentajeGanancia,
+145:                 listaPorcentajeGanancias,
+146:                 "PorcentajeGanancia",
+147:                 listaPorcentajeGanancias.Select(x => x.PorcentajeGanancia));
+148: 
+149:             ConfigurarCombo(
+150:                 cbxImpuestos,
+151:                 listaimpuestos,
+152:                 "Nombre",
+153:                 listaimpuestos.Select(x => x.Nombre));
+154: 
+155:             ConfigurarCombo(
+156:                 cbxMarca,
+157:                 listaMarcas,
+158:                 "Nombre",
+159:                 listaMarcas.Select(x => x.Nombre));
+160: 
+161:             ConfigurarCombo(
+162:                 cbxUnidadesMedidaPeso,
+163:                 listaUnidades,
+164:                 "Nombre",
+165:                 listaUnidades.Select(x => x.Nombre));
+166: 
+167:             ConfigurarCombo(
+168:                 cbxTipoArticulo,
+169:                 listaTipoArticulo,
+170:                 "Nombre",
+171:                 listaTipoArticulo.Select(x => x.Nombre));
+172: 
+173:             lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+174:             lblUser.Text = Sesion.Usuario;
+175:         }
+```
+Current statement: lines 143-147
+[13] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.Registro_Articulos_Load
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+112:         private async void Registro_Articulos_Load(object sender, EventArgs e)
+113:         {
+114:             try
+115:             {
+116:                 await cargarConfiguraciones();
+117:                 this.cbxEstado.SelectedIndex = 0;
+118: 
+119:                 CargarCombos();
+120: 
+121:                 IdUsuario = Sesion.Id;
+122:             }
+123:             catch (ApiException ex)
+124:             {
+125:                 ApiErrorHandler.Mostrar(ex);
+126: 
+127:                 // Opcional: cerrar el formulario si no puede
+128:                 // continuar sin las configuraciones.
+129:                 this.Close();
+130:             }
+131:         }
+```
+Current statement: line 119
+[14] [Reanudando método asincrónico]
+[15] [Código externo]
+........1 more stack frames omitted.
+
+## LOCALS
+Variable: 'r' of type 'System.Windows.Forms.DataGridViewRow' is a complex object with child properties and has value: {System.Windows.Forms.DataGridViewRow}
+

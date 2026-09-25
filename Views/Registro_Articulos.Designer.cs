@@ -31,6 +31,15 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            dgvImpuestosArticulos = new DataGridView();
+            IdImp = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            TipoCalculo = new DataGridViewTextBoxColumn();
+            Valor = new DataGridViewTextBoxColumn();
+            EstadoImp = new DataGridViewTextBoxColumn();
+            QuitarImp = new DataGridViewImageColumn();
+            cbxImpuestos = new ComboBox();
+            label3 = new Label();
             cbxPorcentajeGanancia = new ComboBox();
             label17 = new Label();
             btnRecargarDatosConfiguraciones = new Button();
@@ -48,11 +57,9 @@
             txtId = new TextBox();
             label5 = new Label();
             txtNombre = new TextBox();
-            cbxImpuesto = new ComboBox();
             cbxTipoArticulo = new ComboBox();
             cbxMarca = new ComboBox();
             label4 = new Label();
-            label3 = new Label();
             label2 = new Label();
             label1 = new Label();
             label10 = new Label();
@@ -82,8 +89,6 @@
             Marca = new DataGridViewTextBoxColumn();
             IdTipoArticulo = new DataGridViewTextBoxColumn();
             TipoArticulo = new DataGridViewTextBoxColumn();
-            IdImpuesto = new DataGridViewTextBoxColumn();
-            Impuesto = new DataGridViewTextBoxColumn();
             IdPorcentaje = new DataGridViewTextBoxColumn();
             Porcentaje = new DataGridViewTextBoxColumn();
             Estado = new DataGridViewTextBoxColumn();
@@ -104,6 +109,7 @@
             ofdArticulos = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvImpuestosArticulos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudValorVenta).BeginInit();
@@ -118,6 +124,9 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(dgvImpuestosArticulos);
+            groupBox1.Controls.Add(cbxImpuestos);
+            groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(cbxPorcentajeGanancia);
             groupBox1.Controls.Add(label17);
             groupBox1.Controls.Add(btnRecargarDatosConfiguraciones);
@@ -135,33 +144,96 @@
             groupBox1.Controls.Add(txtId);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(txtNombre);
-            groupBox1.Controls.Add(cbxImpuesto);
             groupBox1.Controls.Add(cbxTipoArticulo);
             groupBox1.Controls.Add(cbxMarca);
             groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(11, 9);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1306, 235);
+            groupBox1.Size = new Size(1218, 221);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
             // 
+            // dgvImpuestosArticulos
+            // 
+            dgvImpuestosArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvImpuestosArticulos.Columns.AddRange(new DataGridViewColumn[] { IdImp, Nombre, TipoCalculo, Valor, EstadoImp, QuitarImp });
+            dgvImpuestosArticulos.GridColor = SystemColors.ActiveCaption;
+            dgvImpuestosArticulos.Location = new Point(493, 118);
+            dgvImpuestosArticulos.Name = "dgvImpuestosArticulos";
+            dgvImpuestosArticulos.Size = new Size(633, 97);
+            dgvImpuestosArticulos.TabIndex = 29;
+            dgvImpuestosArticulos.CellClick += dgvImpuestosArticulos_CellClick;
+            // 
+            // IdImp
+            // 
+            IdImp.HeaderText = "Id";
+            IdImp.Name = "IdImp";
+            IdImp.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            // 
+            // TipoCalculo
+            // 
+            TipoCalculo.HeaderText = "Tipo Calculo";
+            TipoCalculo.Name = "TipoCalculo";
+            TipoCalculo.ReadOnly = true;
+            // 
+            // Valor
+            // 
+            Valor.HeaderText = "Valor";
+            Valor.Name = "Valor";
+            Valor.ReadOnly = true;
+            // 
+            // EstadoImp
+            // 
+            EstadoImp.HeaderText = "EstadoImp";
+            EstadoImp.Name = "EstadoImp";
+            EstadoImp.ReadOnly = true;
+            // 
+            // QuitarImp
+            // 
+            QuitarImp.HeaderText = "Quitar";
+            QuitarImp.Image = Properties.Resources._3687412_edit;
+            QuitarImp.Name = "QuitarImp";
+            // 
+            // cbxImpuestos
+            // 
+            cbxImpuestos.FormattingEnabled = true;
+            cbxImpuestos.Location = new Point(566, 89);
+            cbxImpuestos.Name = "cbxImpuestos";
+            cbxImpuestos.Size = new Size(306, 23);
+            cbxImpuestos.TabIndex = 28;
+            cbxImpuestos.SelectedIndexChanged += cbxImpuestos_SelectedIndexChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(493, 92);
+            label3.Name = "label3";
+            label3.Size = new Size(65, 15);
+            label3.TabIndex = 27;
+            label3.Text = "Impuestos:";
+            // 
             // cbxPorcentajeGanancia
             // 
             cbxPorcentajeGanancia.FormattingEnabled = true;
-            cbxPorcentajeGanancia.Location = new Point(630, 188);
+            cbxPorcentajeGanancia.Location = new Point(138, 178);
             cbxPorcentajeGanancia.Name = "cbxPorcentajeGanancia";
-            cbxPorcentajeGanancia.Size = new Size(323, 23);
+            cbxPorcentajeGanancia.Size = new Size(126, 23);
             cbxPorcentajeGanancia.TabIndex = 26;
             cbxPorcentajeGanancia.SelectedIndexChanged += cbxPorcentajeGanancia_SelectedIndexChanged;
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(500, 190);
+            label17.Location = new Point(14, 181);
             label17.Name = "label17";
             label17.Size = new Size(118, 15);
             label17.TabIndex = 25;
@@ -170,9 +242,9 @@
             // btnRecargarDatosConfiguraciones
             // 
             btnRecargarDatosConfiguraciones.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
-            btnRecargarDatosConfiguraciones.Location = new Point(729, 20);
+            btnRecargarDatosConfiguraciones.Location = new Point(1039, 28);
             btnRecargarDatosConfiguraciones.Name = "btnRecargarDatosConfiguraciones";
-            btnRecargarDatosConfiguraciones.Size = new Size(75, 37);
+            btnRecargarDatosConfiguraciones.Size = new Size(75, 41);
             btnRecargarDatosConfiguraciones.TabIndex = 24;
             toolTip1.SetToolTip(btnRecargarDatosConfiguraciones, "Recargar Marcas, Tipo Articulos, etc..");
             btnRecargarDatosConfiguraciones.UseVisualStyleBackColor = true;
@@ -181,9 +253,9 @@
             // btnAgregarDatosConfiguraciones
             // 
             btnAgregarDatosConfiguraciones.Image = (Image)resources.GetObject("btnAgregarDatosConfiguraciones.Image");
-            btnAgregarDatosConfiguraciones.Location = new Point(1055, 146);
+            btnAgregarDatosConfiguraciones.Location = new Point(1132, 157);
             btnAgregarDatosConfiguraciones.Name = "btnAgregarDatosConfiguraciones";
-            btnAgregarDatosConfiguraciones.Size = new Size(137, 42);
+            btnAgregarDatosConfiguraciones.Size = new Size(76, 42);
             btnAgregarDatosConfiguraciones.TabIndex = 23;
             toolTip1.SetToolTip(btnAgregarDatosConfiguraciones, "Agregar Datos de configuracion Marcas, etc..");
             btnAgregarDatosConfiguraciones.UseVisualStyleBackColor = true;
@@ -192,9 +264,9 @@
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1056, 83);
+            btnCancelar.Location = new Point(1132, 90);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(136, 43);
+            btnCancelar.Size = new Size(76, 43);
             btnCancelar.TabIndex = 21;
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -202,9 +274,9 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1056, 19);
+            btnGuardar.Location = new Point(1132, 26);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(136, 43);
+            btnGuardar.Size = new Size(76, 43);
             btnGuardar.TabIndex = 20;
             btnGuardar.UseVisualStyleBackColor = true;
             btnGuardar.Click += btnGuardar_Click;
@@ -213,15 +285,15 @@
             // 
             cbxEstado.FormattingEnabled = true;
             cbxEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cbxEstado.Location = new Point(590, 146);
+            cbxEstado.Location = new Point(566, 56);
             cbxEstado.Name = "cbxEstado";
-            cbxEstado.Size = new Size(363, 23);
+            cbxEstado.Size = new Size(128, 23);
             cbxEstado.TabIndex = 19;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(16, 188);
+            label9.Location = new Point(14, 138);
             label9.Name = "label9";
             label9.Size = new Size(72, 15);
             label9.TabIndex = 18;
@@ -229,7 +301,7 @@
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(161, 186);
+            txtDescripcion.Location = new Point(139, 135);
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(315, 23);
             txtDescripcion.TabIndex = 17;
@@ -237,7 +309,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(497, 146);
+            label8.Location = new Point(493, 61);
             label8.Name = "label8";
             label8.Size = new Size(45, 15);
             label8.TabIndex = 14;
@@ -245,15 +317,16 @@
             // 
             // dtpCaducidad
             // 
-            dtpCaducidad.Location = new Point(590, 103);
+            dtpCaducidad.Format = DateTimePickerFormat.Short;
+            dtpCaducidad.Location = new Point(566, 19);
             dtpCaducidad.Name = "dtpCaducidad";
-            dtpCaducidad.Size = new Size(363, 23);
+            dtpCaducidad.Size = new Size(128, 23);
             dtpCaducidad.TabIndex = 13;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(497, 106);
+            label7.Location = new Point(493, 22);
             label7.Name = "label7";
             label7.Size = new Size(67, 15);
             label7.TabIndex = 12;
@@ -262,15 +335,16 @@
             // dtpCreacion
             // 
             dtpCreacion.Enabled = false;
-            dtpCreacion.Location = new Point(590, 65);
+            dtpCreacion.Format = DateTimePickerFormat.Short;
+            dtpCreacion.Location = new Point(357, 55);
             dtpCreacion.Name = "dtpCreacion";
-            dtpCreacion.Size = new Size(363, 23);
+            dtpCreacion.Size = new Size(128, 23);
             dtpCreacion.TabIndex = 11;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(497, 67);
+            label6.Location = new Point(286, 59);
             label6.Name = "label6";
             label6.Size = new Size(57, 15);
             label6.TabIndex = 10;
@@ -279,7 +353,7 @@
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(590, 25);
+            txtId.Location = new Point(357, 19);
             txtId.Name = "txtId";
             txtId.Size = new Size(128, 23);
             txtId.TabIndex = 9;
@@ -287,7 +361,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(497, 31);
+            label5.Location = new Point(286, 23);
             label5.Name = "label5";
             label5.Size = new Size(20, 15);
             label5.TabIndex = 8;
@@ -295,57 +369,40 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(160, 146);
+            txtNombre.Location = new Point(138, 92);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(316, 23);
             txtNombre.TabIndex = 7;
             // 
-            // cbxImpuesto
-            // 
-            cbxImpuesto.FormattingEnabled = true;
-            cbxImpuesto.Location = new Point(162, 106);
-            cbxImpuesto.Name = "cbxImpuesto";
-            cbxImpuesto.Size = new Size(314, 23);
-            cbxImpuesto.TabIndex = 6;
-            // 
             // cbxTipoArticulo
             // 
             cbxTipoArticulo.FormattingEnabled = true;
-            cbxTipoArticulo.Location = new Point(163, 66);
+            cbxTipoArticulo.Location = new Point(138, 55);
             cbxTipoArticulo.Name = "cbxTipoArticulo";
-            cbxTipoArticulo.Size = new Size(313, 23);
+            cbxTipoArticulo.Size = new Size(126, 23);
             cbxTipoArticulo.TabIndex = 5;
             // 
             // cbxMarca
             // 
             cbxMarca.FormattingEnabled = true;
-            cbxMarca.Location = new Point(161, 25);
+            cbxMarca.Location = new Point(139, 20);
             cbxMarca.Name = "cbxMarca";
-            cbxMarca.Size = new Size(315, 23);
+            cbxMarca.Size = new Size(125, 23);
             cbxMarca.TabIndex = 4;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(14, 146);
+            label4.Location = new Point(14, 97);
             label4.Name = "label4";
             label4.Size = new Size(54, 15);
             label4.TabIndex = 3;
             label4.Text = "Nombre:";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(14, 109);
-            label3.Name = "label3";
-            label3.Size = new Size(60, 15);
-            label3.TabIndex = 2;
-            label3.Text = "Impuesto:";
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(14, 68);
+            label2.Location = new Point(10, 58);
             label2.Name = "label2";
             label2.Size = new Size(78, 15);
             label2.TabIndex = 1;
@@ -411,7 +468,7 @@
             groupBox2.Controls.Add(nudValorVenta);
             groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(nudValorCompra);
-            groupBox2.Location = new Point(11, 250);
+            groupBox2.Location = new Point(10, 236);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(658, 76);
             groupBox2.TabIndex = 1;
@@ -446,7 +503,7 @@
             groupBox3.Controls.Add(nudUnidadValor);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(772, 250);
+            groupBox3.Location = new Point(674, 236);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(545, 76);
             groupBox3.TabIndex = 2;
@@ -474,7 +531,7 @@
             groupBox4.Controls.Add(dgvArticulos);
             groupBox4.Location = new Point(10, 332);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(1546, 379);
+            groupBox4.Size = new Size(1608, 379);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "Listado Articulos";
@@ -542,10 +599,10 @@
             // 
             dgvArticulos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvArticulos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdImpuesto, Impuesto, IdPorcentaje, Porcentaje, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
+            dgvArticulos.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Descripcion, Papeleria, IdMarca, Marca, IdTipoArticulo, TipoArticulo, IdPorcentaje, Porcentaje, Estado, FechaCreacion, FechaActualizacion, PrecioCompra, PrecioVenta, Unidad, ValorUnidad, Editar, ActivarDesactivar });
             dgvArticulos.Location = new Point(6, 71);
             dgvArticulos.Name = "dgvArticulos";
-            dgvArticulos.Size = new Size(1534, 290);
+            dgvArticulos.Size = new Size(1596, 290);
             dgvArticulos.TabIndex = 0;
             dgvArticulos.CellClick += dgvArticulos_CellClick;
             // 
@@ -591,17 +648,6 @@
             // 
             TipoArticulo.HeaderText = "Tipo Articulo";
             TipoArticulo.Name = "TipoArticulo";
-            // 
-            // IdImpuesto
-            // 
-            IdImpuesto.HeaderText = "IdImpuesto";
-            IdImpuesto.Name = "IdImpuesto";
-            IdImpuesto.Visible = false;
-            // 
-            // Impuesto
-            // 
-            Impuesto.HeaderText = "Impuesto";
-            Impuesto.Name = "Impuesto";
             // 
             // IdPorcentaje
             // 
@@ -666,9 +712,9 @@
             groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox5.Controls.Add(lblFecha);
             groupBox5.Controls.Add(lblUser);
-            groupBox5.Location = new Point(1323, 9);
+            groupBox5.Location = new Point(1235, 9);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(233, 100);
+            groupBox5.Size = new Size(383, 100);
             groupBox5.TabIndex = 4;
             groupBox5.TabStop = false;
             groupBox5.Text = "Usuario Actual";
@@ -694,9 +740,9 @@
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(lblArchivo);
             groupBox6.Controls.Add(btnAbrirArchivo);
-            groupBox6.Location = new Point(1325, 114);
+            groupBox6.Location = new Point(1235, 114);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(231, 212);
+            groupBox6.Size = new Size(383, 116);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "Ingreso por Archivo";
@@ -704,7 +750,7 @@
             // lblArchivo
             // 
             lblArchivo.AutoSize = true;
-            lblArchivo.Location = new Point(6, 79);
+            lblArchivo.Location = new Point(13, 81);
             lblArchivo.Name = "lblArchivo";
             lblArchivo.Size = new Size(77, 15);
             lblArchivo.TabIndex = 1;
@@ -713,7 +759,7 @@
             // btnAbrirArchivo
             // 
             btnAbrirArchivo.Image = (Image)resources.GetObject("btnAbrirArchivo.Image");
-            btnAbrirArchivo.Location = new Point(6, 22);
+            btnAbrirArchivo.Location = new Point(87, 16);
             btnAbrirArchivo.Name = "btnAbrirArchivo";
             btnAbrirArchivo.Size = new Size(219, 42);
             btnAbrirArchivo.TabIndex = 0;
@@ -745,6 +791,7 @@
             Load += Registro_Articulos_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvImpuestosArticulos).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudUnidadValor).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -765,11 +812,9 @@
         #endregion
 
         private GroupBox groupBox1;
-        private ComboBox cbxImpuesto;
         private ComboBox cbxTipoArticulo;
         private ComboBox cbxMarca;
         private Label label4;
-        private Label label3;
         private Label label2;
         private Label label1;
         private Label label8;
@@ -817,6 +862,17 @@
         private Button btnRecargarDatosConfiguraciones;
         private Label label17;
         private ComboBox cbxPorcentajeGanancia;
+        private ComboBox cbxUnidadesMedidaPeso;
+        private Label label3;
+        private DataGridView dgvImpuestosArticulos;
+        private ComboBox comboBox1;
+        private ComboBox cbxImpuestos;
+        private DataGridViewTextBoxColumn IdImp;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn TipoCalculo;
+        private DataGridViewTextBoxColumn Valor;
+        private DataGridViewTextBoxColumn EstadoImp;
+        private DataGridViewImageColumn QuitarImp;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
@@ -825,8 +881,6 @@
         private DataGridViewTextBoxColumn Marca;
         private DataGridViewTextBoxColumn IdTipoArticulo;
         private DataGridViewTextBoxColumn TipoArticulo;
-        private DataGridViewTextBoxColumn IdImpuesto;
-        private DataGridViewTextBoxColumn Impuesto;
         private DataGridViewTextBoxColumn IdPorcentaje;
         private DataGridViewTextBoxColumn Porcentaje;
         private DataGridViewTextBoxColumn Estado;
@@ -838,6 +892,5 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
-        private ComboBox cbxUnidadesMedidaPeso;
     }
 }

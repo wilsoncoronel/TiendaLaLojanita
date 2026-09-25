@@ -8,7 +8,7 @@ using TiendaLaLojanita.Models.DTO;
 
 namespace TiendaLaLojanita.Validaciones
 {
-    public class ImpuestoValidator: AbstractValidator<ImpuestoArticuloCreacionDTO>
+    public class ImpuestoValidator: AbstractValidator<ImpuestoCrearDTO>
     {
         public ImpuestoValidator()
         {
@@ -16,10 +16,14 @@ namespace TiendaLaLojanita.Validaciones
                 .NotNull()
                 .NotEmpty()
                 .WithMessage($"El nombre no puede ser nulo o estar vacio!!");
-            RuleFor(x => x.ValorImpuesto)
+            RuleFor(x => x.TipoCalculo)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage($"El tipo de cálculo no puede ser nulo o estar vacio!!");
+            RuleFor(x => x.Valor)
                 .NotNull()
                 .WithMessage($"El valor no puede ser nulo!!");
-            RuleFor(x => x.IdEstadoImpuesto)
+            RuleFor(x => x.Estado)
                 .NotNull()
                 .WithMessage($"Debe seleccionar un estado!!");
         }

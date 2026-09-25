@@ -48,10 +48,6 @@
             groupBox3 = new GroupBox();
             btnBuscarCompra = new Button();
             dgvCompraDevolucion = new DataGridView();
-            txtBuscarCompra = new TextBox();
-            label5 = new Label();
-            btnGuardar = new Button();
-            btnBorrar = new Button();
             Id = new DataGridViewTextBoxColumn();
             Creacion = new DataGridViewTextBoxColumn();
             Documento = new DataGridViewTextBoxColumn();
@@ -59,6 +55,12 @@
             Estado = new DataGridViewTextBoxColumn();
             Ver = new DataGridViewImageColumn();
             Seleccionar = new DataGridViewImageColumn();
+            txtBuscarCompra = new TextBox();
+            label5 = new Label();
+            btnGuardar = new Button();
+            btnBorrar = new Button();
+            label6 = new Label();
+            cbxTransaccionesInventario = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleDevolucion).BeginInit();
@@ -68,6 +70,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(cbxTransaccionesInventario);
+            groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(cbxEstado);
             groupBox1.Controls.Add(dtpCreacion);
             groupBox1.Controls.Add(txtMotivo);
@@ -89,7 +93,7 @@
             cbxEstado.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstado.Location = new Point(135, 107);
             cbxEstado.Name = "cbxEstado";
-            cbxEstado.Size = new Size(121, 23);
+            cbxEstado.Size = new Size(133, 23);
             cbxEstado.TabIndex = 7;
             // 
             // dtpCreacion
@@ -239,43 +243,6 @@
             dgvCompraDevolucion.TabIndex = 2;
             dgvCompraDevolucion.CellClick += dgvCompraDevolucion_CellClick;
             // 
-            // txtBuscarCompra
-            // 
-            txtBuscarCompra.Location = new Point(67, 21);
-            txtBuscarCompra.Name = "txtBuscarCompra";
-            txtBuscarCompra.PlaceholderText = "IdCompra/Documento";
-            txtBuscarCompra.Size = new Size(548, 23);
-            txtBuscarCompra.TabIndex = 1;
-            txtBuscarCompra.KeyDown += txtBuscarCompra_KeyDown;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(9, 22);
-            label5.Name = "label5";
-            label5.Size = new Size(45, 15);
-            label5.TabIndex = 0;
-            label5.Text = "Buscar:";
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(966, 195);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(134, 45);
-            btnGuardar.TabIndex = 3;
-            btnGuardar.UseVisualStyleBackColor = true;
-            btnGuardar.Click += btnGuardar_Click;
-            // 
-            // btnBorrar
-            // 
-            btnBorrar.Image = Properties.Resources.cancelar_resize;
-            btnBorrar.Location = new Point(1106, 195);
-            btnBorrar.Name = "btnBorrar";
-            btnBorrar.Size = new Size(134, 45);
-            btnBorrar.TabIndex = 4;
-            btnBorrar.UseVisualStyleBackColor = true;
-            // 
             // Id
             // 
             Id.Frozen = true;
@@ -324,6 +291,60 @@
             Seleccionar.Name = "Seleccionar";
             Seleccionar.Resizable = DataGridViewTriState.True;
             Seleccionar.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // txtBuscarCompra
+            // 
+            txtBuscarCompra.Location = new Point(67, 21);
+            txtBuscarCompra.Name = "txtBuscarCompra";
+            txtBuscarCompra.PlaceholderText = "IdCompra/Documento";
+            txtBuscarCompra.Size = new Size(548, 23);
+            txtBuscarCompra.TabIndex = 1;
+            txtBuscarCompra.KeyDown += txtBuscarCompra_KeyDown;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(9, 22);
+            label5.Name = "label5";
+            label5.Size = new Size(45, 15);
+            label5.TabIndex = 0;
+            label5.Text = "Buscar:";
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.Image = Properties.Resources._4856668_resize;
+            btnGuardar.Location = new Point(966, 195);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(134, 45);
+            btnGuardar.TabIndex = 3;
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
+            // 
+            // btnBorrar
+            // 
+            btnBorrar.Image = Properties.Resources.cancelar_resize;
+            btnBorrar.Location = new Point(1106, 195);
+            btnBorrar.Name = "btnBorrar";
+            btnBorrar.Size = new Size(134, 45);
+            btnBorrar.TabIndex = 4;
+            btnBorrar.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(274, 111);
+            label6.Name = "label6";
+            label6.Size = new Size(72, 15);
+            label6.TabIndex = 8;
+            label6.Text = "Transacción:";
+            // 
+            // cbxTransaccionesInventario
+            // 
+            cbxTransaccionesInventario.FormattingEnabled = true;
+            cbxTransaccionesInventario.Location = new Point(352, 107);
+            cbxTransaccionesInventario.Name = "cbxTransaccionesInventario";
+            cbxTransaccionesInventario.Size = new Size(156, 23);
+            cbxTransaccionesInventario.TabIndex = 9;
             // 
             // Devolucion_Compra
             // 
@@ -380,5 +401,7 @@
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewImageColumn Ver;
         private DataGridViewImageColumn Seleccionar;
+        private ComboBox cbxTransaccionesInventario;
+        private Label label6;
     }
 }

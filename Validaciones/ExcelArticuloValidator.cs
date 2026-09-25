@@ -13,8 +13,8 @@ namespace TiendaLaLojanita.Validaciones
                 .NotEmpty().WithMessage("El nombre es obligatorio para la importación.")
                 .MaximumLength(500).WithMessage("El nombre no puede exceder los 500 caracteres.");
 
-            RuleFor(x => x.IdImpuesto)
-                .GreaterThan(0).WithMessage("Debe indicar un IdImpuesto válido para la importación.");
+            RuleFor(x => x.Impuestos)
+               .NotEmpty().WithMessage("Debe seleccionar al menos un impuesto.");
 
             RuleFor(x => x.IdMarca)
                 .GreaterThan(0).WithMessage("Debe indicar un IdMarca válido para la importación.");
@@ -42,7 +42,7 @@ namespace TiendaLaLojanita.Validaciones
         /// en los catálogos cargados (marcas, tipos, impuestos, porcentajes).
         /// Devuelve la lista de mensajes de error encontrados (vacía si es válido).
         /// </summary>
-        public (List<string> Errores, List<string> CamposInvalidos) ValidateArticulo(ArticuloCreacionDTO art, IEnumerable<MarcaDTO> marcas, IEnumerable<TipoArticuloDTO> tipos, IEnumerable<ImpuestoArticuloDTO> impuestos, IEnumerable<PorcentajeGananciaDTO> porcentajes)
+        public (List<string> Errores, List<string> CamposInvalidos) ValidateArticulo(ArticuloCreacionDTO art, IEnumerable<MarcaDTO> marcas, IEnumerable<TipoArticuloDTO> tipos, IEnumerable<ImpuestoDTO> impuestos, IEnumerable<PorcentajeGananciaDTO> porcentajes)
         {
             var errores = new List<string>();
             var camposInvalidos = new List<string>();
@@ -64,10 +64,10 @@ namespace TiendaLaLojanita.Validaciones
                 errores.Add("Tipo de artículo no encontrado o IdTipoArticulo inválido.");
                 camposInvalidos.Add(nameof(art.IdTipoArticulo));
             }
-            if (!impuestos.Any(i => i.Id == art.IdImpuesto))
+            if (art.Impuestos == null || art.Impuestos.Count == 0)
             {
-                errores.Add("Impuesto no encontrado o IdImpuesto inválido.");
-                camposInvalidos.Add(nameof(art.IdImpuesto));
+                errores.Add("Debe seleccionar al menos un impuesto.");
+                camposInvalidos.Add(nameof(art.Impuestos));
             }
             if (art.IdPorcentajeGanancia.HasValue && !porcentajes.Any(p => p.Id == art.IdPorcentajeGanancia.Value))
             {

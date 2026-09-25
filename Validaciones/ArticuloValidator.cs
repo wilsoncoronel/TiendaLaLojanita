@@ -16,8 +16,8 @@ namespace TiendaLaLojanita.Validaciones
                 .NotEmpty().WithMessage("El nombre es obligatorio.")
                 .NotNull().WithMessage("El nombre no puede ser nulo.")
                 .MaximumLength(500).WithMessage("El nombre no puede exceder los 500 caracteres.");
-            RuleFor(x=> x.IdImpuesto)
-                .GreaterThan(0).WithMessage("Debe seleccionar un impuesto.");
+            RuleFor(x=> x.Impuestos)
+                .NotEmpty().WithMessage("Debe seleccionar al menos un impuesto.");
             RuleFor(x => x.IdMarca)
                 .GreaterThan(0).WithMessage("Debe seleccionar una marca."); 
             RuleFor(x => x.IdTipoArticulo)

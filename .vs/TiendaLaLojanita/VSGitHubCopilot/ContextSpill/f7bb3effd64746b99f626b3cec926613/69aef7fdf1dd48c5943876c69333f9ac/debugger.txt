@@ -1,0 +1,394 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 1836)
+
+## EXCEPTION
+Exception Type: System.StackOverflowException
+Exception Message: Excepción no controlada del tipo 'System.StackOverflowException' en System.Windows.Forms.dll
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 5792
+[1] [Código externo]
+[18] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.NormalizarTextoDecimal
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+568:         private void NormalizarTextoDecimal(NumericUpDown control)
+569:         {
+570:             if (control == null) return;
+571: 
+572:             var tb = control.Controls.OfType<TextBox>().FirstOrDefault();
+573:             if (tb == null) return;
+574: 
+575:             string texto = tb.Text ?? string.Empty;
+576:             if (texto == string.Empty) return;
+577: 
+578:             // Reemplazar puntos por comas
+579:             string normalizado = texto.Replace('.', ',');
+580: 
+581:             // Si hay más de una coma, conservar solo la primera
+582:             int primeraComa = normalizado.IndexOf(',');
+583:             if (primeraComa >= 0)
+584:             {
+585:                 string antes = normalizado.Substring(0, primeraComa + 1);
+586:                 string despues = normalizado.Substring(primeraComa + 1).Replace(",", string.Empty);
+587:                 normalizado = antes + despues;
+588:             }
+589: 
+590:             // Si comienza con coma, anteponer 0
+591:             if (normalizado.StartsWith(",")) normalizado = "0" + normalizado;
+592: 
+593:             // Intentar parsear usando cultura es-ES para la coma
+594:             if (decimal.TryParse(normalizado, System.Globalization.NumberStyles.Number, CultureInfo.GetCultureInfo("es-ES"), out decimal valor))
+595:             {
+596:                 // Ajustar al rango permitido
+597:                 if (valor < control.Minimum) valor = control.Minimum;
+598:                 if (valor > control.Maximum) valor = control.Maximum;
+599:                 // Asignar valor al control (esto actualizará también el Text interno)
+600:                 control.Value = valor;
+601:                 // Actualizar el TextBox con la representación normalizada
+602:                 tb.Text = normalizado;
+603:                 tb.SelectionStart = tb.Text.Length;
+604:             }
+605:             else
+606:             {
+607:                 // No se pudo parsear: actualizar solo el texto normalizado para mostrar al usuario
+608:                 tb.Text = normalizado;
+609:                 tb.SelectionStart = tb.Text.Length;
+610:             }
+611:         }
+```
+Current statement: line 603
+[19] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos..ctor.AnonymousMethod__22_1
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+44:         public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService,
+45:             ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
+46:         {
+47:             InitializeComponent();
+48:             this.articuloService = articuloService;
+49:             this.mapeos = mapeos;
+50:             this.procesarExcel = procesarExcel;
+51:             this.marcaService = marcaService;
+52:             this.limpiarCombos();
+53:             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
+54:             this.dtpFechaFinal.Value = DateTime.Now;
+55:             this.listaArticulos = new List<ArticuloDTO>();
+56:             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
+57:             this.listaUnidades = new List<UnidadMedidaDTO>();
+58: 
+59:             this.tipoArticuloService = tipoArticuloService;
+60:             this.impuestoService = impuestoService;
+61:             this.porcentajeService = porcentajeService;
+62:             this.unidadService = unidadService;
+63:             // Suscribir TextChanged de los TextBox internos de los NumericUpDown para normalizar pegado
+64:             try
+65:             {
+66:                 // Asegurar que los NumericUpDown permitan solo 4 decimales
+67:                 this.nudValorCompra.DecimalPlaces = 4;
+68:                 this.nudValorVenta.DecimalPlaces = 4;
+69:                 this.nudUnidadValor.DecimalPlaces = 4;
+70: 
+71:                 var tbCompra = this.nudValorCompra.Controls.OfType<TextBox>().FirstOrDefault();
+72:                 if (tbCompra != null) tbCompra.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorCompra);
+73: 
+74:                 var tbVenta = this.nudValorVenta.Controls.OfType<TextBox>().FirstOrDefault();
+75:                 if (tbVenta != null) tbVenta.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorVenta);
+76: 
+77:                 var tbUnidad = this.nudUnidadValor.Controls.OfType<TextBox>().FirstOrDefault();
+78:                 if (tbUnidad != null) tbUnidad.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudUnidadValor);
+79: 
+80:                 // Asegurar que los NumericUpDown muestren 0 al inicio (evita que el Text interno quede vacío)
+81:                 try
+82:                 {
+83:                     if (this.nudValorCompra.Minimum <= 0 && this.nudValorCompra.Value == 0) this.nudValorCompra.Value = 0m;
+84:                     if (this.nudValorVenta.Minimum <= 0 && this.nudValorVenta.Value == 0) this.nudValorVenta.Value = 0m;
+85:                     if (this.nudUnidadValor.Minimum <= 0 && this.nudUnidadValor.Value == 0) this.nudUnidadValor.Value = 0m;
+86:                 }
+87:                 catch
+88:                 {
+89:                     // Ignorar si no es posible asignar en tiempo de diseño
+90:                 }
+91:             }
+92:             catch
+93:             {
+94:                 // Ignorar si no se pueden obtener los controles en tiempo de diseño
+95:             }
+96:             // Suscribir eventos para cálculo de valor de venta
+97:             try
+98:             {
+99:                 // Calcular sólo al presionar Enter o al perder el foco del control de compra
+100:                 this.nudValorCompra.KeyDown += nudValorCompra_KeyDown;
+101:                 this.nudValorCompra.Leave += nudValorCompra_Leave;
+102: 
+103:                 // Recalcular si el usuario cambia la selección de impuesto o porcentaje (si ya hay valor de compra)
+104:                 // this.cbxImpuesto.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+105:                 this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+106:             }
+107:             catch
+108:             {
+109:                 // Si no existen los controles en tiempo de diseño, ignorar
+110:             }
+111:         }
+```
+Current statement: line 72 (`NormalizarTextoDecimal(this.nudValorCompra)`)
+[20] [Código externo]
+[23] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.NormalizarTextoDecimal
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+568:         private void NormalizarTextoDecimal(NumericUpDown control)
+569:         {
+570:             if (control == null) return;
+571: 
+572:             var tb = control.Controls.OfType<TextBox>().FirstOrDefault();
+573:             if (tb == null) return;
+574: 
+575:             string texto = tb.Text ?? string.Empty;
+576:             if (texto == string.Empty) return;
+577: 
+578:             // Reemplazar puntos por comas
+579:             string normalizado = texto.Replace('.', ',');
+580: 
+581:             // Si hay más de una coma, conservar solo la primera
+582:             int primeraComa = normalizado.IndexOf(',');
+583:             if (primeraComa >= 0)
+584:             {
+585:                 string antes = normalizado.Substring(0, primeraComa + 1);
+586:                 string despues = normalizado.Substring(primeraComa + 1).Replace(",", string.Empty);
+587:                 normalizado = antes + despues;
+588:             }
+589: 
+590:             // Si comienza con coma, anteponer 0
+591:             if (normalizado.StartsWith(",")) normalizado = "0" + normalizado;
+592: 
+593:             // Intentar parsear usando cultura es-ES para la coma
+594:             if (decimal.TryParse(normalizado, System.Globalization.NumberStyles.Number, CultureInfo.GetCultureInfo("es-ES"), out decimal valor))
+595:             {
+596:                 // Ajustar al rango permitido
+597:                 if (valor < control.Minimum) valor = control.Minimum;
+598:                 if (valor > control.Maximum) valor = control.Maximum;
+599:                 // Asignar valor al control (esto actualizará también el Text interno)
+600:                 control.Value = valor;
+601:                 // Actualizar el TextBox con la representación normalizada
+602:                 tb.Text = normalizado;
+603:                 tb.SelectionStart = tb.Text.Length;
+604:             }
+605:             else
+606:             {
+607:                 // No se pudo parsear: actualizar solo el texto normalizado para mostrar al usuario
+608:                 tb.Text = normalizado;
+609:                 tb.SelectionStart = tb.Text.Length;
+610:             }
+611:         }
+```
+Current statement: line 600
+[24] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos..ctor.AnonymousMethod__22_1
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+44:         public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService,
+45:             ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
+46:         {
+47:             InitializeComponent();
+48:             this.articuloService = articuloService;
+49:             this.mapeos = mapeos;
+50:             this.procesarExcel = procesarExcel;
+51:             this.marcaService = marcaService;
+52:             this.limpiarCombos();
+53:             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
+54:             this.dtpFechaFinal.Value = DateTime.Now;
+55:             this.listaArticulos = new List<ArticuloDTO>();
+56:             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
+57:             this.listaUnidades = new List<UnidadMedidaDTO>();
+58: 
+59:             this.tipoArticuloService = tipoArticuloService;
+60:             this.impuestoService = impuestoService;
+61:             this.porcentajeService = porcentajeService;
+62:             this.unidadService = unidadService;
+63:             // Suscribir TextChanged de los TextBox internos de los NumericUpDown para normalizar pegado
+64:             try
+65:             {
+66:                 // Asegurar que los NumericUpDown permitan solo 4 decimales
+67:                 this.nudValorCompra.DecimalPlaces = 4;
+68:                 this.nudValorVenta.DecimalPlaces = 4;
+69:                 this.nudUnidadValor.DecimalPlaces = 4;
+70: 
+71:                 var tbCompra = this.nudValorCompra.Controls.OfType<TextBox>().FirstOrDefault();
+72:                 if (tbCompra != null) tbCompra.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorCompra);
+73: 
+74:                 var tbVenta = this.nudValorVenta.Controls.OfType<TextBox>().FirstOrDefault();
+75:                 if (tbVenta != null) tbVenta.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorVenta);
+76: 
+77:                 var tbUnidad = this.nudUnidadValor.Controls.OfType<TextBox>().FirstOrDefault();
+78:                 if (tbUnidad != null) tbUnidad.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudUnidadValor);
+79: 
+80:                 // Asegurar que los NumericUpDown muestren 0 al inicio (evita que el Text interno quede vacío)
+81:                 try
+82:                 {
+83:                     if (this.nudValorCompra.Minimum <= 0 && this.nudValorCompra.Value == 0) this.nudValorCompra.Value = 0m;
+84:                     if (this.nudValorVenta.Minimum <= 0 && this.nudValorVenta.Value == 0) this.nudValorVenta.Value = 0m;
+85:                     if (this.nudUnidadValor.Minimum <= 0 && this.nudUnidadValor.Value == 0) this.nudUnidadValor.Value = 0m;
+86:                 }
+87:                 catch
+88:                 {
+89:                     // Ignorar si no es posible asignar en tiempo de diseño
+90:                 }
+91:             }
+92:             catch
+93:             {
+94:                 // Ignorar si no se pueden obtener los controles en tiempo de diseño
+95:             }
+96:             // Suscribir eventos para cálculo de valor de venta
+97:             try
+98:             {
+99:                 // Calcular sólo al presionar Enter o al perder el foco del control de compra
+100:                 this.nudValorCompra.KeyDown += nudValorCompra_KeyDown;
+101:                 this.nudValorCompra.Leave += nudValorCompra_Leave;
+102: 
+103:                 // Recalcular si el usuario cambia la selección de impuesto o porcentaje (si ya hay valor de compra)
+104:                 // this.cbxImpuesto.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+105:                 this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+106:             }
+107:             catch
+108:             {
+109:                 // Si no existen los controles en tiempo de diseño, ignorar
+110:             }
+111:         }
+```
+Current statement: line 72 (`NormalizarTextoDecimal(this.nudValorCompra)`)
+[25] [Código externo]
+[27] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.NormalizarTextoDecimal
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+568:         private void NormalizarTextoDecimal(NumericUpDown control)
+569:         {
+570:             if (control == null) return;
+571: 
+572:             var tb = control.Controls.OfType<TextBox>().FirstOrDefault();
+573:             if (tb == null) return;
+574: 
+575:             string texto = tb.Text ?? string.Empty;
+576:             if (texto == string.Empty) return;
+577: 
+578:             // Reemplazar puntos por comas
+579:             string normalizado = texto.Replace('.', ',');
+580: 
+581:             // Si hay más de una coma, conservar solo la primera
+582:             int primeraComa = normalizado.IndexOf(',');
+583:             if (primeraComa >= 0)
+584:             {
+585:                 string antes = normalizado.Substring(0, primeraComa + 1);
+586:                 string despues = normalizado.Substring(primeraComa + 1).Replace(",", string.Empty);
+587:                 normalizado = antes + despues;
+588:             }
+589: 
+590:             // Si comienza con coma, anteponer 0
+591:             if (normalizado.StartsWith(",")) normalizado = "0" + normalizado;
+592: 
+593:             // Intentar parsear usando cultura es-ES para la coma
+594:             if (decimal.TryParse(normalizado, System.Globalization.NumberStyles.Number, CultureInfo.GetCultureInfo("es-ES"), out decimal valor))
+595:             {
+596:                 // Ajustar al rango permitido
+597:                 if (valor < control.Minimum) valor = control.Minimum;
+598:                 if (valor > control.Maximum) valor = control.Maximum;
+599:                 // Asignar valor al control (esto actualizará también el Text interno)
+600:                 control.Value = valor;
+601:                 // Actualizar el TextBox con la representación normalizada
+602:                 tb.Text = normalizado;
+603:                 tb.SelectionStart = tb.Text.Length;
+604:             }
+605:             else
+606:             {
+607:                 // No se pudo parsear: actualizar solo el texto normalizado para mostrar al usuario
+608:                 tb.Text = normalizado;
+609:                 tb.SelectionStart = tb.Text.Length;
+610:             }
+611:         }
+```
+Current statement: line 602
+[28] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos..ctor.AnonymousMethod__22_1
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+44:         public Registro_Articulos(IArticuloService articuloService, IMapeosArticulos mapeos, IProcesarExcel procesarExcel, IMarcaService marcaService,
+45:             ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
+46:         {
+47:             InitializeComponent();
+48:             this.articuloService = articuloService;
+49:             this.mapeos = mapeos;
+50:             this.procesarExcel = procesarExcel;
+51:             this.marcaService = marcaService;
+52:             this.limpiarCombos();
+53:             this.dtpFechaInicial.Value = DateTime.Now.AddDays(-7);
+54:             this.dtpFechaFinal.Value = DateTime.Now;
+55:             this.listaArticulos = new List<ArticuloDTO>();
+56:             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
+57:             this.listaUnidades = new List<UnidadMedidaDTO>();
+58: 
+59:             this.tipoArticuloService = tipoArticuloService;
+60:             this.impuestoService = impuestoService;
+61:             this.porcentajeService = porcentajeService;
+62:             this.unidadService = unidadService;
+63:             // Suscribir TextChanged de los TextBox internos de los NumericUpDown para normalizar pegado
+64:             try
+65:             {
+66:                 // Asegurar que los NumericUpDown permitan solo 4 decimales
+67:                 this.nudValorCompra.DecimalPlaces = 4;
+68:                 this.nudValorVenta.DecimalPlaces = 4;
+69:                 this.nudUnidadValor.DecimalPlaces = 4;
+70: 
+71:                 var tbCompra = this.nudValorCompra.Controls.OfType<TextBox>().FirstOrDefault();
+72:                 if (tbCompra != null) tbCompra.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorCompra);
+73: 
+74:                 var tbVenta = this.nudValorVenta.Controls.OfType<TextBox>().FirstOrDefault();
+75:                 if (tbVenta != null) tbVenta.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudValorVenta);
+76: 
+77:                 var tbUnidad = this.nudUnidadValor.Controls.OfType<TextBox>().FirstOrDefault();
+78:                 if (tbUnidad != null) tbUnidad.TextChanged += (s, e) => NormalizarTextoDecimal(this.nudUnidadValor);
+79: 
+80:                 // Asegurar que los NumericUpDown muestren 0 al inicio (evita que el Text interno quede vacío)
+81:                 try
+82:                 {
+83:                     if (this.nudValorCompra.Minimum <= 0 && this.nudValorCompra.Value == 0) this.nudValorCompra.Value = 0m;
+84:                     if (this.nudValorVenta.Minimum <= 0 && this.nudValorVenta.Value == 0) this.nudValorVenta.Value = 0m;
+85:                     if (this.nudUnidadValor.Minimum <= 0 && this.nudUnidadValor.Value == 0) this.nudUnidadValor.Value = 0m;
+86:                 }
+87:                 catch
+88:                 {
+89:                     // Ignorar si no es posible asignar en tiempo de diseño
+90:                 }
+91:             }
+92:             catch
+93:             {
+94:                 // Ignorar si no se pueden obtener los controles en tiempo de diseño
+95:             }
+96:             // Suscribir eventos para cálculo de valor de venta
+97:             try
+98:             {
+99:                 // Calcular sólo al presionar Enter o al perder el foco del control de compra
+100:                 this.nudValorCompra.KeyDown += nudValorCompra_KeyDown;
+101:                 this.nudValorCompra.Leave += nudValorCompra_Leave;
+102: 
+103:                 // Recalcular si el usuario cambia la selección de impuesto o porcentaje (si ya hay valor de compra)
+104:                 // this.cbxImpuesto.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+105:                 this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+106:             }
+107:             catch
+108:             {
+109:                 // Si no existen los controles en tiempo de diseño, ignorar
+110:             }
+111:         }
+```
+Current statement: line 72 (`NormalizarTextoDecimal(this.nudValorCompra)`)
+[29] [Código externo]
+........3729 more stack frames omitted.
+
+## LOCALS
+Variable: 'this' of type 'TiendaLaLojanita.Views.Registro_Articulos' is a complex object with child properties and has value: {TiendaLaLojanita.Views.Registro_Articulos}
+Variable: 'control' of type 'System.Windows.Forms.NumericUpDown' is a complex object with child properties and has value: {Value = 0.0000 Min = 0 Max = 100000}
+Variable: 'tb' of type 'System.Windows.Forms.TextBox {System.Windows.Forms.UpDownBase.UpDownEdit}' is a complex object with child properties and has value: {Text = No se puede evaluar la expresión. Error desconocido 0x80040014 de los servicios de depuración de .NET.}
+Variable: 'texto' of type 'string' has value: "0,0000"
+Variable: 'normalizado' of type 'string' has value: "0,0000"
+Variable: 'primeraComa' of type 'int' has value: 1
+Variable: 'valor' of type 'decimal' has value: 0.0000
+

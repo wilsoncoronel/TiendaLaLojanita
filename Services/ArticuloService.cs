@@ -38,16 +38,28 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
+        public async Task<ArticuloDTO> ObtenerArticuloId(int articuloId)
+        {
+            var response = await _apiClient.GetAsync<ArticuloDTO>($"api/Articulo/ObtenerArticulo?idArticulo={articuloId}");
+            return response.Value ?? new ArticuloDTO();
+        }
+
         public async Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal)
         {
             var response = await _apiClient.GetAsync<List<ArticuloDTO>>($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
             return response.Value ?? new List<ArticuloDTO>();
         }
 
-        public async Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo()
+        public async Task<List<ImpuestoDTO>> ListaImpuestoArticulo()
         {
-            var response = await _apiClient.GetAsync<List<ImpuestoArticuloDTO>>($"api/Articulo/CargarListaImpuestosArticulos");
-            return response.Value ?? new List<ImpuestoArticuloDTO>();
+            var response = await _apiClient.GetAsync<List<ImpuestoDTO>>($"api/Articulo/CargarListaImpuestosArticulos");
+            return response.Value ?? new List<ImpuestoDTO>();
+        }
+
+        public async Task<List<ImpuestoDTO>> ListaImpuestosArticuloId(int idArticulo)
+        {
+            var response = await _apiClient.GetAsync<List<ImpuestoDTO>>($"api/Articulo/CargarListaImpuestosArticulo?idArticulo={idArticulo}");
+            return response.Value ?? new List<ImpuestoDTO>();
         }
 
         public async Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias()
@@ -78,6 +90,12 @@ namespace TiendaLaLojanita.Services
         {
             var response = await _apiClient.GetAsync<List<TipoArticuloDTO>>($"api/Articulo/CargarListaTiposArticulos");
             return response.Value ?? new List<TipoArticuloDTO>();
+        }
+
+        public async Task<List<ArticuloCompraDTO>> ListaCompraArticulos()
+        {
+            var response = await _apiClient.GetAsync<List<ArticuloCompraDTO>>($"api/Articulo/ListaCompraArticulos");
+            return response.Value ?? new List<ArticuloCompraDTO>();
         }
     }
 }

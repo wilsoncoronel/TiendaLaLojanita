@@ -1,0 +1,150 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 1836)
+
+## EXCEPTION
+Exception Type: TiendaLaLojanita.Utilidad.ApiException
+Exception Message: El servidor devolvió una respuesta inválida.
+Piece of code that has the exception:
+```csharp C:\Users\DOOMSLAYER\Desktop\TiendaLaLojanita\Views\Registro_Articulos.cs
+211:         private async void btnGuardar_Click(object sender, EventArgs e)
+212:         {
+213:             try
+214:             {
+215:                 if (string.IsNullOrWhiteSpace(txtId?.Text))
+216:                 {
+217:                     var idArticulo = await this.CrearArticulo();
+218:                     if (idArticulo > 0)
+219:                     {
+220:                         MessageBox.Show($"Artículo creado con éxito con el id: {idArticulo}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+221:                         this.artActual.Id = idArticulo;
+222:                         ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
+223:                         artiTemp.Codigo = Convert.ToString(idArticulo);
+224:                         this.listaArticulos.Add(artiTemp);
+225:                         this.artActual = new ArticuloDTO();
+226:                         this.CargarTabla(this.listaArticulos);
+227:                     }
+228:                     return;
+229:                 }
+230:                 this.CargarEditarArticuloDTO();
+231:                 var editado = await this.EditarArticulo();
+232:                 if (editado)
+233:                 {
+234:                     MessageBox.Show($"Artículo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+235:                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
+236:                     art = this.CargarDatosRelacionados(art);
+237:                     for (int i = 0; i < this.listaArticulos.Count; i++)
+238:                     {
+239:                         DateTime fecha;
+240:                         if (this.listaArticulos[i].Id == art.Id)
+241:                         {
+242:                             fecha = this.listaArticulos[i].FechaCreacion;
+243:                             this.listaArticulos[i] = art;
+244:                             this.listaArticulos[i].FechaCreacion = fecha;
+245:                         }
+246:                     }
+247:                     this.CargarTabla(this.listaArticulos);
+248:                     this.LimpiarFormulario();
+249:                     this.artEditarActual = new ArticuloEdicionDTO();
+250:                 }
+251:             }
+252:             catch (ApiException ex)
+253:             {
+254:                 ApiErrorHandler.Mostrar(ex);
+255:             }
+256:         }
+```
+Exception is on line 252
+This exception was originally thrown at this call stack:
+[1] TiendaLaLojanita.Services.ApiClient.ProcesarRespuesta<T>(System.Net.Http.HttpResponseMessage) en ApiClient.cs
+[2] TiendaLaLojanita.Services.ApiClient.PostAsync<T>(string, object) en ApiClient.cs
+[3] TiendaLaLojanita.Services.ArticuloService.CrearArticulo(TiendaLaLojanita.Models.DTO.ArticuloCreacionDTO) en ArticuloService.cs
+[4] TiendaLaLojanita.Views.Registro_Articulos.CrearArticulo() en Registro_Articulos.cs
+[5] TiendaLaLojanita.Views.Registro_Articulos.btnGuardar_Click(object, System.EventArgs) en Registro_Articulos.cs
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 5792
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Articulos.btnGuardar_Click
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Articulos.cs
+211:         private async void btnGuardar_Click(object sender, EventArgs e)
+212:         {
+213:             try
+214:             {
+215:                 if (string.IsNullOrWhiteSpace(txtId?.Text))
+216:                 {
+217:                     var idArticulo = await this.CrearArticulo();
+218:                     if (idArticulo > 0)
+219:                     {
+220:                         MessageBox.Show($"Artículo creado con éxito con el id: {idArticulo}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+221:                         this.artActual.Id = idArticulo;
+222:                         ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
+223:                         artiTemp.Codigo = Convert.ToString(idArticulo);
+224:                         this.listaArticulos.Add(artiTemp);
+225:                         this.artActual = new ArticuloDTO();
+226:                         this.CargarTabla(this.listaArticulos);
+227:                     }
+228:                     return;
+229:                 }
+230:                 this.CargarEditarArticuloDTO();
+231:                 var editado = await this.EditarArticulo();
+232:                 if (editado)
+233:                 {
+234:                     MessageBox.Show($"Artículo con el id: {artEditarActual.Id}, editado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+235:                     ArticuloDTO art = this.mapeos.MapeoArticuloEdionDtoAArticuloDto(artEditarActual);
+236:                     art = this.CargarDatosRelacionados(art);
+237:                     for (int i = 0; i < this.listaArticulos.Count; i++)
+238:                     {
+239:                         DateTime fecha;
+240:                         if (this.listaArticulos[i].Id == art.Id)
+241:                         {
+242:                             fecha = this.listaArticulos[i].FechaCreacion;
+243:                             this.listaArticulos[i] = art;
+244:                             this.listaArticulos[i].FechaCreacion = fecha;
+245:                         }
+246:                     }
+247:                     this.CargarTabla(this.listaArticulos);
+248:                     this.LimpiarFormulario();
+249:                     this.artEditarActual = new ArticuloEdicionDTO();
+250:                 }
+251:             }
+252:             catch (ApiException ex)
+253:             {
+254:                 ApiErrorHandler.Mostrar(ex);
+255:             }
+256:         }
+```
+Current statement: line 252
+[2] [Reanudando método asincrónico]
+[3] [Código externo]
+[48] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             Application.ThreadException += Application_ThreadException;
+23:             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+24:             var services = new ServiceCollection();
+25:             ConfigureServices(services);
+26:             using (var serviceProvider = services.BuildServiceProvider())
+27:             {
+28:                 var form1 = new FrmLoggin(serviceProvider);
+29:                 Application.Run(form1);
+30:             }
+31:         }
+```
+Current statement: line 29
+
+## LOCALS
+Variable: 'this' of type 'TiendaLaLojanita.Views.Registro_Articulos' is a complex object with child properties and has value: {TiendaLaLojanita.Views.Registro_Articulos}
+Variable: 'sender' of type 'object {System.Windows.Forms.Button}' is a complex object with child properties and has value: {Text = ""}
+Variable: 'e' of type 'System.EventArgs {System.Windows.Forms.MouseEventArgs}' is a complex object with child properties and has value: {X = 11 Y = 27 Button = Left}
+Variable: 'ex' of type 'TiendaLaLojanita.Utilidad.ApiException' is a complex object with child properties and has value: null
+

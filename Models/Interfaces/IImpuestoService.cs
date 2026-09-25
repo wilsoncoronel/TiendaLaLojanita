@@ -11,9 +11,9 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface IImpuestoService
     {
-        Task<int> CrearImpuesto(ImpuestoArticuloCreacionDTO impuestoCreacionDto);
-        Task<bool> EditarImpuesto(ImpuestoArticuloEditarDTO impuestoEditarDto);
-        Task<List<ImpuestoArticuloDTO>> ListarImpuestos();
+        Task<int> CrearImpuesto(ImpuestoCrearDTO impuestoCreacionDto);
+        Task<bool> EditarImpuesto(ImpuestoDTO impuestoEditarDto);
+        Task<List<ImpuestoDTO>> ListarImpuestos();
         Task<List<EstadoImpuestoDTO>> ListarEstadosImpuestos();
     }
 }

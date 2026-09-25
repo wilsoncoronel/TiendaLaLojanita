@@ -76,9 +76,7 @@ namespace TiendaLaLojanita
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddHttpClient("ApiClient", client =>
-
             {
-
                 client.BaseAddress = new Uri("https://localhost:7168/");
                 /*client.BaseAddress = new Uri("http://localhost:93" +
                     "/");*/

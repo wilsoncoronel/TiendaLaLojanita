@@ -700,7 +700,7 @@ namespace TiendaLaLojanita.Views
             IProveedorService proveedorService = this.proveedorService;
             Cliente clienteForm = new Cliente(clienteService, mapeos, proveedorService);
             clienteForm.StartPosition = FormStartPosition.CenterScreen;
-            clienteForm.Show();
+            clienteForm.ShowDialog();
         }
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -879,9 +879,10 @@ namespace TiendaLaLojanita.Views
 
         private async void btnInventario_Click(object sender, EventArgs e)
         {
-            Show();
+            pro = new ProgressBar();
+            pro.Show();
             var listaExistencias = await this.ProcesarExistencias();
-            Hide();
+            pro.Hide();
             this.CargarVentanaExistencias(listaExistencias);
 
         }
@@ -890,7 +891,7 @@ namespace TiendaLaLojanita.Views
         {
             Existencias existenciaForm = new Existencias(listaExistencias);
             existenciaForm.StartPosition = FormStartPosition.CenterScreen;
-            existenciaForm.Show();
+            existenciaForm.ShowDialog();
         }
 
         private async Task<List<InventarioLoteDTO>> ProcesarExistencias()

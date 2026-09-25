@@ -18,14 +18,14 @@ namespace TiendaLaLojanita.Services
         {
             this._apiClient = apiClient;
         }
-        public async Task<int> CrearImpuesto(ImpuestoArticuloCreacionDTO impuestoCreacionDto)
+        public async Task<int> CrearImpuesto(ImpuestoCrearDTO impuestoCreacionDto)
         {
             
             var response = await this._apiClient.PostAsync<int>($"api/Configuraciones/CrearImpuesto", impuestoCreacionDto);
             return response.Value;
         }
 
-        public async Task<bool> EditarImpuesto(ImpuestoArticuloEditarDTO impuestoEditarDto)
+        public async Task<bool> EditarImpuesto(ImpuestoDTO impuestoEditarDto)
         {
             var response = await this._apiClient.PutAsync<bool>($"api/Configuraciones/EditarImpuesto", impuestoEditarDto);
             return response.Value;
@@ -37,9 +37,9 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
-        public async Task<List<ImpuestoArticuloDTO>> ListarImpuestos()
+        public async Task<List<ImpuestoDTO>> ListarImpuestos()
         {
-            var response = await this._apiClient.GetAsync<List<ImpuestoArticuloDTO>>($"api/Configuraciones/ListarImpuestosArticulos");
+            var response = await this._apiClient.GetAsync<List<ImpuestoDTO>>($"api/Configuraciones/ListarImpuestos");
             return response.Value;
         }
     }

@@ -14,10 +14,13 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<bool> EditarArticulo(ArticuloEdicionDTO articuloEdicionDTO);
         Task<bool> DesactivarArticulo(int id);
         Task<List<TipoArticuloDTO>> ListaTipoArticulo();
-        Task<List<ImpuestoArticuloDTO>> ListaImpuestoArticulo();
+        Task<List<ImpuestoDTO>> ListaImpuestoArticulo();
+        Task<List<ImpuestoDTO>> ListaImpuestosArticuloId(int idArticulo);
         Task<List<PorcentajeGananciaDTO>> ListaPorcentajesGanancias();
         Task<List<MarcaDTO>> ListaMarcaArticulo();
         Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal);
         Task<List<ArticuloInventarioDTO>> ListarTodosArticulos(bool esVenta);
+        Task<ArticuloDTO> ObtenerArticuloId(int idArticulo);
+        Task<List<ArticuloCompraDTO>> ListaCompraArticulos();
     }
 }

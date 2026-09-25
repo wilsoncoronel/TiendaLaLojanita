@@ -74,7 +74,7 @@ namespace TiendaLaLojanita.Views
 
             this.dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = nameof(ArticuloCreacionDTO.IdImpuesto),
+                Name = nameof(ArticuloCreacionDTO.Impuestos),
                 HeaderText = "Id Impuesto",
                 Width = 90,
                 SortMode = DataGridViewColumnSortMode.NotSortable
@@ -156,7 +156,7 @@ namespace TiendaLaLojanita.Views
                     error.Articulo?.Descripcion ?? string.Empty,
                     error.Articulo?.IdMarca.ToString() ?? string.Empty,
                     error.Articulo?.IdTipoArticulo.ToString() ?? string.Empty,
-                    error.Articulo?.IdImpuesto.ToString() ?? string.Empty,
+                    string.Join(", ", error.Articulo?.Impuestos?.Select(i => i.ToString()) ?? Enumerable.Empty<string>()),
                     error.Articulo?.IdPorcentajeGanancia?.ToString() ?? string.Empty,
                     error.Articulo?.IdUnidad.ToString() ?? string.Empty,
                     error.Articulo?.UnidadValor.ToString(CultureInfo.InvariantCulture) ?? string.Empty,
