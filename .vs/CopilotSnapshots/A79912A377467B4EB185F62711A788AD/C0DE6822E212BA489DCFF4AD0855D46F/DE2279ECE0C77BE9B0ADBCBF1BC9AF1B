@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+
+namespace TiendaLaLojanita.Models.DTO
+{
+    public class ArticuloImpuestosCalculadosDTO
+    {
+        public int IdArticulo { get; set; }
+        public string NombreArticulo { get; set; } = null!;
+        public List<ImpuestoArticuloCalculadoDTO> Impuestos { get; set; } = [];
+    }
+}

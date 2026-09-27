@@ -11,28 +11,26 @@ namespace TiendaLaLojanita.Models.DTO
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Codigo { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaCaducidad { get; set; }
         public bool EstadoVisual { get; set; }
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
-        public DateTime FechaActualizacion { get; set; }
-        public string Unidad { get; set; }
+        public DateTime? FechaActualizacion { get; set; }
+        public int IdUnidad { get; set; }
         public decimal? UnidadValor { get; set; }
         public decimal ValorVenta { get; set; }
         public decimal ValorCompra { get; set; }
         public int IdMarca { get; set; }
+        public int? IdPorcentajeGanancia { get; set; }
         public MarcaDTO MarcaDTO { get; set; }
         public int IdTipoArticulo { get; set; }
         public TipoArticuloDTO TipoArticuloDTO { get; set; }
-        public ImpuestoArticuloDTO ImpuestoArticuloDto { get; set; }
-        public int IdImpuesto { get; set; }
-        public bool? Papeleria { get; set; }
-        public int? IdPorcentajeGanancia { get; set; }
-        public int IdUnidad { get; set; }
-        public virtual PorcentajeGananciaDTO? PorcentajeDTO { get; set; }
+
+        public List<ArticuloImpuestoMinDTO> ArticulosImpuestosDTO { get; set; } = new List<ArticuloImpuestoMinDTO>();
         public UnidadMedidaDTO UnidadMedidaDto { get; set; }
+        public virtual PorcentajeGananciaDTO? PorcentajeDTO { get; set; }
+        public bool? Papeleria { get; set; }
 
     }
 }

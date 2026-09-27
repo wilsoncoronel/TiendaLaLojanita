@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace TiendaLaLojanita.Models.DTO
 {
-    public class ImpuestoArticuloCalculadoDTO
+    public class ImpuestoCalculadoDTO
     {
-        public int Id { get; set; }
         public int IdArticulo { get; set; }
+        public int IdImpuesto { get; set; }
         public string NombreImpuesto { get; set; }
+        public string TipoImpuesto { get; set; }
         public decimal ValorVenta { get; set; }
         public decimal ValorCompra { get; set; }
         public decimal ValorImpuesto { get; set; }

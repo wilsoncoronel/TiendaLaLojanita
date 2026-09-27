@@ -7,20 +7,35 @@
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iarticuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articulocompradto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articulocompradto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\utilidad\\calcularimpuestos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:utilidad\\calcularimpuestos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articuloimpuestoscalculadosdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articuloimpuestoscalculadosdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:mapeos\\mapeosarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\articulodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|c:\\users\\doomslayer\\desktop\\tiendalalojanita\\models\\dto\\impuestocalculadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\impuestocalculadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|MarkdownSecurePreview"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,22 +45,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 9,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IArticuloService.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
-              "RelativeDocumentMoniker": "Models\\Interfaces\\IArticuloService.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\Interfaces\\IArticuloService.cs",
-              "RelativeToolTip": "Models\\Interfaces\\IArticuloService.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAnwBYAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T20:54:42.538Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -56,28 +57,91 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ArticuloCompraDTO.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloCompraDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloCompraDTO.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloCompraDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\ArticuloCompraDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Registro_Articulos.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs",
+              "ViewState": "AgIAAJkBAAAAAAAAAAAqwLMBAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T22:22:32.524Z",
+              "WhenOpened": "2026-09-26T20:40:33.858Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ArticuloService.cs",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ArticuloService.cs",
-              "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Services\\ArticuloService.cs",
-              "RelativeToolTip": "Services\\ArticuloService.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAD4vysAAAA3AAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "MapeosArticulos.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
+              "RelativeDocumentMoniker": "Mapeos\\MapeosArticulos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Mapeos\\MapeosArticulos.cs",
+              "RelativeToolTip": "Mapeos\\MapeosArticulos.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAADgvzIAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T20:55:14.813Z",
+              "WhenOpened": "2026-09-26T20:40:27.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ArticuloDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ArticuloDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAEwBMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-26T19:28:15.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CalcularImpuestos.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Utilidad\\CalcularImpuestos.cs",
+              "RelativeDocumentMoniker": "Utilidad\\CalcularImpuestos.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Utilidad\\CalcularImpuestos.cs",
+              "RelativeToolTip": "Utilidad\\CalcularImpuestos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-26T19:05:13.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ImpuestoCalculadoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-26T18:27:40.028Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md [Versi\u00F3n preliminar]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md",
+              "RelativeDocumentMoniker": "..\\..\\.copilot\\plans\\plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md [Versi\u00F3n preliminar]",
+              "RelativeToolTip": "..\\..\\.copilot\\plans\\plan-adaptacin-de-impuestos-mltiples-en-registro-compras.md [Versi\u00F3n preliminar]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-09-26T18:19:59.622Z",
+              "EditorCaption": " [Versi\u00F3n preliminar]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ArticuloImpuestosCalculadosDTO.cs",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloImpuestosCalculadosDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ArticuloImpuestosCalculadosDTO.cs",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Models\\DTO\\ArticuloImpuestosCalculadosDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ArticuloImpuestosCalculadosDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-26T16:09:25.432Z",
               "EditorCaption": ""
             },
             {
@@ -88,21 +152,21 @@
               "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
               "RelativeToolTip": "Views\\Registro_Compras.cs",
-              "ViewState": "AgIAAC4BAAAAAAAAAADwvz4BAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAM8BAAAAAAAAAAASwN8BAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T20:49:38.109Z",
+              "WhenOpened": "2026-09-26T16:03:31.939Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Registro_Compras.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
               "ToolTip": "C:\\Users\\DOOMSLAYER\\Desktop\\TiendaLaLojanita\\Views\\Registro_Compras.cs [Dise\u00F1o]",
               "RelativeToolTip": "Views\\Registro_Compras.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-24T20:48:11.832Z",
+              "WhenOpened": "2026-09-26T16:03:13.773Z",
               "EditorCaption": " [Dise\u00F1o]"
             }
           ]

@@ -19,6 +19,7 @@ namespace TiendaLaLojanita.Models.DTO
         public int ArticuloId { get; set; }
         public decimal ValorTotal { get; set; }
         public decimal ImpuestoValor { get; set; }
+        public List<ImpuestoCompraDTO> Impuestos { get; set; } = [];
         public DateOnly? FechaCaducidad { get; set; }
     }
 }

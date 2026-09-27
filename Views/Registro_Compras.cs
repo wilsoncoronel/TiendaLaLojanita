@@ -24,7 +24,7 @@ namespace TiendaLaLojanita.Views
         private int cant = 1;
         private int IdProveedor = 0;
         private List<EstadoCompraDTO> ListaEstados;
-        private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
+        private Dictionary<int, List<ImpuestoCalculadoDTO>> listaImpuestos;
         private List<TransaccionInventarioDTO> ListaTransacciones;
         private decimal TotalGeneral = 0m;
         private List<ArticuloCompraDTO> listaTemp;
@@ -41,7 +41,7 @@ namespace TiendaLaLojanita.Views
             this.inventarioService = inventarioService;
             this.listaArticulos = new List<ArticuloCompraDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
-            listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
+            listaImpuestos = new Dictionary<int, List<ImpuestoCalculadoDTO>>();
         }
 
         // KeyPress handler para la columna Lote: solo letras A-Z y dígitos 0-9. Convierte letras a mayúsculas al teclear.
@@ -155,6 +155,7 @@ namespace TiendaLaLojanita.Views
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
                         FechaCaducidad = row.Cells["FechaExpiracion"].Value != null ? DateOnly.Parse(row.Cells["FechaExpiracion"].Value.ToString()) : null
@@ -207,6 +208,7 @@ namespace TiendaLaLojanita.Views
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
+                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
                         FechaExpiracion = row.Cells["FechaExpiracion"].Value != null ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value)) : null
@@ -352,7 +354,7 @@ namespace TiendaLaLojanita.Views
             var articuloCompra = await this.articuloService.ObtenerArticuloId(articuloActual.Id);
             if (articuloCompra is null || articuloCompra.Id == 0)
             {
-                MessageBox.Show("No se encontro ningun artículo con el nombre o id ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se encontró ningun artículo con el nombre o id ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.txtArticuloBusqueda.Text = "";
             }
             else
@@ -379,57 +381,64 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorCompra)
+        private void ActualizarCantidad(int idArticulo,decimal cantidad,decimal valorCompra)
         {
-            foreach (var c in this.listaImpuestos)
+            if (!this.listaImpuestos.TryGetValue(idArticulo, out var impuestos))
             {
-                foreach (var imp in c)
-                {
-                    imp.Value.Where(x => x.IdArticulo == idArticulo).ToList().ForEach(x =>
-                    {
-                        x.Cantidad = Convert.ToDecimal(cantidad);
-                        x.ValorCompra = valorCompra;
-                    });
-                }
+                return;
             }
+
+            foreach (var impuesto in impuestos)
+            {
+                impuesto.Cantidad = cantidad;
+                impuesto.ValorCompra = valorCompra;
+
+                impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
+                    impuesto.TipoImpuesto,
+                    valorCompra, impuesto.ValorImpuesto);
+            }
+        }
+
+       
+        private List<ImpuestoCompraDTO> ObtenerImpuestosParaArticulo(int idArticulo)
+        {
+            /*return listaImpuestos
+                .Where(x => x.IdArticulo == idArticulo)
+                .SelectMany(x => x.Impuestos)
+                .Select(x => new ImpuestoCompraDTO
+                {
+                    IdImpuesto = x.IdImpuesto,
+                    NombreImpuesto = x.NombreImpuesto,
+                    TipoCalculo = x.TipoImpuesto,
+                    ValorConfigurado = x.ValorConfigurado,
+                    ValorImpuesto = x.ValorImpuesto
+                })
+                .ToList();*/
+
+            return new List<ImpuestoCompraDTO>();
         }
         private void CargarDataGrid(ArticuloDTO articuloActual)
         {
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.ImpuestoArticuloDto.Nombre));
-            if (existente != null)
+            foreach (var imp in articuloActual.ArticulosImpuestosDTO)
             {
-                existente[articuloActual.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
+                var impuesto = new ImpuestoCalculadoDTO
                 {
-
-                    NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
                     IdArticulo = articuloActual.Id,
-                    ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
+                    IdImpuesto = imp.ImpuestoDTO.Id,
+                    NombreImpuesto = imp.ImpuestoDTO.Nombre,
+                    TipoImpuesto = imp.ImpuestoDTO.TipoCalculo,
                     ValorCompra = articuloActual.ValorCompra,
-                    Id = contador,
+                    ValorVenta = articuloActual.ValorVenta,
+                    ValorImpuesto = imp.ImpuestoDTO.Valor,
                     Cantidad = cant
-                });
-                this.CalcularTotales();
-            }
-            else
-            {
-                //this.CargarListaImpuestos(articuloActual);
-                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
+                };
+
+                if(!listaImpuestos.TryGetValue(articuloActual.Id, out var articuloImpuestos))
                 {
-                    { articuloActual.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
-                        {
-                            new ImpuestoArticuloCalculadoDTO
-                            {
-                                NombreImpuesto = articuloActual.ImpuestoArticuloDto.Nombre,
-                                IdArticulo = articuloActual.Id,
-                                ValorImpuesto = articuloActual.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorCompra = articuloActual.ValorCompra,
-                                Id = contador,
-                                Cantidad = cant
-                            }
-                        }
-                    }
-                });
-                this.CalcularTotales();
+                    articuloImpuestos = new List<ImpuestoCalculadoDTO>();
+                    listaImpuestos[articuloActual.Id] = articuloImpuestos;
+                }
+                articuloImpuestos.Add(impuesto);
             }
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
                 contador,
@@ -443,16 +452,15 @@ namespace TiendaLaLojanita.Views
                 articuloActual.ValorCompra,
                 articuloActual.ValorVenta,
                 0,
-                0,
                 Convert.ToString(DateTime.Now)
             });
 
             DataGridViewRow fila = this.dgvDetalleCompra.Rows[index];
-            DataGridViewCell celdaContador = fila.Cells[0];
-            decimal valorImpuesto = (cant * articuloActual.ValorCompra) * articuloActual.ImpuestoArticuloDto.ValorImpuesto;
-            fila.Cells[10].Value = valorImpuesto;
-            fila.Cells[11].Value = articuloActual.ValorCompra * cant;
+            decimal valorImpuesto = 0;
+            fila.Cells[9].Value = valorImpuesto;
+            fila.Cells[10].Value = articuloActual.ValorCompra * cant + valorImpuesto;
             contador++;
+            this.CalcularTotales();
         }
         private void LimpiarValores()
         {
@@ -464,43 +472,64 @@ namespace TiendaLaLojanita.Views
         {
             decimal totImpuestosLocal = 0m;
             decimal totalValorCompraLocal = 0m;
+
             this.dgvTotales.Rows.Clear();
-            
-                foreach (var imp in this.listaImpuestos)
+
+            foreach (var item in this.listaImpuestos)
+            {
+                int idArticulo = item.Key;
+                List<ImpuestoCalculadoDTO> impuestos = item.Value;
+
+                if (impuestos == null || impuestos.Count == 0)
                 {
-                    foreach (var nom in imp)
-                    {
-                        // Calcular el impuesto sobre ValorCompra (seg FAn especificaci F3n)
-                        decimal impuestoTotal = 0;
-                        if (this.txtIdCompra.Text == "")
-                             impuestoTotal= nom.Value.Sum(x => x.ValorImpuesto * (x.ValorCompra * Convert.ToDecimal(x.Cantidad)));
-                        else
-                            impuestoTotal = nom.Value.Sum(x => x.ValorImpuesto * Convert.ToDecimal(x.Cantidad));
-                        decimal subtotalValorCompra = nom.Value.Sum(x => x.ValorCompra * Convert.ToDecimal(x.Cantidad));
-                        this.dgvTotales.Rows.Add(new object[]
-                        {
-                        nom.Key,
-                        impuestoTotal,
-                        });
-                        totImpuestosLocal += impuestoTotal;
-                        totalValorCompraLocal += subtotalValorCompra;
-                    }
+                    continue;
                 }
-            decimal totalGeneralLocal = totalValorCompraLocal + totImpuestosLocal;
-            // Actualizar la etiqueta con formato en-US
-            this.lblTotal.Text = totalGeneralLocal.ToString("C2", new CultureInfo("en-US"));
-            // Mantener el campo de clase sincronizado con el total calculado (no acumulativo)
+
+                var primerImpuesto = impuestos.First();
+
+                decimal cantidad = Convert.ToDecimal(primerImpuesto.Cantidad);
+                decimal valorCompra = primerImpuesto.ValorCompra;
+
+                decimal subtotalArticulo = valorCompra * cantidad;
+
+                totalValorCompraLocal += subtotalArticulo;
+
+                var gruposImpuestos = impuestos
+                    .GroupBy(x => new
+                    {
+                        x.IdImpuesto,
+                        x.NombreImpuesto
+                    });
+
+                foreach (var grupo in gruposImpuestos)
+                {
+                    // Sumar el impuesto considerando la cantidad
+                    decimal impuestoTotal = grupo.Sum(x =>
+                        x.ValorImpuesto * Convert.ToDecimal(x.Cantidad));
+
+                    this.dgvTotales.Rows.Add(new object[]
+                    {
+                grupo.Key.NombreImpuesto,
+                impuestoTotal
+                    });
+
+                    totImpuestosLocal += impuestoTotal;
+                }
+            }
+            decimal totalGeneralLocal =
+                totalValorCompraLocal + totImpuestosLocal;
+
+            this.lblTotal.Text =
+                totalGeneralLocal.ToString(
+                    "C2",
+                    new CultureInfo("en-US"));
+            // Mantener sincronizado el total
             this.TotalGeneral = totalGeneralLocal;
         }
-        
+
         private void EliminarImpuestoPorId(int id)
         {
-            foreach (var dic in listaImpuestos)
-            {
-                string nombreImpuesto = dic.Keys.First();
-                dic[nombreImpuesto].RemoveAll(x => x.Id == id);
-            }
-            listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
+            
         }
         private bool ComprobarArticuloDgv(ArticuloDTO articuloInventario )
         {
@@ -705,39 +734,7 @@ namespace TiendaLaLojanita.Views
         }
         private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
-            var nombreImpuesto = detalle.ArticuloDTO.ImpuestoArticuloDto.Nombre;
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(nombreImpuesto));
-            if (existente != null)
-            {
-                existente[nombreImpuesto].Add(new ImpuestoArticuloCalculadoDTO
-                {
-                    NombreImpuesto = nombreImpuesto,
-                    IdArticulo = detalle.ArticuloDTO.Id,
-                    ValorImpuesto = detalle.ImpuestoValor,
-                    ValorCompra = detalle.ValorCompra,
-                    Id = detalle.Id,
-                    Cantidad = detalle.Cantidad
-                });
-            }
-            else
-            {
-                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
-                {
-                    { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO>
-                        {
-                            new ImpuestoArticuloCalculadoDTO
-                            {
-                                NombreImpuesto = nombreImpuesto,
-                                IdArticulo = detalle.ArticuloDTO.Id,
-                                ValorImpuesto = detalle.ImpuestoValor,
-                                ValorCompra = detalle.ValorCompra,
-                                Id = detalle.Id,
-                                Cantidad = detalle.Cantidad
-                            }
-                        }
-                    }
-                });
-            }
+            
         }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)
@@ -754,8 +751,9 @@ namespace TiendaLaLojanita.Views
                 DataGridViewRow fila = dgvDetalleCompra.Rows[e.RowIndex];
                 if (decimal.TryParse(fila.Cells["Cantidad"].Value?.ToString(), out cantida) && decimal.TryParse(fila.Cells["ValorCompra"].Value?.ToString(), out valorCompra))
                 {
+                    int idArticulo = Convert.ToInt32(fila.Cells["IdArticulo"].Value);
+                    this.ActualizarCantidad(idArticulo, cantida, valorCompra);
                     fila.Cells["ValorTotal"].Value = cantida * valorCompra;
-                    this.ActualizarCantidad(Convert.ToInt32(fila.Cells["IdArticulo"].Value), Convert.ToDecimal(fila.Cells["Cantidad"].Value), Convert.ToDecimal(fila.Cells["ValorCompra"].Value));
                     this.CalcularTotales();
                 }
             }
@@ -816,10 +814,6 @@ namespace TiendaLaLojanita.Views
                     this.BusquedaArticulo();
                 }
             }
-        }
-
-        private void btnCancelar_Click_1(object sender, EventArgs e)
-        {
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

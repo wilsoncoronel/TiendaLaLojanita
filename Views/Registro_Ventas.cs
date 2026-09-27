@@ -29,7 +29,7 @@ namespace TiendaLaLojanita.Views
         private readonly IInventarioService inventarioService;
         private readonly IProveedorService proveedorService;
         private List<ArticuloInventarioDTO> listaArticulos;
-        private List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>> listaImpuestos;
+        private List<Dictionary<string, List<ImpuestoCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
         private int contador = 0;
         private int cant = 1;
@@ -52,7 +52,7 @@ namespace TiendaLaLojanita.Views
             this.proveedorService = proveedorService;
             this.listaArticulos = new List<ArticuloInventarioDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
-            listaImpuestos = new List<Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>>();
+            listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
         }
         private async void Registro_Ventas_Load(object sender, EventArgs e)
         {
@@ -626,7 +626,7 @@ namespace TiendaLaLojanita.Views
         private void CargarListaImpuestos(DetalleVentaDTO detalle)
         {
             // Si ya existe un diccionario para este tipo de impuesto, agregar al listado; si no, crear uno nuevo
-            string nombreImpuesto = detalle.Articulo?.ImpuestoArticuloDto?.Nombre ?? "SIN_IMPUESTO";
+           /* string nombreImpuesto = detalle.Articulo?.ImpuestoArticuloDto?.Nombre ?? "SIN_IMPUESTO";
             var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(nombreImpuesto));
             var nuevoImpuesto = new ImpuestoArticuloCalculadoDTO
             {
@@ -648,7 +648,7 @@ namespace TiendaLaLojanita.Views
                 {
                     { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO> { nuevoImpuesto } }
                 });
-            }
+            }*/
         }
         private void btnBuscarVenta_Click(object sender, EventArgs e)
         {
@@ -680,7 +680,7 @@ namespace TiendaLaLojanita.Views
         private void EliminarImpuestoPorId(int id)
         {
             // Recorremos cada diccionario (por cada tipo de impuesto)
-            foreach (var dic in listaImpuestos)
+            /*foreach (var dic in listaImpuestos)
             {
                 // Obtenemos la clave (nombre del impuesto)
                 string nombreImpuesto = dic.Keys.First();
@@ -690,7 +690,7 @@ namespace TiendaLaLojanita.Views
             }
 
             // También puedes eliminar el diccionario si la lista quedó vacía
-            listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);
+            listaImpuestos.RemoveAll(dic => dic.Values.First().Count == 0);*/
         }
 
         private void btnAgregarCliente_Click(object sender, EventArgs e)

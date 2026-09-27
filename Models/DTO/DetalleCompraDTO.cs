@@ -20,6 +20,7 @@ namespace TiendaLaLojanita.Models.DTO
         public decimal ValorVenta { get; set; }
         public decimal ValorTotal { get; set; }
         public decimal ImpuestoValor { get; set; }
+        public List<ImpuestoCompraDTO> Impuestos { get; set; } = [];
         public ArticuloDTO ArticuloDTO { get; set; }
         public DateTime? FechaCaducidad { get; set; }
     }

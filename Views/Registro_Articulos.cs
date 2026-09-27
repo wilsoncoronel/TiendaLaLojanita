@@ -221,7 +221,6 @@ namespace TiendaLaLojanita.Views
                         MessageBox.Show($"Artículo creado con éxito con el id: {idArticulo}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.artActual.Id = idArticulo;
                         ArticuloDTO artiTemp = this.CargarDatosRelacionados(this.artActual);
-                        artiTemp.Codigo = Convert.ToString(idArticulo);
                         this.listaArticulos.Add(artiTemp);
                         this.artActual = new ArticuloDTO();
                         this.CargarTabla(this.listaArticulos);
@@ -434,7 +433,7 @@ namespace TiendaLaLojanita.Views
                 var estado = art?.Estado == true ? "ACTIVO" : "INACTIVO";
 
                 var fechaCreacion = art?.FechaCreacion.ToString("dd/MM/yyyy") ?? string.Empty;
-                var fechaActualizacion = art?.FechaActualizacion.ToString("dd/MM/yyyy") ?? string.Empty;
+                var fechaActualizacion = art?.FechaActualizacion?.ToString("dd/MM/yyyy") ?? string.Empty;
 
                 var valorCompra = art != null ? art.ValorCompra.ToString("C2", new System.Globalization.CultureInfo("en-US")) : string.Empty;
                 var valorVenta = art != null ? art.ValorVenta.ToString("C2", new System.Globalization.CultureInfo("en-US")) : string.Empty;

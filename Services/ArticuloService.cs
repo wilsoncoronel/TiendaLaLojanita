@@ -38,9 +38,9 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
-        public async Task<ArticuloDTO> ObtenerArticuloId(int articuloId)
+        public async Task<ArticuloDTO> ObtenerArticuloId(int idArticulo)
         {
-            var response = await _apiClient.GetAsync<ArticuloDTO>($"api/Articulo/ObtenerArticulo?idArticulo={articuloId}");
+            var response = await _apiClient.GetAsync<ArticuloDTO>($"api/Articulo/ObtenerArticulo?idArticulo={idArticulo}");
             return response.Value ?? new ArticuloDTO();
         }
 
