@@ -28,6 +28,10 @@ namespace TiendaLaLojanita.Views
         private List<TransaccionInventarioDTO> ListaTransacciones;
         private decimal TotalGeneral = 0m;
         private List<ArticuloCompraDTO> listaTemp;
+        private List<ImpuestoFinalDTO> listaImpuestosFinales = new List<ImpuestoFinalDTO>();
+
+        private List<DetalleImpuestoCreacionDTO> listaDetalleImpuestos;
+
         private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -41,6 +45,7 @@ namespace TiendaLaLojanita.Views
             this.inventarioService = inventarioService;
             this.listaArticulos = new List<ArticuloCompraDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
+            this.listaDetalleImpuestos = new List<DetalleImpuestoCreacionDTO>();
             listaImpuestos = new Dictionary<int, List<ImpuestoCalculadoDTO>>();
         }
 
@@ -181,7 +186,16 @@ namespace TiendaLaLojanita.Views
                 throw ex;
             }
         }
-
+        private List<DetalleImpuestoCreacionDTO> ObtenerImpuestosParaArticulo(int idArticulo)
+        {
+            if (this.listaDetalleImpuestos == null)
+            {
+                return new List<DetalleImpuestoCreacionDTO>();
+            }
+            return this.listaDetalleImpuestos
+                .Where(impuesto => impuesto.IdArticulo == idArticulo)
+                .ToList();
+        }
         private async Task<int> CrearCompra()
         {
             try
@@ -207,8 +221,7 @@ namespace TiendaLaLojanita.Views
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                        ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
-                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+                        Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
                         FechaExpiracion = row.Cells["FechaExpiracion"].Value != null ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value)) : null
@@ -375,6 +388,13 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
+                    this.listaDetalleImpuestos.AddRange(articuloCompra.ArticulosImpuestosDTO.Select(imp => new DetalleImpuestoCreacionDTO
+                    {
+                        IdArticulo = articuloCompra.Id,
+                        IdImpuesto = imp.ImpuestoDTO.Id,
+                        TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
+                        Valor = imp.ImpuestoDTO.Valor,
+                    }));
                     this.CargarDataGrid(articuloCompra);
                     this.LimpiarValores();
                 }
@@ -397,25 +417,6 @@ namespace TiendaLaLojanita.Views
                     impuesto.TipoImpuesto,
                     valorCompra, impuesto.ValorImpuesto);
             }
-        }
-
-       
-        private List<ImpuestoCompraDTO> ObtenerImpuestosParaArticulo(int idArticulo)
-        {
-            /*return listaImpuestos
-                .Where(x => x.IdArticulo == idArticulo)
-                .SelectMany(x => x.Impuestos)
-                .Select(x => new ImpuestoCompraDTO
-                {
-                    IdImpuesto = x.IdImpuesto,
-                    NombreImpuesto = x.NombreImpuesto,
-                    TipoCalculo = x.TipoImpuesto,
-                    ValorConfigurado = x.ValorConfigurado,
-                    ValorImpuesto = x.ValorImpuesto
-                })
-                .ToList();*/
-
-            return new List<ImpuestoCompraDTO>();
         }
         private void CargarDataGrid(ArticuloDTO articuloActual)
         {
@@ -473,11 +474,18 @@ namespace TiendaLaLojanita.Views
             decimal totImpuestosLocal = 0m;
             decimal totalValorCompraLocal = 0m;
 
+            // Limpiar información anterior
             this.dgvTotales.Rows.Clear();
+            this.listaImpuestosFinales.Clear();
+
+            // ==========================================================
+            // 1. RECORRER LOS ARTÍCULOS
+            // ==========================================================
 
             foreach (var item in this.listaImpuestos)
             {
                 int idArticulo = item.Key;
+
                 List<ImpuestoCalculadoDTO> impuestos = item.Value;
 
                 if (impuestos == null || impuestos.Count == 0)
@@ -485,14 +493,26 @@ namespace TiendaLaLojanita.Views
                     continue;
                 }
 
+                // ======================================================
+                // 2. CALCULAR SUBTOTAL DEL ARTÍCULO
+                // ======================================================
+
                 var primerImpuesto = impuestos.First();
 
-                decimal cantidad = Convert.ToDecimal(primerImpuesto.Cantidad);
-                decimal valorCompra = primerImpuesto.ValorCompra;
+                decimal cantidad =
+                    Convert.ToDecimal(primerImpuesto.Cantidad);
 
-                decimal subtotalArticulo = valorCompra * cantidad;
+                decimal valorCompra =
+                    primerImpuesto.ValorCompra;
+
+                decimal subtotalArticulo =
+                    valorCompra * cantidad;
 
                 totalValorCompraLocal += subtotalArticulo;
+
+                // ======================================================
+                // 3. AGRUPAR LOS IMPUESTOS DEL ARTÍCULO
+                // ======================================================
 
                 var gruposImpuestos = impuestos
                     .GroupBy(x => new
@@ -503,33 +523,97 @@ namespace TiendaLaLojanita.Views
 
                 foreach (var grupo in gruposImpuestos)
                 {
-                    // Sumar el impuesto considerando la cantidad
+                    // ==================================================
+                    // 4. CALCULAR EL IMPUESTO DEL ARTÍCULO
+                    // ==================================================
+
                     decimal impuestoTotal = grupo.Sum(x =>
-                        x.ValorImpuesto * Convert.ToDecimal(x.Cantidad));
+                        x.ValorImpuesto *
+                        Convert.ToDecimal(x.Cantidad));
 
-                    this.dgvTotales.Rows.Add(new object[]
-                    {
-                grupo.Key.NombreImpuesto,
-                impuestoTotal
-                    });
+                    // ==================================================
+                    // 5. GUARDAR EL IMPUESTO FINAL
+                    // ==================================================
 
+                    this.listaImpuestosFinales.Add(
+                        new ImpuestoFinalDTO
+                        {
+                            IdArticulo = idArticulo,
+
+                            IdImpuesto = grupo.Key.IdImpuesto,
+
+                            NombreImpuesto = grupo.Key.NombreImpuesto,
+
+                            ValorImpuestoTotal = impuestoTotal
+                        });
+
+                    // Acumulado general de impuestos
                     totImpuestosLocal += impuestoTotal;
                 }
             }
+
+            // ==========================================================
+            // 6. AGRUPAR LOS IMPUESTOS PARA MOSTRAR EL RESUMEN
+            // ==========================================================
+
+            var resumenImpuestos = this.listaImpuestosFinales
+                .GroupBy(x => new
+                {
+                    x.IdImpuesto,
+                    x.NombreImpuesto
+                })
+                .Select(grupo => new
+                {
+                    IdImpuesto = grupo.Key.IdImpuesto,
+
+                    NombreImpuesto = grupo.Key.NombreImpuesto,
+
+                    ValorImpuestoTotal =
+                        grupo.Sum(x => x.ValorImpuestoTotal)
+                })
+                .ToList();
+
+            // ==========================================================
+            // 7. MOSTRAR LOS IMPUESTOS EN EL DATAGRID
+            // ==========================================================
+
+            foreach (var impuesto in resumenImpuestos)
+            {
+                this.dgvTotales.Rows.Add(
+                    new object[]
+                    {
+                impuesto.NombreImpuesto,
+                impuesto.ValorImpuestoTotal
+                    });
+            }
+
+            // ==========================================================
+            // 8. CALCULAR TOTAL GENERAL
+            // ==========================================================
+
             decimal totalGeneralLocal =
-                totalValorCompraLocal + totImpuestosLocal;
+                totalValorCompraLocal +
+                totImpuestosLocal;
+
+            // ==========================================================
+            // 9. MOSTRAR TOTAL
+            // ==========================================================
 
             this.lblTotal.Text =
                 totalGeneralLocal.ToString(
                     "C2",
                     new CultureInfo("en-US"));
-            // Mantener sincronizado el total
+
+            // ==========================================================
+            // 10. SINCRONIZAR PROPIEDAD
+            // ==========================================================
+
             this.TotalGeneral = totalGeneralLocal;
         }
-
         private void EliminarImpuestoPorId(int id)
         {
-            
+            this.listaImpuestos.Remove(id);
+
         }
         private bool ComprobarArticuloDgv(ArticuloDTO articuloInventario )
         {
@@ -764,36 +848,84 @@ namespace TiendaLaLojanita.Views
         {
             try
             {
-                int id = 0;
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                {
+                    return;
+                }
                 if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "FechaExpiracion")
                 {
                     dateTimePicker = new DateTimePicker();
+
                     dgvDetalleCompra.Controls.Add(dateTimePicker);
+
                     dateTimePicker.Format = DateTimePickerFormat.Short;
-                    Rectangle rectangle = dgvDetalleCompra.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                    dateTimePicker.Size = new Size(rectangle.Width, rectangle.Height);
-                    dateTimePicker.Location = new Point(rectangle.X, rectangle.Y);
-                    dateTimePicker.CloseUp += new EventHandler(dateTimePicker_CloseUp);
-                    dateTimePicker.TextChanged += new EventHandler(dateTimePicker_OnTextChange);
+
+                    Rectangle rectangle =
+                        dgvDetalleCompra.GetCellDisplayRectangle(
+                            e.ColumnIndex,
+                            e.RowIndex,
+                            true);
+
+                    dateTimePicker.Size =
+                        new Size(
+                            rectangle.Width,
+                            rectangle.Height);
+
+                    dateTimePicker.Location =
+                        new Point(
+                            rectangle.X,
+                            rectangle.Y);
+
+                    dateTimePicker.CloseUp +=
+                        new EventHandler(dateTimePicker_CloseUp);
+
+                    dateTimePicker.TextChanged +=
+                        new EventHandler(dateTimePicker_OnTextChange);
+
                     dateTimePicker.Visible = true;
+
+                    return;
                 }
-                if (e.ColumnIndex < 0)
+
+                if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Eliminar")
                 {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Eliminar")
-                {
-                    EliminarImpuestoPorId(Convert.ToInt32(dgvDetalleCompra.Rows[e.RowIndex].Cells["Id"].Value));
-                    dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
-                    this.CalcularTotales();
+                    int idArticulo = Convert.ToInt32(
+                        dgvDetalleCompra
+                            .Rows[e.RowIndex]
+                            .Cells["IdArticulo"].Value);
+
+                    EliminarArticuloCompra(
+                        idArticulo,
+                        e.RowIndex);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                MessageBox.Show(
+            $"No se pudo realizar la operación.\n\n{ex.Message}",
+            "Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error);
             }
         }
+        private void EliminarArticuloCompra(
+            int idArticulo,
+            int rowIndex)
+        {
+            if (!this.listaImpuestos.ContainsKey(idArticulo))
+            {
+                MessageBox.Show(
+                    "No se encontró la información del artículo.",
+                    "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
+                return;
+            }
+            this.listaImpuestos.Remove(idArticulo);
+            this.dgvDetalleCompra.Rows.RemoveAt(rowIndex);
+            this.CalcularTotales();
+        }
         private void dateTimePicker_OnTextChange(object? sender, EventArgs e)
         {
             dgvDetalleCompra.CurrentCell.Value = dateTimePicker.Text.ToString();
