@@ -118,7 +118,6 @@ namespace TiendaLaLojanita.Views
                 {
                     int idCompra = resp;
                     this.LimpiarFormulario();
-                    
                     MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -159,7 +158,6 @@ namespace TiendaLaLojanita.Views
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                        ImpuestoValor = Convert.ToDecimal(row.Cells["ImpuestoValor"].Value),
                          Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
@@ -196,6 +194,8 @@ namespace TiendaLaLojanita.Views
                 .Where(impuesto => impuesto.IdArticulo == idArticulo)
                 .ToList();
         }
+
+
         private async Task<int> CrearCompra()
         {
             try
@@ -388,17 +388,23 @@ namespace TiendaLaLojanita.Views
                 }
                 else
                 {
-                    this.listaDetalleImpuestos.AddRange(articuloCompra.ArticulosImpuestosDTO.Select(imp => new DetalleImpuestoCreacionDTO
-                    {
-                        IdArticulo = articuloCompra.Id,
-                        IdImpuesto = imp.ImpuestoDTO.Id,
-                        TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
-                        Valor = imp.ImpuestoDTO.Valor,
-                    }));
+                    this.CargarListaImpuestosDetalles(articuloCompra);
                     this.CargarDataGrid(articuloCompra);
                     this.LimpiarValores();
                 }
             }
+        }
+
+        private void CargarListaImpuestosDetalles(ArticuloDTO articuloCompra)
+        {
+            this.listaDetalleImpuestos.AddRange(articuloCompra.ArticulosImpuestosDTO.Select(imp => new DetalleImpuestoCreacionDTO
+            {
+                IdArticulo = articuloCompra.Id,
+                IdImpuesto = imp.ImpuestoDTO.Id,
+                Nombre = imp.ImpuestoDTO.Nombre,
+                TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
+                Valor = imp.ImpuestoDTO.Valor,
+            }));
         }
 
         private void ActualizarCantidad(int idArticulo,decimal cantidad,decimal valorCompra)
@@ -803,22 +809,33 @@ namespace TiendaLaLojanita.Views
                     detalle.Codigo?? "",
                     detalle.Lote?? "",
                     detalle.ArticuloDTO.Nombre,
-                    detalle.Descripcion,
+                    detalle.Descripcion, 
                     detalle.Cantidad,
                     detalle.ValorCompra,
                     detalle.ValorVenta,
-                    detalle.ImpuestoValor,
                     detalle.ValorTotal,
                     detalle.FechaCaducidad?.ToString("dd/MM/yyyy") ?? ""
                 });
 
                 this.CargarListaImpuestos(detalle);
+                this.CalcularTotales();
             }
             this.CalcularTotales();
         }
         private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
-            
+             int idArticulo = detalle.ArticuloDTO.Id;
+            this.listaImpuestos[idArticulo] = detalle.Impuestos.Select(imp => new ImpuestoCalculadoDTO
+            {
+                IdArticulo = idArticulo,
+                IdImpuesto = imp.IdImpuesto,
+                NombreImpuesto = imp.Nombre,
+                TipoImpuesto = imp.TipoCalculo,
+                ValorCompra = detalle.ValorCompra,
+                ValorVenta = detalle.ValorVenta,
+                ValorImpuesto = imp.Valor,
+                Cantidad = detalle.Cantidad
+            }).ToList();
         }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)

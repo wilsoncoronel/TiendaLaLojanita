@@ -1,0 +1,183 @@
+﻿Thread ID: 2840
+[1] [Excepción] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.CrearCompra
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Registro_Compras.cs
+199:         private async Task<int> CrearCompra()
+200:         {
+201:             try
+202:             {
+203:                 int idCompra = 0;
+204:                 CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
+205:                 compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+206:                 compraCreacionDTO.Documento = this.txtDocumento.Text;
+207:                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
+208:                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+209:                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+210:                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+211:                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+212:                 compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
+213:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+214:                 {
+215:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+216:                     DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+217:                     {
+218:                         NumeroLote = row.Cells["Lote"].Value?.ToString(),
+219:                         Codigo = row.Cells["Codigo"].Value?.ToString(),
+220:                         IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+221:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+222:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+223:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+224:                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+225:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+226:                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+227:                         FechaExpiracion = row.Cells["FechaExpiracion"].Value != null ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value)) : null
+228:                     };
+229:                     compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+230:                 }
+231:                 var validator = new CompraValidator();
+232:                 ValidationResult result = validator.Validate(compraCreacionDTO);
+233: 
+234:                 if (!result.IsValid)
+235:                 {
+236:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+237:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+238:                 }
+239:                 else
+240:                 {
+241:                     idCompra = await this.compraService.RegistrarCompra(compraCreacionDTO);
+242:                     return idCompra;
+243:                 }
+244:                 return idCompra;
+245:             }
+246:             catch (Exception ex)
+247:             {
+248:                 throw ex;
+249:             }
+250:         }
+```
+Current statement: line 248
+[2] System.Private.CoreLib.dll!System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw
+[3] System.Private.CoreLib.dll!System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess
+[4] System.Private.CoreLib.dll!System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification
+[5] System.Private.CoreLib.dll!System.Runtime.CompilerServices.TaskAwaiter<int>.GetResult
+[6] [En espera de una operación asincrónica, haga doble clic o presione ENTRAR para ver las pilas de llamadas asincrónicas]
+[7] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.btnGuardar_Click
+Code for the stack frame:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Registro_Compras.cs
+109:         private async void btnGuardar_Click(object sender, EventArgs e)
+110:         {
+111:             var resp = 0;
+112:             var respEditar = false;
+113:             if (this.txtIdCompra is null || this.txtIdCompra.Text == "")
+114:             {
+115:                 resp = await this.CrearCompra();
+116:                 if (resp == 0) MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+117:                 else
+118:                 {
+119:                     int idCompra = resp;
+120:                     this.LimpiarFormulario();
+121:                     
+122:                     MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+123:                 }
+124:             }
+125:             else
+126:             {
+127:                 respEditar = await this.EditarCompra();
+128:                 if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+129:                 else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+130:             }
+131: 
+132:             this.LimpiarValores();
+133:         }
+```
+Current statement: line 115
+[8] [Reanudando método asincrónico]
+[9] System.Private.CoreLib.dll!System.Threading.ExecutionContext.RunInternal
+[10] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<System.Threading.Tasks.VoidTaskResult>.AsyncStateMachineBox<TiendaLaLojanita.Views.Registro_Compras.<btnGuardar_Click>d__28>.MoveNext
+[11] System.Private.CoreLib.dll!System.Runtime.CompilerServices.TaskAwaiter.OutputWaitEtwEvents.AnonymousMethod__12_0
+[12] System.Private.CoreLib.dll!System.Threading.Tasks.AwaitTaskContinuation.RunCallback
+[13] System.Private.CoreLib.dll!System.Threading.Tasks.Task.RunContinuations
+[14] System.Private.CoreLib.dll!System.Threading.Tasks.Task.FinishSlow
+[15] System.Private.CoreLib.dll!System.Threading.Tasks.Task.TrySetException
+[16] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.SetException
+[17] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.SetException
+[18] [Completado] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.CrearCompra
+Code for the stack frame:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Registro_Compras.cs
+199:         private async Task<int> CrearCompra()
+200:         {
+201:             try
+202:             {
+203:                 int idCompra = 0;
+204:                 CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
+205:                 compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+206:                 compraCreacionDTO.Documento = this.txtDocumento.Text;
+207:                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
+208:                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+209:                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+210:                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+211:                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
+212:                 compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
+213:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+214:                 {
+215:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+216:                     DetalleCompraCreacionDTO detalle = new DetalleCompraCreacionDTO
+217:                     {
+218:                         NumeroLote = row.Cells["Lote"].Value?.ToString(),
+219:                         Codigo = row.Cells["Codigo"].Value?.ToString(),
+220:                         IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+221:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+222:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+223:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+224:                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+225:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+226:                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+227:                         FechaExpiracion = row.Cells["FechaExpiracion"].Value != null ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value)) : null
+228:                     };
+229:                     compraCreacionDTO.DetalleComprasCreacionDto.Add(detalle);
+230:                 }
+231:                 var validator = new CompraValidator();
+232:                 ValidationResult result = validator.Validate(compraCreacionDTO);
+233: 
+234:                 if (!result.IsValid)
+235:                 {
+236:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+237:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+238:                 }
+239:                 else
+240:                 {
+241:                     idCompra = await this.compraService.RegistrarCompra(compraCreacionDTO);
+242:                     return idCompra;
+243:                 }
+244:                 return idCompra;
+245:             }
+246:             catch (Exception ex)
+247:             {
+248:                 throw ex;
+249:             }
+250:         }
+```
+Current statement: line 248
+[19] System.Private.CoreLib.dll!System.Threading.ExecutionContext.RunInternal
+[20] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.AsyncStateMachineBox<TiendaLaLojanita.Views.Registro_Compras.<CrearCompra>d__31>.MoveNext
+[21] System.Private.CoreLib.dll!System.Runtime.CompilerServices.TaskAwaiter.OutputWaitEtwEvents.AnonymousMethod__12_0
+[22] System.Private.CoreLib.dll!System.Threading.Tasks.AwaitTaskContinuation.RunCallback
+[23] System.Private.CoreLib.dll!System.Threading.Tasks.Task.RunContinuations
+[24] System.Private.CoreLib.dll!System.Threading.Tasks.Task.FinishSlow
+[25] System.Private.CoreLib.dll!System.Threading.Tasks.Task.TrySetException
+[26] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.SetException
+[27] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.SetException
+[28] [Completado] TiendaLaLojanita.dll!TiendaLaLojanita.Services.CompraService.RegistrarCompra
+Code for the stack frame:
+```csharp E:\proyectos\TiendaLaLojanita\Services\CompraService.cs
+60:         public async Task<int> RegistrarCompra(CompraCreacionDTO compraDto)
+61:         {
+62:             var response = await this._apiClient.PostAsync<int>($"api/Compras/RegistrarCompra", compraDto);
+63:             return response.Value;
+64:         }
+```
+Current statement: line 63
+[29] System.Private.CoreLib.dll!System.Threading.ExecutionContext.RunInternal
+[30] System.Private.CoreLib.dll!System.Runtime.CompilerServices.AsyncTaskMethodBuilder<int>.AsyncStateMachineBox<TiendaLaLojanita.Services.CompraService.<RegistrarCompra>d__8>.MoveNext
+........24 more stack frames omitted.
