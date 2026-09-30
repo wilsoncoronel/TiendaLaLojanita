@@ -710,7 +710,6 @@ namespace TiendaLaLojanita.Views
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evita el sonido "ding"
-
                 if (!string.IsNullOrWhiteSpace(txtArticuloBusqueda.Text))
                 {
                     this.BusquedaArticulo();
@@ -773,6 +772,10 @@ namespace TiendaLaLojanita.Views
                 {
                     this.listaImpuestos.Clear();
                     this.lblTotal.Text = "0,00";
+                    this.listaDetalleImpuestos.Clear();
+                    this.dgvDetalleCompra.Rows.Clear();
+                    this.listaImpuestos.Clear();
+                    this.listaDetalleImpuestos.Clear();
                     this.ObtenerCompra(id);
                 }
                 else if (dgvCompras.Columns[e.ColumnIndex].Name == "Reversar")
@@ -817,8 +820,19 @@ namespace TiendaLaLojanita.Views
                     detalle.FechaCaducidad?.ToString("dd/MM/yyyy") ?? ""
                 });
 
+                foreach (var impuesto in detalle.Impuestos)
+                {
+                    this.listaDetalleImpuestos.Add(
+                        new DetalleImpuestoCreacionDTO
+                        {
+                            IdArticulo = detalle.ArticuloDTO.Id,
+                            IdImpuesto = impuesto.IdImpuesto,
+                            Nombre = impuesto.Nombre,
+                            TipoCalculo = impuesto.TipoCalculo,
+                            Valor = impuesto.Valor
+                        });
+                }
                 this.CargarListaImpuestos(detalle);
-                this.CalcularTotales();
             }
             this.CalcularTotales();
         }
