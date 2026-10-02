@@ -14,6 +14,7 @@ namespace TiendaLaLojanita.Models.DTO
         public string TipoImpuesto { get; set; }
         public decimal ValorVenta { get; set; }
         public decimal ValorCompra { get; set; }
+        public decimal ValorConfigurado { get; set; }
         public decimal ValorImpuesto { get; set; }
         public decimal Cantidad { get; set; }
     }

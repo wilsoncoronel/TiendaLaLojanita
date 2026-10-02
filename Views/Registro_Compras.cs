@@ -1,5 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
@@ -8,6 +12,12 @@ using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using System.Reflection.Metadata;
 
 namespace TiendaLaLojanita.Views
 {
@@ -397,14 +407,21 @@ namespace TiendaLaLojanita.Views
 
         private void CargarListaImpuestosDetalles(ArticuloDTO articuloCompra)
         {
-            this.listaDetalleImpuestos.AddRange(articuloCompra.ArticulosImpuestosDTO.Select(imp => new DetalleImpuestoCreacionDTO
-            {
-                IdArticulo = articuloCompra.Id,
-                IdImpuesto = imp.ImpuestoDTO.Id,
-                Nombre = imp.ImpuestoDTO.Nombre,
-                TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
-                Valor = imp.ImpuestoDTO.Valor,
-            }));
+
+            this.listaDetalleImpuestos.AddRange(
+                articuloCompra.ArticulosImpuestosDTO
+                    .Where(imp => !this.listaDetalleImpuestos.Any(x =>
+                        x.IdArticulo == articuloCompra.Id &&
+                        x.Nombre == imp.ImpuestoDTO.Nombre))
+                    .Select(imp => new DetalleImpuestoCreacionDTO
+                    {
+                        IdArticulo = articuloCompra.Id,
+                        IdImpuesto = imp.ImpuestoDTO.Id,
+                        Nombre = imp.ImpuestoDTO.Nombre,
+                        TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
+                        Valor = imp.ImpuestoDTO.Valor,
+                    })
+            );
         }
 
         private void ActualizarCantidad(int idArticulo,decimal cantidad,decimal valorCompra)
@@ -421,7 +438,9 @@ namespace TiendaLaLojanita.Views
 
                 impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
                     impuesto.TipoImpuesto,
-                    valorCompra, impuesto.ValorImpuesto);
+                    valorCompra,
+                    cantidad,
+                    impuesto.ValorConfigurado);
             }
         }
         private void CargarDataGrid(ArticuloDTO articuloActual)
@@ -436,9 +455,15 @@ namespace TiendaLaLojanita.Views
                     TipoImpuesto = imp.ImpuestoDTO.TipoCalculo,
                     ValorCompra = articuloActual.ValorCompra,
                     ValorVenta = articuloActual.ValorVenta,
-                    ValorImpuesto = imp.ImpuestoDTO.Valor,
+                    ValorConfigurado = imp.ImpuestoDTO.Valor,
                     Cantidad = cant
                 };
+
+                impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
+                    impuesto.TipoImpuesto,
+                    impuesto.ValorCompra,
+                    impuesto.Cantidad,
+                    impuesto.ValorConfigurado);
 
                 if(!listaImpuestos.TryGetValue(articuloActual.Id, out var articuloImpuestos))
                 {
@@ -516,6 +541,15 @@ namespace TiendaLaLojanita.Views
 
                 totalValorCompraLocal += subtotalArticulo;
 
+                foreach (var impuesto in impuestos)
+                {
+                    impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
+                        impuesto.TipoImpuesto,
+                        impuesto.ValorCompra,
+                        impuesto.Cantidad,
+                        impuesto.ValorConfigurado);
+                }
+
                 // ======================================================
                 // 3. AGRUPAR LOS IMPUESTOS DEL ARTÍCULO
                 // ======================================================
@@ -533,9 +567,7 @@ namespace TiendaLaLojanita.Views
                     // 4. CALCULAR EL IMPUESTO DEL ARTÍCULO
                     // ==================================================
 
-                    decimal impuestoTotal = grupo.Sum(x =>
-                        x.ValorImpuesto *
-                        Convert.ToDecimal(x.Cantidad));
+                    decimal impuestoTotal = grupo.Sum(x => x.ValorImpuesto);
 
                     // ==================================================
                     // 5. GUARDAR EL IMPUESTO FINAL
@@ -776,11 +808,17 @@ namespace TiendaLaLojanita.Views
                     this.dgvDetalleCompra.Rows.Clear();
                     this.listaImpuestos.Clear();
                     this.listaDetalleImpuestos.Clear();
+                    this.listaImpuestosFinales.Clear();
+                    this.dgvTotales.Rows.Clear();
                     this.ObtenerCompra(id);
                 }
                 else if (dgvCompras.Columns[e.ColumnIndex].Name == "Reversar")
                 {
                     bool resp = await this.compraService.ReversarCompra(id);
+                }
+                else if (dgvCompras.Columns[e.ColumnIndex].Name == "Imprimir")
+                {
+                    this.ObtenerCompraimpresion(id);
                 }
             }
             catch
@@ -789,8 +827,201 @@ namespace TiendaLaLojanita.Views
             }
         }
 
+        private async void ObtenerCompraimpresion(int idCompra)
+        {
+            this.prog = new ProgressBar();
+            try
+            {
+                this.prog.Show();
+                var compra = await this.compraService.ObtenerCompra(idCompra);
+
+                if (compra != null)
+                {
+                    this.ImprimirCompra(compra);
+                }
+            }
+            finally
+            {
+                if (this.prog != null)
+                {
+                    this.prog.Hide();
+                    this.prog.Dispose();
+                    this.prog = null;
+                }
+            }
+        }
+        private List<ImpuestoFinalDTO> CalcularImpuestosParaImpresion(DetalleCompraDTO detalle)
+        {
+            return (detalle.Impuestos ?? new List<DetalleImpuestoCreacionDTO>())
+                .Select(impuesto => new ImpuestoFinalDTO
+                {
+                    IdArticulo = detalle.ArticuloDTO.Id,
+                    IdImpuesto = impuesto.IdImpuesto,
+                    NombreImpuesto = impuesto.Nombre,
+                    ValorImpuestoTotal = CalcularImpuestos.Calcular(
+                        impuesto.TipoCalculo,
+                        detalle.ValorCompra,
+                        detalle.Cantidad,
+                        impuesto.Valor)
+                })
+                .ToList();
+        }
+
+        private List<ImpuestoFinalDTO> ObtenerResumenImpuestosParaImpresion(CompraDTO compra)
+        {
+            return (compra.DetalleCompras ?? new List<DetalleCompraDTO>())
+                .SelectMany(CalcularImpuestosParaImpresion)
+                .GroupBy(impuesto => new
+                {
+                    impuesto.IdImpuesto,
+                    impuesto.NombreImpuesto
+                })
+                .Select(grupo => new ImpuestoFinalDTO
+                {
+                    IdImpuesto = grupo.Key.IdImpuesto,
+                    NombreImpuesto = grupo.Key.NombreImpuesto,
+                    ValorImpuestoTotal = grupo.Sum(impuesto => impuesto.ValorImpuestoTotal)
+                })
+                .ToList();
+        }
+
+        private void ImprimirCompra(CompraDTO compraActual)
+        {
+            SaveFileDialog guardar = new SaveFileDialog();
+            guardar.FileName = $"Compra_{compraActual.Id}_{compraActual.ProveedorDto.RazonSocial}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
+
+            // El recurso reporte_compra está guardado como byte[] en Resources -> convertir a string usando UTF8
+
+
+            if (guardar.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
+                {
+
+                    using (PdfWriter writer = new PdfWriter(stream))
+                    using (PdfDocument pdf = new PdfDocument(writer))
+                    using (iText.Layout.Document doc = new iText.Layout.Document(pdf, PageSize.A4))
+                    {
+                        // Ajustar márgenes si se desea ocupar todo el ancho de la hoja
+                        doc.SetMargins(10f, 10f, 10f, 10f);
+                        //Encabezado
+                        doc.Add(new Paragraph("______________________________________FACTURA______________________________________"))
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(12);
+                        // Encabezado: Datos tienda (izquierda) y Datos SRI (derecha) en el mismo nivel
+                        // Crear la tabla del encabezado con anchos relativos usando CreatePercentArray
+                        Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 50f, 50f }))
+                            .SetWidth(UnitValue.CreatePercentValue(100));
+
+                        Cell leftCell = new Cell();
+                        leftCell.Add(new Paragraph("Tabacundo barrio 18 de Septiembre").SetFontSize(12));
+                        leftCell.Add(new Paragraph("Pedro Moncayo - Ecuador").SetFontSize(12));
+                        leftCell.Add(new Paragraph($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}"));
+                        leftCell.SetBorder(iText.Layout.Borders.Border.NO_BORDER);
+                        leftCell.SetTextAlignment(TextAlignment.LEFT);
+
+                        Cell rightCell = new Cell();
+                        rightCell.Add(new Paragraph($"Compra: {compraActual.Id}").SetFontSize(12));
+                        rightCell.Add(new Paragraph($"RUC/CI: 1700000000000").SetFontSize(12));
+                        rightCell.SetBorder(iText.Layout.Borders.Border.NO_BORDER);
+                        rightCell.SetTextAlignment(TextAlignment.RIGHT);
+
+                        headerTable.AddCell(leftCell);
+                        headerTable.AddCell(rightCell);
+
+                        doc.Add(headerTable);
+
+                        //Datos CLiente
+                        doc.Add(new Paragraph($"--------------------------------------------------------------------------------------------------------------------")).SetTextAlignment(TextAlignment.LEFT);
+                        doc.Add(new Paragraph($"Cliente: {compraActual.ProveedorDto.RazonSocial}")).SetTextAlignment(TextAlignment.LEFT);
+                        doc.Add(new Paragraph($"Direccion: {compraActual.ProveedorDto.DireccionDto.Descripcion}"));
+                        doc.Add(new Paragraph($"Telefono: {compraActual.ProveedorDto.Telefono}"));
+                        doc.Add(new Paragraph("\n"));
+
+                        //Tabla de productos
+                        // Definir anchos relativos por columna usando constructor con percent array
+                        // Evitar el uso de SetWidths (crea problemas en algunas versiones), usar el constructor y establecer el ancho total
+                        Table tabla = new Table(UnitValue.CreatePercentArray(new float[] { 10f, 50f, 10f, 15f, 15f }))
+                            .SetWidth(UnitValue.CreatePercentValue(100));
+                        // Mantener centrada si aplica visualmente (aunque al 100% ocupará todo el ancho disponible)
+                        tabla.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                        tabla.AddHeaderCell("Nro.");
+                        tabla.AddHeaderCell("Producto");
+                        tabla.AddHeaderCell("Cantidad");
+                        tabla.AddHeaderCell("Precio Unitario");
+                        tabla.AddHeaderCell("Total");
+                        decimal subtotalCompra = 0m;
+                        int contador = 1;
+                        foreach (var detalle in compraActual.DetalleCompras ?? new List<DetalleCompraDTO>())
+                        {
+                            decimal subtotalDetalle = detalle.Cantidad * detalle.ValorCompra;
+                            subtotalCompra += subtotalDetalle;
+                            tabla.AddCell(Convert.ToString(contador));
+                            tabla.AddCell(detalle.ArticuloDTO.Nombre);
+                            tabla.AddCell(detalle.Cantidad.ToString());
+                            tabla.AddCell(detalle.ValorCompra.ToString("C"));
+                            tabla.AddCell(subtotalDetalle.ToString("C"));
+                            contador++;
+                        }
+
+                        doc.Add(tabla);
+                        doc.Add(new Paragraph("\n"));
+
+                        var resumenImpuestos = this.ObtenerResumenImpuestosParaImpresion(compraActual);
+                        decimal totalImpuestos = resumenImpuestos.Sum(impuesto => impuesto.ValorImpuestoTotal);
+                        decimal totalCompra = subtotalCompra + totalImpuestos;
+
+                        // Crear tabla de totales (dos columnas) y alinearla a la derecha
+                        Table totalsTable = new Table(UnitValue.CreatePercentArray(new float[] { 70f, 30f }))
+                            .SetWidth(UnitValue.CreatePercentValue(40));
+                        totalsTable.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
+
+                        totalsTable.AddCell(new Cell().Add(new Paragraph("Subtotal")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph(subtotalCompra.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+
+                        foreach (var impuesto in resumenImpuestos)
+                        {
+                            totalsTable.AddCell(new Cell()
+                                .Add(new Paragraph(impuesto.NombreImpuesto))
+                                .SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                            totalsTable.AddCell(new Cell()
+                                .Add(new Paragraph(impuesto.ValorImpuestoTotal.ToString("C")))
+                                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                                .SetTextAlignment(TextAlignment.RIGHT));
+                        }
+
+                        totalsTable.AddCell(new Cell().Add(new Paragraph("Total")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                        totalsTable.AddCell(new Cell().Add(new Paragraph(totalCompra.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
+
+                        // Filas por cada impuesto agrupado
+                        doc.Add(totalsTable);
+
+                        // Pie de página
+                        doc.Add(new Paragraph("\nGracias por su compra.")
+                            .SetTextAlignment(TextAlignment.CENTER)
+                            .SetFontSize(10));
+                    }
+                }
+            }
+        }
+        private bool ConfirmaAccion(string mensaje)
+        {
+            DialogResult respuesta = MessageBox.Show(
+                mensaje,
+                "Confirmar",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+            if (respuesta == DialogResult.OK)
+            {
+                return true;
+            }
+            return false;
+        }
         private async void ObtenerCompra(int idCompra)
         {
+            this.prog = new ProgressBar();
+            this.prog.Show();
             var compra = await this.compraService.ObtenerCompra(idCompra);
             this.IdProveedor = compra.IdProveedor;
             this.txtIdentificacionProveedor.Text = compra.ProveedorDto.Identificacion;
@@ -822,7 +1053,13 @@ namespace TiendaLaLojanita.Views
 
                 foreach (var impuesto in detalle.Impuestos)
                 {
-                    this.listaDetalleImpuestos.Add(
+                    var existe = this.listaDetalleImpuestos
+                     .Any(imp =>
+                         imp.IdArticulo == impuesto.IdArticulo &&
+                         imp.Nombre == impuesto.Nombre);
+                    if (!existe)
+                    {
+                        this.listaDetalleImpuestos.Add(
                         new DetalleImpuestoCreacionDTO
                         {
                             IdArticulo = detalle.ArticuloDTO.Id,
@@ -831,15 +1068,26 @@ namespace TiendaLaLojanita.Views
                             TipoCalculo = impuesto.TipoCalculo,
                             Valor = impuesto.Valor
                         });
+                    }
+                    
                 }
                 this.CargarListaImpuestos(detalle);
             }
             this.CalcularTotales();
+
+            this.prog.Hide();
+            MessageBox.Show(
+            $"Compra cargada correctamente!!",
+            "Info",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+
         }
         private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
              int idArticulo = detalle.ArticuloDTO.Id;
-            this.listaImpuestos[idArticulo] = detalle.Impuestos.Select(imp => new ImpuestoCalculadoDTO
+
+            var impuestos = detalle.Impuestos.Select(imp => new ImpuestoCalculadoDTO
             {
                 IdArticulo = idArticulo,
                 IdImpuesto = imp.IdImpuesto,
@@ -847,9 +1095,20 @@ namespace TiendaLaLojanita.Views
                 TipoImpuesto = imp.TipoCalculo,
                 ValorCompra = detalle.ValorCompra,
                 ValorVenta = detalle.ValorVenta,
-                ValorImpuesto = imp.Valor,
+                ValorConfigurado = imp.Valor,
                 Cantidad = detalle.Cantidad
             }).ToList();
+
+            foreach (var impuesto in impuestos)
+            {
+                impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
+                    impuesto.TipoImpuesto,
+                    impuesto.ValorCompra,
+                    impuesto.Cantidad,
+                    impuesto.ValorConfigurado);
+            }
+
+            this.listaImpuestos[idArticulo] = impuestos;
         }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)
@@ -859,6 +1118,11 @@ namespace TiendaLaLojanita.Views
 
         private void dgvDetalleCompra_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || dgvDetalleCompra.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
             decimal cantida;
             decimal valorCompra;
             if (dgvDetalleCompra.Columns[e.ColumnIndex].Name == "Cantidad" || dgvDetalleCompra.Columns[e.ColumnIndex].Name == "ValorCompra")
@@ -891,7 +1155,7 @@ namespace TiendaLaLojanita.Views
 
                     dateTimePicker.Format = DateTimePickerFormat.Short;
 
-                    Rectangle rectangle =
+                    System.Drawing.Rectangle rectangle =
                         dgvDetalleCompra.GetCellDisplayRectangle(
                             e.ColumnIndex,
                             e.RowIndex,
@@ -903,7 +1167,7 @@ namespace TiendaLaLojanita.Views
                             rectangle.Height);
 
                     dateTimePicker.Location =
-                        new Point(
+                        new System.Drawing.Point(
                             rectangle.X,
                             rectangle.Y);
 
@@ -1032,6 +1296,7 @@ namespace TiendaLaLojanita.Views
             }
         }
 
+        
         private void dgvDetalleCompra_EditingControlShowing_1(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             switch (dgvDetalleCompra.Columns[dgvDetalleCompra.CurrentCell.ColumnIndex].Name)

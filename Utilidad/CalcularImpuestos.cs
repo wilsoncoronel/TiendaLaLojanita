@@ -4,17 +4,16 @@ namespace TiendaLaLojanita.Utilidad
 {
     public static class CalcularImpuestos
     {
-        public static decimal Calcular(string? tipoCalculo, decimal valorCompra, decimal valorImpuesto)
+        public static decimal Calcular(string? tipoCalculo, decimal valorCompra, decimal cantidad, decimal valorConfigurado)
         {
             if (string.Equals(tipoCalculo?.Trim(), "PORCENTAJE", StringComparison.OrdinalIgnoreCase))
             {
-                
-                return valorCompra * valorImpuesto;
+                return valorCompra * cantidad * valorConfigurado;
             }
 
             if (string.Equals(tipoCalculo?.Trim(), "UNIDAD", StringComparison.OrdinalIgnoreCase))
             {
-                return valorImpuesto;
+                return valorConfigurado * cantidad;
             }
 
             return 0m;

@@ -1,0 +1,184 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 3120)
+
+## EXCEPTION
+Exception Type: System.FormatException
+Exception Message: String '30/9/2026 13:53:50' contains parts which are not specific to the DateOnly.
+Piece of code that has the exception:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Registro_Compras.cs
+134:         private async Task<bool> EditarCompra()
+135:         {
+136:             try
+137:             {
+138:                 bool resp = false;
+139:                 CompraEditarDTO compraEditarDTO = new CompraEditarDTO();
+140:                 compraEditarDTO.Id = Convert.ToInt32(this.txtIdCompra.Text);
+141:                 compraEditarDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+142:                 compraEditarDTO.Documento = this.txtDocumento.Text;
+143:                 compraEditarDTO.FechaCompra = this.dtpCompra.Value;
+144:                 compraEditarDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+145:                 compraEditarDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+146:                 compraEditarDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+147:                 compraEditarDTO.DetalleComprasEditarDto = new List<DetalleCompraEditarDTO>();
+148:                 compraEditarDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id; ;
+149:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+150:                 {
+151:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+152:                     DetalleCompraEditarDTO detalle = new DetalleCompraEditarDTO
+153:                     {
+154:                         Id = Convert.ToInt32(row.Cells["Id"].Value),
+155:                         NumeroLote = row.Cells["Lote"].Value?.ToString(),
+156:                         Codigo = row.Cells["Codigo"].Value?.ToString(),
+157:                         ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+158:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+159:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+160:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+161:                          Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+162:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+163:                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+164:                         FechaCaducidad = row.Cells["FechaExpiracion"].Value != null ? DateOnly.Parse(row.Cells["FechaExpiracion"].Value.ToString()) : null
+165:                     };
+166:                     compraEditarDTO.DetalleComprasEditarDto.Add(detalle);
+167:                 }
+168:                 var validator = new CompraEdicionValidator();
+169:                 ValidationResult result = validator.Validate(compraEditarDTO);
+170:                 if (!result.IsValid)
+171:                 {
+172:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+173:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+174:                 }
+175:                 else
+176:                 {
+177:                     resp = await this.compraService.EditarCompra(compraEditarDTO);
+178:                     return resp;
+179:                 }
+180:                 return resp;
+181:             }
+182:             catch (Exception ex)
+183:             {
+184:                 throw ex;
+185:             }
+186:         }
+```
+Exception is on line 184
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 33212
+[1] [Excepción] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.EditarCompra
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+134:         private async Task<bool> EditarCompra()
+135:         {
+136:             try
+137:             {
+138:                 bool resp = false;
+139:                 CompraEditarDTO compraEditarDTO = new CompraEditarDTO();
+140:                 compraEditarDTO.Id = Convert.ToInt32(this.txtIdCompra.Text);
+141:                 compraEditarDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
+142:                 compraEditarDTO.Documento = this.txtDocumento.Text;
+143:                 compraEditarDTO.FechaCompra = this.dtpCompra.Value;
+144:                 compraEditarDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
+145:                 compraEditarDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
+146:                 compraEditarDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+147:                 compraEditarDTO.DetalleComprasEditarDto = new List<DetalleCompraEditarDTO>();
+148:                 compraEditarDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id; ;
+149:                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+150:                 {
+151:                     if (row.IsNewRow) continue; // Saltar la fila nueva
+152:                     DetalleCompraEditarDTO detalle = new DetalleCompraEditarDTO
+153:                     {
+154:                         Id = Convert.ToInt32(row.Cells["Id"].Value),
+155:                         NumeroLote = row.Cells["Lote"].Value?.ToString(),
+156:                         Codigo = row.Cells["Codigo"].Value?.ToString(),
+157:                         ArticuloId = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+158:                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+159:                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
+160:                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
+161:                          Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+162:                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
+163:                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+164:                         FechaCaducidad = row.Cells["FechaExpiracion"].Value != null ? DateOnly.Parse(row.Cells["FechaExpiracion"].Value.ToString()) : null
+165:                     };
+166:                     compraEditarDTO.DetalleComprasEditarDto.Add(detalle);
+167:                 }
+168:                 var validator = new CompraEdicionValidator();
+169:                 ValidationResult result = validator.Validate(compraEditarDTO);
+170:                 if (!result.IsValid)
+171:                 {
+172:                     string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+173:                     MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+174:                 }
+175:                 else
+176:                 {
+177:                     resp = await this.compraService.EditarCompra(compraEditarDTO);
+178:                     return resp;
+179:                 }
+180:                 return resp;
+181:             }
+182:             catch (Exception ex)
+183:             {
+184:                 throw ex;
+185:             }
+186:         }
+```
+Current statement: line 184
+[2] [Código externo]
+[6] [En espera de una operación asincrónica, haga doble clic o presione ENTRAR para ver las pilas de llamadas asincrónicas]
+[7] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.btnGuardar_Click
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+109:         private async void btnGuardar_Click(object sender, EventArgs e)
+110:         {
+111:             var resp = 0;
+112:             var respEditar = false;
+113:             if (this.txtIdCompra is null || this.txtIdCompra.Text == "")
+114:             {
+115:                 resp = await this.CrearCompra();
+116:                 if (resp == 0) MessageBox.Show("No se pudo crear la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+117:                 else
+118:                 {
+119:                     int idCompra = resp;
+120:                     this.LimpiarFormulario();
+121:                     MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+122:                 }
+123:             }
+124:             else
+125:             {
+126:                 respEditar = await this.EditarCompra();
+127:                 if (respEditar == false) MessageBox.Show("No se pudo editar la compra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+128:                 else MessageBox.Show($"Compra editada con exito!!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+129:             }
+130: 
+131:             this.LimpiarValores();
+132:         }
+```
+Current statement: line 126
+[8] [Código externo]
+[21] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             Application.ThreadException += Application_ThreadException;
+23:             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+24:             var services = new ServiceCollection();
+25:             ConfigureServices(services);
+26:             using (var serviceProvider = services.BuildServiceProvider())
+27:             {
+28:                 var form1 = new FrmLoggin(serviceProvider);
+29:                 Application.Run(form1);
+30:             }
+31:         }
+```
+Current statement: line 29
+
+## LOCALS
+
