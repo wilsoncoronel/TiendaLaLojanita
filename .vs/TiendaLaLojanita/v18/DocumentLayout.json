@@ -7,35 +7,44 @@
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-impuestos-dinmicos-en-la-impresin-de-compras.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|MarkdownSecurePreview"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\apiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\compraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\compraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\utilidad\\calcularimpuestos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:utilidad\\calcularimpuestos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\devolucioncompraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\devolucioncompraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\impuestocalculadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,29 +71,70 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "plan-impuestos-dinmicos-en-la-impresin-de-compras.md [Versi\u00F3n preliminar]",
-              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-impuestos-dinmicos-en-la-impresin-de-compras.md",
-              "ToolTip": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-impuestos-dinmicos-en-la-impresin-de-compras.md [Versi\u00F3n preliminar]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2026-10-01T21:49:14.921Z",
-              "EditorCaption": " [Versi\u00F3n preliminar]"
+              "Title": "CompraService.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\CompraService.cs",
+              "RelativeDocumentMoniker": "Services\\CompraService.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\CompraService.cs",
+              "RelativeToolTip": "Services\\CompraService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T22:58:29.732Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ApiClient.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ApiClient.cs",
+              "RelativeDocumentMoniker": "Services\\ApiClient.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\ApiClient.cs",
+              "RelativeToolTip": "Services\\ApiClient.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAAAEgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T22:46:53.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Devolucion_Compra.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
+              "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Devolucion_Compra.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T18:34:17.165Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DevolucionCompraService.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\DevolucionCompraService.cs",
+              "RelativeDocumentMoniker": "Services\\DevolucionCompraService.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\DevolucionCompraService.cs",
+              "RelativeToolTip": "Services\\DevolucionCompraService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T17:05:26.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "Registro_Ventas.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
               "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
               "RelativeToolTip": "Views\\Registro_Ventas.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAmwEwAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-01T21:32:46.979Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "Registro_Ventas.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
@@ -96,67 +146,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": ".gitignore",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\.gitignore",
-              "RelativeDocumentMoniker": ".gitignore",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\.gitignore",
-              "RelativeToolTip": ".gitignore",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF8SURBVDhPjVNLTgJBEG1lwpoFB3GNK9fieA48hD8iwT/ihwgSDAIHgAGXXsEV18CNzL/LquqZdsYM6kteXqcy3fWqpmpNRBgOhyABBEgpAFVKPIMUcYzUyOU\u002BXM/b2qtU3vkSfRjjZTCAMAw1A2LwzdFoBPP5HNqdzuL27n4juibWI\u002BUshBA1DIkhEx9iEorFotgslQqGYbxxAGFEqt1MxmPWJLbLZdZ\u002Bv89q5PMFPiTR6z2zdaxR0fXA0XTBcVywkb4fwHXjRteecIDNQ7UmExVYAdPcxYaqclN46na5WenMKjtlVnTYwcXlVYaDqImW9beD5N/TeGy32QHXm6hZ03ZgiSQHp2fnWQ4oBmJqWSqwAqZpZjt4aLXAD4J0VqyZsmoubfB8H2r1eoaD6NXZ9HcHO\u002BSA3f4AjifXl8rItOETM8ckB9WTWpYD9RdeZ1PWVWAHWXPQaDb59f/w8LiqHeh1pvGkCaP6qB8yXusoxmuNZ7XmII4O9vGuEF86osuDYRkpYQAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-10-01T21:32:36.578Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Devolucion_Compra.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
               "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeToolTip": "Views\\Devolucion_Compra.cs",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAAAJoAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAmwCUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-01T21:28:35.077Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ImpuestoCalculadoDTO.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-01T14:52:12.072Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CalcularImpuestos.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\CalcularImpuestos.cs",
-              "RelativeDocumentMoniker": "Utilidad\\CalcularImpuestos.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\CalcularImpuestos.cs",
-              "RelativeToolTip": "Utilidad\\CalcularImpuestos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-01T14:52:11.978Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CompraService.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\CompraService.cs",
-              "RelativeDocumentMoniker": "Services\\CompraService.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\CompraService.cs",
-              "RelativeToolTip": "Services\\CompraService.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAASwDgAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-30T22:00:19.63Z",
               "EditorCaption": ""
             },
             {
@@ -167,14 +165,52 @@
               "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
               "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
               "RelativeToolTip": "Views\\Registro_Compras.cs",
-              "ViewState": "AgIAAMsEAAAAAAAAAAAQwFMDAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAQwMYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-26T16:03:31.939Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ArticuloService.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ArticuloService.cs",
+              "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\ArticuloService.cs",
+              "RelativeToolTip": "Services\\ArticuloService.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAvwCIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T23:12:52.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ClienteService.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ClienteService.cs",
+              "RelativeDocumentMoniker": "Services\\ClienteService.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\ClienteService.cs",
+              "RelativeToolTip": "Services\\ClienteService.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAAB0AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T23:13:37.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ImpuestoCalculadoDTO.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\ImpuestoCalculadoDTO.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-01T14:52:12.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Registro_Compras.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",

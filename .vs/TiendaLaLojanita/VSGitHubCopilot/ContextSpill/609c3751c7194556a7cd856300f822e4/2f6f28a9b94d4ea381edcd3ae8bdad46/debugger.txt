@@ -1,0 +1,378 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 31912)
+
+## EXCEPTION
+Exception Type: Newtonsoft.Json.JsonReaderException
+Exception Message: Unexpected character encountered while parsing value: S. Path '', line 0, position 0.
+Piece of code that has the exception:
+```csharp E:\proyectos\TiendaLaLojanita\Services\ApiClient.cs
+145:         private async Task<Response<T>> ProcesarRespuesta<T>(HttpResponseMessage response)
+146:         {
+147:             string responseJson =
+148:                 await response.Content.ReadAsStringAsync();
+149: 
+150:             System.Diagnostics.Debug.WriteLine(
+151:                 $"Respuesta API: {(int)response.StatusCode} {response.StatusCode}; " +
+152:                 $"Content-Type: {response.Content.Headers.ContentType}; " +
+153:                 $"Body: {responseJson}");
+154: 
+155:             // =========================================================
+156:             // 1. SI LA API DEVOLVIÓ UN ERROR HTTP
+157:             // =========================================================
+158:             if (!response.IsSuccessStatusCode)
+159:             {
+160:                 string mensaje = null;
+161: 
+162:                 if (!string.IsNullOrWhiteSpace(responseJson))
+163:                 {
+164:                     try
+165:                     {
+166:                         var errorResponse =
+167:                             JsonConvert.DeserializeObject<Response<object>>(
+168:                                 responseJson);
+169: 
+170:                         mensaje = errorResponse?.msg;
+171:                     }
+172:                     catch (JsonException)
+173:                     {
+174:                         // Si el cuerpo no tiene el formato esperado,
+175:                         // usamos el mensaje según el código HTTP.
+176:                     }
+177:                 }
+178: 
+179:                 if (string.IsNullOrWhiteSpace(mensaje))
+180:                 {
+181:                     mensaje = ObtenerMensajePorCodigo(
+182:                         response.StatusCode);
+183:                 }
+184: 
+185:                 throw new ApiException(
+186:                     response.StatusCode,
+187:                     mensaje);
+188:             }
+189: 
+190:             // =========================================================
+191:             // 2. LA RESPUESTA HTTP FUE EXITOSA
+192:             // =========================================================
+193: 
+194:             if (string.IsNullOrWhiteSpace(responseJson))
+195:             {
+196:                 throw new ApiException(
+197:                     HttpStatusCode.InternalServerError,
+198:                     "El servidor no devolvió una respuesta.");
+199:             }
+200: 
+201:             Response<T>? result;
+202: 
+203:             try
+204:             {
+205:                 result =
+206:                     JsonConvert.DeserializeObject<Response<T>>(
+207:                         responseJson);
+208:             }
+209:             catch (JsonException)
+210:             {
+211:                 throw new ApiException(
+212:                     response.StatusCode,
+213:                     "El servidor devolvió una respuesta inválida.");
+214:             }
+215: 
+216:             if (result == null)
+217:             {
+218:                 throw new ApiException(
+219:                     HttpStatusCode.InternalServerError,
+220:                     "El servidor no devolvió una respuesta válida.");
+221:             }
+222: 
+223:             // =========================================================
+224:             // 3. LA API RESPONDIÓ HTTP 200 PERO status = false
+225:             // =========================================================
+226: 
+227:             if (!result.status)
+228:             {
+229:                 throw new ApiException(
+230:                     response.StatusCode,
+231:                     result.msg ??
+232:                     "La operación no pudo realizarse.");
+233:             }
+234: 
+235:             return result;
+236:         }
+```
+Exception is on line 172
+This exception was originally thrown at this call stack:
+[1] Newtonsoft.Json.JsonTextReader.ParseValue()
+[2] Newtonsoft.Json.JsonReader.ReadForType(Newtonsoft.Json.Serialization.JsonContract, bool)
+[3] Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(Newtonsoft.Json.JsonReader, System.Type, bool)
+[4] Newtonsoft.Json.JsonSerializer.DeserializeInternal(Newtonsoft.Json.JsonReader, System.Type)
+[5] Newtonsoft.Json.JsonSerializer.Deserialize(Newtonsoft.Json.JsonReader, System.Type)
+[6] Newtonsoft.Json.JsonConvert.DeserializeObject(string, System.Type, Newtonsoft.Json.JsonSerializerSettings)
+[7] Newtonsoft.Json.JsonConvert.DeserializeObject<T>(string, Newtonsoft.Json.JsonSerializerSettings)
+[8] Newtonsoft.Json.JsonConvert.DeserializeObject<T>(string)
+[9] TiendaLaLojanita.Services.ApiClient.ProcesarRespuesta<T>(System.Net.Http.HttpResponseMessage) en ApiClient.cs
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 27292
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Services.ApiClient.ProcesarRespuesta<bool>
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Services\ApiClient.cs
+145:         private async Task<Response<T>> ProcesarRespuesta<T>(HttpResponseMessage response)
+146:         {
+147:             string responseJson =
+148:                 await response.Content.ReadAsStringAsync();
+149: 
+150:             System.Diagnostics.Debug.WriteLine(
+151:                 $"Respuesta API: {(int)response.StatusCode} {response.StatusCode}; " +
+152:                 $"Content-Type: {response.Content.Headers.ContentType}; " +
+153:                 $"Body: {responseJson}");
+154: 
+155:             // =========================================================
+156:             // 1. SI LA API DEVOLVIÓ UN ERROR HTTP
+157:             // =========================================================
+158:             if (!response.IsSuccessStatusCode)
+159:             {
+160:                 string mensaje = null;
+161: 
+162:                 if (!string.IsNullOrWhiteSpace(responseJson))
+163:                 {
+164:                     try
+165:                     {
+166:                         var errorResponse =
+167:                             JsonConvert.DeserializeObject<Response<object>>(
+168:                                 responseJson);
+169: 
+170:                         mensaje = errorResponse?.msg;
+171:                     }
+172:                     catch (JsonException)
+173:                     {
+174:                         // Si el cuerpo no tiene el formato esperado,
+175:                         // usamos el mensaje según el código HTTP.
+176:                     }
+177:                 }
+178: 
+179:                 if (string.IsNullOrWhiteSpace(mensaje))
+180:                 {
+181:                     mensaje = ObtenerMensajePorCodigo(
+182:                         response.StatusCode);
+183:                 }
+184: 
+185:                 throw new ApiException(
+186:                     response.StatusCode,
+187:                     mensaje);
+188:             }
+189: 
+190:             // =========================================================
+191:             // 2. LA RESPUESTA HTTP FUE EXITOSA
+192:             // =========================================================
+193: 
+194:             if (string.IsNullOrWhiteSpace(responseJson))
+195:             {
+196:                 throw new ApiException(
+197:                     HttpStatusCode.InternalServerError,
+198:                     "El servidor no devolvió una respuesta.");
+199:             }
+200: 
+201:             Response<T>? result;
+202: 
+203:             try
+204:             {
+205:                 result =
+206:                     JsonConvert.DeserializeObject<Response<T>>(
+207:                         responseJson);
+208:             }
+209:             catch (JsonException)
+210:             {
+211:                 throw new ApiException(
+212:                     response.StatusCode,
+213:                     "El servidor devolvió una respuesta inválida.");
+214:             }
+215: 
+216:             if (result == null)
+217:             {
+218:                 throw new ApiException(
+219:                     HttpStatusCode.InternalServerError,
+220:                     "El servidor no devolvió una respuesta válida.");
+221:             }
+222: 
+223:             // =========================================================
+224:             // 3. LA API RESPONDIÓ HTTP 200 PERO status = false
+225:             // =========================================================
+226: 
+227:             if (!result.status)
+228:             {
+229:                 throw new ApiException(
+230:                     response.StatusCode,
+231:                     result.msg ??
+232:                     "La operación no pudo realizarse.");
+233:             }
+234: 
+235:             return result;
+236:         }
+```
+Current statement: line 172
+[2] TiendaLaLojanita.dll!TiendaLaLojanita.Services.ApiClient.PutAsync<bool>
+Code for the stack frame:
+```csharp Services\ApiClient.cs
+97:         public async Task<Response<T>> PutAsync<T>(string url)
+98:         {
+99:             HttpResponseMessage response;
+100: 
+101:             try
+102:             {
+103:                 response = await _httpClient.PutAsync(url, null);
+104:             }
+105:             catch (HttpRequestException)
+106:             {
+107:                 throw new ApiException(
+108:                     null,
+109:                     "No se pudo establecer conexión con el servidor.");
+110:             }
+111:             catch (TaskCanceledException)
+112:             {
+113:                 throw new ApiException(
+114:                     null,
+115:                     "La solicitud al servidor excedió el tiempo de espera.");
+116:             }
+117: 
+118:             return await ProcesarRespuesta<T>(response);
+119:         }
+```
+Current statement: line 118
+[3] [Reanudando método asincrónico]
+[4] [Código externo]
+[20] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             Application.ThreadException += Application_ThreadException;
+23:             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+24:             var services = new ServiceCollection();
+25:             ConfigureServices(services);
+26:             using (var serviceProvider = services.BuildServiceProvider())
+27:             {
+28:                 var form1 = new FrmLoggin(serviceProvider);
+29:                 Application.Run(form1);
+30:             }
+31:         }
+```
+Current statement: line 29
+[21] [Pila de llamadas asincrónicas]
+[22] [Asincrónico] TiendaLaLojanita.dll!TiendaLaLojanita.Services.CompraService.ReversarCompra
+Code for the stack frame:
+```csharp Services\CompraService.cs
+66:         public async Task<bool> ReversarCompra(int id)
+67:         {
+68:             var response = await _apiClient.PutAsync<bool>(
+69:                 $"api/Compras/ReversarCompra?idCompra={id}");
+70: 
+71:             return response.Value;
+72:         }
+```
+Current statement: lines 68-69
+[23] [Asincrónico] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Compras.dgvCompras_CellClick
+Code for the stack frame:
+```csharp Views\Registro_Compras.cs
+798:         private async void dgvCompras_CellClick(object sender, DataGridViewCellEventArgs e)
+799:         {
+800:             if (e.RowIndex < 0 || e.ColumnIndex < 0)
+801:                 return;
+802: 
+803:             if (!int.TryParse(
+804:                 this.dgvCompras.Rows[e.RowIndex]
+805:                     .Cells["IdComp"]
+806:                     .Value?.ToString(),
+807:                 out int id))
+808:             {
+809:                 MessageBox.Show(
+810:                     "No se pudo obtener el identificador de la compra.",
+811:                     "Error",
+812:                     MessageBoxButtons.OK,
+813:                     MessageBoxIcon.Error);
+814: 
+815:                 return;
+816:             }
+817: 
+818:             try
+819:             {
+820:                 string columna = this.dgvCompras.Columns[e.ColumnIndex].Name;
+821: 
+822:                 switch (columna)
+823:                 {
+824:                     case "Editar":
+825: 
+826:                         this.listaImpuestos.Clear();
+827:                         this.lblTotal.Text = "0,00";
+828:                         this.listaDetalleImpuestos.Clear();
+829:                         this.listaImpuestosFinales.Clear();
+830: 
+831:                         this.dgvDetalleCompra.Rows.Clear();
+832:                         this.dgvTotales.Rows.Clear();
+833: 
+834:                         await this.ObtenerCompra(id);
+835: 
+836:                         break;
+837: 
+838:                     case "Reversar":
+839: 
+840:                         if (!this.ConfirmaAccion(
+841:                             $"¿Está seguro de que desea reversar la compra con ID: {id}?"))
+842:                         {
+843:                             return;
+844:                         }
+845: 
+846:                         this.prog = new ProgressBar();
+847:                         this.prog.Show();
+848: 
+849:                         try
+850:                         {
+851:                             bool resp = await this.compraService.ReversarCompra(id);
+852: 
+853:                             if (resp)
+854:                             {
+855:                                 MessageBox.Show(
+856:                                     "La compra fue reversada correctamente.",
+857:                                     "Operación exitosa",
+858:                                     MessageBoxButtons.OK,
+859:                                     MessageBoxIcon.Information);
+860:                             }
+861:                         }
+862:                         finally
+863:                         {
+864:                             this.prog?.Hide();
+865:                             this.prog?.Dispose();
+866:                             this.prog = null;
+867:                         }
+868: 
+869:                         break;
+870: 
+871:                     case "Imprimir":
+872: 
+873:                         this.ObtenerCompraimpresion(id);
+874:                         break;
+875:                 }
+876:             }
+877:             catch (ApiException ex)
+878:             {
+879:                 ApiErrorHandler.Mostrar(ex);
+880:             }
+881:         } 
+```
+Current statement: line 851
+
+## LOCALS
+Variable: 'this' of type 'TiendaLaLojanita.Services.ApiClient' is a complex object with child properties and has value: {TiendaLaLojanita.Services.ApiClient}
+Variable: 'response' of type 'System.Net.Http.HttpResponseMessage' is a complex object with child properties and has value: {System.Net.Http.HttpResponseMessage}
+Variable: 'responseJson' of type 'string' has value: "SistemaTienda.API.Exceptions.ConflictException: Compra ya reversada\r\n   at SistemaTienda.BLL.Servicios.CompraService.ReversarCompra(Int32 id) in C:\\Users\\DOOMSLAYER\\source\\repos\\ApiTienda\\Sis...
+Variable: 'result' of type 'TiendaLaLojanita.Models.Response<bool>' has value: null
+Variable: 'mensaje' of type 'string' has value: null
+Variable: 'Variables de tipo' of type '' is a complex object with child properties and has value: 
+

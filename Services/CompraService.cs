@@ -65,7 +65,9 @@ namespace TiendaLaLojanita.Services
 
         public async Task<bool> ReversarCompra(int id)
         {
-            var response = await _apiClient.GetAsync<bool>($"api/Compras/ReversarCompra?idCompra={id}");
+            var response = await _apiClient.PutAsync<bool>(
+                $"api/Compras/ReversarCompra?idCompra={id}");
+
             return response.Value;
         }
     }

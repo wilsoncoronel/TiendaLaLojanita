@@ -128,7 +128,12 @@ namespace TiendaLaLojanita.Views
                 {
                     int idCompra = resp;
                     this.LimpiarFormulario();
-                    MessageBox.Show($"Compra creada con exito con el ID: {idCompra}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    bool imprimir = this.ConfirmaAccion($"Compra creada con exito con el ID: {idCompra}, desea imprimir la compra?");
+                    if(imprimir)
+                    {
+                        var compra = await this.compraService.ObtenerCompra(idCompra);
+                        this.ImprimirCompra(compra);
+                    }
                 }
             }
             else
@@ -792,42 +797,90 @@ namespace TiendaLaLojanita.Views
 
         private async void dgvCompras_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (!int.TryParse(
+                this.dgvCompras.Rows[e.RowIndex]
+                    .Cells["IdComp"]
+                    .Value?.ToString(),
+                out int id))
+            {
+                MessageBox.Show(
+                    "No se pudo obtener el identificador de la compra.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
             try
             {
-                int id = 0;
-                id = Convert.ToInt32(dgvCompras.Rows[e.RowIndex].Cells["IdComp"].Value);
-                if (e.ColumnIndex < 0)
-                {
-                    MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else if (dgvCompras.Columns[e.ColumnIndex].Name == "Editar")
-                {
-                    this.listaImpuestos.Clear();
-                    this.lblTotal.Text = "0,00";
-                    this.listaDetalleImpuestos.Clear();
-                    this.dgvDetalleCompra.Rows.Clear();
-                    this.listaImpuestos.Clear();
-                    this.listaDetalleImpuestos.Clear();
-                    this.listaImpuestosFinales.Clear();
-                    this.dgvTotales.Rows.Clear();
-                    this.ObtenerCompra(id);
-                }
-                else if (dgvCompras.Columns[e.ColumnIndex].Name == "Reversar")
-                {
-                    bool resp = await this.compraService.ReversarCompra(id);
-                }
-                else if (dgvCompras.Columns[e.ColumnIndex].Name == "Imprimir")
-                {
-                    this.ObtenerCompraimpresion(id);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
+                string columna = this.dgvCompras.Columns[e.ColumnIndex].Name;
 
-        private async void ObtenerCompraimpresion(int idCompra)
+                switch (columna)
+                {
+                    case "Editar":
+
+                        this.listaImpuestos.Clear();
+                        this.lblTotal.Text = "0,00";
+                        this.listaDetalleImpuestos.Clear();
+                        this.listaImpuestosFinales.Clear();
+
+                        this.dgvDetalleCompra.Rows.Clear();
+                        this.dgvTotales.Rows.Clear();
+
+                        await this.ObtenerCompra(id);
+
+                        break;
+
+                    case "Reversar":
+
+                        if (!this.ConfirmaAccion(
+                            $"¿Está seguro de que desea reversar la compra con ID: {id}?"))
+                        {
+                            return;
+                        }
+
+                        this.prog = new ProgressBar();
+                        this.prog.Show();
+
+                        try
+                        {
+                            bool resp = await this.compraService.ReversarCompra(id);
+
+                            if (resp)
+                            {
+                                MessageBox.Show(
+                                    "La compra fue reversada correctamente.",
+                                    "Operación exitosa",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                            }
+                        }
+                        finally
+                        {
+                            this.prog?.Hide();
+                            this.prog?.Dispose();
+                            this.prog = null;
+                        }
+
+                        break;
+
+                    case "Imprimir":
+
+                        this.ObtenerCompraimpresion(id);
+                        break;
+                }
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+        } 
+
+        private async Task ObtenerCompraimpresion(int idCompra)
         {
             this.prog = new ProgressBar();
             try
@@ -996,10 +1049,6 @@ namespace TiendaLaLojanita.Views
                         // Filas por cada impuesto agrupado
                         doc.Add(totalsTable);
 
-                        // Pie de página
-                        doc.Add(new Paragraph("\nGracias por su compra.")
-                            .SetTextAlignment(TextAlignment.CENTER)
-                            .SetFontSize(10));
                     }
                 }
             }
@@ -1018,7 +1067,7 @@ namespace TiendaLaLojanita.Views
             }
             return false;
         }
-        private async void ObtenerCompra(int idCompra)
+        private async Task ObtenerCompra(int idCompra)
         {
             this.prog = new ProgressBar();
             this.prog.Show();

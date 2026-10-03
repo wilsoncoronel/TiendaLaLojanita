@@ -21,6 +21,7 @@ namespace TiendaLaLojanita.Views
         private readonly ICompraService compraService;
         private List<CompraMinDTO> listaCompras;
         private List<DetalleCompraDTO> ListaDetallesCompra;
+        private List<TransaccionInventarioDTO> ListaTransaccionesInventario;
         private int idCompra = 0;
         private ProgressBar prog;
         public readonly IDevolucionCompraService devolucionCompraService;
@@ -33,8 +34,16 @@ namespace TiendaLaLojanita.Views
             this.listaCompras = new List<CompraMinDTO>();
             this.cbxEstado.SelectedIndex = 0;
             this.ListaDetallesCompra = new List<DetalleCompraDTO>();
+            this.ListaTransaccionesInventario = new List<TransaccionInventarioDTO>();
+            this.CargarTransacciones();
         }
 
+        private async void CargarTransacciones() {
+            this.ListaTransaccionesInventario = await this.devolucionCompraService.ListaTransaccionesInventario();
+            this.cbxTransaccionesInventario.DataSource = this.ListaTransaccionesInventario;
+            this.cbxTransaccionesInventario.DisplayMember = "Nombre";
+            this.cbxTransaccionesInventario.ValueMember = "Id";
+        }
         private async void btnBuscarCompra_Click(object sender, EventArgs e)
         {
             this.ValidacionBusquedaVacia();

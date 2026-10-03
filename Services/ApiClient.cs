@@ -64,10 +64,7 @@ namespace TiendaLaLojanita.Services
             }
             return await ProcesarRespuesta<T>(response);
         }
-
-        public async Task<Response<T>> PutAsync<T>(
-            string url,
-            object data)
+        public async Task<Response<T>> PutAsync<T>(string url, object data)
         {
             HttpResponseMessage response;
 
@@ -81,6 +78,29 @@ namespace TiendaLaLojanita.Services
                     "application/json");
 
                 response = await _httpClient.PutAsync(url, content);
+            }
+            catch (HttpRequestException)
+            {
+                throw new ApiException(
+                    null,
+                    "No se pudo establecer conexión con el servidor.");
+            }
+            catch (TaskCanceledException)
+            {
+                throw new ApiException(
+                    null,
+                    "La solicitud al servidor excedió el tiempo de espera.");
+            }
+
+            return await ProcesarRespuesta<T>(response);
+        }
+        public async Task<Response<T>> PutAsync<T>(string url)
+        {
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.PutAsync(url, null);
             }
             catch (HttpRequestException)
             {
@@ -127,34 +147,26 @@ namespace TiendaLaLojanita.Services
             string responseJson =
                 await response.Content.ReadAsStringAsync();
 
-            System.Diagnostics.Debug.WriteLine(
-                $"Respuesta API: {(int)response.StatusCode} {response.StatusCode}; " +
-                $"Content-Type: {response.Content.Headers.ContentType}; " +
-                $"Body: {responseJson}");
-
-            Response<T>? result = null;
-
-            // Intentamos deserializar la respuesta estándar de nuestra API
-            if (!string.IsNullOrWhiteSpace(responseJson))
-            {
-                try
-                {
-                    result = JsonConvert.DeserializeObject<Response<T>>(
-                        responseJson);
-                }
-                catch(JsonException)
-                {
-                    throw new ApiException(
-                        response.StatusCode,
-                        "El servidor devolvió una respuesta inválida.");
-                    // La respuesta no tiene el formato esperado.
-                }
-            }
-
-            // Error HTTP
             if (!response.IsSuccessStatusCode)
             {
-                string mensaje = result?.msg;
+                string mensaje = null;
+
+                if (!string.IsNullOrWhiteSpace(responseJson))
+                {
+                    try
+                    {
+                        var errorResponse =
+                            JsonConvert.DeserializeObject<Response<object>>(
+                                responseJson);
+
+                        mensaje = errorResponse?.msg;
+                    }
+                    catch (JsonException)
+                    {
+                        // Si el cuerpo no tiene el formato esperado,
+                        // usamos el mensaje según el código HTTP.
+                    }
+                }
 
                 if (string.IsNullOrWhiteSpace(mensaje))
                 {
@@ -167,6 +179,32 @@ namespace TiendaLaLojanita.Services
                     mensaje);
             }
 
+            // =========================================================
+            // 2. LA RESPUESTA HTTP FUE EXITOSA
+            // =========================================================
+
+            if (string.IsNullOrWhiteSpace(responseJson))
+            {
+                throw new ApiException(
+                    HttpStatusCode.InternalServerError,
+                    "El servidor no devolvió una respuesta.");
+            }
+
+            Response<T>? result;
+
+            try
+            {
+                result =
+                    JsonConvert.DeserializeObject<Response<T>>(
+                        responseJson);
+            }
+            catch (JsonException)
+            {
+                throw new ApiException(
+                    response.StatusCode,
+                    "El servidor devolvió una respuesta inválida.");
+            }
+
             if (result == null)
             {
                 throw new ApiException(
@@ -174,11 +212,16 @@ namespace TiendaLaLojanita.Services
                     "El servidor no devolvió una respuesta válida.");
             }
 
+            // =========================================================
+            // 3. LA API RESPONDIÓ HTTP 200 PERO status = false
+            // =========================================================
+
             if (!result.status)
             {
                 throw new ApiException(
                     response.StatusCode,
-                    result.msg ?? "La operación no pudo realizarse.");
+                    result.msg ??
+                    "La operación no pudo realizarse.");
             }
 
             return result;

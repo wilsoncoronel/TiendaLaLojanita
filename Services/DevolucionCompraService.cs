@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 
 namespace TiendaLaLojanita.Services
@@ -19,6 +20,12 @@ namespace TiendaLaLojanita.Services
         public async Task<int> CrearDevolucionCompra(DevolucionCompraCreacionDTO devolucion)
         {
             var response = await this.apiClient.PostAsync<int>("api/DevolucionCompra/CrearDevolucionCompra", devolucion);
+            return response.Value;
+        }
+
+        public async Task<List<TransaccionInventarioDTO>> ListaTransaccionesInventario()
+        {
+            var response = await this.apiClient.GetAsync<List<TransaccionInventarioDTO>>("api/Configuraciones/ListarTransacciones");
             return response.Value;
         }
     }
