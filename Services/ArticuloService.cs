@@ -43,7 +43,11 @@ namespace TiendaLaLojanita.Services
             var response = await _apiClient.GetAsync<ArticuloDTO>($"api/Articulo/ObtenerArticulo?idArticulo={idArticulo}");
             return response.Value ?? new ArticuloDTO();
         }
-
+        public async Task<ArticuloInventarioDTO> ObtenerArticuloInventarioId(int idArticulo)
+        {
+            var response = await _apiClient.GetAsync<ArticuloInventarioDTO>($"api/Articulo/ObtenerArticuloInventario?idArticulo={idArticulo}");
+            return response.Value ?? new ArticuloInventarioDTO();
+        }
         public async Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal)
         {
             var response = await _apiClient.GetAsync<List<ArticuloDTO>>($"api/Articulo/ListaArticulos?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
@@ -96,6 +100,12 @@ namespace TiendaLaLojanita.Services
         {
             var response = await _apiClient.GetAsync<List<ArticuloCompraDTO>>($"api/Articulo/ListaCompraArticulos");
             return response.Value ?? new List<ArticuloCompraDTO>();
+        }
+
+        public async Task<List<ArticuloVentaDTO>> ListaVentaArticulos()
+        {
+            var response = await _apiClient.GetAsync<List<ArticuloVentaDTO>>($"api/Articulo/ListaVentaArticulos");
+            return response.Value ?? new List<ArticuloVentaDTO>();
         }
     }
 }

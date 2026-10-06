@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using iText.Commons.Actions;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
@@ -28,14 +29,14 @@ namespace TiendaLaLojanita.Views
         private readonly IVentaService _ventaService;
         private readonly IInventarioService inventarioService;
         private readonly IProveedorService proveedorService;
-        private List<ArticuloInventarioDTO> listaArticulos;
+        private List<ArticuloVentaDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
         private int contador = 0;
         private int cant = 1;
         private decimal TotalGeneral = 0m;
         private List<EstadoVentaDTO> ListaEstados;
-        private List<ArticuloInventarioDTO> listaTemp;
+        private List<ArticuloVentaDTO> listaTemp;
         private List<TransaccionInventarioDTO> ListaTransacciones;
 
         ProgressBar pro;
@@ -45,15 +46,35 @@ namespace TiendaLaLojanita.Views
         public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService)
         {
             InitializeComponent();
+            ConfigurarColumnasDetallesVenta();
             this.clienteService = clienteService;
             this.articuloService = articuloService;
             this._ventaService = ventaService;
             this.inventarioService = inventarioService;
             this.proveedorService = proveedorService;
-            this.listaArticulos = new List<ArticuloInventarioDTO>();
+            this.listaArticulos = new List<ArticuloVentaDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
         }
+
+        private void ConfigurarColumnasDetallesVenta()
+        {
+            if (this.dgvDetallesVenta.Columns.Count > 0)
+                return;
+
+            this.dgvDetallesVenta.Columns.AddRange(
+                this.Id,
+                this.IdVentaDet,
+                this.IdArticulo,
+                this.Articulo,
+                this.Descripcion,
+                this.Cantidad,
+                this.ValorCompra,
+                this.ValorVenta,
+                this.ValorTotal,
+                this.Eliminar);
+        }
+
         private async void Registro_Ventas_Load(object sender, EventArgs e)
         {
             this.listaArticulos = await this.CargarListaArticulos();
@@ -150,69 +171,173 @@ namespace TiendaLaLojanita.Views
 
 
 
-        private List<ArticuloInventarioDTO> BuscarNombreArticulo(string pNom)
+        private List<ArticuloVentaDTO> BuscarNombreArticulo(string pNom)
         {
-            listaTemp = new List<ArticuloInventarioDTO>();
+            listaTemp = new List<ArticuloVentaDTO>();
             listaTemp = this.listaArticulos.ToList();
-            return listaTemp.Where(art => art.Articulo.Nombre.Contains(pNom)).ToList();
+            return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
         }
 
         private void AutoCompleteArt()
         {
             AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
-            List<ArticuloInventarioDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
-            foreach (ArticuloInventarioDTO art in listaArticuloAuto)
+            List<ArticuloVentaDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArticuloBusqueda.Text);
+            foreach (ArticuloVentaDTO art in listaArticuloAuto)
             {
-                colArticulo.Add(art.Articulo.Nombre);
+                colArticulo.Add(art.Nombre);
             }
             this.txtArticuloBusqueda.AutoCompleteCustomSource = colArticulo;
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        private void BusquedaArticulo()
+        private async Task BusquedaArticulo()
         {
-            string query = this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
-            ArticuloInventarioDTO articuloActual = null;
-            int temp = 0;
-            // Primero intentar buscar por código (string) sin depender de TryParse
-            articuloActual = this.listaArticulos.FirstOrDefault(art => art.Codigo != null && art.Codigo.Equals(query, StringComparison.OrdinalIgnoreCase));
-            // Si no se encuentra por código, intentar buscar por Id si la entrada es numérica
-            if (articuloActual == null && int.TryParse(query, out temp))
+            string query =
+                this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(query))
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Id == temp);
+                MessageBox.Show(
+                    "Debe ingresar un nombre, código o lote.",
+                    "Dato requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
             }
-            // Finalmente, intentar buscar por nombre (comparación exacta, insensible a mayúsculas)
-            if (articuloActual == null)
+
+            try
             {
-                articuloActual = this.listaArticulos.FirstOrDefault(art => art.Articulo.Nombre != null && art.Articulo.Nombre.Equals(query, StringComparison.OrdinalIgnoreCase) || art.NumeroLote.Equals(query, StringComparison.OrdinalIgnoreCase));
-            }
-            if (articuloActual is null || articuloActual.Articulo.Id == 0)
-            {
-                MessageBox.Show("No se encontro ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.txtArticuloBusqueda.Text = "";
-            }
-            else
-            {
-                bool resp = this.ComprobarArticuloDgv(articuloActual);
+                ArticuloVentaDTO articuloActual = null;
+                ArticuloInventarioDTO articuloInventario = null;
+
+                // =====================================================
+                // 1. BUSCAR EN LA LISTA LOCAL
+                // =====================================================
+
+                articuloActual = this.listaArticulos.FirstOrDefault(art =>
+                    (!string.IsNullOrWhiteSpace(art.Codigo) &&
+                     art.Codigo.Equals(
+                         query,
+                         StringComparison.OrdinalIgnoreCase))
+                    ||
+                    (!string.IsNullOrWhiteSpace(art.Nombre) &&
+                     art.Nombre.Equals(
+                         query,
+                         StringComparison.OrdinalIgnoreCase))
+                    ||
+                    (!string.IsNullOrWhiteSpace(art.Lote) &&
+                     art.Lote.Equals(
+                         query,
+                         StringComparison.OrdinalIgnoreCase))
+                );
+
+                // =====================================================
+                // 2. SI NO SE ENCUENTRA, BUSCAR POR ID
+                // =====================================================
+
+                if (articuloActual == null &&
+                    int.TryParse(query, out int idArticulo))
+                {
+                    articuloActual =
+                        this.listaArticulos.FirstOrDefault(
+                            art => art.Id == idArticulo);
+                }
+
+                // =====================================================
+                // 3. CONSULTAR INVENTARIO
+                // =====================================================
+
+                if (articuloActual != null)
+                {
+                    articuloInventario =
+                        await this.articuloService
+                            .ObtenerArticuloInventarioId(
+                                articuloActual.Id);
+                }
+
+                // =====================================================
+                // 4. VALIDAR RESULTADO
+                // =====================================================
+
+                if (articuloInventario == null ||
+                    articuloInventario.IdArticulo == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontró ningún artículo con el nombre, código o lote ingresado.",
+                        "Artículo no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    this.txtArticuloBusqueda.Clear();
+
+                    return;
+                }
+
+                // =====================================================
+                // 5. COMPROBAR SI YA EXISTE EN EL DATAGRIDVIEW
+                // =====================================================
+
+                bool resp =
+                    this.ComprobarArticuloDgv(
+                        articuloInventario);
+
                 if (resp)
                 {
-                    foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
+                    foreach (DataGridViewRow row in
+                             this.dgvDetallesVenta.Rows)
                     {
-                        if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloActual.Articulo.Id && row.Cells["Lote"].Value != null && row.Cells["Lote"].Value.ToString() == articuloActual.NumeroLote)
+                        if (row.Cells["IdArticulo"].Value != null &&
+                            Convert.ToInt32(
+                                row.Cells["IdArticulo"].Value)
+                                == articuloInventario.IdArticulo &&
+                            row.Cells["Lote"].Value != null &&
+                            row.Cells["Lote"].Value.ToString()
+                                == articuloInventario.NumeroLote)
                         {
-                            row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
-                            //this.ActualizarCantidad(articuloActual.Articulo.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorVenta"].Value));
+                            row.Cells["Cantidad"].Value =
+                                Convert.ToInt32(
+                                    row.Cells["Cantidad"].Value) + 1;
+
                             this.CalcularTotales();
+                            break;
                         }
                     }
+
                     this.LimpiarValores();
                 }
                 else
                 {
-                    this.CargarDataGrid(articuloActual);
+                    this.CargarDataGrid(
+                        articuloInventario);
+
                     this.LimpiarValores();
                 }
+            }
+            catch (ApiException ex)
+            {
+                // =====================================================
+                // ERROR PROVENIENTE DE LA API
+                // =====================================================
+
+                ApiErrorHandler.Mostrar(ex);
+
+                this.txtArticuloBusqueda.Clear();
+            }
+            catch (Exception ex)
+            {
+                // =====================================================
+                // ERROR NO CONTROLADO
+                // =====================================================
+
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                this.txtArticuloBusqueda.Clear();
             }
         }
 
@@ -253,8 +378,6 @@ namespace TiendaLaLojanita.Views
             int index = this.dgvDetallesVenta.Rows.Add(new object[] {
                 contador,
                 0,
-                articuloActual.NumeroLote,
-                articuloActual.Codigo,
                 articuloActual.Articulo.Id,
                 articuloActual.Articulo.Nombre,
                 articuloActual.Articulo.Descripcion,
@@ -266,7 +389,7 @@ namespace TiendaLaLojanita.Views
 
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
             DataGridViewCell celdaContador = fila.Cells[0];
-            fila.Cells[10].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[7].Value);
+            fila.Cells[8].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
             contador++;
             this.CalcularTotales();
         }
@@ -317,14 +440,14 @@ namespace TiendaLaLojanita.Views
             return false;
         }
 
-        private async Task<List<ArticuloInventarioDTO>> CargarListaArticulos()
+        private async Task<List<ArticuloVentaDTO>> CargarListaArticulos()
         {
-            List<ArticuloInventarioDTO> listaArticulos;
-            listaArticulos = await this.articuloService.ListarTodosArticulos(true);
+            List<ArticuloVentaDTO> listaArticulos;
+            listaArticulos = await this.articuloService.ListaVentaArticulos();
             if (listaArticulos is null || listaArticulos.Count == 0)
             {
-                MessageBox.Show("No se encontraron articulos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw new Exception("No se encontraron articulos en el sistema");
+                MessageBox.Show("No se encontraron artículos en el sistema", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("No se encontraron artículos en el sistema");
             }
             return listaArticulos;
         }
@@ -414,36 +537,31 @@ namespace TiendaLaLojanita.Views
                         tabla.AddHeaderCell("Cantidad");
                         tabla.AddHeaderCell("Precio Unitario");
                         tabla.AddHeaderCell("Total");
-                        decimal totalVenta = 0;
+                        decimal totalVenta = 0m;
                         int contador = 1;
                         foreach (var detalle in ventaActual.DetalleVenta)
                         {
-                            totalVenta += detalle.Cantidad * detalle.ValorVenta;
+                            decimal totalDetalle = detalle.Cantidad * detalle.ValorVenta;
+                            totalVenta += totalDetalle;
                             tabla.AddCell( Convert.ToString(contador));
                             tabla.AddCell(detalle.Articulo.Nombre);
                             tabla.AddCell(detalle.Cantidad.ToString());
                             tabla.AddCell(detalle.ValorVenta.ToString("C"));
-                            tabla.AddCell((detalle.Cantidad * detalle.ValorVenta).ToString("C"));
+                            tabla.AddCell(totalDetalle.ToString("C"));
                             contador++;
                         }
 
                         doc.Add(tabla);
                         doc.Add(new Paragraph("\n"));
 
-                        // Calcular subtotal e impuestos agrupados por tipo (usar Articulo.ImpuestoArticuloDto como multiplicador 0.12/0.15)
-                        
-                       
-
                         // Crear tabla de totales (dos columnas) y alinearla a la derecha
                         Table totalsTable = new Table(UnitValue.CreatePercentArray(new float[] { 70f, 30f }))
                             .SetWidth(UnitValue.CreatePercentValue(40));
                         totalsTable.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
 
-                        // Fila Subtotal
                         totalsTable.AddCell(new Cell().Add(new Paragraph("Total")).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
                         totalsTable.AddCell(new Cell().Add(new Paragraph(totalVenta.ToString("C"))).SetBorder(iText.Layout.Borders.Border.NO_BORDER).SetTextAlignment(TextAlignment.RIGHT));
 
-                        // Filas por cada impuesto agrupado
                         doc.Add(totalsTable);
 
                         // Pie de página
@@ -484,7 +602,6 @@ namespace TiendaLaLojanita.Views
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                        ImpuestoValor = 0,
                         ValotTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper(),
                        
@@ -614,11 +731,9 @@ namespace TiendaLaLojanita.Views
                     detalle.Cantidad,
                     detalle.ValorCompra,
                     detalle.ValorVenta,
-                    detalle.ImpuestoValor,
-                    detalle.ValorTotal,
+                    detalle.Cantidad * detalle.ValorVenta,
                 });
 
-                this.CargarListaImpuestos(detalle);
             }
             this.CalcularTotales();
         }
@@ -649,10 +764,6 @@ namespace TiendaLaLojanita.Views
                     { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO> { nuevoImpuesto } }
                 });
             }*/
-        }
-        private void btnBuscarVenta_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -767,7 +878,7 @@ namespace TiendaLaLojanita.Views
         private async void btnRecargarConfiguraciones_Click(object sender, EventArgs e)
         {
             this.CargarDatosInciales();
-            this.listaArticulos = new List<ArticuloInventarioDTO>();
+            this.listaArticulos = new List<ArticuloVentaDTO>();
             this.listaArticulos = await this.CargarListaArticulos();
         }
 
@@ -946,9 +1057,9 @@ namespace TiendaLaLojanita.Views
             {
                 pro = new ProgressBar();
                 Show();
-                this.listaArticulos = new List<ArticuloInventarioDTO>();
+                this.listaArticulos = new List<ArticuloVentaDTO>();
                 this.listaArticulos = await this.CargarListaArticulos();
-                this.listaTemp = new List<ArticuloInventarioDTO>();
+                this.listaTemp = new List<ArticuloVentaDTO>();
                 this.listaTemp = this.listaArticulos.ToList();
                 this.AutoCompleteArt();
                 Hide();
@@ -974,6 +1085,66 @@ namespace TiendaLaLojanita.Views
                 this.LimpiarValores();
                 this.LimpiarFormulario();
             }
+            else
+            {
+                respEditar = await this.CargarEditarVenta();
+            }
+        }
+
+        private async Task<bool> CargarEditarVenta()
+        {
+            var ventaEditar = new VentaEditarDTO
+            {
+                Id = Convert.ToInt32(this.txtIdVenta.Text),
+                IdCliente = this.idCliente,
+                Documento = this.txtDocumento.Text.Trim(),
+                FechaCompra = this.dtpVenta.Value,
+                FechaCreacion = this.dtpCreacion.Value,
+                IdEstado = Convert.ToInt32(this.cbxEstadosVenta.SelectedValue),
+                EstadoVisual = true,
+                UsuarioCreadorId = this.Sesion?.Id ?? 0,
+                DetalleVentaEditarDto = new List<DetalleVentaEditarDTO>()
+            };
+
+            foreach (DataGridViewRow fila in this.dgvDetallesVenta.Rows)
+            {
+                if (fila.IsNewRow)
+                    continue;
+
+                ventaEditar.DetalleVentaEditarDto.Add(new DetalleVentaEditarDTO
+                {
+                    Id = Convert.ToInt32(fila.Cells["Id"].Value),
+                    IdVenta = ventaEditar.Id,
+                    ArticuloId = Convert.ToInt32(fila.Cells["IdArticulo"].Value),
+                    Descripcion = Convert.ToString(fila.Cells["Descripcion"].Value) ?? string.Empty,
+                    Cantidad = Convert.ToInt32(fila.Cells["Cantidad"].Value),
+                    ValorCompra = Convert.ToDecimal(fila.Cells["ValorCompra"].Value),
+                    ValorVenta = Convert.ToDecimal(fila.Cells["ValorVenta"].Value),
+                    ValorTotal = Convert.ToDecimal(fila.Cells["ValorTotal"].Value),
+                });
+            }
+
+            this.CalcularTotales();
+
+            if (decimal.TryParse(this.txtTotal.Text, out decimal total))
+                ventaEditar.Total = (double)total;
+
+            ventaEditar.SubTotal = ventaEditar.DetalleVentaEditarDto.Sum(d => (double)(d.ValorVenta * d.Cantidad));
+            ventaEditar.ValorIva = ventaEditar.Total - ventaEditar.SubTotal;
+            var validator = new VentaEditarValidator();
+            ValidationResult result = validator.Validate(ventaEditar);
+
+            if (!result.IsValid)
+            {
+                string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                idVenta = await this._ventaService.RegistrarVenta(ventaCreacionDTO);
+                return idVenta;
+            }
+
         }
     }
 }

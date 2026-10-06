@@ -59,8 +59,8 @@
             label5 = new Label();
             btnGuardar = new Button();
             btnBorrar = new Button();
-            label6 = new Label();
-            cbxTransaccionesInventario = new ComboBox();
+            label7 = new Label();
+            cbxTipoDevolucion = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetalleDevolucion).BeginInit();
@@ -70,8 +70,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(cbxTransaccionesInventario);
-            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(cbxTipoDevolucion);
+            groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(cbxEstado);
             groupBox1.Controls.Add(dtpCreacion);
             groupBox1.Controls.Add(txtMotivo);
@@ -329,22 +329,22 @@
             btnBorrar.TabIndex = 4;
             btnBorrar.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // label7
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(274, 111);
-            label6.Name = "label6";
-            label6.Size = new Size(72, 15);
-            label6.TabIndex = 8;
-            label6.Text = "Transacción:";
+            label7.AutoSize = true;
+            label7.Location = new Point(16, 144);
+            label7.Name = "label7";
+            label7.Size = new Size(96, 15);
+            label7.TabIndex = 10;
+            label7.Text = "Tipo Devolución:";
             // 
-            // cbxTransaccionesInventario
+            // cbxTipoDevolucion
             // 
-            cbxTransaccionesInventario.FormattingEnabled = true;
-            cbxTransaccionesInventario.Location = new Point(352, 107);
-            cbxTransaccionesInventario.Name = "cbxTransaccionesInventario";
-            cbxTransaccionesInventario.Size = new Size(156, 23);
-            cbxTransaccionesInventario.TabIndex = 9;
+            cbxTipoDevolucion.FormattingEnabled = true;
+            cbxTipoDevolucion.Location = new Point(135, 141);
+            cbxTipoDevolucion.Name = "cbxTipoDevolucion";
+            cbxTipoDevolucion.Size = new Size(133, 23);
+            cbxTipoDevolucion.TabIndex = 11;
             // 
             // Devolucion_Compra
             // 
@@ -403,5 +403,7 @@
         private DataGridViewImageColumn Seleccionar;
         private ComboBox cbxTransaccionesInventario;
         private Label label6;
+        private ComboBox cbxTipoDevolucion;
+        private Label label7;
     }
 }

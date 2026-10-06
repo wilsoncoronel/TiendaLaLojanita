@@ -21,6 +21,8 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<ArticuloDTO>> ListaArticulos(DateOnly fechaInicial, DateOnly fechaFinal);
         Task<List<ArticuloInventarioDTO>> ListarTodosArticulos(bool esVenta);
         Task<ArticuloDTO> ObtenerArticuloId(int idArticulo);
+        Task<ArticuloInventarioDTO> ObtenerArticuloInventarioId(int idArticulo);
         Task<List<ArticuloCompraDTO>> ListaCompraArticulos();
+        Task<List<ArticuloVentaDTO>> ListaVentaArticulos();
     }
 }

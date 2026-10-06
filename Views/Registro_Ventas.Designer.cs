@@ -100,8 +100,6 @@
             label19 = new Label();
             Id = new DataGridViewTextBoxColumn();
             IdVentaDet = new DataGridViewTextBoxColumn();
-            Lote = new DataGridViewTextBoxColumn();
-            Codigo = new DataGridViewTextBoxColumn();
             IdArticulo = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -360,7 +358,7 @@
             // 
             dgvDetallesVenta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, Lote, Codigo, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, Eliminar });
+            dgvDetallesVenta.Columns.AddRange(new DataGridViewColumn[] { Id, IdVentaDet, IdArticulo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, Eliminar });
             dgvDetallesVenta.Location = new Point(17, 58);
             dgvDetallesVenta.Name = "dgvDetallesVenta";
             dgvDetallesVenta.Size = new Size(856, 305);
@@ -517,7 +515,6 @@
             btnBuscarVenta.Size = new Size(115, 40);
             btnBuscarVenta.TabIndex = 5;
             btnBuscarVenta.UseVisualStyleBackColor = true;
-            btnBuscarVenta.Click += btnBuscarVenta_Click;
             // 
             // dtpFechaInicio
             // 
@@ -776,18 +773,6 @@
             IdVentaDet.Name = "IdVentaDet";
             IdVentaDet.Visible = false;
             // 
-            // Lote
-            // 
-            Lote.HeaderText = "Lote";
-            Lote.Name = "Lote";
-            Lote.ReadOnly = true;
-            // 
-            // Codigo
-            // 
-            Codigo.HeaderText = "Codigo";
-            Codigo.Name = "Codigo";
-            Codigo.ReadOnly = true;
-            // 
             // IdArticulo
             // 
             IdArticulo.HeaderText = "IdArticulo";
@@ -950,8 +935,6 @@
         private DataGridViewImageColumn Editar;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn IdVentaDet;
-        private DataGridViewTextBoxColumn Lote;
-        private DataGridViewTextBoxColumn Codigo;
         private DataGridViewTextBoxColumn IdArticulo;
         private DataGridViewTextBoxColumn Articulo;
         private DataGridViewTextBoxColumn Descripcion;
