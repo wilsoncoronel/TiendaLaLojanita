@@ -1,0 +1,195 @@
+﻿FileId: 1
+```csharp Views\Devolucion_Compra.cs
+1: using iText.Commons.Actions;
+2: using SistemaTienda.DTO;
+3: using System;
+4: using System.Collections.Generic;
+5: using System.ComponentModel;
+6: using System.Data;
+7: using System.Drawing;
+8: using System.Linq;
+9: using System.Runtime.CompilerServices;
+10: using System.Text;
+11: using System.Threading.Tasks;
+12: using System.Windows.Forms;
+13: using TiendaLaLojanita.Models.DTO;
+14: using TiendaLaLojanita.Models.Interfaces;
+15: using TiendaLaLojanita.Services;
+16: 
+17: namespace TiendaLaLojanita.Views
+18: {
+19:     public partial class Devolucion_Compra : Form
+20:     {
+21:         private readonly ICompraService compraService;
+22:         private List<CompraMinDTO> listaCompras;
+23:         private List<DetalleCompraDTO> ListaDetallesCompra;
+24:         private List<TipoDevolucionDTO> ListaTipoDevolucion;
+25:         private List<DevolucionCompraMinDTO> ListaDevolucionesCompra;
+26:         private int idCompra = 0;
+27:         private ProgressBar prog;
+28:         public readonly IDevolucionCompraService devolucionCompraService;
+29: 
+30:         public Devolucion_Compra(ICompraService compraService, IDevolucionCompraService devolucionCompraService)
+31:         {
+32:             InitializeComponent();
+33:             this.compraService = compraService;
+34:             this.devolucionCompraService = devolucionCompraService;
+35:             this.listaCompras = new List<CompraMinDTO>();
+36:             this.cbxEstado.SelectedIndex = 0;
+37:             this.ListaDetallesCompra = new List<DetalleCompraDTO>();
+38:             this.ListaTipoDevolucion = new List<TipoDevolucionDTO>();
+39:             this.CargarCombos();
+40:         }
+41:         private async void btnBuscarCompra_Click(object sender, EventArgs e)
+42:         {
+43:             this.ValidacionBusquedaVacia();
+44:             var compra = await this.BuscarCompra();
+45:             this.CargarTablaCompra(compra);
+46: 
+47:         }
+48: 
+49:         private async Task CargarCombos()
+50:         {
+51:             this.ListaTipoDevolucion = await this.devolucionCompraService.ListaTiposDevolucion();
+52:             this.cbxTipoDevolucion.DataSource = this.ListaTipoDevolucion;
+53:             this.cbxTipoDevolucion.DisplayMember = "Nombre";
+54:             this.cbxTipoDevolucion.ValueMember = "Id";
+55:         }
+56: 
+57:         private async void txtBuscarCompra_KeyDown(object sender, KeyEventArgs e)
+58:         {
+59:             if (e.KeyCode != Keys.Enter)
+60:                 return;
+61:             this.ValidacionBusquedaVacia();
+62:             e.SuppressKeyPress = true;
+63:             e.Handled = true;
+64:             var compra = await this.BuscarCompra();
+65:             this.CargarTablaCompra(compra);
+66:         }
+67: 
+68:         private void ValidacionBusquedaVacia()
+69:         {
+70:             if (this.txtBuscarCompra.Text == "")
+71:             {
+72:                 MessageBox.Show("Ingrese un parametro de busqueda para realizar la busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+73:                 return;
+74:             }
+75:         }
+76: 
+77:         private async Task<List<CompraMinDTO>> BuscarCompra()
+78:         {
+79:             return await this.compraService.ListaCompraDevolucion(this.txtBuscarCompra.Text.Trim());
+80:         }
+81: 
+82:         private void CargarTablaCompra(List<CompraMinDTO> compras)
+83:         {
+84:             if (compras == null || compras.Count == 0)
+85:             {
+86:                 MessageBox.Show("No se encontraron compras con el parametro de busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+87:                 return;
+88:             }
+89:             this.dgvCompraDevolucion.Rows.Clear();
+90:             foreach (var compra in compras)
+91:             {
+92:                 this.dgvCompraDevolucion.Rows.Add(compra.Id, compra.FechaCompra, compra.Documento, compra.ProveedorMinDto.RazonSocial, compra.EstadoCompra.Nombre);
+93:             }
+94:         }
+95: 
+96:         private void dgvCompraDevolucion_CellClick(object sender, DataGridViewCellEventArgs e)
+97:         {
+98:             this.idCompra = Convert.ToInt32(dgvCompraDevolucion.Rows[e.RowIndex].Cells["Id"].Value);
+99:             // Ignorar clics en encabezados
+100:             if (e.RowIndex < 0)
+101:                 return;
+102:             // Validar columna
+103:             if (e.ColumnIndex < 0)
+104:                 return;
+105:             if (dgvCompraDevolucion.Columns[e.ColumnIndex].Name == "Ver")
+106:             {
+107: 
+108:             }
+109:             if (dgvCompraDevolucion.Columns[e.ColumnIndex].Name == "Seleccionar")
+110:             {
+111:                 this.CargarDetallesComprDevolucion(this.idCompra);
+112:             }
+113:         }
+114: 
+115:         private async void CargarDetallesComprDevolucion(int idCompra)
+116:         {
+117:             this.ListaDetallesCompra = await this.compraService.ListarDetallesCompra(idCompra);
+118:             this.CargarTablaDetallesDevolucionCompra();
+119:         }
+120: 
+121:         private void CargarTablaDetallesDevolucionCompra()
+122:         {
+123:             if (this.ListaDetallesCompra == null || this.ListaDetallesCompra.Count == 0)
+124:             {
+125:                 MessageBox.Show("No se encontraron detalles de compra para la compra seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+126:                 return;
+127:             }
+128:             this.dgvDetalleDevolucion.Rows.Clear();
+129:             foreach (var detalle in this.ListaDetallesCompra)
+130:             {
+131:                 this.dgvDetalleDevolucion.Rows.Add(detalle.Id, detalle.Lote, detalle.ArticuloDTO.Nombre, detalle.ValorCompra, detalle.Cantidad);
+132:             }
+133:         }
+134: 
+135:         private void btnGuardar_Click(object sender, EventArgs e)
+136:         {
+137:             this.CrearDevolucionCompra();
+138:         }
+139: 
+140: 
+141:         private async void CrearDevolucionCompra()
+142:         {
+143:             if (this.txtId.Text == "")
+144:             {
+145:                 bool respuesta = this.ConfirmaAccion("Al registrar una devolucion esta afectando a una compra, esta seguro de continuar?");
+146:                 if (!respuesta)
+147:                     return;
+148: 
+149:                 var devolucionCompra = this.CargarDevolucionCompra();
+150:                 prog = new ProgressBar();
+151:                 prog.Show();
+152:                 var resultado = await this.devolucionCompraService.CrearDevolucionCompra(devolucionCompra);
+153:                 prog.Hide();
+154:                 if (resultado > 0)
+155:                 {
+156:                     MessageBox.Show("Devolución de compra creada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+157:                     this.LimpiarFormulario();
+158:                 }
+159:                 else
+160:                 {
+161:                     MessageBox.Show("Ocurrió un error al crear la devolución de compra.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+162:                 }
+163:             }
+164:         }
+165: 
+166:         private bool ConfirmaAccion(string mensaje)
+167:         {
+168:             DialogResult respuesta = MessageBox.Show(
+169:                 mensaje,
+170:                 "Confirmar",
+171:                 MessageBoxButtons.OKCancel,
+172:                 MessageBoxIcon.Question
+173:             );
+174:             if (respuesta == DialogResult.OK)
+175:             {
+176:                 return true;
+177:             }
+178:             return false;
+179:         }
+180: 
+181:         private void LimpiarFormulario()
+182:         {
+183:             this.txtBuscarCompra.Clear();
+184:             this.dgvCompraDevolucion.Rows.Clear();
+185:             this.dgvDetalleDevolucion.Rows.Clear();
+186:             this.txtMotivo.Clear();
+187:             this.cbxEstado.SelectedIndex = 0;
+188:             this.cbxTipoDevolucion.SelectedIndex = 0;
+189:             this.ListaDetallesCompra.Clear();
+190:             this.listaCompras.Clear();
+191:         }
+192: 
+```

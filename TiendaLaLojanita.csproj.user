@@ -4,7 +4,16 @@
     <Compile Update="Views\Admin_Usuarios.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\AplicarCreditoCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Cliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\CreditoProveedorDetalle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\CreditosProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\DatosConfiguraciones.cs">
@@ -35,6 +44,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\NotasCredito.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\ProgressBar.cs">

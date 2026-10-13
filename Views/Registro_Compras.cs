@@ -27,6 +27,7 @@ namespace TiendaLaLojanita.Views
         private readonly IArticuloService articuloService;
         private readonly ICompraService compraService;
         private readonly IInventarioService inventarioService;
+        private readonly ICreditoProveedorService creditoProveedorService;
         private DateTimePicker dateTimePicker;
         private List<ArticuloCompraDTO> listaArticulos;
         private int contador = 0;
@@ -41,18 +42,24 @@ namespace TiendaLaLojanita.Views
         private List<ImpuestoFinalDTO> listaImpuestosFinales = new List<ImpuestoFinalDTO>();
 
         private List<DetalleImpuestoCreacionDTO> listaDetalleImpuestos;
+        private List<CreditoProveedorListaDTO> listaCreditosProveedor = new();
+        private int? idCreditoSeleccionado;
+        private decimal valorCreditoSeleccionado;
+        private bool cargandoProveedor;
+        private bool mostrandoCreditosProveedor;
 
         private ProgressBar prog;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService, IInventarioService inventarioService)
+        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService, IInventarioService inventarioService, ICreditoProveedorService creditoProveedorService)
         {
             InitializeComponent();
             this.proveedorService = proveedorService;
             this.articuloService = articuloService;
             this.compraService = compraService;
             this.inventarioService = inventarioService;
+            this.creditoProveedorService = creditoProveedorService;
             this.listaArticulos = new List<ArticuloCompraDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             this.listaDetalleImpuestos = new List<DetalleImpuestoCreacionDTO>();
@@ -129,7 +136,7 @@ namespace TiendaLaLojanita.Views
                     int idCompra = resp;
                     this.LimpiarFormulario();
                     bool imprimir = this.ConfirmaAccion($"Compra creada con exito con el ID: {idCompra}, desea imprimir la compra?");
-                    if(imprimir)
+                    if (imprimir)
                     {
                         var compra = await this.compraService.ObtenerCompra(idCompra);
                         this.ImprimirCompra(compra);
@@ -144,6 +151,62 @@ namespace TiendaLaLojanita.Views
             }
 
             this.LimpiarValores();
+        }
+
+        private void SeleccionarNotaCredito()
+        {
+            if (this.mostrandoCreditosProveedor)
+            {
+                return;
+            }
+
+            if (this.IdProveedor <= 0)
+            {
+                MessageBox.Show("Debe seleccionar un proveedor antes de consultar sus créditos.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (this.listaCreditosProveedor.Count == 0)
+            {
+                MessageBox.Show("El proveedor seleccionado no tiene notas de crédito disponibles.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            this.mostrandoCreditosProveedor = true;
+            try
+            {
+                using var ventanaNotasCredito = new NotasCredito(this.listaCreditosProveedor);
+                if (ventanaNotasCredito.ShowDialog(this) == DialogResult.OK &&
+                    ventanaNotasCredito.NotaSeleccionada is CreditoProveedorListaDTO notaSeleccionada)
+                {
+                    if (!TieneTotalCompraCalculado())
+                    {
+                        MessageBox.Show(
+                            "No se puede aplicar el crédito porque la compra no tiene detalles o todavía no tiene un total calculado.",
+                            "Información",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    this.idCreditoSeleccionado = notaSeleccionada.Id;
+                    this.valorCreditoSeleccionado = notaSeleccionada.ValorDisponible;
+                    this.CalcularTotales();
+                }
+            }
+            finally
+            {
+                this.mostrandoCreditosProveedor = false;
+            }
+        }
+
+        private bool TieneTotalCompraCalculado()
+        {
+            bool tieneDetalles = this.dgvDetalleCompra.Rows
+                .Cast<DataGridViewRow>()
+                .Any(row => !row.IsNewRow);
+
+            return tieneDetalles && this.TotalGeneral > 0m;
         }
 
         private async Task<bool> EditarCompra()
@@ -173,7 +236,7 @@ namespace TiendaLaLojanita.Views
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
-                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
+                        Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
                         FechaCaducidad = row.Cells["FechaExpiracion"].Value != null ? DateOnly.Parse(row.Cells["FechaExpiracion"].Value.ToString()) : null
@@ -223,6 +286,7 @@ namespace TiendaLaLojanita.Views
                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 compraCreacionDTO.IdUsuarioCreador = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+                compraCreacionDTO.IdCredito = this.idCreditoSeleccionado;
                 compraCreacionDTO.DetalleComprasCreacionDto = new List<DetalleCompraCreacionDTO>();
                 compraCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "COMPRA").Id;
                 foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
@@ -264,9 +328,9 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private void btbBuscarProveedor_Click(object sender, EventArgs e)
+        private async void btbBuscarProveedor_Click(object sender, EventArgs e)
         {
-            this.CargarProveedor(this.txtIdentificacionProveedor.Text);
+            await this.CargarProveedor(this.txtIdentificacionProveedor.Text);
         }
         private async Task<List<ArticuloCompraDTO>> CargarListaArticulos()
         {
@@ -280,8 +344,15 @@ namespace TiendaLaLojanita.Views
         }
         private async Task CargarProveedor(string identificacion)
         {
+            if (this.cargandoProveedor)
+            {
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(identificacion))
             {
+                this.IdProveedor = 0;
+                this.LimpiarCreditosProveedor();
                 MessageBox.Show(
                     "Debe ingresar una identificación válida.",
                     "Dato requerido",
@@ -290,6 +361,8 @@ namespace TiendaLaLojanita.Views
 
                 return;
             }
+
+            this.cargandoProveedor = true;
 
             prog = new ProgressBar();
 
@@ -303,6 +376,8 @@ namespace TiendaLaLojanita.Views
 
                 if (proveedor is null)
                 {
+                    this.IdProveedor = 0;
+                    this.LimpiarCreditosProveedor();
                     MessageBox.Show(
                         "No se encontró ningún proveedor con la identificación ingresada.",
                         "Proveedor no encontrado",
@@ -311,6 +386,7 @@ namespace TiendaLaLojanita.Views
                     return;
                 }
 
+                this.LimpiarCreditosProveedor();
                 IdProveedor = proveedor.Id;
                 txtRazonSocial.Text =
                     proveedor.RazonSocial ?? string.Empty;
@@ -320,11 +396,24 @@ namespace TiendaLaLojanita.Views
                     $"{proveedor.DireccionDto?.Descripcion ?? string.Empty} " +
                     $"{proveedor.DireccionDto?.Ciudad?.Nombre ?? string.Empty}"
                     .Trim();
+
+                this.listaCreditosProveedor = await this.creditoProveedorService.ListarCreditosProveedor(proveedor.Id)
+                    ?? new List<CreditoProveedorListaDTO>();
+
+                if (this.listaCreditosProveedor.Count > 0)
+                {
+                    MessageBox.Show(
+                        "El proveedor tiene notas de crédito disponibles.",
+                        "Información",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
             }
             catch (ApiException ex)
             {
                 ApiErrorHandler.Mostrar(ex);
                 txtIdentificacionProveedor.Clear();
+                this.LimpiarCreditosProveedor();
             }
             catch (Exception ex)
             {
@@ -334,12 +423,14 @@ namespace TiendaLaLojanita.Views
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 txtIdentificacionProveedor.Clear();
+                this.LimpiarCreditosProveedor();
             }
             finally
             {
                 prog?.Hide();
                 prog?.Dispose();
                 prog = null;
+                this.cargandoProveedor = false;
             }
         }
 
@@ -362,7 +453,7 @@ namespace TiendaLaLojanita.Views
             this.txtArticuloBusqueda.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.txtArticuloBusqueda.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
-        
+
 
         private async void BusquedaArticulo()
         {
@@ -373,7 +464,7 @@ namespace TiendaLaLojanita.Views
             // Primero intentar buscar por código (string) sin depender de TryParse
             articuloActual = this.listaArticulos.FirstOrDefault(art => art.Nombre != null && art.Nombre == query || art.Id.ToString() == query);
 
-            if(articuloActual == null)
+            if (articuloActual == null)
             {
                 MessageBox.Show("No se encontró ningun artículo con el nombre o código ingresado!!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -429,7 +520,7 @@ namespace TiendaLaLojanita.Views
             );
         }
 
-        private void ActualizarCantidad(int idArticulo,decimal cantidad,decimal valorCompra)
+        private void ActualizarCantidad(int idArticulo, decimal cantidad, decimal valorCompra)
         {
             if (!this.listaImpuestos.TryGetValue(idArticulo, out var impuestos))
             {
@@ -470,7 +561,7 @@ namespace TiendaLaLojanita.Views
                     impuesto.Cantidad,
                     impuesto.ValorConfigurado);
 
-                if(!listaImpuestos.TryGetValue(articuloActual.Id, out var articuloImpuestos))
+                if (!listaImpuestos.TryGetValue(articuloActual.Id, out var articuloImpuestos))
                 {
                     articuloImpuestos = new List<ImpuestoCalculadoDTO>();
                     listaImpuestos[articuloActual.Id] = articuloImpuestos;
@@ -638,6 +729,8 @@ namespace TiendaLaLojanita.Views
                 totalValorCompraLocal +
                 totImpuestosLocal;
 
+            totalGeneralLocal = Math.Max(0m, totalGeneralLocal - this.valorCreditoSeleccionado);
+
             // ==========================================================
             // 9. MOSTRAR TOTAL
             // ==========================================================
@@ -658,11 +751,11 @@ namespace TiendaLaLojanita.Views
             this.listaImpuestos.Remove(id);
 
         }
-        private bool ComprobarArticuloDgv(ArticuloDTO articuloInventario )
+        private bool ComprobarArticuloDgv(ArticuloDTO articuloInventario)
         {
             foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
             {
-                 if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.Id)
+                if (row.Cells["IdArticulo"].Value != null && Convert.ToInt32(row.Cells["IdArticulo"].Value) == articuloInventario.Id)
                 {
                     return true;
                     break;
@@ -731,7 +824,7 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        private async void txtIdentificacionProveedor_KeyDown(object sender,KeyEventArgs e)
+        private async void txtIdentificacionProveedor_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter)
                 return;
@@ -878,7 +971,7 @@ namespace TiendaLaLojanita.Views
             {
                 ApiErrorHandler.Mostrar(ex);
             }
-        } 
+        }
 
         private async Task ObtenerCompraimpresion(int idCompra)
         {
@@ -1092,7 +1185,7 @@ namespace TiendaLaLojanita.Views
                     detalle.Codigo?? "",
                     detalle.Lote?? "",
                     detalle.ArticuloDTO.Nombre,
-                    detalle.Descripcion, 
+                    detalle.Descripcion,
                     detalle.Cantidad,
                     detalle.ValorCompra,
                     detalle.ValorVenta,
@@ -1118,7 +1211,7 @@ namespace TiendaLaLojanita.Views
                             Valor = impuesto.Valor
                         });
                     }
-                    
+
                 }
                 this.CargarListaImpuestos(detalle);
             }
@@ -1134,7 +1227,7 @@ namespace TiendaLaLojanita.Views
         }
         private void CargarListaImpuestos(DetalleCompraDTO detalle)
         {
-             int idArticulo = detalle.ArticuloDTO.Id;
+            int idArticulo = detalle.ArticuloDTO.Id;
 
             var impuestos = detalle.Impuestos.Select(imp => new ImpuestoCalculadoDTO
             {
@@ -1243,7 +1336,7 @@ namespace TiendaLaLojanita.Views
                         e.RowIndex);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(
             $"No se pudo realizar la operación.\n\n{ex.Message}",
@@ -1305,9 +1398,14 @@ namespace TiendaLaLojanita.Views
             this.txtRazonSocial.Text = "";
             this.txtTelefono.Text = "";
             this.txtIdentificacionProveedor.Text = "";
+            this.IdProveedor = 0;
+            this.LimpiarCreditosProveedor();
             this.dgvDetalleCompra.Rows.Clear();
+            this.dgvDetalleCompra.Refresh();
             this.contador = 0;
             this.TotalGeneral = 0m;
+            this.idCreditoSeleccionado = null;
+            this.valorCreditoSeleccionado = 0m;
             this.listaImpuestos.Clear();
             this.dgvTotales.Rows.Clear();
             this.lblTotal.Text = "";
@@ -1345,7 +1443,7 @@ namespace TiendaLaLojanita.Views
             }
         }
 
-        
+
         private void dgvDetalleCompra_EditingControlShowing_1(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             switch (dgvDetalleCompra.Columns[dgvDetalleCompra.CurrentCell.ColumnIndex].Name)
@@ -1382,6 +1480,24 @@ namespace TiendaLaLojanita.Views
                         textBox.Leave += new EventHandler(TextBox_Leave_ToUpper);
                     }
                     break;
+            }
+        }
+
+        private void btnCreditosProveedor_Click(object sender, EventArgs e)
+        {
+            this.SeleccionarNotaCredito();
+        }
+
+        private void LimpiarCreditosProveedor()
+        {
+            bool teniaCredito = this.idCreditoSeleccionado.HasValue || this.valorCreditoSeleccionado != 0m;
+            this.listaCreditosProveedor.Clear();
+            this.idCreditoSeleccionado = null;
+            this.valorCreditoSeleccionado = 0m;
+
+            if (teniaCredito)
+            {
+                this.CalcularTotales();
             }
         }
     }

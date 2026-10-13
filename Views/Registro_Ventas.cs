@@ -60,19 +60,95 @@ namespace TiendaLaLojanita.Views
         private void ConfigurarColumnasDetallesVenta()
         {
             if (this.dgvDetallesVenta.Columns.Count > 0)
-                return;
+            {
+                if (!this.dgvDetallesVenta.Columns.Contains("Codigo"))
+                {
+                    this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "Codigo",
+                        HeaderText = "Código",
+                        Visible = false
+                    });
+                }
 
-            this.dgvDetallesVenta.Columns.AddRange(
-                this.Id,
-                this.IdVentaDet,
-                this.IdArticulo,
-                this.Articulo,
-                this.Descripcion,
-                this.Cantidad,
-                this.ValorCompra,
-                this.ValorVenta,
-                this.ValorTotal,
-                this.Eliminar);
+                if (!this.dgvDetallesVenta.Columns.Contains("Lote"))
+                {
+                    this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        Name = "Lote",
+                        HeaderText = "Lote",
+                        Visible = false
+                    });
+                }
+
+                return;
+            }
+
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Id",
+                HeaderText = "Id",
+                Visible = false
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "IdVentaDet",
+                HeaderText = "Id venta",
+                Visible = false
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "IdArticulo",
+                HeaderText = "Id artículo",
+                Visible = false
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Articulo",
+                HeaderText = "Artículo"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Descripcion",
+                HeaderText = "Descripción"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Cantidad",
+                HeaderText = "Cantidad"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ValorCompra",
+                HeaderText = "Valor compra"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ValorVenta",
+                HeaderText = "Valor venta"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ValorTotal",
+                HeaderText = "Valor total"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewImageColumn
+            {
+                Name = "Eliminar",
+                HeaderText = "Eliminar"
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Codigo",
+                HeaderText = "Código",
+                Visible = false
+            });
+            this.dgvDetallesVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Lote",
+                HeaderText = "Lote",
+                Visible = false
+            });
         }
 
         private async void Registro_Ventas_Load(object sender, EventArgs e)
@@ -375,21 +451,22 @@ namespace TiendaLaLojanita.Views
                     }
                 });
             }*/
-            int index = this.dgvDetallesVenta.Rows.Add(new object[] {
-                contador,
-                0,
-                articuloActual.Articulo.Id,
-                articuloActual.Articulo.Nombre,
-                articuloActual.Articulo.Descripcion,
-                cant,
-                articuloActual.Articulo.ValorCompra,
-                articuloActual.Articulo.ValorVenta,
-                0,
-            });
+            ConfigurarColumnasDetallesVenta();
+
+            int index = this.dgvDetallesVenta.Rows.Add();
 
             DataGridViewRow fila = this.dgvDetallesVenta.Rows[index];
-            DataGridViewCell celdaContador = fila.Cells[0];
-            fila.Cells[8].Value = articuloActual.Articulo.ValorVenta * Convert.ToInt32(fila.Cells[5].Value);
+            fila.Cells["Id"].Value = contador;
+            fila.Cells["IdVentaDet"].Value = 0;
+            fila.Cells["IdArticulo"].Value = articuloActual.Articulo.Id;
+            fila.Cells["Articulo"].Value = articuloActual.Articulo.Nombre;
+            fila.Cells["Descripcion"].Value = articuloActual.Articulo.Descripcion;
+            fila.Cells["Cantidad"].Value = cant;
+            fila.Cells["ValorCompra"].Value = articuloActual.Articulo.ValorCompra;
+            fila.Cells["ValorVenta"].Value = articuloActual.Articulo.ValorVenta;
+            fila.Cells["ValorTotal"].Value = articuloActual.Articulo.ValorVenta * cant;
+            fila.Cells["Codigo"].Value = articuloActual.Codigo;
+            fila.Cells["Lote"].Value = articuloActual.NumeroLote;
             contador++;
             this.CalcularTotales();
         }
@@ -717,6 +794,7 @@ namespace TiendaLaLojanita.Views
             this.txtDocumento.Text = venta.Documento;
             this.dtpVenta.Value = venta.FechaVenta;
             this.cbxEstadosVenta.SelectedValue = venta.IdEstado;
+            this.ConfigurarColumnasDetallesVenta();
             this.dgvDetallesVenta.Rows.Clear();
             this.listaImpuestos.Clear();
             ArticuloDTO articuloActual = new ArticuloDTO();
@@ -901,10 +979,29 @@ namespace TiendaLaLojanita.Views
                     id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
                     this.GenerarReporteVenta(id);
                 }
+                else if (dgvVentas.Columns[e.ColumnIndex].Name == "Reversar")
+                {
+                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+                    var documento = dgvVentas.Rows[e.RowIndex].Cells["Documento"].Value.ToString();
+                    this.ReversarCompra(id, documento);
+                }
             }
             catch
             {
                 throw;
+            }
+        }
+
+        private async Task ReversarCompra(int idVenta, string documento)
+        {
+            var resp = await this._ventaService.ReversarVenta(idVenta, documento);
+            if(resp)
+            {
+                MessageBox.Show($"Venta reversada correctamente!!", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"Error al reversar la venta!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1138,12 +1235,11 @@ namespace TiendaLaLojanita.Views
             {
                 string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
                 MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            else
-            {
-                idVenta = await this._ventaService.RegistrarVenta(ventaCreacionDTO);
-                return idVenta;
-            }
+            var respEdit = await this._ventaService.EditarVenta(ventaEditar);
+            return respEdit;
+            
 
         }
     }

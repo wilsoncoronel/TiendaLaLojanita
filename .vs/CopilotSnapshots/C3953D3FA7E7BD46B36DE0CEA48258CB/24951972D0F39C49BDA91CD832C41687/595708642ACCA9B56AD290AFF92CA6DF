@@ -1,0 +1,392 @@
+﻿using iText.Commons.Actions;
+using SistemaTienda.DTO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Services;
+using TiendaLaLojanita.Utilidad;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class Devolucion_Compra : Form
+    {
+        private readonly ICompraService compraService;
+        private List<CompraMinDTO> listaCompras;
+        private List<DetalleCompraDTO> ListaDetallesCompra;
+        private List<TipoDevolucionDTO> ListaTipoDevolucion;
+        private List<DevolucionCompraDTO> ListaDevolucionesCompra;
+        private List<CreditoProveedorDTO> ListaCreditosDevolucion;
+        private int idCompra = 0;
+        private ProgressBar prog;
+        public readonly IDevolucionCompraService devolucionCompraService;
+        private readonly ICreditoProveedorService creditoProveedorService;
+
+        public Devolucion_Compra(
+            ICompraService compraService,
+            IDevolucionCompraService devolucionCompraService,
+            ICreditoProveedorService creditoProveedorService)
+        {
+            InitializeComponent();
+            this.compraService = compraService;
+            this.devolucionCompraService = devolucionCompraService;
+            this.creditoProveedorService = creditoProveedorService;
+            this.listaCompras = new List<CompraMinDTO>();
+            this.cbxEstado.SelectedIndex = 0;
+            this.ListaDetallesCompra = new List<DetalleCompraDTO>();
+            this.ListaTipoDevolucion = new List<TipoDevolucionDTO>();
+            this.CargarCombos();
+        }
+        private async void btnBuscarCompra_Click(object sender, EventArgs e)
+        {
+            this.ValidacionBusquedaVacia();
+            var compra = await this.BuscarCompra();
+            this.CargarTablaCompra(compra);
+
+        }
+
+        private async Task CargarCombos()
+        {
+            this.ListaTipoDevolucion = await this.devolucionCompraService.ListaTiposDevolucion();
+            this.cbxTipoDevolucion.DataSource = this.ListaTipoDevolucion;
+            this.cbxTipoDevolucion.DisplayMember = "Nombre";
+            this.cbxTipoDevolucion.ValueMember = "Id";
+        }
+
+        private async Task BuscarDevolucionesPorFechas()
+        {
+            DateOnly fechaInicial = DateOnly.FromDateTime(this.dtpFechaInicial.Value);
+            DateOnly fechaFinal = DateOnly.FromDateTime(this.dtpFechaFinal.Value);
+
+            if (fechaInicial > fechaFinal)
+            {
+                this.dgvDevoluciones.Rows.Clear();
+                MessageBox.Show("La fecha inicial no puede ser posterior a la fecha final.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.prog = new ProgressBar();
+            try
+            {
+                this.prog.Show();
+                this.ListaDevolucionesCompra = await this.devolucionCompraService.ListarDevolucionesFechas(fechaInicial, fechaFinal)
+                    ?? new List<DevolucionCompraDTO>();
+                this.CargarTablaDevoluciones();
+            }
+            catch (Exception ex)
+            {
+                this.dgvDevoluciones.Rows.Clear();
+                this.ListaDevolucionesCompra.Clear();
+                MessageBox.Show($"Ocurrió un error al consultar las devoluciones: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.prog.Hide();
+                this.prog.Dispose();
+                this.prog = null;
+            }
+        }
+
+        private async void dgvDevoluciones_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || e.RowIndex >= this.dgvDevoluciones.Rows.Count)
+            {
+                return;
+            }
+
+            if (this.dgvDevoluciones.Columns[e.ColumnIndex].Name != "Cargar")
+            {
+                return;
+            }
+
+            if (!int.TryParse(this.dgvDevoluciones.Rows[e.RowIndex].Cells["IdDev"].Value?.ToString(), out int idDevolucion))
+            {
+                return;
+            }
+
+            var devolucion = this.ListaDevolucionesCompra.FirstOrDefault(d => d.Id == idDevolucion);
+            if (devolucion == null)
+            {
+                return;
+            }
+
+            this.idCompra = devolucion.IdCompra;
+            this.tabControl1.SelectedTab = this.tabPage1;
+            await this.CargarDetallesComprDevolucionAsync(devolucion.IdCompra);
+        }
+
+        private void CargarTablaDevoluciones()
+        {
+            this.dgvDevoluciones.Rows.Clear();
+
+            if (this.ListaDevolucionesCompra.Count == 0)
+            {
+                MessageBox.Show("No se encontraron devoluciones en el rango de fechas seleccionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            foreach (var devolucion in this.ListaDevolucionesCompra)
+            {
+                this.dgvDevoluciones.Rows.Add(
+                    devolucion.Id,
+                    devolucion.IdCompra,
+                    devolucion.CompraDTO?.ProveedorDto?.RazonSocial ?? string.Empty,
+                    devolucion.FechaCreacion.ToString("dd/MM/yyyy"),
+                    devolucion.Estado == 0 ? "ACTIVO" : "INACTIVO");
+            }
+        }
+
+        private async void txtBuscarCompra_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+            this.ValidacionBusquedaVacia();
+            e.SuppressKeyPress = true;
+            e.Handled = true;
+            var compra = await this.BuscarCompra();
+            this.CargarTablaCompra(compra);
+        }
+
+        private void ValidacionBusquedaVacia()
+        {
+            if (this.txtBuscarCompra.Text == "")
+            {
+                MessageBox.Show("Ingrese un parametro de busqueda para realizar la busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        private async Task<List<CompraMinDTO>> BuscarCompra()
+        {
+            return await this.compraService.ListaCompraDevolucion(this.txtBuscarCompra.Text.Trim());
+        }
+
+        private async void btnBuscarDevoluciones_Click(object sender, EventArgs e)
+        {
+            await this.BuscarDevolucionesPorFechas();
+        }
+
+        private void CargarTablaCompra(List<CompraMinDTO> compras)
+        {
+            if (compras == null || compras.Count == 0)
+            {
+                MessageBox.Show("No se encontraron compras con el parametro de busqueda.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            this.dgvCompraDevolucion.Rows.Clear();
+            foreach (var compra in compras)
+            {
+                this.dgvCompraDevolucion.Rows.Add(compra.Id, compra.FechaCompra, compra.Documento, compra.ProveedorMinDto.RazonSocial, compra.EstadoCompra.Nombre);
+            }
+        }
+
+        private void dgvCompraDevolucion_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.idCompra = Convert.ToInt32(dgvCompraDevolucion.Rows[e.RowIndex].Cells["Id"].Value);
+            // Ignorar clics en encabezados
+            if (e.RowIndex < 0)
+                return;
+            // Validar columna
+            if (e.ColumnIndex < 0)
+                return;
+            if (dgvCompraDevolucion.Columns[e.ColumnIndex].Name == "Ver")
+            {
+
+            }
+            if (dgvCompraDevolucion.Columns[e.ColumnIndex].Name == "Seleccionar")
+            {
+                _ = this.CargarDetallesComprDevolucionAsync(this.idCompra);
+            }
+        }
+
+        private async Task CargarDetallesComprDevolucionAsync(int idCompra)
+        {
+            this.ListaDetallesCompra = await this.compraService.ListarDetallesCompra(idCompra);
+            this.CargarTablaDetallesDevolucionCompra();
+        }
+
+        private void CargarTablaDetallesDevolucionCompra()
+        {
+            if (this.ListaDetallesCompra == null || this.ListaDetallesCompra.Count == 0)
+            {
+                MessageBox.Show("No se encontraron detalles de compra para la compra seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            this.dgvDetalleDevolucion.Rows.Clear();
+            foreach (var detalle in this.ListaDetallesCompra)
+            {
+                this.dgvDetalleDevolucion.Rows.Add(detalle.Id, detalle.Lote, detalle.ArticuloDTO.Nombre, detalle.ValorCompra, detalle.Cantidad);
+            }
+
+            this.CalcularTotales();
+        }
+
+        private void CalcularTotales()
+        {
+            decimal subtotal = 0m;
+            var impuestos = new Dictionary<(int Id, string Nombre), decimal>();
+
+            foreach (DataGridViewRow row in this.dgvDetalleDevolucion.Rows)
+            {
+                if (row.IsNewRow ||
+                    !int.TryParse(row.Cells["IdDetalle"].Value?.ToString(), out int idDetalle) ||
+                    !decimal.TryParse(row.Cells["ValorCompra"].Value?.ToString(), out decimal valorCompra) ||
+                    !decimal.TryParse(row.Cells["Cantidad"].Value?.ToString(), out decimal cantidad))
+                {
+                    continue;
+                }
+
+                var detalle = this.ListaDetallesCompra.FirstOrDefault(d => d.Id == idDetalle);
+                if (detalle == null)
+                {
+                    continue;
+                }
+
+                subtotal += valorCompra * cantidad;
+
+                foreach (var impuesto in detalle.Impuestos ?? new List<DetalleImpuestoCreacionDTO>())
+                {
+                    decimal valorImpuesto = CalcularImpuestos.Calcular(
+                        impuesto.TipoCalculo,
+                        valorCompra,
+                        cantidad,
+                        impuesto.Valor);
+
+                    var clave = (impuesto.IdImpuesto, impuesto.Nombre);
+                    impuestos[clave] = impuestos.TryGetValue(clave, out decimal acumulado)
+                        ? acumulado + valorImpuesto
+                        : valorImpuesto;
+                }
+            }
+
+            this.dgvTotales.Rows.Clear();
+            foreach (var impuesto in impuestos)
+            {
+                this.dgvTotales.Rows.Add(impuesto.Key.Nombre, impuesto.Value);
+            }
+
+            decimal totalGeneral = subtotal + impuestos.Values.Sum();
+            this.txtTotales.Text = totalGeneral.ToString("C2", CultureInfo.GetCultureInfo("en-US"));
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            this.CrearDevolucionCompra();
+        }
+
+
+        private async void CrearDevolucionCompra()
+        {
+            if (this.txtId.Text == "")
+            {
+                bool respuesta = this.ConfirmaAccion("Al registrar una devolucion esta afectando a una compra, esta seguro de continuar?");
+                if (!respuesta)
+                    return;
+
+                var devolucionCompra = this.CargarDevolucionCompra();
+                prog = new ProgressBar();
+                prog.Show();
+                var resultado = await this.devolucionCompraService.CrearDevolucionCompra(devolucionCompra);
+                prog.Hide();
+                if (resultado > 0)
+                {
+                    MessageBox.Show("Devolución de compra creada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.LimpiarFormulario();
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error al crear la devolución de compra.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private bool ConfirmaAccion(string mensaje)
+        {
+            DialogResult respuesta = MessageBox.Show(
+                mensaje,
+                "Confirmar",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+            if (respuesta == DialogResult.OK)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void LimpiarFormulario()
+        {
+            this.txtBuscarCompra.Clear();
+            this.dgvCompraDevolucion.Rows.Clear();
+            this.dgvDetalleDevolucion.Rows.Clear();
+            this.txtMotivo.Clear();
+            this.cbxEstado.SelectedIndex = 0;
+            this.cbxTipoDevolucion.SelectedIndex = 0;
+            this.dgvTotales.Rows.Clear();
+            this.txtTotales.Text = 0m.ToString("C2", CultureInfo.GetCultureInfo("en-US"));
+            this.ListaDetallesCompra.Clear();
+            this.listaCompras.Clear();
+        }
+
+        private DevolucionCompraCreacionDTO CargarDevolucionCompra()
+        {
+            var devolucionCompra = new DevolucionCompraCreacionDTO
+            {
+                Estado = cbxEstado.SelectedIndex,
+                FechaCreacion = DateTime.Now,
+                Motivo = this.txtMotivo.Text,
+                IdCompra = this.idCompra,
+                IdTipoDevolucion = Convert.ToInt32(this.cbxTipoDevolucion.SelectedValue),
+                DetalleDevolucionCompraCreacionDTO = this.dgvDetalleDevolucion.Rows
+                    .Cast<DataGridViewRow>()
+                    .Where(row => !row.IsNewRow)
+                    .Select(row => new DetalleDevolucionCompraCreacionDTO
+                    {
+                        IdDetalleCompra = Convert.ToInt32(row.Cells["IdDetalle"].Value),
+                        Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                        Estado = true
+                    })
+                    .ToList()
+            };
+            return devolucionCompra;
+        }
+        private void dgvDetalleDevolucion_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 ||
+                e.ColumnIndex < 0 ||
+                dgvDetalleDevolucion.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            if (dgvDetalleDevolucion.Columns[e.ColumnIndex].Name == "Quitar")
+            {
+                dgvDetalleDevolucion.Rows.RemoveAt(e.RowIndex);
+                this.CalcularTotales();
+            }
+        }
+
+        private void dgvDetalleDevolucion_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || this.dgvDetalleDevolucion.Rows[e.RowIndex].IsNewRow)
+            {
+                return;
+            }
+
+            if (this.dgvDetalleDevolucion.Columns[e.ColumnIndex].Name == "Cantidad")
+            {
+                this.CalcularTotales();
+            }
+        }
+    }
+}

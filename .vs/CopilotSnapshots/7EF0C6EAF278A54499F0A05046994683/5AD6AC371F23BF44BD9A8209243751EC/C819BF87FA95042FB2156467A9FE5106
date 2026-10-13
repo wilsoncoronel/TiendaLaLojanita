@@ -1,0 +1,153 @@
+﻿using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
+
+namespace TiendaLaLojanita.Views
+{
+    public class CreditoProveedorDetalle : Form
+    {
+        private readonly ICreditoProveedorService _creditoService;
+        private readonly ICompraService _compraService;
+        private readonly int _idCredito;
+        private readonly Label _lblResumen = new();
+        private readonly DataGridView _dgvDetalles = new();
+        private readonly DataGridView _dgvMovimientos = new();
+        private readonly Button _btnAplicar = new();
+        private CreditoProveedorDTO? _credito;
+
+        public CreditoProveedorDetalle(
+            ICreditoProveedorService creditoService,
+            ICompraService compraService,
+            int idCredito)
+        {
+            _creditoService = creditoService;
+            _compraService = compraService;
+            _idCredito = idCredito;
+            InitializeComponent();
+            Load += async (_, _) => await CargarDetalle();
+        }
+
+        private void InitializeComponent()
+        {
+            Text = "Detalle del crédito de proveedor";
+            Width = 1100;
+            Height = 700;
+            StartPosition = FormStartPosition.CenterParent;
+            Padding = new Padding(12);
+
+            _lblResumen.Dock = DockStyle.Top;
+            _lblResumen.Height = 85;
+            _lblResumen.Padding = new Padding(4);
+            _lblResumen.BorderStyle = BorderStyle.FixedSingle;
+            Controls.Add(_lblResumen);
+
+            _btnAplicar.Text = "Aplicar crédito a una compra";
+            _btnAplicar.Dock = DockStyle.Bottom;
+            _btnAplicar.Height = 38;
+            _btnAplicar.Enabled = false;
+            _btnAplicar.Click += async (_, _) => await AplicarCredito();
+            Controls.Add(_btnAplicar);
+
+            var tabs = new TabControl { Dock = DockStyle.Fill };
+            var tabDetalles = new TabPage("Artículos devueltos");
+            var tabMovimientos = new TabPage("Movimientos");
+            ConfigurarGridDetalles();
+            ConfigurarGridMovimientos();
+            tabDetalles.Controls.Add(_dgvDetalles);
+            tabMovimientos.Controls.Add(_dgvMovimientos);
+            tabs.TabPages.Add(tabDetalles);
+            tabs.TabPages.Add(tabMovimientos);
+            Controls.Add(tabs);
+        }
+
+        private void ConfigurarGridDetalles()
+        {
+            _dgvDetalles.Dock = DockStyle.Fill;
+            _dgvDetalles.AutoGenerateColumns = false;
+            _dgvDetalles.AllowUserToAddRows = false;
+            _dgvDetalles.ReadOnly = true;
+            AgregarColumna(_dgvDetalles, "Id", "Id", 60);
+            AgregarColumna(_dgvDetalles, "IdDetalleCompra", "Id detalle compra", 110);
+            AgregarColumna(_dgvDetalles, "IdArticulo", "Id artículo", 90);
+            AgregarColumna(_dgvDetalles, "Descripcion", "Descripción", 220);
+            AgregarColumna(_dgvDetalles, "Cantidad", "Cantidad", 80);
+            AgregarColumna(_dgvDetalles, "ValorCompra", "Valor compra", 100, "N2");
+            AgregarColumna(_dgvDetalles, "Subtotal", "Subtotal", 100, "N2");
+            AgregarColumna(_dgvDetalles, "Impuestos", "Impuestos", 100, "N2");
+            AgregarColumna(_dgvDetalles, "Total", "Total", 100, "N2");
+            _dgvDetalles.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Estado", HeaderText = "Activo", DataPropertyName = "Estado" });
+        }
+
+        private void ConfigurarGridMovimientos()
+        {
+            _dgvMovimientos.Dock = DockStyle.Fill;
+            _dgvMovimientos.AutoGenerateColumns = false;
+            _dgvMovimientos.AllowUserToAddRows = false;
+            _dgvMovimientos.ReadOnly = true;
+            AgregarColumna(_dgvMovimientos, "Id", "Id", 60);
+            AgregarColumna(_dgvMovimientos, "IdCompra", "Id compra", 90);
+            AgregarColumna(_dgvMovimientos, "TipoMovimiento", "Tipo", 160);
+            AgregarColumna(_dgvMovimientos, "Valor", "Valor", 110, "N2");
+            AgregarColumna(_dgvMovimientos, "FechaCreacion", "Fecha", 140, "dd/MM/yyyy HH:mm");
+            AgregarColumna(_dgvMovimientos, "Observacion", "Observación", 300);
+            _dgvMovimientos.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Estado", HeaderText = "Activo", DataPropertyName = "Estado" });
+        }
+
+        private static void AgregarColumna(
+            DataGridView grid,
+            string nombre,
+            string encabezado,
+            int ancho,
+            string? formato = null)
+        {
+            var columna = new DataGridViewTextBoxColumn
+            {
+                Name = nombre,
+                HeaderText = encabezado,
+                DataPropertyName = nombre,
+                Width = ancho
+            };
+            if (formato != null)
+                columna.DefaultCellStyle = new DataGridViewCellStyle { Format = formato };
+            grid.Columns.Add(columna);
+        }
+
+        private async Task CargarDetalle()
+        {
+            try
+            {
+                _credito = await _creditoService.VerCredito(_idCredito);
+                _lblResumen.Text =
+                    $"Crédito: {_credito.Id}    |    Devolución: {_credito.IdDevolucionCompra}    |    " +
+                    $"Proveedor: {_credito.Proveedor}    |    Fecha: {_credito.FechaCreacion:dd/MM/yyyy HH:mm}\r\n" +
+                    $"Valor original: {_credito.ValorOriginal:N2}    |    Valor disponible: {_credito.ValorDisponible:N2}    |    " +
+                    $"Estado: {(_credito.Estado ? "Activo" : "Inactivo")}\r\n" +
+                    "La compra original no está incluida en el contrato del crédito; los IdCompra mostrados corresponden a sus movimientos.";
+                _dgvDetalles.DataSource = _credito.Detalles;
+                _dgvMovimientos.DataSource = _credito.Movimientos;
+                _btnAplicar.Enabled = _credito.Estado && _credito.ValorDisponible > 0;
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+                Close();
+            }
+        }
+
+        private async Task AplicarCredito()
+        {
+            if (_credito == null)
+                return;
+
+            using var formulario = new AplicarCreditoCompra(
+                _creditoService,
+                _compraService,
+                _credito);
+            if (formulario.ShowDialog(this) == DialogResult.OK)
+            {
+                await CargarDetalle();
+                DialogResult = DialogResult.OK;
+            }
+        }
+    }
+}

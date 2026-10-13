@@ -48,9 +48,10 @@ namespace TiendaLaLojanita.Services
             return response.Value;
         }
 
-        public Task<bool> ReversarVenta(int id)
+        public async Task<bool> ReversarVenta(int id, string documento)
         {
-            throw new NotImplementedException();
+            var response = await this._apiClient.PutAsync<bool>($"api/Ventas/ReversarVenta?id={id}&documento={documento}");
+            return response.Value;
         }
     }
 }

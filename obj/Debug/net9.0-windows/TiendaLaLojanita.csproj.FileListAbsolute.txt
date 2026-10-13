@@ -144,3 +144,4 @@ E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\refint\TiendaLaLojanita.d
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.pdb
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.genruntimeconfig.cache
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\ref\TiendaLaLojanita.dll
+E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.NotasCredito.resources

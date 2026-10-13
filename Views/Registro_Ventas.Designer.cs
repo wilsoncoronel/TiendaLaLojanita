@@ -53,6 +53,16 @@
             btnRecargarArticulos = new Button();
             btnBusquedaArticulo = new Button();
             dgvDetallesVenta = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            IdVentaDet = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Descripcion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            ValorVenta = new DataGridViewTextBoxColumn();
+            ValorTotal = new DataGridViewTextBoxColumn();
+            Eliminar = new DataGridViewImageColumn();
             txtArticuloBusqueda = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
@@ -60,17 +70,6 @@
             label10 = new Label();
             tabPage2 = new TabPage();
             dgvVentas = new DataGridView();
-            IdVenta = new DataGridViewTextBoxColumn();
-            FechaVenta = new DataGridViewTextBoxColumn();
-            IdClienteVenta = new DataGridViewTextBoxColumn();
-            Cliente = new DataGridViewTextBoxColumn();
-            FechaModificacion = new DataGridViewTextBoxColumn();
-            IdEstado = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Usuario = new DataGridViewTextBoxColumn();
-            Imprimir = new DataGridViewImageColumn();
-            Editar = new DataGridViewImageColumn();
             btnBuscarVenta = new Button();
             dtpFechaInicio = new DateTimePicker();
             label12 = new Label();
@@ -98,16 +97,18 @@
             txtCambio = new TextBox();
             txtPago = new TextBox();
             label19 = new Label();
-            Id = new DataGridViewTextBoxColumn();
-            IdVentaDet = new DataGridViewTextBoxColumn();
-            IdArticulo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            ValorVenta = new DataGridViewTextBoxColumn();
-            ValorTotal = new DataGridViewTextBoxColumn();
-            Eliminar = new DataGridViewImageColumn();
+            IdVenta = new DataGridViewTextBoxColumn();
+            FechaVenta = new DataGridViewTextBoxColumn();
+            IdClienteVenta = new DataGridViewTextBoxColumn();
+            Cliente = new DataGridViewTextBoxColumn();
+            FechaModificacion = new DataGridViewTextBoxColumn();
+            IdEstado = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Usuario = new DataGridViewTextBoxColumn();
+            Imprimir = new DataGridViewImageColumn();
+            Editar = new DataGridViewImageColumn();
+            Reversar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -367,6 +368,64 @@
             dgvDetallesVenta.CellValueChanged += dgvDetallesVenta_CellValueChanged_1;
             dgvDetallesVenta.EditingControlShowing += dgvDetallesVenta_EditingControlShowing_1;
             // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // IdVentaDet
+            // 
+            IdVentaDet.HeaderText = "IdVentaDet";
+            IdVentaDet.Name = "IdVentaDet";
+            IdVentaDet.Visible = false;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            IdArticulo.Visible = false;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            Descripcion.HeaderText = "Descripción";
+            Descripcion.Name = "Descripcion";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.Visible = false;
+            // 
+            // ValorVenta
+            // 
+            ValorVenta.HeaderText = "Valor Venta";
+            ValorVenta.Name = "ValorVenta";
+            // 
+            // ValorTotal
+            // 
+            ValorTotal.HeaderText = "Valor Total";
+            ValorTotal.Name = "ValorTotal";
+            ValorTotal.ReadOnly = true;
+            // 
+            // Eliminar
+            // 
+            Eliminar.HeaderText = "Eliminar";
+            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
+            Eliminar.Name = "Eliminar";
+            // 
             // txtArticuloBusqueda
             // 
             txtArticuloBusqueda.Location = new Point(132, 22);
@@ -435,77 +494,12 @@
             // 
             dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Imprimir, Editar });
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Imprimir, Editar, Reversar });
             dgvVentas.Location = new Point(6, 54);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.Size = new Size(1133, 307);
             dgvVentas.TabIndex = 6;
             dgvVentas.CellClick += dgvVentas_CellClick_1;
-            // 
-            // IdVenta
-            // 
-            IdVenta.HeaderText = "Id";
-            IdVenta.Name = "IdVenta";
-            IdVenta.ReadOnly = true;
-            // 
-            // FechaVenta
-            // 
-            FechaVenta.HeaderText = "Venta";
-            FechaVenta.Name = "FechaVenta";
-            FechaVenta.ReadOnly = true;
-            // 
-            // IdClienteVenta
-            // 
-            IdClienteVenta.HeaderText = "IdCliente";
-            IdClienteVenta.Name = "IdClienteVenta";
-            IdClienteVenta.Visible = false;
-            // 
-            // Cliente
-            // 
-            Cliente.HeaderText = "Cliente";
-            Cliente.Name = "Cliente";
-            Cliente.ReadOnly = true;
-            // 
-            // FechaModificacion
-            // 
-            FechaModificacion.HeaderText = "Modificación";
-            FechaModificacion.Name = "FechaModificacion";
-            FechaModificacion.ReadOnly = true;
-            // 
-            // IdEstado
-            // 
-            IdEstado.HeaderText = "IdEstado";
-            IdEstado.Name = "IdEstado";
-            IdEstado.Visible = false;
-            // 
-            // Estado
-            // 
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.HeaderText = "Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            // 
-            // Usuario
-            // 
-            Usuario.HeaderText = "Usuario";
-            Usuario.Name = "Usuario";
-            // 
-            // Imprimir
-            // 
-            Imprimir.HeaderText = "Imprimir";
-            Imprimir.Image = Properties.Resources.imprimir_peque;
-            Imprimir.Name = "Imprimir";
-            // 
-            // Editar
-            // 
-            Editar.HeaderText = "Editar";
-            Editar.Image = (Image)resources.GetObject("Editar.Image");
-            Editar.Name = "Editar";
             // 
             // btnBuscarVenta
             // 
@@ -761,63 +755,78 @@
             label19.TabIndex = 12;
             label19.Text = "Pago";
             // 
-            // Id
+            // IdVenta
             // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
+            IdVenta.HeaderText = "Id";
+            IdVenta.Name = "IdVenta";
+            IdVenta.ReadOnly = true;
             // 
-            // IdVentaDet
+            // FechaVenta
             // 
-            IdVentaDet.HeaderText = "IdVentaDet";
-            IdVentaDet.Name = "IdVentaDet";
-            IdVentaDet.Visible = false;
+            FechaVenta.HeaderText = "Venta";
+            FechaVenta.Name = "FechaVenta";
+            FechaVenta.ReadOnly = true;
             // 
-            // IdArticulo
+            // IdClienteVenta
             // 
-            IdArticulo.HeaderText = "IdArticulo";
-            IdArticulo.Name = "IdArticulo";
-            IdArticulo.ReadOnly = true;
-            IdArticulo.Visible = false;
+            IdClienteVenta.HeaderText = "IdCliente";
+            IdClienteVenta.Name = "IdClienteVenta";
+            IdClienteVenta.Visible = false;
             // 
-            // Articulo
+            // Cliente
             // 
-            Articulo.HeaderText = "Articulo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
+            Cliente.HeaderText = "Cliente";
+            Cliente.Name = "Cliente";
+            Cliente.ReadOnly = true;
             // 
-            // Descripcion
+            // FechaModificacion
             // 
-            Descripcion.HeaderText = "Descripción";
-            Descripcion.Name = "Descripcion";
+            FechaModificacion.HeaderText = "Modificación";
+            FechaModificacion.Name = "FechaModificacion";
+            FechaModificacion.ReadOnly = true;
             // 
-            // Cantidad
+            // IdEstado
             // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
+            IdEstado.HeaderText = "IdEstado";
+            IdEstado.Name = "IdEstado";
+            IdEstado.Visible = false;
             // 
-            // ValorCompra
+            // Estado
             // 
-            ValorCompra.HeaderText = "ValorCompra";
-            ValorCompra.Name = "ValorCompra";
-            ValorCompra.Visible = false;
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
             // 
-            // ValorVenta
+            // Documento
             // 
-            ValorVenta.HeaderText = "Valor Venta";
-            ValorVenta.Name = "ValorVenta";
+            Documento.HeaderText = "Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
             // 
-            // ValorTotal
+            // Usuario
             // 
-            ValorTotal.HeaderText = "Valor Total";
-            ValorTotal.Name = "ValorTotal";
-            ValorTotal.ReadOnly = true;
+            Usuario.HeaderText = "Usuario";
+            Usuario.Name = "Usuario";
             // 
-            // Eliminar
+            // Imprimir
             // 
-            Eliminar.HeaderText = "Eliminar";
-            Eliminar.Image = (Image)resources.GetObject("Eliminar.Image");
-            Eliminar.Name = "Eliminar";
+            Imprimir.HeaderText = "Imprimir";
+            Imprimir.Image = Properties.Resources.imprimir_peque;
+            Imprimir.Name = "Imprimir";
+            // 
+            // Editar
+            // 
+            Editar.HeaderText = "Editar";
+            Editar.Image = (Image)resources.GetObject("Editar.Image");
+            Editar.Name = "Editar";
+            // 
+            // Reversar
+            // 
+            Reversar.HeaderText = "Reversar";
+            Reversar.Image = Properties.Resources.resize;
+            Reversar.Name = "Reversar";
+            Reversar.Resizable = DataGridViewTriState.True;
+            Reversar.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Registro_Ventas
             // 
@@ -922,6 +931,16 @@
         private TextBox txtPago;
         private Label label19;
         private Button btnRecargarArticulos;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn IdVentaDet;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Descripcion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewTextBoxColumn ValorVenta;
+        private DataGridViewTextBoxColumn ValorTotal;
+        private DataGridViewImageColumn Eliminar;
         private DataGridViewTextBoxColumn IdVenta;
         private DataGridViewTextBoxColumn FechaVenta;
         private DataGridViewTextBoxColumn IdClienteVenta;
@@ -933,15 +952,6 @@
         private DataGridViewTextBoxColumn Usuario;
         private DataGridViewImageColumn Imprimir;
         private DataGridViewImageColumn Editar;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn IdVentaDet;
-        private DataGridViewTextBoxColumn IdArticulo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn ValorTotal;
-        private DataGridViewImageColumn Eliminar;
+        private DataGridViewImageColumn Reversar;
     }
 }

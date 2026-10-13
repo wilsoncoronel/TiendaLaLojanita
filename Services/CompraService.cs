@@ -21,6 +21,12 @@ namespace TiendaLaLojanita.Services
         {
             this._apiClient = apiClient;
         }
+
+        public async Task<List<CompraMinDTO>> BuscarCompraArticulo(string? codigo, string? lote, int? idArticulo)
+        {
+            var response = await this._apiClient.GetAsync<List<CompraMinDTO>>($"api/Compras/BuscarCompraArticulo?codigo={codigo}&lote={lote}&idArticulo={idArticulo}");
+            return response.Value;
+        }
         public async Task<bool> EditarCompra(CompraEditarDTO compraDto)
         {
             var response = await this._apiClient.PutAsync<bool>($"api/Compras/EditarCompra", compraDto);
@@ -70,5 +76,7 @@ namespace TiendaLaLojanita.Services
 
             return response.Value;
         }
+
+        
     }
 }

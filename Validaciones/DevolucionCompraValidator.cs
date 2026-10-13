@@ -20,7 +20,9 @@ namespace TiendaLaLojanita.Validaciones
                 .NotEmpty().WithMessage("El motivo es obligatorio.")
                 .NotNull().WithMessage("El motivo no puede ser nulo.")
                 .MaximumLength(500).WithMessage("El motivo no puede exceder los 500 caracteres.");
-            
+            RuleFor(x => x.IdTipoDevolucion)
+                .GreaterThan(0).WithMessage("Debe seleccionar un tipo devolución!.");
+
             // Validar propiedades de cada elemento del detalle
             RuleForEach(x => x.DetalleDevolucionCompraCreacionDTO).ChildRules(detalle =>
             {

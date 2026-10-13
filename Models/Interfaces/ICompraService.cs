@@ -9,6 +9,7 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface ICompraService
     {
+        Task<List<CompraMinDTO>> BuscarCompraArticulo(string? codigo, string? lote, int? idArticulo);
         Task<int> RegistrarCompra(CompraCreacionDTO compraDto);
         Task<bool> EditarCompra(CompraEditarDTO compraDto);
         Task<List<CompraMinDTO>> ListarCompras(DateOnly fechaInicial, DateOnly fechaFinal);

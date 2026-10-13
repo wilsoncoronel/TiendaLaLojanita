@@ -13,7 +13,7 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<bool> EditarVenta(VentaEditarDTO ventaDto);
         Task<List<VentaMinDTO>> ListarVenta(DateOnly fechaInicial, DateOnly fechaFinal);
         Task<VentaDTO> ObtenerVenta(int idVenta);
-        Task<bool> ReversarVenta(int id);
+        Task<bool> ReversarVenta(int id, string documento);
         Task<List<EstadoVentaDTO>> ListarEstadosVenta();
     }
 }

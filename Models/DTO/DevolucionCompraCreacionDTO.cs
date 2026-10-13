@@ -13,6 +13,7 @@ namespace SistemaTienda.DTO
         public int Estado { get; set; }
 
         public string Motivo { get; set; } = string.Empty;
+        public int IdTipoDevolucion { get; set; }
 
         // Nota: Se omite la propiedad de navegación a TbCompra para evitar dependencia directa al proyecto de modelos
         public ICollection<DetalleDevolucionCompraCreacionDTO> DetalleDevolucionCompraCreacionDTO { get; set; } = new List<DetalleDevolucionCompraCreacionDTO>();

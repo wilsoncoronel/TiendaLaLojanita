@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Compras));
             groupBox1 = new GroupBox();
             btnProveedor = new Button();
+            btnCreditosProveedor = new Button();
             txtIdentificacionProveedor = new TextBox();
             btbBuscarProveedor = new Button();
             txtTelefono = new TextBox();
@@ -143,6 +144,18 @@
             btnProveedor.TabIndex = 10;
             btnProveedor.UseVisualStyleBackColor = true;
             btnProveedor.Click += btnProveedor_Click;
+            // 
+            // btnCreditosProveedor
+            // 
+            btnCreditosProveedor.BackColor = Color.Transparent;
+            btnCreditosProveedor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCreditosProveedor.Image = Properties.Resources.notas_min;
+            btnCreditosProveedor.Location = new Point(1178, 191);
+            btnCreditosProveedor.Name = "btnCreditosProveedor";
+            btnCreditosProveedor.Size = new Size(255, 61);
+            btnCreditosProveedor.TabIndex = 7;
+            btnCreditosProveedor.UseVisualStyleBackColor = false;
+            btnCreditosProveedor.Click += btnCreditosProveedor_Click;
             // 
             // txtIdentificacionProveedor
             // 
@@ -362,7 +375,7 @@
             btnGuardar.BackColor = Color.Transparent;
             btnGuardar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1184, 153);
+            btnGuardar.Location = new Point(1178, 258);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(255, 61);
             btnGuardar.TabIndex = 5;
@@ -374,7 +387,7 @@
             btnCancelar.BackColor = Color.Transparent;
             btnCancelar.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1184, 220);
+            btnCancelar.Location = new Point(1178, 325);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(255, 63);
             btnCancelar.TabIndex = 6;
@@ -743,6 +756,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1445, 902);
+            Controls.Add(btnCreditosProveedor);
             Controls.Add(btnCancelar);
             Controls.Add(groupBox4);
             Controls.Add(btnGuardar);
@@ -847,5 +861,6 @@
         private DataGridViewTextBoxColumn ValorTotal;
         private DataGridViewTextBoxColumn FechaExpiracion;
         private DataGridViewImageColumn Eliminar;
+        private Button btnCreditosProveedor;
     }
 }

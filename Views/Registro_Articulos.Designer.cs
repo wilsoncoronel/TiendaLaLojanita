@@ -284,7 +284,7 @@
             // cbxEstado
             // 
             cbxEstado.FormattingEnabled = true;
-            cbxEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
+            cbxEstado.Items.AddRange(new object[] { "ACTIVO", "INACTIVO" });
             cbxEstado.Location = new Point(566, 56);
             cbxEstado.Name = "cbxEstado";
             cbxEstado.Size = new Size(128, 23);

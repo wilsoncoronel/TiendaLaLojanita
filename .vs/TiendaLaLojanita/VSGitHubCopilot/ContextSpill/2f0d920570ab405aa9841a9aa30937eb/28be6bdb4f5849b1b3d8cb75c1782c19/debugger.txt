@@ -1,0 +1,363 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 35436)
+
+## EXCEPTION
+Exception Type: System.InvalidOperationException
+Exception Message: Al control DataGridView no se puede agregar ninguna fila que no tenga columnas. Las columnas se deben agregar primero.
+Piece of code that has the exception:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Registro_Ventas.cs
+194:         private async Task BusquedaArticulo()
+195:         {
+196:             string query =
+197:                 this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
+198: 
+199:             if (string.IsNullOrWhiteSpace(query))
+200:             {
+201:                 MessageBox.Show(
+202:                     "Debe ingresar un nombre, código o lote.",
+203:                     "Dato requerido",
+204:                     MessageBoxButtons.OK,
+205:                     MessageBoxIcon.Warning);
+206: 
+207:                 return;
+208:             }
+209: 
+210:             try
+211:             {
+212:                 ArticuloVentaDTO articuloActual = null;
+213:                 ArticuloInventarioDTO articuloInventario = null;
+214: 
+215:                 // =====================================================
+216:                 // 1. BUSCAR EN LA LISTA LOCAL
+217:                 // =====================================================
+218: 
+219:                 articuloActual = this.listaArticulos.FirstOrDefault(art =>
+220:                     (!string.IsNullOrWhiteSpace(art.Codigo) &&
+221:                      art.Codigo.Equals(
+222:                          query,
+223:                          StringComparison.OrdinalIgnoreCase))
+224:                     ||
+225:                     (!string.IsNullOrWhiteSpace(art.Nombre) &&
+226:                      art.Nombre.Equals(
+227:                          query,
+228:                          StringComparison.OrdinalIgnoreCase))
+229:                     ||
+230:                     (!string.IsNullOrWhiteSpace(art.Lote) &&
+231:                      art.Lote.Equals(
+232:                          query,
+233:                          StringComparison.OrdinalIgnoreCase))
+234:                 );
+235: 
+236:                 // =====================================================
+237:                 // 2. SI NO SE ENCUENTRA, BUSCAR POR ID
+238:                 // =====================================================
+239: 
+240:                 if (articuloActual == null &&
+241:                     int.TryParse(query, out int idArticulo))
+242:                 {
+243:                     articuloActual =
+244:                         this.listaArticulos.FirstOrDefault(
+245:                             art => art.Id == idArticulo);
+246:                 }
+247: 
+248:                 // =====================================================
+249:                 // 3. CONSULTAR INVENTARIO
+250:                 // =====================================================
+251: 
+252:                 if (articuloActual != null)
+253:                 {
+254:                     articuloInventario =
+255:                         await this.articuloService
+256:                             .ObtenerArticuloInventarioId(
+257:                                 articuloActual.Id);
+258:                 }
+259: 
+260:                 // =====================================================
+261:                 // 4. VALIDAR RESULTADO
+262:                 // =====================================================
+263: 
+264:                 if (articuloInventario == null ||
+265:                     articuloInventario.IdArticulo == 0)
+266:                 {
+267:                     MessageBox.Show(
+268:                         "No se encontró ningún artículo con el nombre, código o lote ingresado.",
+269:                         "Artículo no encontrado",
+270:                         MessageBoxButtons.OK,
+271:                         MessageBoxIcon.Information);
+272: 
+273:                     this.txtArticuloBusqueda.Clear();
+274: 
+275:                     return;
+276:                 }
+277: 
+278:                 // =====================================================
+279:                 // 5. COMPROBAR SI YA EXISTE EN EL DATAGRIDVIEW
+280:                 // =====================================================
+281: 
+282:                 bool resp =
+283:                     this.ComprobarArticuloDgv(
+284:                         articuloInventario);
+285: 
+286:                 if (resp)
+287:                 {
+288:                     foreach (DataGridViewRow row in
+289:                              this.dgvDetallesVenta.Rows)
+290:                     {
+291:                         if (row.Cells["IdArticulo"].Value != null &&
+292:                             Convert.ToInt32(
+293:                                 row.Cells["IdArticulo"].Value)
+294:                                 == articuloInventario.IdArticulo &&
+295:                             row.Cells["Lote"].Value != null &&
+296:                             row.Cells["Lote"].Value.ToString()
+297:                                 == articuloInventario.NumeroLote)
+298:                         {
+299:                             row.Cells["Cantidad"].Value =
+300:                                 Convert.ToInt32(
+301:                                     row.Cells["Cantidad"].Value) + 1;
+302: 
+303:                             this.CalcularTotales();
+304:                             break;
+305:                         }
+306:                     }
+307: 
+308:                     this.LimpiarValores();
+309:                 }
+310:                 else
+311:                 {
+312:                     this.CargarDataGrid(
+313:                         articuloInventario);
+314: 
+315:                     this.LimpiarValores();
+316:                 }
+317:             }
+318:             catch (ApiException ex)
+319:             {
+320:                 // =====================================================
+321:                 // ERROR PROVENIENTE DE LA API
+322:                 // =====================================================
+323: 
+324:                 ApiErrorHandler.Mostrar(ex);
+325: 
+326:                 this.txtArticuloBusqueda.Clear();
+327:             }
+328:             catch (Exception ex)
+329:             {
+330:                 // =====================================================
+331:                 // ERROR NO CONTROLADO
+332:                 // =====================================================
+333: 
+334:                 MessageBox.Show(
+335:                     $"Ocurrió un error inesperado: {ex.Message}",
+336:                     "Error",
+337:                     MessageBoxButtons.OK,
+338:                     MessageBoxIcon.Error);
+339: 
+340:                 this.txtArticuloBusqueda.Clear();
+341:             }
+342:         }
+```
+Exception is on line 328
+This exception was originally thrown at this call stack:
+[1] System.Windows.Forms.DataGridViewRowCollection.AddInternal(bool, object[])
+[2] TiendaLaLojanita.Views.Registro_Ventas.CargarDataGrid(TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO) en Registro_Ventas.cs
+[3] TiendaLaLojanita.Views.Registro_Ventas.BusquedaArticulo() en Registro_Ventas.cs
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 34328
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Registro_Ventas.BusquedaArticulo
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Registro_Ventas.cs
+194:         private async Task BusquedaArticulo()
+195:         {
+196:             string query =
+197:                 this.txtArticuloBusqueda?.Text?.Trim() ?? string.Empty;
+198: 
+199:             if (string.IsNullOrWhiteSpace(query))
+200:             {
+201:                 MessageBox.Show(
+202:                     "Debe ingresar un nombre, código o lote.",
+203:                     "Dato requerido",
+204:                     MessageBoxButtons.OK,
+205:                     MessageBoxIcon.Warning);
+206: 
+207:                 return;
+208:             }
+209: 
+210:             try
+211:             {
+212:                 ArticuloVentaDTO articuloActual = null;
+213:                 ArticuloInventarioDTO articuloInventario = null;
+214: 
+215:                 // =====================================================
+216:                 // 1. BUSCAR EN LA LISTA LOCAL
+217:                 // =====================================================
+218: 
+219:                 articuloActual = this.listaArticulos.FirstOrDefault(art =>
+220:                     (!string.IsNullOrWhiteSpace(art.Codigo) &&
+221:                      art.Codigo.Equals(
+222:                          query,
+223:                          StringComparison.OrdinalIgnoreCase))
+224:                     ||
+225:                     (!string.IsNullOrWhiteSpace(art.Nombre) &&
+226:                      art.Nombre.Equals(
+227:                          query,
+228:                          StringComparison.OrdinalIgnoreCase))
+229:                     ||
+230:                     (!string.IsNullOrWhiteSpace(art.Lote) &&
+231:                      art.Lote.Equals(
+232:                          query,
+233:                          StringComparison.OrdinalIgnoreCase))
+234:                 );
+235: 
+236:                 // =====================================================
+237:                 // 2. SI NO SE ENCUENTRA, BUSCAR POR ID
+238:                 // =====================================================
+239: 
+240:                 if (articuloActual == null &&
+241:                     int.TryParse(query, out int idArticulo))
+242:                 {
+243:                     articuloActual =
+244:                         this.listaArticulos.FirstOrDefault(
+245:                             art => art.Id == idArticulo);
+246:                 }
+247: 
+248:                 // =====================================================
+249:                 // 3. CONSULTAR INVENTARIO
+250:                 // =====================================================
+251: 
+252:                 if (articuloActual != null)
+253:                 {
+254:                     articuloInventario =
+255:                         await this.articuloService
+256:                             .ObtenerArticuloInventarioId(
+257:                                 articuloActual.Id);
+258:                 }
+259: 
+260:                 // =====================================================
+261:                 // 4. VALIDAR RESULTADO
+262:                 // =====================================================
+263: 
+264:                 if (articuloInventario == null ||
+265:                     articuloInventario.IdArticulo == 0)
+266:                 {
+267:                     MessageBox.Show(
+268:                         "No se encontró ningún artículo con el nombre, código o lote ingresado.",
+269:                         "Artículo no encontrado",
+270:                         MessageBoxButtons.OK,
+271:                         MessageBoxIcon.Information);
+272: 
+273:                     this.txtArticuloBusqueda.Clear();
+274: 
+275:                     return;
+276:                 }
+277: 
+278:                 // =====================================================
+279:                 // 5. COMPROBAR SI YA EXISTE EN EL DATAGRIDVIEW
+280:                 // =====================================================
+281: 
+282:                 bool resp =
+283:                     this.ComprobarArticuloDgv(
+284:                         articuloInventario);
+285: 
+286:                 if (resp)
+287:                 {
+288:                     foreach (DataGridViewRow row in
+289:                              this.dgvDetallesVenta.Rows)
+290:                     {
+291:                         if (row.Cells["IdArticulo"].Value != null &&
+292:                             Convert.ToInt32(
+293:                                 row.Cells["IdArticulo"].Value)
+294:                                 == articuloInventario.IdArticulo &&
+295:                             row.Cells["Lote"].Value != null &&
+296:                             row.Cells["Lote"].Value.ToString()
+297:                                 == articuloInventario.NumeroLote)
+298:                         {
+299:                             row.Cells["Cantidad"].Value =
+300:                                 Convert.ToInt32(
+301:                                     row.Cells["Cantidad"].Value) + 1;
+302: 
+303:                             this.CalcularTotales();
+304:                             break;
+305:                         }
+306:                     }
+307: 
+308:                     this.LimpiarValores();
+309:                 }
+310:                 else
+311:                 {
+312:                     this.CargarDataGrid(
+313:                         articuloInventario);
+314: 
+315:                     this.LimpiarValores();
+316:                 }
+317:             }
+318:             catch (ApiException ex)
+319:             {
+320:                 // =====================================================
+321:                 // ERROR PROVENIENTE DE LA API
+322:                 // =====================================================
+323: 
+324:                 ApiErrorHandler.Mostrar(ex);
+325: 
+326:                 this.txtArticuloBusqueda.Clear();
+327:             }
+328:             catch (Exception ex)
+329:             {
+330:                 // =====================================================
+331:                 // ERROR NO CONTROLADO
+332:                 // =====================================================
+333: 
+334:                 MessageBox.Show(
+335:                     $"Ocurrió un error inesperado: {ex.Message}",
+336:                     "Error",
+337:                     MessageBoxButtons.OK,
+338:                     MessageBoxIcon.Error);
+339: 
+340:                 this.txtArticuloBusqueda.Clear();
+341:             }
+342:         }
+```
+Current statement: line 328
+[2] [Reanudando método asincrónico]
+[3] [Código externo]
+[32] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             Application.ThreadException += Application_ThreadException;
+23:             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+24:             var services = new ServiceCollection();
+25:             ConfigureServices(services);
+26:             using (var serviceProvider = services.BuildServiceProvider())
+27:             {
+28:                 var form1 = new FrmLoggin(serviceProvider);
+29:                 Application.Run(form1);
+30:             }
+31:         }
+```
+Current statement: line 29
+
+## LOCALS
+Variable: 'System.Windows.Forms.DataGridView.Rows.get devuelto' of type 'System.Windows.Forms.DataGridViewRowCollection' is a complex object with child properties and has value: {System.Windows.Forms.DataGridViewRowCollection}
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO.Articulo.get devuelto' of type 'TiendaLaLojanita.Models.DTO.ArticuloDTO' is a complex object with child properties and has value: {TiendaLaLojanita.Models.DTO.ArticuloDTO}
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloDTO.Id.get devuelto' of type 'int' has value: 23
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO.Articulo.get devuelto' of type 'TiendaLaLojanita.Models.DTO.ArticuloDTO' is a complex object with child properties and has value: {TiendaLaLojanita.Models.DTO.ArticuloDTO}
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloDTO.Nombre.get devuelto' of type 'string' has value: "ATUN REAL Valor Com: 0,8700, Uni: 160,0000 ML"
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO.Articulo.get devuelto' of type 'TiendaLaLojanita.Models.DTO.ArticuloDTO' is a complex object with child properties and has value: {TiendaLaLojanita.Models.DTO.ArticuloDTO}
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloDTO.Descripcion.get devuelto' of type 'string' has value: ""
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO.Articulo.get devuelto' of type 'TiendaLaLojanita.Models.DTO.ArticuloDTO' is a complex object with child properties and has value: {TiendaLaLojanita.Models.DTO.ArticuloDTO}
+Variable: 'TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO.Articulo.get devuelto' of type 'TiendaLaLojanita.Models.DTO.ArticuloDTO' is a complex object with child properties and has value: {TiendaLaLojanita.Models.DTO.ArticuloDTO}
+Variable: 'this' of type 'TiendaLaLojanita.Views.Registro_Ventas' is a complex object with child properties and has value: {TiendaLaLojanita.Views.Registro_Ventas}
+Variable: 'ex' of type 'System.Exception' is a complex object with child properties and has value: null
+Variable: 'query' of type 'string' has value: "ATUN Id: 23  Mar: REAL Tip: Enlatados Uni: ML 160,0000 1,1500$"
+Variable: 'idArticulo' of type 'int' has value: 0
+

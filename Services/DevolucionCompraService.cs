@@ -28,5 +28,32 @@ namespace TiendaLaLojanita.Services
             var response = await this.apiClient.GetAsync<List<TransaccionInventarioDTO>>("api/Configuraciones/ListarTransacciones");
             return response.Value;
         }
+
+        public async Task<List<TipoDevolucionDTO>> ListaTiposDevolucion()
+        {
+            var response = await this.apiClient.GetAsync<List<TipoDevolucionDTO>>("api/DevolucionCompra/ListarTiposDevolucion");
+            return response.Value;
+        }
+
+        public async Task<List<DevolucionCompraDTO>> ListarDevolucionesFechas(DateOnly fechaInicial, DateOnly fechaFinal)
+        {
+            var response = await apiClient.GetAsync<List<DevolucionCompraDTO>>($"api/DevolucionCompra/ListarDevolucionesFechas?fechaInicio={fechaInicial:yyyy-MM-dd}&fechaFin={fechaFinal:yyyy-MM-dd}");
+            return response.Value;
+        }
+
+        public async Task<CreditoProveedorDTO> VerCreditoPorDevolucion(int idDevolucion)
+        { 
+        
+            var response = await apiClient.GetAsync<CreditoProveedorDTO>(
+                $"api/DevolucionCompra/VerCreditoPorDevolucion?idDevolucion={idDevolucion}");
+
+            return response.Value ?? new CreditoProveedorDTO();
+        }
+
+        public async Task<List<DetalleDevolucionCompraDTO>> ListarDetallesDevolucion(int idDetalleDevolucion)
+        {
+            var response = await apiClient.GetAsync<List<DetalleDevolucionCompraDTO>>($"api/DevolucionCompra/ListarDetallesDevolucion?idDevolucionCompra={idDetalleDevolucion}");
+            return response.Value;
+        }
     }
 }
