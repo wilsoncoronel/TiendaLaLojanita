@@ -19,6 +19,7 @@ namespace TiendaLaLojanita.Views
 {
     public partial class Inventario : Form, ISesionReceptor
     {
+        ProgressBar pro;
         private List<TransaccionInventarioDTO> ListaTranInv;
         private readonly IInventarioService inventarioService;
         private readonly IProcesarExcel procesarExcel;
@@ -69,7 +70,8 @@ namespace TiendaLaLojanita.Views
             this.cbxProveedor.ValueMember = "Id";
 
             AutoCompleteStringCollection collecion = new AutoCompleteStringCollection();
-            foreach (var prov in ListaProveedores) {
+            foreach (var prov in ListaProveedores)
+            {
                 collecion.Add(Convert.ToString(prov.RazonSocial));
             }
 
@@ -210,9 +212,29 @@ namespace TiendaLaLojanita.Views
         }
         private void btnBusquedaArticulo_Click(object sender, EventArgs e)
         {
-
         }
 
+        private async void btnGenerarCodigoArticulo_Click(object sender, EventArgs e)
+        {
+            pro = new ProgressBar();
+            pro.Show();
+            var listaExistencias = await this.ProcesarExistencias();
+            pro.Hide();
+            this.CargarVentanaExistencias(listaExistencias);
+        }
+        private void CargarVentanaExistencias(List<InventarioLoteDTO> listaExistencias)
+        {
+            ArticulosInventarioCodigos existenciaForm = new ArticulosInventarioCodigos(listaExistencias);
+            existenciaForm.StartPosition = FormStartPosition.CenterScreen;
+            existenciaForm.ShowDialog();
+        }
+
+        private async Task<List<InventarioLoteDTO>> ProcesarExistencias()
+        {
+
+            var ListaExistenciasArticulos = await this.inventarioService.ExistenciasInventario(true);
+            return ListaExistenciasArticulos;
+        }
         private void btbBuscarInv_Click(object sender, EventArgs e)
         {
             this.CargarListaInventario();
@@ -243,7 +265,7 @@ namespace TiendaLaLojanita.Views
         }
 
         private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
-        {    
+        {
             if (cbxReportes.SelectedItem.ToString() == "Resumen Ventas al Día")
             {
                 MessageBoxFunction(cbxReportes.SelectedItem.ToString());
@@ -301,6 +323,5 @@ namespace TiendaLaLojanita.Views
             return resp;
         }
 
-        
     }
 }

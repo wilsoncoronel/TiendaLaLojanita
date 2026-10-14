@@ -56,6 +56,7 @@ namespace TiendaLaLojanita.Views
             this.listaArticulos = new List<ArticuloDTO>();
             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
             this.listaUnidades = new List<UnidadMedidaDTO>();
+            this.txtArticulo.TextChanged += txtArticulo_TextChanged;
 
             this.tipoArticuloService = tipoArticuloService;
             this.impuestoService = impuestoService;
@@ -461,6 +462,24 @@ namespace TiendaLaLojanita.Views
                     unidadValor
                 );
             }
+        }
+
+        private void txtArticulo_TextChanged(object? sender, EventArgs e)
+        {
+            string texto = this.txtArticulo.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                this.CargarTabla(this.listaArticulos);
+                return;
+            }
+
+            var articulosFiltrados = this.listaArticulos.Where(articulo =>
+                articulo.Id.ToString().Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+                articulo.Nombre?.Contains(texto, StringComparison.OrdinalIgnoreCase) == true ||
+                articulo.Descripcion?.Contains(texto, StringComparison.OrdinalIgnoreCase) == true);
+
+            this.CargarTabla(articulosFiltrados.ToList());
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

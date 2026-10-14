@@ -7,6 +7,9 @@
     <Compile Update="Views\AplicarCreditoCompra.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\ArticulosInventarioCodigos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Cliente.cs">
       <SubType>Form</SubType>
     </Compile>

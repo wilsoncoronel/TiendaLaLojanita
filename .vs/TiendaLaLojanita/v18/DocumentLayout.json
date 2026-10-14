@@ -3,12 +3,58 @@
   "WorkspaceRootPath": "E:\\proyectos\\TiendaLaLojanita\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\articulosinventariocodigos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\articulosinventariocodigos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-replicar-el-clculo-de-impuestos-en-los-detalles-de-devolucin.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|MarkdownSecurePreview"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\articulosinventariocodigos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\articulosinventariocodigos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\utilidad\\impresiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:utilidad\\impresiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-cargar-existencias-y-preparar-impresin-de-cdigos-de-barras.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|MarkdownSecurePreview"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\compraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,28 +65,12 @@
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\devolucioncompraservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\interfaces\\iventaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iventaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\ventaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -54,7 +84,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,20 +96,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Registro_Articulos.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeToolTip": "Views\\Registro_Articulos.cs",
-              "ViewState": "AgIAACgBAAAAAAAAAAAwwD4BAABkAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "ArticulosInventarioCodigos.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\ArticulosInventarioCodigos.cs",
+              "RelativeDocumentMoniker": "Views\\ArticulosInventarioCodigos.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\ArticulosInventarioCodigos.cs",
+              "RelativeToolTip": "Views\\ArticulosInventarioCodigos.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAEAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-13T02:33:16.604Z",
+              "WhenOpened": "2026-10-13T17:22:00.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Inventario.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
+              "RelativeDocumentMoniker": "Views\\Inventario.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
+              "RelativeToolTip": "Views\\Inventario.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAqwNoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T15:44:15.563Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "plan-replicar-el-clculo-de-impuestos-en-los-detalles-de-devolucin.md [Versi\u00F3n preliminar]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-replicar-el-clculo-de-impuestos-en-los-detalles-de-devolucin.md",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-replicar-el-clculo-de-impuestos-en-los-detalles-de-devolucin.md [Versi\u00F3n preliminar]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-10-13T15:04:50.27Z",
+              "EditorCaption": " [Versi\u00F3n preliminar]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Registro_Ventas.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Registro_Ventas.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T17:40:48.413Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Registro_Ventas.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
+              "RelativeToolTip": "Views\\Registro_Ventas.cs",
+              "ViewState": "AgIAADQEAAAAAAAAAAAIwEsEAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-12T18:53:10.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArticulosInventarioCodigos.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\ArticulosInventarioCodigos.cs",
+              "RelativeDocumentMoniker": "Views\\ArticulosInventarioCodigos.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\ArticulosInventarioCodigos.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\ArticulosInventarioCodigos.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T15:45:04.394Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Registro_Articulos.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
@@ -91,7 +181,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
+              "Title": "plan-cargar-existencias-y-preparar-impresin-de-cdigos-de-barras.md [Versi\u00F3n preliminar]",
+              "DocumentMoniker": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-cargar-existencias-y-preparar-impresin-de-cdigos-de-barras.md",
+              "ToolTip": "C:\\Users\\DOOMSLAYER\\.copilot\\plans\\plan-cargar-existencias-y-preparar-impresin-de-cdigos-de-barras.md [Versi\u00F3n preliminar]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-10-13T19:33:17.222Z",
+              "EditorCaption": " [Versi\u00F3n preliminar]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Impresiones.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\Impresiones.cs",
+              "RelativeDocumentMoniker": "Utilidad\\Impresiones.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\Impresiones.cs",
+              "RelativeToolTip": "Utilidad\\Impresiones.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAAEwAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T19:41:52.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAvwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T17:08:07.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Inventario.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
+              "RelativeDocumentMoniker": "Views\\Inventario.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Inventario.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T15:30:36.058Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Registro_Articulos.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAwwD4BAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-13T02:33:16.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "DevolucionCompraService.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\DevolucionCompraService.cs",
               "RelativeDocumentMoniker": "Services\\DevolucionCompraService.cs",
@@ -99,12 +250,11 @@
               "RelativeToolTip": "Services\\DevolucionCompraService.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAIwDYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T22:47:12.923Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-12T22:47:12.923Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 14,
               "Title": "CompraService.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\CompraService.cs",
               "RelativeDocumentMoniker": "Services\\CompraService.cs",
@@ -112,25 +262,24 @@
               "RelativeToolTip": "Services\\CompraService.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAAADYAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T22:42:08.343Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-12T22:42:08.343Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 13,
               "Title": "Devolucion_Compra.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
               "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeToolTip": "Views\\Devolucion_Compra.cs",
-              "ViewState": "AgIAAKgAAAAAAAAAAAD4v74AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAEoBAAAAAAAAAAAAAPYBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-12T21:55:24.63Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
               "Title": "Devolucion_Compra.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
@@ -142,7 +291,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "ArticuloService.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ArticuloService.cs",
               "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
@@ -150,12 +299,11 @@
               "RelativeToolTip": "Services\\ArticuloService.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAgwBEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T20:11:13.228Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-12T20:11:13.228Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "IVentaService.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\Interfaces\\IVentaService.cs",
               "RelativeDocumentMoniker": "Models\\Interfaces\\IVentaService.cs",
@@ -163,12 +311,11 @@
               "RelativeToolTip": "Models\\Interfaces\\IVentaService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T19:50:30.047Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-12T19:50:30.047Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "VentaService.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\VentaService.cs",
               "RelativeDocumentMoniker": "Services\\VentaService.cs",
@@ -176,33 +323,7 @@
               "RelativeToolTip": "Services\\VentaService.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAiwA0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T19:31:36.284Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Registro_Ventas.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
-              "RelativeToolTip": "Views\\Registro_Ventas.cs",
-              "ViewState": "AgIAAAsDAAAAAAAAAAAnwCYDAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T18:53:10.514Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Registro_Ventas.cs [Dise\u00F1o]",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Ventas.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ventas.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Registro_Ventas.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-12T17:40:48.413Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-10-12T19:31:36.284Z"
             }
           ]
         }

@@ -79,6 +79,7 @@
             groupBox5 = new GroupBox();
             dtpFechaResumen = new DateTimePicker();
             cbxReportes = new ComboBox();
+            btnGenerarCodigoArticulo = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -491,11 +492,22 @@
             cbxReportes.Text = "Seleccione Tipo Resumen";
             cbxReportes.SelectedIndexChanged += cbxReportes_SelectedIndexChanged;
             // 
+            // btnGenerarCodigoArticulo
+            // 
+            btnGenerarCodigoArticulo.Image = Properties.Resources.inventario;
+            btnGenerarCodigoArticulo.Location = new Point(1206, 86);
+            btnGenerarCodigoArticulo.Name = "btnGenerarCodigoArticulo";
+            btnGenerarCodigoArticulo.Size = new Size(214, 68);
+            btnGenerarCodigoArticulo.TabIndex = 6;
+            btnGenerarCodigoArticulo.UseVisualStyleBackColor = true;
+            btnGenerarCodigoArticulo.Click += btnGenerarCodigoArticulo_Click;
+            // 
             // Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1649, 726);
+            Controls.Add(btnGenerarCodigoArticulo);
             Controls.Add(groupBox5);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
@@ -571,5 +583,6 @@
         private DataGridViewTextBoxColumn Codigo;
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewImageColumn Eliminar;
+        private Button btnGenerarCodigoArticulo;
     }
 }

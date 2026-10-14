@@ -317,7 +317,9 @@ namespace TiendaLaLojanita.Views
                     continue;
                 }
 
-                var detalle = this.ListaDetallesCompra.FirstOrDefault(d => d.Id == idDetalle);
+                var detalle = this.ListaDetallesDevolucion?
+                    .FirstOrDefault(d => d.IdDetalleCompra == idDetalle)?.DetalleCompraDto
+                    ?? this.ListaDetallesCompra.FirstOrDefault(d => d.Id == idDetalle);
                 if (detalle == null)
                 {
                     continue;
