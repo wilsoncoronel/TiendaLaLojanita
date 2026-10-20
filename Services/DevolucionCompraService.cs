@@ -55,5 +55,11 @@ namespace TiendaLaLojanita.Services
             var response = await apiClient.GetAsync<List<DetalleDevolucionCompraDTO>>($"api/DevolucionCompra/ListarDetallesDevolucion?idDevolucionCompra={idDetalleDevolucion}");
             return response.Value;
         }
+
+        public async Task<DevolucionCompraDTO> CargarDevolucion(int idDevolucion)
+        {
+            var response = await apiClient.GetAsync<DevolucionCompraDTO>($"api/DevolucionCompra/DevolucionCompra?idDevolucion={idDevolucion}");
+            return response.Value ?? new DevolucionCompraDTO();
+        }
     }
 }

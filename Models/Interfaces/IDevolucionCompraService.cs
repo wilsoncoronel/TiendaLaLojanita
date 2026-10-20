@@ -16,5 +16,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<TipoDevolucionDTO>> ListaTiposDevolucion();
         Task<List<DetalleDevolucionCompraDTO>> ListarDetallesDevolucion(int idDetalleDevolucion);
         Task<List<DevolucionCompraDTO>> ListarDevolucionesFechas(DateOnly fechaInicial, DateOnly fechaFinal);
+        Task<DevolucionCompraDTO> CargarDevolucion(int idDevolucion);
     }
 }

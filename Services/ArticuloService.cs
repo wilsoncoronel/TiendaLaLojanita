@@ -107,5 +107,11 @@ namespace TiendaLaLojanita.Services
             var response = await _apiClient.GetAsync<List<ArticuloVentaDTO>>($"api/Articulo/ListaVentaArticulos");
             return response.Value ?? new List<ArticuloVentaDTO>();
         }
+        //
+        public async Task<List<ArticuloVentaDTO>> ListaDevolucionArticulos()
+        {
+            var response = await _apiClient.GetAsync<List<ArticuloVentaDTO>>($"api/Articulo/ListarDevolucionArticulos");
+            return response.Value ?? new List<ArticuloVentaDTO>();
+        }
     }
 }

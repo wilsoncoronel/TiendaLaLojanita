@@ -24,5 +24,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<ArticuloInventarioDTO> ObtenerArticuloInventarioId(int idArticulo);
         Task<List<ArticuloCompraDTO>> ListaCompraArticulos();
         Task<List<ArticuloVentaDTO>> ListaVentaArticulos();
+        Task<List<ArticuloVentaDTO>> ListaDevolucionArticulos();
     }
 }

@@ -49,6 +49,12 @@ namespace TiendaLaLojanita.Services
             return response.Value ?? new List<ProveedorDTO>();
         }
 
+        public async Task<List<ProveedorMinDTO>> ProveedoresMin()
+        {
+            var response = await _apiClient.GetAsync<List<ProveedorMinDTO>>($"api/Proveedor/ProveedoresMin");
+            return response.Value ?? new List<ProveedorMinDTO>();
+        }
+
         public async Task<List<TipoIdentificacionDTO>> ListarTiposIdentificacion()
         {
             var response = await _apiClient.GetAsync<List<TipoIdentificacionDTO>>($"api/Proveedor/ListarTiposIdentificacion");

@@ -12,8 +12,8 @@ namespace TiendaLaLojanita.Validaciones
     {
         public DevolucionCompraValidator()
         {
-            RuleFor(x => x.IdCompra)
-                .GreaterThan(0).WithMessage("Debe seleccionar una compra.");
+            RuleFor(x => x.IdProveedor)
+                .GreaterThan(0).WithMessage("Debe seleccionar un proveedor.");
             RuleFor(x => x.Estado)
                 .InclusiveBetween(0, 1).WithMessage("El estado debe ser 0 o 1.");
             RuleFor(x => x.Motivo)
@@ -29,9 +29,9 @@ namespace TiendaLaLojanita.Validaciones
                 detalle.RuleFor(d => d.Cantidad)
                       .GreaterThan(0)
                       .WithMessage("La cantidad debe ser mayor a 0");
-                detalle.RuleFor(d => d.IdDetalleCompra)
+                detalle.RuleFor(d => d.IdArticulo)
                       .GreaterThan(0)
-                      .WithMessage("El IdDetalleCompra debe ser mayor a 0");
+                      .WithMessage("Seleccione un artículo");
             });
         }
     }

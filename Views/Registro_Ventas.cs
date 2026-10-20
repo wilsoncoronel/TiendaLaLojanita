@@ -156,7 +156,6 @@ namespace TiendaLaLojanita.Views
             this.listaArticulos = await this.CargarListaArticulos();
             this.lblUsuario.Text = $"Usuario: {Sesion?.Usuario}";
             this.lblFechaIngreso.Text = $"Fecha Ingreso: {DateTime.Now.ToString("g")}";
-            this.listaArticulos = await this.CargarListaArticulos();
             this.ListaTransacciones = await this.inventarioService.ListaTransaccionesInventario();
             this.CargarDatosInciales();
             AutoCompleteArt();
@@ -419,38 +418,6 @@ namespace TiendaLaLojanita.Views
 
         private void CargarDataGrid(ArticuloInventarioDTO articuloActual)
         {
-            /*var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(articuloActual.Articulo.ImpuestoArticuloDto.Nombre));
-            if (existente != null)
-            {
-                existente[articuloActual.Articulo.ImpuestoArticuloDto.Nombre].Add(new ImpuestoArticuloCalculadoDTO
-                {
-                    NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
-                    IdArticulo = articuloActual.Articulo.Id,
-                    ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
-                    ValorVenta = articuloActual.Articulo.ValorVenta,
-                    Id = contador,
-                    Cantidad = cant
-                });
-            }
-            else
-            {
-                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
-                {
-                    { articuloActual.Articulo.ImpuestoArticuloDto.Nombre, new List<ImpuestoArticuloCalculadoDTO>
-                        {
-                            new ImpuestoArticuloCalculadoDTO
-                            {
-                                NombreImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.Nombre,
-                                IdArticulo = articuloActual.Articulo.Id,
-                                ValorImpuesto = articuloActual.Articulo.ImpuestoArticuloDto.ValorImpuesto,
-                                ValorVenta = articuloActual.Articulo.ValorVenta,
-                                Id = contador,
-                                Cantidad = cant
-                            }
-                        }
-                    }
-                });
-            }*/
             ConfigurarColumnasDetallesVenta();
 
             int index = this.dgvDetallesVenta.Rows.Add();

@@ -9,11 +9,11 @@ namespace TiendaLaLojanita.Models.DTO
     public class DetalleDevolucionCompraDTO
     {
         public int Id { get; set; }
-        public int IdDetalleCompra { get; set; }
-        public DetalleCompraDTO DetalleCompraDto { get; set; } = null!;
-
+        public int IdArticulo { get; set; }
+        public ArticuloDTO ArticuloDTO { get; set; } = null!;
+        public decimal Valor { get; set; }
         public int Cantidad { get; set; }
-
         public bool Estado { get; set; }
+        public List<ImpuestoDetalleDevolucionDTO> Impuestos { get; set; } = new List<ImpuestoDetalleDevolucionDTO>();
     }
 }

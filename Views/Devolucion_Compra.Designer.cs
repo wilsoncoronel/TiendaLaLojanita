@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label5 = new Label();
+            cbxProveedor = new ComboBox();
             cbxTipoDevolucion = new ComboBox();
             label7 = new Label();
             cbxEstado = new ComboBox();
@@ -42,6 +44,10 @@
             groupBox2 = new GroupBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btnRecargarArticulos = new Button();
+            button1 = new Button();
+            txtArtículo = new TextBox();
+            label10 = new Label();
             label8 = new Label();
             txtTotales = new TextBox();
             dgvTotales = new DataGridView();
@@ -49,6 +55,8 @@
             Valor = new DataGridViewTextBoxColumn();
             dgvDetalleDevolucion = new DataGridView();
             IdDetalle = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
             Lote = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
             ValorCompra = new DataGridViewTextBoxColumn();
@@ -71,7 +79,6 @@
             btnBuscarDevoluciones = new Button();
             dgvDevoluciones = new DataGridView();
             IdDev = new DataGridViewTextBoxColumn();
-            IdCom = new DataGridViewTextBoxColumn();
             ProveedorName = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
             EstadoDev = new DataGridViewTextBoxColumn();
@@ -82,27 +89,6 @@
             label6 = new Label();
             label9 = new Label();
             groupBox3 = new GroupBox();
-            tabControl2 = new TabControl();
-            tabPage3 = new TabPage();
-            btnBuscarCompra = new Button();
-            txtBuscarCompra = new TextBox();
-            label5 = new Label();
-            tabPage4 = new TabPage();
-            btnBuscarCompraArticulo = new Button();
-            txtCodigoArticulo = new TextBox();
-            label12 = new Label();
-            txtLoteArticulo = new TextBox();
-            label11 = new Label();
-            txtIdArticulo = new TextBox();
-            label10 = new Label();
-            dgvCompraDevolucion = new DataGridView();
-            Id = new DataGridViewTextBoxColumn();
-            Creacion = new DataGridViewTextBoxColumn();
-            Documento = new DataGridViewTextBoxColumn();
-            Proveedor = new DataGridViewTextBoxColumn();
-            Estado = new DataGridViewTextBoxColumn();
-            Ver = new DataGridViewImageColumn();
-            Seleccionar = new DataGridViewImageColumn();
             btnGuardar = new Button();
             btnBorrar = new Button();
             groupBox1.SuspendLayout();
@@ -115,15 +101,12 @@
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCredito).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCreditosDevolucion).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDevoluciones).BeginInit();
-            groupBox3.SuspendLayout();
-            tabControl2.SuspendLayout();
-            tabPage3.SuspendLayout();
-            tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCompraDevolucion).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(cbxProveedor);
             groupBox1.Controls.Add(cbxTipoDevolucion);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(cbxEstado);
@@ -136,10 +119,27 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(5, 5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(525, 238);
+            groupBox1.Size = new Size(542, 238);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Devolución";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(16, 180);
+            label5.Name = "label5";
+            label5.Size = new Size(64, 15);
+            label5.TabIndex = 13;
+            label5.Text = "Proveedor:";
+            // 
+            // cbxProveedor
+            // 
+            cbxProveedor.FormattingEnabled = true;
+            cbxProveedor.Location = new Point(135, 177);
+            cbxProveedor.Name = "cbxProveedor";
+            cbxProveedor.Size = new Size(271, 23);
+            cbxProveedor.TabIndex = 12;
             // 
             // cbxTipoDevolucion
             // 
@@ -248,6 +248,10 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(btnRecargarArticulos);
+            tabPage1.Controls.Add(button1);
+            tabPage1.Controls.Add(txtArtículo);
+            tabPage1.Controls.Add(label10);
             tabPage1.Controls.Add(label8);
             tabPage1.Controls.Add(txtTotales);
             tabPage1.Controls.Add(dgvTotales);
@@ -260,10 +264,47 @@
             tabPage1.Text = "Detalle devolución";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnRecargarArticulos
+            // 
+            btnRecargarArticulos.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
+            btnRecargarArticulos.Location = new Point(625, 9);
+            btnRecargarArticulos.Name = "btnRecargarArticulos";
+            btnRecargarArticulos.Size = new Size(72, 36);
+            btnRecargarArticulos.TabIndex = 8;
+            btnRecargarArticulos.UseVisualStyleBackColor = true;
+            btnRecargarArticulos.Click += btnRecargarArticulos_Click;
+            // 
+            // button1
+            // 
+            button1.Image = Properties.Resources.lupa_min;
+            button1.Location = new Point(537, 9);
+            button1.Name = "button1";
+            button1.Size = new Size(72, 36);
+            button1.TabIndex = 7;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // txtArtículo
+            // 
+            txtArtículo.Location = new Point(72, 20);
+            txtArtículo.Name = "txtArtículo";
+            txtArtículo.Size = new Size(439, 23);
+            txtArtículo.TabIndex = 6;
+            txtArtículo.KeyDown += txtArtículo_KeyDown;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(14, 20);
+            label10.Name = "label10";
+            label10.Size = new Size(52, 15);
+            label10.TabIndex = 5;
+            label10.Text = "Artículo:";
+            // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(798, 226);
+            label8.Location = new Point(1050, 249);
             label8.Name = "label8";
             label8.Size = new Size(42, 15);
             label8.TabIndex = 4;
@@ -272,7 +313,7 @@
             // txtTotales
             // 
             txtTotales.Enabled = false;
-            txtTotales.Location = new Point(846, 223);
+            txtTotales.Location = new Point(1110, 246);
             txtTotales.Name = "txtTotales";
             txtTotales.PlaceholderText = "0.00";
             txtTotales.Size = new Size(152, 23);
@@ -282,7 +323,7 @@
             // 
             dgvTotales.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTotales.Columns.AddRange(new DataGridViewColumn[] { Impuestos, Valor });
-            dgvTotales.Location = new Point(676, 17);
+            dgvTotales.Location = new Point(940, 36);
             dgvTotales.Name = "dgvTotales";
             dgvTotales.Size = new Size(322, 188);
             dgvTotales.TabIndex = 2;
@@ -302,18 +343,30 @@
             // dgvDetalleDevolucion
             // 
             dgvDetalleDevolucion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetalleDevolucion.Columns.AddRange(new DataGridViewColumn[] { IdDetalle, Lote, Articulo, ValorCompra, Cantidad, Quitar });
-            dgvDetalleDevolucion.Location = new Point(8, 17);
+            dgvDetalleDevolucion.Columns.AddRange(new DataGridViewColumn[] { IdDetalle, IdArticulo, Codigo, Lote, Articulo, ValorCompra, Cantidad, Quitar });
+            dgvDetalleDevolucion.Location = new Point(8, 56);
             dgvDetalleDevolucion.Name = "dgvDetalleDevolucion";
-            dgvDetalleDevolucion.Size = new Size(649, 314);
+            dgvDetalleDevolucion.Size = new Size(851, 275);
             dgvDetalleDevolucion.TabIndex = 1;
             dgvDetalleDevolucion.CellClick += dgvDetalleDevolucion_CellClick_1;
+            dgvDetalleDevolucion.CellValueChanged += dgvDetalleDevolucion_CellValueChanged;
             // 
             // IdDetalle
             // 
             IdDetalle.HeaderText = "Id";
             IdDetalle.Name = "IdDetalle";
             IdDetalle.ReadOnly = true;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Código";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
             // 
             // Lote
             // 
@@ -459,7 +512,7 @@
             // dgvDevoluciones
             // 
             dgvDevoluciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDevoluciones.Columns.AddRange(new DataGridViewColumn[] { IdDev, IdCom, ProveedorName, FechaCreacion, EstadoDev, Cargar, Reversar });
+            dgvDevoluciones.Columns.AddRange(new DataGridViewColumn[] { IdDev, ProveedorName, FechaCreacion, EstadoDev, Cargar, Reversar });
             dgvDevoluciones.Location = new Point(11, 45);
             dgvDevoluciones.Name = "dgvDevoluciones";
             dgvDevoluciones.Size = new Size(744, 269);
@@ -471,12 +524,6 @@
             IdDev.HeaderText = "Id";
             IdDev.Name = "IdDev";
             IdDev.ReadOnly = true;
-            // 
-            // IdCom
-            // 
-            IdCom.HeaderText = "Compra Nro.";
-            IdCom.Name = "IdCom";
-            IdCom.ReadOnly = true;
             // 
             // ProveedorName
             // 
@@ -543,207 +590,17 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(tabControl2);
-            groupBox3.Controls.Add(dgvCompraDevolucion);
-            groupBox3.Location = new Point(536, 5);
+            groupBox3.Location = new Point(953, 5);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(801, 188);
+            groupBox3.Size = new Size(384, 100);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
-            groupBox3.Text = "Datos Compra:";
-            // 
-            // tabControl2
-            // 
-            tabControl2.Controls.Add(tabPage3);
-            tabControl2.Controls.Add(tabPage4);
-            tabControl2.Location = new Point(12, 18);
-            tabControl2.Name = "tabControl2";
-            tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(772, 68);
-            tabControl2.TabIndex = 3;
-            // 
-            // tabPage3
-            // 
-            tabPage3.Controls.Add(btnBuscarCompra);
-            tabPage3.Controls.Add(txtBuscarCompra);
-            tabPage3.Controls.Add(label5);
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(764, 40);
-            tabPage3.TabIndex = 0;
-            tabPage3.Text = "Buscar Compra";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // btnBuscarCompra
-            // 
-            btnBuscarCompra.Image = Properties.Resources.ver;
-            btnBuscarCompra.Location = new Point(465, 2);
-            btnBuscarCompra.Name = "btnBuscarCompra";
-            btnBuscarCompra.Size = new Size(80, 35);
-            btnBuscarCompra.TabIndex = 3;
-            btnBuscarCompra.UseVisualStyleBackColor = true;
-            btnBuscarCompra.Click += btnBuscarCompra_Click;
-            // 
-            // txtBuscarCompra
-            // 
-            txtBuscarCompra.Location = new Point(62, 8);
-            txtBuscarCompra.Name = "txtBuscarCompra";
-            txtBuscarCompra.PlaceholderText = "IdCompra/Documento";
-            txtBuscarCompra.Size = new Size(397, 23);
-            txtBuscarCompra.TabIndex = 1;
-            txtBuscarCompra.KeyDown += txtBuscarCompra_KeyDown;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(11, 11);
-            label5.Name = "label5";
-            label5.Size = new Size(45, 15);
-            label5.TabIndex = 0;
-            label5.Text = "Buscar:";
-            // 
-            // tabPage4
-            // 
-            tabPage4.Controls.Add(btnBuscarCompraArticulo);
-            tabPage4.Controls.Add(txtCodigoArticulo);
-            tabPage4.Controls.Add(label12);
-            tabPage4.Controls.Add(txtLoteArticulo);
-            tabPage4.Controls.Add(label11);
-            tabPage4.Controls.Add(txtIdArticulo);
-            tabPage4.Controls.Add(label10);
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(764, 40);
-            tabPage4.TabIndex = 1;
-            tabPage4.Text = "Buscar Artículo";
-            tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // btnBuscarCompraArticulo
-            // 
-            btnBuscarCompraArticulo.Image = Properties.Resources.ver;
-            btnBuscarCompraArticulo.Location = new Point(598, 3);
-            btnBuscarCompraArticulo.Name = "btnBuscarCompraArticulo";
-            btnBuscarCompraArticulo.Size = new Size(80, 35);
-            btnBuscarCompraArticulo.TabIndex = 6;
-            btnBuscarCompraArticulo.UseVisualStyleBackColor = true;
-            btnBuscarCompraArticulo.Click += btnBuscarCompraArticulo_Click;
-            // 
-            // txtCodigoArticulo
-            // 
-            txtCodigoArticulo.Location = new Point(428, 8);
-            txtCodigoArticulo.Name = "txtCodigoArticulo";
-            txtCodigoArticulo.PlaceholderText = "C0000000";
-            txtCodigoArticulo.Size = new Size(143, 23);
-            txtCodigoArticulo.TabIndex = 5;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(373, 11);
-            label12.Name = "label12";
-            label12.Size = new Size(49, 15);
-            label12.TabIndex = 4;
-            label12.Text = "Codigo:";
-            // 
-            // txtLoteArticulo
-            // 
-            txtLoteArticulo.Location = new Point(214, 8);
-            txtLoteArticulo.Name = "txtLoteArticulo";
-            txtLoteArticulo.PlaceholderText = "L0000000";
-            txtLoteArticulo.Size = new Size(153, 23);
-            txtLoteArticulo.TabIndex = 3;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(175, 10);
-            label11.Name = "label11";
-            label11.Size = new Size(33, 15);
-            label11.TabIndex = 2;
-            label11.Text = "Lote:";
-            // 
-            // txtIdArticulo
-            // 
-            txtIdArticulo.Location = new Point(64, 8);
-            txtIdArticulo.Name = "txtIdArticulo";
-            txtIdArticulo.PlaceholderText = "Id";
-            txtIdArticulo.Size = new Size(100, 23);
-            txtIdArticulo.TabIndex = 1;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(6, 11);
-            label10.Name = "label10";
-            label10.Size = new Size(52, 15);
-            label10.TabIndex = 0;
-            label10.Text = "Artículo:";
-            // 
-            // dgvCompraDevolucion
-            // 
-            dgvCompraDevolucion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCompraDevolucion.Columns.AddRange(new DataGridViewColumn[] { Id, Creacion, Documento, Proveedor, Estado, Ver, Seleccionar });
-            dgvCompraDevolucion.Location = new Point(9, 92);
-            dgvCompraDevolucion.Name = "dgvCompraDevolucion";
-            dgvCompraDevolucion.Size = new Size(775, 90);
-            dgvCompraDevolucion.TabIndex = 2;
-            dgvCompraDevolucion.CellClick += dgvCompraDevolucion_CellClick;
-            // 
-            // Id
-            // 
-            Id.Frozen = true;
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // Creacion
-            // 
-            Creacion.Frozen = true;
-            Creacion.HeaderText = "Creacion";
-            Creacion.Name = "Creacion";
-            Creacion.ReadOnly = true;
-            // 
-            // Documento
-            // 
-            Documento.Frozen = true;
-            Documento.HeaderText = "Documento";
-            Documento.Name = "Documento";
-            Documento.ReadOnly = true;
-            // 
-            // Proveedor
-            // 
-            Proveedor.Frozen = true;
-            Proveedor.HeaderText = "Proveedor";
-            Proveedor.Name = "Proveedor";
-            // 
-            // Estado
-            // 
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            // 
-            // Ver
-            // 
-            Ver.HeaderText = "Ver";
-            Ver.Image = Properties.Resources.ver;
-            Ver.Name = "Ver";
-            Ver.Resizable = DataGridViewTriState.True;
-            Ver.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // Seleccionar
-            // 
-            Seleccionar.HeaderText = "Seleccionar";
-            Seleccionar.Image = Properties.Resources.full_selection_icon_;
-            Seleccionar.Name = "Seleccionar";
-            Seleccionar.Resizable = DataGridViewTriState.True;
-            Seleccionar.SortMode = DataGridViewColumnSortMode.Automatic;
+            groupBox3.Text = "Datos Usuario";
             // 
             // btnGuardar
             // 
             btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(1053, 198);
+            btnGuardar.Location = new Point(953, 112);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(134, 45);
             btnGuardar.TabIndex = 3;
@@ -753,7 +610,7 @@
             // btnBorrar
             // 
             btnBorrar.Image = Properties.Resources.cancelar_resize;
-            btnBorrar.Location = new Point(1203, 199);
+            btnBorrar.Location = new Point(1203, 112);
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(134, 45);
             btnBorrar.TabIndex = 4;
@@ -771,6 +628,7 @@
             Controls.Add(groupBox1);
             Name = "Devolucion_Compra";
             Text = "Devolucion_Compra";
+            Load += Devolucion_Compra_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -784,13 +642,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvMovimientosCredito).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCreditosDevolucion).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDevoluciones).EndInit();
-            groupBox3.ResumeLayout(false);
-            tabControl2.ResumeLayout(false);
-            tabPage3.ResumeLayout(false);
-            tabPage3.PerformLayout();
-            tabPage4.ResumeLayout(false);
-            tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCompraDevolucion).EndInit();
             ResumeLayout(false);
         }
 
@@ -814,12 +665,6 @@
         private Button btnBuscarCompra;
         private Button btnGuardar;
         private Button btnBorrar;
-        private DataGridViewTextBoxColumn IdDetalle;
-        private DataGridViewTextBoxColumn Lote;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewImageColumn Quitar;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Creacion;
         private DataGridViewTextBoxColumn Documento;
@@ -850,13 +695,6 @@
         private DataGridViewTextBoxColumn ValorDisponible;
         private DataGridViewTextBoxColumn CreacionCred;
         private DataGridViewTextBoxColumn EstadoCred;
-        private DataGridViewTextBoxColumn IdDev;
-        private DataGridViewTextBoxColumn IdCom;
-        private DataGridViewTextBoxColumn ProveedorName;
-        private DataGridViewTextBoxColumn FechaCreacion;
-        private DataGridViewTextBoxColumn EstadoDev;
-        private DataGridViewImageColumn Cargar;
-        private DataGridViewImageColumn Reversar;
         private DataGridView dgvMovimientosCredito;
         private DataGridViewTextBoxColumn IdMov;
         private DataGridViewTextBoxColumn TipoMov;
@@ -874,5 +712,23 @@
         private Label label11;
         private TextBox txtIdArticulo;
         private Label label10;
+        private ComboBox cbxProveedor;
+        private Button button1;
+        private TextBox txtArtículo;
+        private Button btnRecargarArticulos;
+        private DataGridViewTextBoxColumn IdDetalle;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewImageColumn Quitar;
+        private DataGridViewTextBoxColumn IdDev;
+        private DataGridViewTextBoxColumn ProveedorName;
+        private DataGridViewTextBoxColumn FechaCreacion;
+        private DataGridViewTextBoxColumn EstadoDev;
+        private DataGridViewImageColumn Cargar;
+        private DataGridViewImageColumn Reversar;
     }
 }
