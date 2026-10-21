@@ -48,8 +48,8 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(648, 250);
             dataGridView1.TabIndex = 0;
-            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
             // 
             // Id
             // 
@@ -117,6 +117,7 @@
             Name = "NotasCredito";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NotasCredito";
+            Load += NotasCredito_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

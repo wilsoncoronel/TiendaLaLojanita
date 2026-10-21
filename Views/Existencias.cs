@@ -43,7 +43,51 @@ namespace TiendaLaLojanita.Views
 
         private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
         {
+            FiltrarArticulos();
+        }
 
+        private void btnBusqueda_Click(object sender, EventArgs e)
+        {
+            FiltrarArticulos();
+        }
+
+        private void FiltrarArticulos()
+        {
+            string busqueda = this.txtArticuloBusqueda.Text.Trim().ToLower();
+
+            // Si el campo está vacío, mostrar todos los artículos
+            if (string.IsNullOrEmpty(busqueda))
+            {
+                CargarTablaExistencias();
+                return;
+            }
+
+            // Filtrar la lista de existencias
+            var articulosFiltrados = ListaExistencias.Where(exis =>
+                exis.IdArticulo.ToString().ToLower().Contains(busqueda) ||
+                exis.NumeroLote.ToLower().Contains(busqueda) ||
+                exis.Codigo.ToLower().Contains(busqueda) ||
+                exis.ArticuloDTO.Nombre.ToLower().Contains(busqueda)
+            ).ToList();
+
+            // Cargar la tabla con los artículos filtrados
+            this.dgvExistencias.Rows.Clear();
+            foreach (var exis in articulosFiltrados)
+            {
+                int index = this.dgvExistencias.Rows.Add(new object[] {
+                    exis.IdArticulo,
+                    exis.NumeroLote,
+                    exis.Codigo,
+                    exis.ArticuloDTO.Nombre,
+                    exis.StockDisponible,
+                    exis.FechaExpiracion.HasValue ? exis.FechaExpiracion.Value.ToString("dd/MM/yyyy") : "N/A",
+                });
+            }
+        }
+
+        private void TxtArticuloBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarArticulos();
         }
     }
 }

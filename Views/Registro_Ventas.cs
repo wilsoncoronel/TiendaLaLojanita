@@ -244,8 +244,6 @@ namespace TiendaLaLojanita.Views
             await CargarCliente(identificacion);
         }
 
-
-
         private List<ArticuloVentaDTO> BuscarNombreArticulo(string pNom)
         {
             listaTemp = new List<ArticuloVentaDTO>();
@@ -308,9 +306,7 @@ namespace TiendaLaLojanita.Views
                          StringComparison.OrdinalIgnoreCase))
                 );
 
-                // =====================================================
                 // 2. SI NO SE ENCUENTRA, BUSCAR POR ID
-                // =====================================================
 
                 if (articuloActual == null &&
                     int.TryParse(query, out int idArticulo))
@@ -751,6 +747,8 @@ namespace TiendaLaLojanita.Views
 
         private async void ObtenerVenta(int idVenta)
         {
+            pro = new ProgressBar();
+            pro.Show();
             var venta = await this._ventaService.ObtenerVenta(idVenta);
             this.idCliente = venta.IdCliente;
             this.txtIdentificaconCliente.Text = venta.Cliente.Identificacion;
@@ -781,34 +779,7 @@ namespace TiendaLaLojanita.Views
 
             }
             this.CalcularTotales();
-        }
-
-        private void CargarListaImpuestos(DetalleVentaDTO detalle)
-        {
-            // Si ya existe un diccionario para este tipo de impuesto, agregar al listado; si no, crear uno nuevo
-           /* string nombreImpuesto = detalle.Articulo?.ImpuestoArticuloDto?.Nombre ?? "SIN_IMPUESTO";
-            var existente = listaImpuestos.FirstOrDefault(dic => dic.ContainsKey(nombreImpuesto));
-            var nuevoImpuesto = new ImpuestoArticuloCalculadoDTO
-            {
-                NombreImpuesto = nombreImpuesto,
-                IdArticulo = detalle.Articulo.Id,
-                ValorImpuesto = detalle.Articulo.ImpuestoArticuloDto.ValorImpuesto,
-                ValorVenta = detalle.ValorVenta,
-                Id = detalle.Id,
-                Cantidad = detalle.Cantidad
-            };
-
-            if (existente != null)
-            {
-                existente[nombreImpuesto].Add(nuevoImpuesto);
-            }
-            else
-            {
-                listaImpuestos.Add(new Dictionary<string, List<ImpuestoArticuloCalculadoDTO>>
-                {
-                    { nombreImpuesto, new List<ImpuestoArticuloCalculadoDTO> { nuevoImpuesto } }
-                });
-            }*/
+            pro.Hide();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -825,11 +796,14 @@ namespace TiendaLaLojanita.Views
             this.txtDireccionCliente.Text = "";
             this.txtNombreCliente.Text = "";
             this.txtTelefono.Text = "";
-            this.dgvDetallesVenta = new DataGridView();
+            this.dgvDetallesVenta.Rows.Clear();
             this.contador = 0;
             this.TotalGeneral = 0m;
             this.listaImpuestos.Clear();
-            this.dgvTotales = new DataGridView();
+            if (this.dgvTotales != null)
+            {
+                this.dgvTotales.Rows.Clear();
+            }
             this.txtTotal.Text = "0";
         }
 
@@ -1035,15 +1009,18 @@ namespace TiendaLaLojanita.Views
             try
             {
                 int id = 0;
-                if (e.ColumnIndex < 0)
+                if (e.ColumnIndex < 0 || e.ColumnIndex >= dgvDetallesVenta.Columns.Count)
                 {
                     MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (dgvDetallesVenta.Columns[e.ColumnIndex].Name == "Eliminar")
                 {
-                    EliminarImpuestoPorId(Convert.ToInt32(dgvDetallesVenta.Rows[e.RowIndex].Cells["Id"].Value));
-                    dgvDetallesVenta.Rows.RemoveAt(e.RowIndex);
-                    this.CalcularTotales();
+                    if (e.RowIndex >= 0 && e.RowIndex < dgvDetallesVenta.Rows.Count)
+                    {
+                        EliminarImpuestoPorId(Convert.ToInt32(dgvDetallesVenta.Rows[e.RowIndex].Cells["Id"].Value));
+                        dgvDetallesVenta.Rows.RemoveAt(e.RowIndex);
+                        this.CalcularTotales();
+                    }
                 }
             }
             catch

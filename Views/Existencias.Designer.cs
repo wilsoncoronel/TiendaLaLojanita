@@ -65,6 +65,7 @@
             btnBusqueda.Size = new Size(86, 43);
             btnBusqueda.TabIndex = 3;
             btnBusqueda.UseVisualStyleBackColor = true;
+            btnBusqueda.Click += btnBusqueda_Click;
             // 
             // txtArticuloBusqueda
             // 
@@ -73,6 +74,7 @@
             txtArticuloBusqueda.Size = new Size(311, 23);
             txtArticuloBusqueda.TabIndex = 2;
             txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
+            txtArticuloBusqueda.TextChanged += TxtArticuloBusqueda_TextChanged;
             // 
             // label1
             // 

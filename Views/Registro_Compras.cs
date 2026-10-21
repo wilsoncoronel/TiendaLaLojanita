@@ -189,6 +189,17 @@ namespace TiendaLaLojanita.Views
                         return;
                     }
 
+                    // Validar que el crédito no haya sido seleccionado previamente
+                    if (this.ValidarCreditoDuplicado(notaSeleccionada.Id))
+                    {
+                        MessageBox.Show(
+                            $"La nota de crédito con ID {notaSeleccionada.Id} ya ha sido seleccionada. No puede aplicar la misma nota de crédito dos veces.",
+                            "Nota ya aplicada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     this.idCreditoSeleccionado = notaSeleccionada.Id;
                     this.valorCreditoSeleccionado = notaSeleccionada.ValorDisponible;
                     this.CalcularTotales();
@@ -207,6 +218,11 @@ namespace TiendaLaLojanita.Views
                 .Any(row => !row.IsNewRow);
 
             return tieneDetalles && this.TotalGeneral > 0m;
+        }
+
+        private bool ValidarCreditoDuplicado(int idCreditoNuevo)
+        {
+            return this.idCreditoSeleccionado.HasValue && this.idCreditoSeleccionado.Value == idCreditoNuevo;
         }
 
         private async Task<bool> EditarCompra()
@@ -399,8 +415,8 @@ namespace TiendaLaLojanita.Views
 
                 this.listaCreditosProveedor = await this.creditoProveedorService.ListarCreditosProveedor(proveedor.Id)
                     ?? new List<CreditoProveedorListaDTO>();
-
-                if (this.listaCreditosProveedor.Count > 0)
+                var listaFiltrada = this.listaCreditosProveedor.Where(cre => cre.Estado).ToList();
+                if (listaFiltrada.Count > 0)
                 {
                     MessageBox.Show(
                         "El proveedor tiene notas de crédito disponibles.",

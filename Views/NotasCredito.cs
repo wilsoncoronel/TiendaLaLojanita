@@ -23,13 +23,16 @@ namespace TiendaLaLojanita.Views
                 .OrderBy(nota => nota.FechaCreacion)
                 .ThenBy(nota => nota.Id))
             {
-                dataGridView1.Rows.Add(
-                    nota.Id,
-                    nota.ValorOriginal,
-                    nota.ValorDisponible,
-                    nota.FechaCreacion,
-                    nota.Estado ? "Activa" : "Inactiva",
-                    false);
+                if (nota.Estado)
+                {
+                    dataGridView1.Rows.Add(
+                        nota.Id,
+                        nota.ValorOriginal,
+                        nota.ValorDisponible,
+                        nota.FechaCreacion,
+                        nota.Estado ? "Activa" : "Inactiva",
+                        false);
+                }
             }
         }
 
@@ -97,6 +100,11 @@ namespace TiendaLaLojanita.Views
             NotaSeleccionada = null;
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void NotasCredito_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
