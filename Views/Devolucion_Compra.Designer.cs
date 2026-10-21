@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            dgvCompraDevolucion = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            Creacion = new DataGridViewTextBoxColumn();
+            Documento = new DataGridViewTextBoxColumn();
+            Proveedor = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            Ver = new DataGridViewImageColumn();
+            Seleccionar = new DataGridViewImageColumn();
             label5 = new Label();
             cbxProveedor = new ComboBox();
             cbxTipoDevolucion = new ComboBox();
@@ -92,6 +100,7 @@
             btnGuardar = new Button();
             btnBorrar = new Button();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCompraDevolucion).BeginInit();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -105,6 +114,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(dgvCompraDevolucion);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(cbxProveedor);
             groupBox1.Controls.Add(cbxTipoDevolucion);
@@ -123,6 +133,58 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Devolución";
+            // 
+            // dgvCompraDevolucion
+            // 
+            dgvCompraDevolucion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCompraDevolucion.Columns.AddRange(new DataGridViewColumn[] { Id, Creacion, Documento, Proveedor, Estado, Ver, Seleccionar });
+            dgvCompraDevolucion.Location = new Point(545, 18);
+            dgvCompraDevolucion.Name = "dgvCompraDevolucion";
+            dgvCompraDevolucion.Size = new Size(780, 212);
+            dgvCompraDevolucion.TabIndex = 14;
+            dgvCompraDevolucion.CellClick += dgvCompraDevolucion_CellClick;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // Creacion
+            // 
+            Creacion.HeaderText = "Fecha Compra";
+            Creacion.Name = "Creacion";
+            Creacion.ReadOnly = true;
+            // 
+            // Documento
+            // 
+            Documento.HeaderText = "Documento";
+            Documento.Name = "Documento";
+            Documento.ReadOnly = true;
+            // 
+            // Proveedor
+            // 
+            Proveedor.HeaderText = "Proveedor";
+            Proveedor.Name = "Proveedor";
+            Proveedor.ReadOnly = true;
+            // 
+            // Estado
+            // 
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            // 
+            // Ver
+            // 
+            Ver.HeaderText = "Ver";
+            Ver.Image = Properties.Resources.resize;
+            Ver.Name = "Ver";
+            // 
+            // Seleccionar
+            // 
+            Seleccionar.HeaderText = "Seleccionar";
+            Seleccionar.Image = Properties.Resources.resize;
+            Seleccionar.Name = "Seleccionar";
             // 
             // label5
             // 
@@ -615,6 +677,7 @@
             btnBorrar.Size = new Size(134, 45);
             btnBorrar.TabIndex = 4;
             btnBorrar.UseVisualStyleBackColor = true;
+            btnBorrar.Click += btnBorrar_Click;
             // 
             // Devolucion_Compra
             // 
@@ -631,6 +694,7 @@
             Load += Devolucion_Compra_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCompraDevolucion).EndInit();
             groupBox2.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

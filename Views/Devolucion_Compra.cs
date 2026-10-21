@@ -1041,6 +1041,14 @@ namespace TiendaLaLojanita.Views
             this.detallesDevolucion.Clear();
             this.listaCompras.Clear();
             this.idCompra = 0;
+            this.dgvCreditosDevolucion.Rows.Clear();
+            this.dgvMovimientosCredito.Rows.Clear();
+            this.CreditoDevolucion = new CreditoProveedorDTO();
+        }
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            this.LimpiarFormulario();
         }
 
         private DevolucionCompraCreacionDTO CargarDevolucionCompra()
