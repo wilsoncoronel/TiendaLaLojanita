@@ -1,0 +1,91 @@
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
+namespace TiendaLaLojanita.Utilidad
+{
+    public static class ValidacionesDecimales
+    {
+        private static readonly Regex RegexParcial = new Regex(@"^\d*(,\d{0,4})?$");
+        private static readonly Regex RegexFinal = new Regex(@"^(\d+)?(,\d{1,4})?$");
+
+        public static void Aplicar(TextBox txt)
+        {
+            txt.KeyPress += TxtDecimal_KeyPress;
+            txt.TextChanged += TxtDecimal_TextChanged;
+            txt.Leave += TxtDecimal_Leave;
+        }
+
+        public static bool EsDecimalParcialValido(string texto)
+        {
+            return RegexParcial.IsMatch(texto);
+        }
+
+        public static bool EsDecimalFinalValido(string texto)
+        {
+            return RegexFinal.IsMatch(texto);
+        }
+
+        private static void TxtDecimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ',';
+            }
+
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            if (e.KeyChar == ',' && !((TextBox)sender).Text.Contains(","))
+            {
+                return;
+            }
+
+            e.Handled = true;
+        }
+
+        private static bool restaurando;
+        private static string ultimoValido = string.Empty;
+
+        private static void TxtDecimal_TextChanged(object sender, EventArgs e)
+        {
+            if (restaurando)
+            {
+                return;
+            }
+
+            TextBox txt = (TextBox)sender;
+
+            if (EsDecimalParcialValido(txt.Text))
+            {
+                ultimoValido = txt.Text;
+                return;
+            }
+
+            restaurando = true;
+            int posicion = txt.SelectionStart - (txt.Text.Length - ultimoValido.Length);
+            txt.Text = ultimoValido;
+            txt.SelectionStart = Math.Max(0, Math.Min(posicion, txt.Text.Length));
+            restaurando = false;
+        }
+
+        private static void TxtDecimal_Leave(object sender, EventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+
+            if (string.IsNullOrEmpty(txt.Text) || EsDecimalFinalValido(txt.Text))
+            {
+                return;
+            }
+
+            txt.Text = txt.Text.TrimEnd(',');
+        }
+    }
+}

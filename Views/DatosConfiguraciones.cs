@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
 
 namespace TiendaLaLojanita.Views
@@ -32,6 +33,8 @@ namespace TiendaLaLojanita.Views
         public DatosConfiguraciones(IMarcaService marcaService, ITiposArticulosService tipoArticuloService, IImpuestoService impuestoService, IPorcentajeService porcentajeService, IUnidadService unidadService)
         {
             InitializeComponent();
+            ValidacionesDecimales.Aplicar(this.txtValorImp);
+            ValidacionesDecimales.Aplicar(this.txtPorcentajeValor);
             ListaMarcas = new List<MarcaDTO>();
             ListasTiposArticulos = new List<TipoArticuloDTO>();
             ListasImpuestos = new List<ImpuestoDTO>();
