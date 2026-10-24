@@ -297,7 +297,18 @@ namespace TiendaLaLojanita.Views
                 int idCompra = 0;
                 CompraCreacionDTO compraCreacionDTO = new CompraCreacionDTO();
                 compraCreacionDTO.IdProveedor = this.IdProveedor; // Reemplazar con el ID real del proveedor
-                compraCreacionDTO.Documento = this.txtDocumento.Text;
+                if(txtDocumento.Text == "")
+                {
+                    var resp = ConfirmaAccion("El campo Documento esta vacio, si no ingresa el documento el sistema generara uno automáticamente, desea continuar?");
+                    if(resp)
+                    {
+                        compraCreacionDTO.Documento = "";
+                    }
+                    else
+                    {
+                        compraCreacionDTO.Documento = this.txtDocumento.Text;
+                    }
+                }
                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
                 compraCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
