@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "E:\\proyectos\\TiendaLaLojanita\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\datosconfiguraciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\devolucion_compra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ventas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -67,31 +67,44 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Registro_Compras.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
-              "RelativeToolTip": "Views\\Registro_Compras.cs",
-              "ViewState": "AgIAACEBAAAAAAAAAAAAADIBAAAYAAAAAAAAAA==",
+              "Title": "Registro_Articulos.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAQwDAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-24T14:40:52.858Z",
+              "WhenOpened": "2026-10-25T23:57:33.846Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Registro_Compras.cs [Dise\u00F1o]",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Compras.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Compras.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Registro_Compras.cs [Dise\u00F1o]",
+              "Title": "Registro_Articulos.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Registro_Articulos.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-24T14:40:43.622Z",
+              "WhenOpened": "2026-10-25T23:57:27.348Z",
               "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-25T23:00:58.836Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ValidacionesDecimales.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\ValidacionesDecimales.cs",
               "RelativeDocumentMoniker": "Utilidad\\ValidacionesDecimales.cs",
@@ -99,12 +112,11 @@
               "RelativeToolTip": "Utilidad\\ValidacionesDecimales.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-22T00:25:26.428Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-22T00:25:26.428Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DatosConfiguraciones.cs",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\DatosConfiguraciones.cs",
               "RelativeDocumentMoniker": "Views\\DatosConfiguraciones.cs",
@@ -117,7 +129,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Devolucion_Compra.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
               "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
@@ -126,18 +138,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-21T23:40:28.842Z",
               "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Devolucion_Compra.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
-              "RelativeDocumentMoniker": "Views\\Devolucion_Compra.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Devolucion_Compra.cs",
-              "RelativeToolTip": "Views\\Devolucion_Compra.cs",
-              "ViewState": "AgIAAMcEAAAAAAAAAAAowNcEAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-21T22:12:00.579Z"
             },
             {
               "$type": "Document",

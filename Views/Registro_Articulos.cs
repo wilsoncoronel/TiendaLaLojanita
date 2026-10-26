@@ -136,7 +136,7 @@ namespace TiendaLaLojanita.Views
             this.listaimpuestos = await this.articuloService.ListaImpuestoArticulo();
             this.listaMarcas = await this.articuloService.ListaMarcaArticulo();
             this.listaTipoArticulo = await this.articuloService.ListaTipoArticulo();
-            this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
+            //this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
             this.listaUnidades = await this.unidadService.ListarUnidades();
         }
 
