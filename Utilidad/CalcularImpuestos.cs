@@ -4,19 +4,32 @@ namespace TiendaLaLojanita.Utilidad
 {
     public static class CalcularImpuestos
     {
-        public static decimal Calcular(string? tipoCalculo, decimal valorCompra, decimal cantidad, decimal valorConfigurado)
+        public static decimal Calcular(int idTipoCalculo, decimal valorCompra, decimal cantidad, decimal valorConfigurado, IEnumerable<TipoImpuestoDTO> tiposImpuesto)
         {
-            if (string.Equals(tipoCalculo?.Trim(), "PORCENTAJE", StringComparison.OrdinalIgnoreCase))
+            var tipoImpuesto = tiposImpuesto.FirstOrDefault(t => t.Id == idTipoCalculo)
+                ?? throw new InvalidOperationException($"No existe un TipoImpuesto con Id {idTipoCalculo}.");
+
+            if (string.Equals(tipoImpuesto.TipoCalculo?.Trim(), "PORCENTAJE", StringComparison.OrdinalIgnoreCase))
             {
-                return valorCompra * cantidad * valorConfigurado;
+                return CalcularPorcentaje(valorCompra, cantidad, valorConfigurado);
             }
 
-            if (string.Equals(tipoCalculo?.Trim(), "UNIDAD", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(tipoImpuesto.TipoCalculo?.Trim(), "UNIDAD", StringComparison.OrdinalIgnoreCase))
             {
-                return valorConfigurado * cantidad;
+                return CalcularUnidad(cantidad, valorConfigurado);
             }
 
             return 0m;
+        }
+
+        public static decimal CalcularPorcentaje(decimal valorCompra, decimal cantidad, decimal valorConfigurado)
+        {
+            return valorCompra * cantidad * valorConfigurado;
+        }
+
+        public static decimal CalcularUnidad(decimal cantidad, decimal valorConfigurado)
+        {
+            return valorConfigurado * cantidad;
         }
 
         /*public static ImpuestoArticuloCalculadoDTO CrearDetalle(

@@ -15,5 +15,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<bool> EditarImpuesto(ImpuestoDTO impuestoEditarDto);
         Task<List<ImpuestoDTO>> ListarImpuestos();
         Task<List<EstadoImpuestoDTO>> ListarEstadosImpuestos();
+        Task<List<TipoImpuestoDTO>> ListarTipoImpuestos();
     }
 }

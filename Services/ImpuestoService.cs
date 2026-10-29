@@ -42,5 +42,11 @@ namespace TiendaLaLojanita.Services
             var response = await this._apiClient.GetAsync<List<ImpuestoDTO>>($"api/Configuraciones/ListarImpuestos");
             return response.Value;
         }
+
+        public async Task<List<TipoImpuestoDTO>> ListarTipoImpuestos()
+        {
+            var response = await _apiClient.GetAsync<List<TipoImpuestoDTO>>($"api/Configuraciones/CargarListaTiposImpuestos");
+            return response.Value ?? new List<TipoImpuestoDTO>();
+        }
     }
 }

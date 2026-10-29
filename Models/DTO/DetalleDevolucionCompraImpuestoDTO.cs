@@ -9,5 +9,6 @@ namespace TiendaLaLojanita.Models.DTO
     public class DetalleDevolucionCompraImpuestoDTO: ImpuestoCrearDTO
     {
         public int IdImpuesto { get; set; }
+        public TipoImpuestoDTO TipoImpuestoDTO{ get; set; }
     }
 }

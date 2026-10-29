@@ -1,0 +1,115 @@
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
+namespace TiendaLaLojanita.Utilidad
+{
+    public static class ValidacionesDecimales
+    {
+        private static readonly Regex RegexParcial = new Regex(@"^\d*(,\d{0,4})?$");
+        private static readonly Regex RegexFinal = new Regex(@"^(\d+)?(,\d{1,4})?$");
+
+        public static void Aplicar(TextBox txt)
+        {
+            string ultimoValido = txt.Text;
+            int posicionValida = txt.SelectionStart;
+            bool restaurando = false;
+
+            txt.KeyPress += (sender, e) =>
+            {
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == '.')
+                {
+                    e.KeyChar = ',';
+                }
+
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == ',' && !txt.Text.Contains(","))
+                {
+                    return;
+                }
+
+                e.Handled = true;
+            };
+
+            txt.TextChanged += (sender, e) =>
+            {
+                if (restaurando)
+                {
+                    return;
+                }
+
+                if (EsDecimalParcialValido(txt.Text))
+                {
+                    ultimoValido = txt.Text;
+                    posicionValida = txt.SelectionStart;
+                    return;
+                }
+
+                restaurando = true;
+                txt.Text = ultimoValido;
+                txt.SelectionStart = Math.Min(posicionValida, txt.Text.Length);
+                restaurando = false;
+            };
+
+            txt.Leave += (sender, e) =>
+            {
+                if (string.IsNullOrEmpty(txt.Text) || EsDecimalFinalValido(txt.Text))
+                {
+                    return;
+                }
+
+                txt.Text = txt.Text.TrimEnd(',');
+            };
+        }
+
+        public static void Aplicar(NumericUpDown nud)
+        {
+            var txt = nud.Controls.OfType<TextBox>().FirstOrDefault();
+            if (txt == null) return;
+
+            txt.KeyPress += (sender, e) =>
+            {
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == '.')
+                {
+                    e.KeyChar = ',';
+                }
+
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == ',' && !txt.Text.Contains(","))
+                {
+                    return;
+                }
+
+                e.Handled = true;
+            };
+        }
+
+        public static bool EsDecimalParcialValido(string texto)
+        {
+            return RegexParcial.IsMatch(texto);
+        }
+
+        public static bool EsDecimalFinalValido(string texto)
+        {
+            return RegexFinal.IsMatch(texto);
+        }
+    }
+}

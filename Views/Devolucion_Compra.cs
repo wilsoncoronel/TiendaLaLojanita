@@ -32,6 +32,7 @@ namespace TiendaLaLojanita.Views
         private List<ProveedorDTO> ListaProveedores;
         private CreditoProveedorDTO CreditoDevolucion;
         private List<ArticuloVentaDTO> ListaArticulosVenta;
+        private List<TipoImpuestoDTO> ListaTipoImpuestoDTO;
         private int idCompra = 0;
         private decimal imp = 0;
         private int contador = 1;
@@ -79,32 +80,49 @@ namespace TiendaLaLojanita.Views
             this.CreditoDevolucion = new CreditoProveedorDTO();
             this.ListaArticulosVenta = new List<ArticuloVentaDTO>();
             this.listaTemp = new List<ArticuloVentaDTO>();
+            this.ListaTipoImpuestoDTO = new List<TipoImpuestoDTO>();
             this.CargarCombos();
         }
 
         private async void Devolucion_Compra_Load(object sender, EventArgs e)
         {
-            this.ListaArticulosVenta = await this.CargarListaArticulos();
+            try
+            {
+                this.ListaArticulosVenta = await this.CargarListaArticulos();
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error al cargar los artículos: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             AutoCompleteArt();
         }
 
         private void AutoCompleteArt()
         {
             AutoCompleteStringCollection colArticulo = new AutoCompleteStringCollection();
-            List<ArticuloVentaDTO> listaArticuloAuto = BuscarNombreArticulo(this.txtArtículo.Text);
-            foreach (ArticuloVentaDTO art in listaArticuloAuto)
+            var valoresAgregados = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (ArticuloVentaDTO art in this.ListaArticulosVenta)
             {
-                colArticulo.Add(art.Nombre);
+                foreach (var valor in new[] { art.Nombre, art.Codigo, art.Lote })
+                {
+                    if (!string.IsNullOrWhiteSpace(valor) && valoresAgregados.Add(valor))
+                    {
+                        colArticulo.Add(valor);
+                    }
+                }
             }
+            this.txtArtículo.AutoCompleteCustomSource = null;
             this.txtArtículo.AutoCompleteCustomSource = colArticulo;
             this.txtArtículo.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.txtArtículo.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-        private List<ArticuloVentaDTO> BuscarNombreArticulo(string pNom)
-        {
-            listaTemp = new List<ArticuloVentaDTO>();
-            listaTemp = this.ListaArticulosVenta.ToList();
-            return listaTemp.Where(art => art.Nombre.Contains(pNom)).ToList();
         }
         private async Task BusquedaArticulo()
         {
@@ -515,7 +533,7 @@ namespace TiendaLaLojanita.Views
                 {
                     IdImpuesto = item.ImpuestoDTO.Id,
                     Nombre = item.ImpuestoDTO.Nombre,
-                    TipoCalculo = item.ImpuestoDTO.TipoCalculo,
+                    IdTipoCalculo = item.ImpuestoDTO.IdTipoCalculo,
                     Valor = item.ImpuestoDTO.Valor,
                     Estado = true
                 })
@@ -532,7 +550,7 @@ namespace TiendaLaLojanita.Views
                 {
                     IdImpuesto = impuesto.Id,
                     Nombre = impuesto.Nombre,
-                    TipoCalculo = impuesto.TipoCalculo,
+                    IdTipoCalculo = impuesto.IdTipoCalculo,
                     Valor = impuesto.Valor,
                     Estado = impuesto.Estado
                 })
@@ -802,7 +820,7 @@ namespace TiendaLaLojanita.Views
                             {
                                 IdImpuesto = impuesto.Id,
                                 Nombre = impuesto.Nombre,
-                                TipoCalculo = impuesto.TipoCalculo,
+                                IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
                                 Estado = impuesto.Estado
                             })
@@ -833,7 +851,7 @@ namespace TiendaLaLojanita.Views
                             {
                                 IdImpuesto = impuesto.IdImpuesto,
                                 Nombre = impuesto.Nombre,
-                                TipoCalculo = impuesto.TipoCalculo,
+                                IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
                                 Estado = true
                             })
@@ -861,10 +879,11 @@ namespace TiendaLaLojanita.Views
                 foreach (var impuesto in detalle.Impuestos ?? new List<DetalleDevolucionCompraImpuestoDTO>())
                 {
                     decimal valorImpuesto = CalcularImpuestos.Calcular(
-                        impuesto.TipoCalculo,
+                        impuesto.IdTipoCalculo,
                         detalle.Valor,
                         detalle.Cantidad,
-                        impuesto.Valor);
+                        impuesto.Valor,
+                        this.ListaTipoImpuestoDTO);
 
                     var clave = (impuesto.IdImpuesto, impuesto.Nombre ?? string.Empty);
                     impuestos[clave] = impuestos.TryGetValue(clave, out decimal acumulado)
@@ -902,10 +921,10 @@ namespace TiendaLaLojanita.Views
                 foreach (var impuesto in detalle.Impuestos ?? new List<DetalleDevolucionCompraImpuestoDTO>())
                 {
                     decimal valorImpuesto = CalcularImpuestos.Calcular(
-                        impuesto.TipoCalculo,
+                        impuesto.IdTipoCalculo,
                         articulo.ValorCompra,
                         detalle.Cantidad,
-                        impuesto.Valor);
+                        impuesto.Valor, this.ListaTipoImpuestoDTO);
 
                     var clave = (impuesto.IdImpuesto, impuesto.Nombre ?? string.Empty);
                     impuestos[clave] = impuestos.TryGetValue(clave, out decimal acumulado)
@@ -1074,7 +1093,7 @@ namespace TiendaLaLojanita.Views
                             {
                                 IdImpuesto = impuesto.IdImpuesto,
                                 Nombre = impuesto.Nombre,
-                                TipoCalculo = impuesto.TipoCalculo,
+                                IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
                                 Estado = impuesto.Estado
                             })
@@ -1196,9 +1215,43 @@ namespace TiendaLaLojanita.Views
             await this.CargarCreditosPorDevolucion(idDevolucion);
         }
 
-        private void btnRecargarArticulos_Click(object sender, EventArgs e)
+        private async void btnRecargarArticulos_Click(object sender, EventArgs e)
         {
-            this.CargarListaArticulos();
+            this.prog = new ProgressBar();
+            this.prog.Show();
+            var resp = ConfirmaAccion("Se recargarán los artículos, desea continuar?");
+
+            if (resp != true)
+            {
+                return;
+            }
+
+            this.UseWaitCursor = true;
+            try
+            {
+                this.ListaArticulosVenta = await this.CargarListaArticulos();
+                this.prog.Hide();
+            }
+            catch (ApiException ex)
+            {
+                this.ListaArticulosVenta = new List<ArticuloVentaDTO>();
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                this.ListaArticulosVenta = new List<ArticuloVentaDTO>();
+                this.prog.Hide();
+                MessageBox.Show(
+                    $"Ocurrió un error al recargar los artículos: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.UseWaitCursor = false;
+                AutoCompleteArt();
+            }
         }
 
         private async Task CargarDevolucionCompra(int idDevolucion)

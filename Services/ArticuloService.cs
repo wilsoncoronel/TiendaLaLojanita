@@ -54,6 +54,7 @@ namespace TiendaLaLojanita.Services
             return response.Value ?? new List<ArticuloDTO>();
         }
 
+        
         public async Task<List<ImpuestoDTO>> ListaImpuestoArticulo()
         {
             var response = await _apiClient.GetAsync<List<ImpuestoDTO>>($"api/Articulo/CargarListaImpuestosArticulos");

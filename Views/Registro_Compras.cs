@@ -28,6 +28,7 @@ namespace TiendaLaLojanita.Views
         private readonly ICompraService compraService;
         private readonly IInventarioService inventarioService;
         private readonly ICreditoProveedorService creditoProveedorService;
+        private readonly IImpuestoService impuestoService;
         private DateTimePicker dateTimePicker;
         private List<ArticuloCompraDTO> listaArticulos;
         private int contador = 0;
@@ -40,7 +41,7 @@ namespace TiendaLaLojanita.Views
         private decimal TotalGeneral = 0m;
         private List<ArticuloCompraDTO> listaTemp;
         private List<ImpuestoFinalDTO> listaImpuestosFinales = new List<ImpuestoFinalDTO>();
-
+        private List<TipoImpuestoDTO> ListaTipoImpuestoDTO;
         private List<DetalleImpuestoCreacionDTO> listaDetalleImpuestos;
         private List<CreditoProveedorListaDTO> listaCreditosProveedor = new();
         private int? idCreditoSeleccionado;
@@ -52,7 +53,8 @@ namespace TiendaLaLojanita.Views
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService, IInventarioService inventarioService, ICreditoProveedorService creditoProveedorService)
+        public Registro_Compras(IProveedorService proveedorService, IArticuloService articuloService, ICompraService compraService,
+            IInventarioService inventarioService, ICreditoProveedorService creditoProveedorService, IImpuestoService impuestoService)
         {
             InitializeComponent();
             this.proveedorService = proveedorService;
@@ -60,9 +62,11 @@ namespace TiendaLaLojanita.Views
             this.compraService = compraService;
             this.inventarioService = inventarioService;
             this.creditoProveedorService = creditoProveedorService;
+            this.impuestoService = impuestoService;
             this.listaArticulos = new List<ArticuloCompraDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             this.listaDetalleImpuestos = new List<DetalleImpuestoCreacionDTO>();
+            this.ListaTipoImpuestoDTO = new List<TipoImpuestoDTO>();
             listaImpuestos = new Dictionary<int, List<ImpuestoCalculadoDTO>>();
         }
 
@@ -105,6 +109,7 @@ namespace TiendaLaLojanita.Views
         {
             this.ListaEstados = await this.compraService.ListarEstadosCompra();
             this.ListaTransacciones = await this.inventarioService.ListaTransaccionesInventario();
+            this.ListaTipoImpuestoDTO = await this.impuestoService.ListarTipoImpuestos();
             this.CargarCombos();
         }
         private void CargarCombos()
@@ -541,7 +546,7 @@ namespace TiendaLaLojanita.Views
                         IdArticulo = articuloCompra.Id,
                         IdImpuesto = imp.ImpuestoDTO.Id,
                         Nombre = imp.ImpuestoDTO.Nombre,
-                        TipoCalculo = imp.ImpuestoDTO.TipoCalculo,
+                        IdTipoCalculo = imp.ImpuestoDTO.IdTipoCalculo,
                         Valor = imp.ImpuestoDTO.Valor,
                     })
             );
@@ -560,10 +565,11 @@ namespace TiendaLaLojanita.Views
                 impuesto.ValorCompra = valorCompra;
 
                 impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
-                    impuesto.TipoImpuesto,
+                    impuesto.IdTipoCalculo,
                     valorCompra,
                     cantidad,
-                    impuesto.ValorConfigurado);
+                    impuesto.ValorConfigurado,
+                    this.ListaTipoImpuestoDTO);
             }
         }
         private void CargarDataGrid(ArticuloDTO articuloActual)
@@ -575,7 +581,7 @@ namespace TiendaLaLojanita.Views
                     IdArticulo = articuloActual.Id,
                     IdImpuesto = imp.ImpuestoDTO.Id,
                     NombreImpuesto = imp.ImpuestoDTO.Nombre,
-                    TipoImpuesto = imp.ImpuestoDTO.TipoCalculo,
+                    IdTipoCalculo = imp.ImpuestoDTO.IdTipoCalculo,
                     ValorCompra = articuloActual.ValorCompra,
                     ValorVenta = articuloActual.ValorVenta,
                     ValorConfigurado = imp.ImpuestoDTO.Valor,
@@ -583,10 +589,11 @@ namespace TiendaLaLojanita.Views
                 };
 
                 impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
-                    impuesto.TipoImpuesto,
+                    impuesto.IdTipoCalculo,
                     impuesto.ValorCompra,
                     impuesto.Cantidad,
-                    impuesto.ValorConfigurado);
+                    impuesto.ValorConfigurado,
+                    this.ListaTipoImpuestoDTO);
 
                 if (!listaImpuestos.TryGetValue(articuloActual.Id, out var articuloImpuestos))
                 {
@@ -667,10 +674,11 @@ namespace TiendaLaLojanita.Views
                 foreach (var impuesto in impuestos)
                 {
                     impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
-                        impuesto.TipoImpuesto,
+                        impuesto.IdTipoCalculo,
                         impuesto.ValorCompra,
                         impuesto.Cantidad,
-                        impuesto.ValorConfigurado);
+                        impuesto.ValorConfigurado,
+                        this.ListaTipoImpuestoDTO);
                 }
 
                 // ======================================================
@@ -1032,10 +1040,11 @@ namespace TiendaLaLojanita.Views
                     IdImpuesto = impuesto.IdImpuesto,
                     NombreImpuesto = impuesto.Nombre,
                     ValorImpuestoTotal = CalcularImpuestos.Calcular(
-                        impuesto.TipoCalculo,
+                        impuesto.IdTipoCalculo,
                         detalle.ValorCompra,
                         detalle.Cantidad,
-                        impuesto.Valor)
+                        impuesto.Valor,
+                        this.ListaTipoImpuestoDTO)
                 })
                 .ToList();
         }
@@ -1234,7 +1243,7 @@ namespace TiendaLaLojanita.Views
                             IdArticulo = detalle.ArticuloDTO.Id,
                             IdImpuesto = impuesto.IdImpuesto,
                             Nombre = impuesto.Nombre,
-                            TipoCalculo = impuesto.TipoCalculo,
+                            IdTipoCalculo = impuesto.IdTipoCalculo,
                             Valor = impuesto.Valor
                         });
                     }
@@ -1261,7 +1270,7 @@ namespace TiendaLaLojanita.Views
                 IdArticulo = idArticulo,
                 IdImpuesto = imp.IdImpuesto,
                 NombreImpuesto = imp.Nombre,
-                TipoImpuesto = imp.TipoCalculo,
+                IdTipoCalculo = imp.IdTipoCalculo,
                 ValorCompra = detalle.ValorCompra,
                 ValorVenta = detalle.ValorVenta,
                 ValorConfigurado = imp.Valor,
@@ -1271,10 +1280,11 @@ namespace TiendaLaLojanita.Views
             foreach (var impuesto in impuestos)
             {
                 impuesto.ValorImpuesto = CalcularImpuestos.Calcular(
-                    impuesto.TipoImpuesto,
+                    impuesto.IdTipoCalculo,
                     impuesto.ValorCompra,
                     impuesto.Cantidad,
-                    impuesto.ValorConfigurado);
+                    impuesto.ValorConfigurado,
+                    this.ListaTipoImpuestoDTO);
             }
 
             this.listaImpuestos[idArticulo] = impuestos;

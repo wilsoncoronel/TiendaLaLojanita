@@ -29,6 +29,7 @@ namespace TiendaLaLojanita.Views
         private List<ImpuestoDTO> listaimpuestos;
         private List<PorcentajeGananciaDTO> listaPorcentajeGanancias;
         private List<UnidadMedidaDTO> listaUnidades;
+        private List<TipoImpuestoDTO> ListaTipoImpuestos;
         private ArticuloDTO artActual;
         private ArticuloEdicionDTO artEditarActual;
         List<ArticuloDTO> listaArticulos;
@@ -56,6 +57,7 @@ namespace TiendaLaLojanita.Views
             this.listaArticulos = new List<ArticuloDTO>();
             this.listaPorcentajeGanancias = new List<PorcentajeGananciaDTO>();
             this.listaUnidades = new List<UnidadMedidaDTO>();
+            this.ListaTipoImpuestos = new List<TipoImpuestoDTO>();
             this.txtArticulo.TextChanged += txtArticulo_TextChanged;
 
             this.tipoArticuloService = tipoArticuloService;
@@ -104,7 +106,15 @@ namespace TiendaLaLojanita.Views
 
                 // Recalcular si el usuario cambia la selección de impuesto o porcentaje (si ya hay valor de compra)
                 // this.cbxImpuesto.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
-                this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) => CalcularValorVentaSiListo();
+                this.cbxPorcentajeGanancia.SelectedIndexChanged += (s, e) =>
+                {
+                    ActualizarEstadoValorVenta();
+                    if (EsPorcentajeCero()) nudValorVenta.Value = nudValorVenta.Minimum;
+                    CalcularValorVentaSiListo();
+                };
+
+                ValidacionesDecimales.Aplicar(this.nudValorVenta);
+                this.nudValorVenta.Leave += (s, e) => ValidarValorVentaManual();
             }
             catch
             {
@@ -136,7 +146,8 @@ namespace TiendaLaLojanita.Views
             this.listaimpuestos = await this.articuloService.ListaImpuestoArticulo();
             this.listaMarcas = await this.articuloService.ListaMarcaArticulo();
             this.listaTipoArticulo = await this.articuloService.ListaTipoArticulo();
-            //this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
+            this.listaPorcentajeGanancias = await this.porcentajeService.ListarPorcentajes();
+            this.ListaTipoImpuestos = await this.impuestoService.ListarTipoImpuestos();
             this.listaUnidades = await this.unidadService.ListarUnidades();
         }
 
@@ -515,7 +526,7 @@ namespace TiendaLaLojanita.Views
                 this.dgvImpuestosArticulos.Rows.Add(
                     impuesto.Id,
                     impuesto.Nombre?.ToUpper() ?? string.Empty,
-                    impuesto.TipoCalculo,
+                    impuesto.IdTipoCalculo,
                     impuesto.Valor,
                     impuesto.Estado == true ? "ACTIVO" : "INACTIVO"
                 );
@@ -543,7 +554,6 @@ namespace TiendaLaLojanita.Views
             this.txtId.Text = articuloActual.Id.ToString();
             this.nudUnidadValor.Value = Convert.ToDecimal(articuloActual.UnidadValor);
             this.nudValorCompra.Value = Convert.ToDecimal(articuloActual.ValorCompra);
-            this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
             this.dtpCaducidad.Value = articuloActual.FechaCaducidad ?? DateTime.Now;
             this.dtpCreacion.Value = articuloActual.FechaCreacion;
             this.cbxEstado.SelectedIndex = articuloActual.Estado ? 0 : 1;
@@ -552,6 +562,8 @@ namespace TiendaLaLojanita.Views
             this.cbxTipoArticulo.SelectedValue = articuloActual.TipoArticuloDTO?.Id ?? 0;
             this.cbxPorcentajeGanancia.SelectedValue = articuloActual.PorcentajeDTO?.Id ?? 0;
             this.cbxUnidadesMedidaPeso.SelectedValue = articuloActual.UnidadMedidaDto?.Id ?? 0;
+            this.nudValorVenta.Value = Convert.ToDecimal(articuloActual.ValorVenta);
+            this.ActualizarEstadoValorVenta();
         }
 
         private void nudValorCompra_KeyPress(object sender, KeyPressEventArgs e)
@@ -657,13 +669,37 @@ namespace TiendaLaLojanita.Views
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
+                ActualizarEstadoValorVenta();
                 CalcularValorVentaSiListo();
             }
         }
 
         private void nudValorCompra_Leave(object sender, EventArgs e)
         {
+            ActualizarEstadoValorVenta();
             CalcularValorVentaSiListo();
+        }
+
+        private bool EsPorcentajeCero()
+        {
+            return cbxPorcentajeGanancia.SelectedValue != null &&
+                int.TryParse(Convert.ToString(cbxPorcentajeGanancia.SelectedValue), out int idPorcentaje) &&
+                idPorcentaje == 8;
+        }
+
+        private void ActualizarEstadoValorVenta()
+        {
+            bool manual = EsPorcentajeCero();
+            nudValorVenta.Enabled = manual;
+            nudValorVenta.Minimum = Math.Min(nudValorCompra.Value, nudValorVenta.Maximum);
+        }
+
+        private void ValidarValorVentaManual()
+        {
+            if (!EsPorcentajeCero()) return;
+
+            ActualizarEstadoValorVenta();
+            if (nudValorVenta.Value < nudValorVenta.Minimum) nudValorVenta.Value = nudValorVenta.Minimum;
         }
 
         private void CalcularValorVentaSiListo()
@@ -678,13 +714,13 @@ namespace TiendaLaLojanita.Views
                     "PORCENTAJE",
                     StringComparison.OrdinalIgnoreCase));
 
-            if(fila == null) return;
+            if (fila == null) return;
 
             object valorIdImpuesto = fila.Cells["IdImp"]?.Value;
             if (valorIdImpuesto == null ||
                 !int.TryParse(Convert.ToString(valorIdImpuesto), out int idImpuesto) || idImpuesto <= 0) return;
 
-            if (!int.TryParse(Convert.ToString(cbxPorcentajeGanancia.SelectedValue), out int idPorcentaje) || idPorcentaje <= 0) return;
+            if (!int.TryParse(Convert.ToString(cbxPorcentajeGanancia.SelectedValue), out int idPorcentaje) || idPorcentaje <= 0 || idPorcentaje == 8) return;
             if (nudValorCompra.Value <= 0m) return;
 
             CalcularValorVenta(idImpuesto, idPorcentaje);
@@ -728,7 +764,7 @@ namespace TiendaLaLojanita.Views
         /// usando las listas cargadas de impuestos y porcentajes.
         /// </summary>
         /// <param name="articulos">Lista de artículos leídos desde Excel</param>
-        private void calcularvalorVentaarticulosExcel(List<ArticuloCreacionDTO> articulos)
+       /* private void calcularvalorVentaarticulosExcel(List<ArticuloCreacionDTO> articulos)
         {
             if (articulos == null || articulos.Count == 0) return;
 
@@ -740,7 +776,7 @@ namespace TiendaLaLojanita.Views
                     var imp = 0;//this.listaimpuestos?.FirstOrDefault(x => x.Id == art.IdImpuesto);
                     //if (imp != null) impuesto = imp.ValorImpuesto;
                     var impuestoObj = this.listaimpuestos?.Where(x => art.Impuestos.Contains(x.Id)).ToList();
-                    var impIva = impuestoObj?.FirstOrDefault(tp => tp.TipoCalculo.ToUpper() == "PORCENTAJE");
+                    var impIva = impuestoObj?.FirstOrDefault(tp => tp.IdTipoCalculo.ToUpper() == "PORCENTAJE");
                     if (impIva != null) impuesto = 0;
                     impuesto = impIva?.Valor ?? 0m;
                     decimal valorImpuesto = art.ValorCompra * impuesto;
@@ -764,7 +800,7 @@ namespace TiendaLaLojanita.Views
                     // Ignorar errores en cálculo de un artículo concreto y dejar ValorVenta por defecto
                 }
             }
-        }
+        }*/
 
         private void nudValorVenta_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -806,7 +842,7 @@ namespace TiendaLaLojanita.Views
                 }
 
                 // Calcular valor de venta
-                this.calcularvalorVentaarticulosExcel(articulosExcel);
+               //this.calcularvalorVentaarticulosExcel(articulosExcel);
 
                 // Validar artículos
                 var validator =
@@ -991,19 +1027,6 @@ namespace TiendaLaLojanita.Views
 
         private void cbxImpuestos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.cbxImpuestos.SelectedIndex < 0 ||
-            this.cbxImpuestos.SelectedValue is not int valor)
-            {
-                return;
-            }
-
-            ImpuestoDTO? impuesto =
-                this.listaimpuestos.FirstOrDefault(imp => imp.Id == valor);
-
-            if (impuesto != null)
-            {
-                this.CargarTablaImpuesto(impuesto);
-            }
 
         }
 
@@ -1017,7 +1040,7 @@ namespace TiendaLaLojanita.Views
             dgvImpuestosArticulos.Rows.Add(
                 impuesto.Id,
                 impuesto.Nombre,
-                impuesto.TipoCalculo,
+                impuesto.IdTipoCalculo,
                 impuesto.Valor,
                 impuesto.Estado == true ? "ACTIVO" : "INACTIVO"
             );
@@ -1042,6 +1065,24 @@ namespace TiendaLaLojanita.Views
                 .Any(row => Convert.ToInt32(row.Cells["IdImp"].Value) == idImpuesto);
 
             return existe;
+        }
+
+        private void btnAgregarImpuesto_Click(object sender, EventArgs e)
+        {
+            if (this.cbxImpuestos.SelectedIndex < 0 ||
+           this.cbxImpuestos.SelectedValue is not int valor)
+            {
+                return;
+            }
+
+            ImpuestoDTO? impuesto =
+                this.listaimpuestos.FirstOrDefault(imp => imp.Id == valor);
+
+            if (impuesto != null)
+            {
+                this.CargarTablaImpuesto(impuesto);
+            }
+
         }
     }
 }

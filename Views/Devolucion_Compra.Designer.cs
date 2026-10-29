@@ -329,7 +329,7 @@
             // btnRecargarArticulos
             // 
             btnRecargarArticulos.Image = Properties.Resources.gratis_png_iconos_de_la_computadora_recargar_restaurar_icono_removebg_preview;
-            btnRecargarArticulos.Location = new Point(625, 9);
+            btnRecargarArticulos.Location = new Point(734, 9);
             btnRecargarArticulos.Name = "btnRecargarArticulos";
             btnRecargarArticulos.Size = new Size(72, 36);
             btnRecargarArticulos.TabIndex = 8;
@@ -339,7 +339,7 @@
             // button1
             // 
             button1.Image = Properties.Resources.lupa_min;
-            button1.Location = new Point(537, 9);
+            button1.Location = new Point(646, 9);
             button1.Name = "button1";
             button1.Size = new Size(72, 36);
             button1.TabIndex = 7;
@@ -350,7 +350,7 @@
             // 
             txtArtículo.Location = new Point(72, 20);
             txtArtículo.Name = "txtArtículo";
-            txtArtículo.Size = new Size(439, 23);
+            txtArtículo.Size = new Size(559, 23);
             txtArtículo.TabIndex = 6;
             txtArtículo.KeyDown += txtArtículo_KeyDown;
             // 

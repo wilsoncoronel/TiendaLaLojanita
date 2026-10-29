@@ -10,7 +10,7 @@ namespace TiendaLaLojanita.Models.DTO
     {
         public string Nombre { get; set; } = null!;
 
-        public string TipoCalculo { get; set; } = null!;
+        public int IdTipoCalculo { get; set; }
 
         public decimal Valor { get; set; }
 

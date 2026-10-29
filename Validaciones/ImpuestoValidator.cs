@@ -16,7 +16,7 @@ namespace TiendaLaLojanita.Validaciones
                 .NotNull()
                 .NotEmpty()
                 .WithMessage($"El nombre no puede ser nulo o estar vacio!!");
-            RuleFor(x => x.TipoCalculo)
+            RuleFor(x => x.IdTipoCalculo)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage($"El tipo de cálculo no puede ser nulo o estar vacio!!");

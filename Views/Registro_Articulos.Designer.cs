@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Articulos));
             groupBox1 = new GroupBox();
+            btnAgregarImpuesto = new Button();
             dgvImpuestosArticulos = new DataGridView();
             IdImp = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
@@ -124,6 +125,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(btnAgregarImpuesto);
             groupBox1.Controls.Add(dgvImpuestosArticulos);
             groupBox1.Controls.Add(cbxImpuestos);
             groupBox1.Controls.Add(label3);
@@ -155,6 +157,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Datos Artículo";
+            // 
+            // btnAgregarImpuesto
+            // 
+            btnAgregarImpuesto.Location = new Point(893, 89);
+            btnAgregarImpuesto.Name = "btnAgregarImpuesto";
+            btnAgregarImpuesto.Size = new Size(75, 23);
+            btnAgregarImpuesto.TabIndex = 30;
+            btnAgregarImpuesto.Text = "Agregar";
+            btnAgregarImpuesto.UseVisualStyleBackColor = true;
+            btnAgregarImpuesto.Click += btnAgregarImpuesto_Click;
             // 
             // dgvImpuestosArticulos
             // 
@@ -447,7 +459,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(348, 38);
+            label13.Location = new Point(358, 36);
             label13.Name = "label13";
             label13.Size = new Size(68, 15);
             label13.TabIndex = 25;
@@ -470,7 +482,7 @@
             groupBox2.Controls.Add(nudValorCompra);
             groupBox2.Location = new Point(10, 236);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(658, 76);
+            groupBox2.Size = new Size(655, 76);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Valores Artículo";
@@ -479,7 +491,7 @@
             // 
             nudValorVenta.DecimalPlaces = 2;
             nudValorVenta.Enabled = false;
-            nudValorVenta.Location = new Point(449, 34);
+            nudValorVenta.Location = new Point(459, 32);
             nudValorVenta.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudValorVenta.Name = "nudValorVenta";
             nudValorVenta.Size = new Size(169, 23);
@@ -892,5 +904,6 @@
         private DataGridViewTextBoxColumn ValorUnidad;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn ActivarDesactivar;
+        private Button btnAgregarImpuesto;
     }
 }

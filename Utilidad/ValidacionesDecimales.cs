@@ -71,6 +71,37 @@ namespace TiendaLaLojanita.Utilidad
             };
         }
 
+        public static void Aplicar(NumericUpDown nud)
+        {
+            var txt = nud.Controls.OfType<TextBox>().FirstOrDefault();
+            if (txt == null) return;
+
+            txt.KeyPress += (sender, e) =>
+            {
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == '.')
+                {
+                    e.KeyChar = ',';
+                }
+
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                if (e.KeyChar == ',' && !txt.Text.Contains(","))
+                {
+                    return;
+                }
+
+                e.Handled = true;
+            };
+        }
+
         public static bool EsDecimalParcialValido(string texto)
         {
             return RegexParcial.IsMatch(texto);

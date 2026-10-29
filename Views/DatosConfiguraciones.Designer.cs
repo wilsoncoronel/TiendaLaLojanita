@@ -84,7 +84,6 @@
             label9 = new Label();
             cbxEstadoImpuesto = new ComboBox();
             label8 = new Label();
-            txtTipoCalculoImp = new TextBox();
             label6 = new Label();
             txtNombreImpuesto = new TextBox();
             label7 = new Label();
@@ -129,6 +128,7 @@
             label19 = new Label();
             txtIdUnidad = new TextBox();
             btnCerrarDatosConf = new Button();
+            cbxTipoCalculo = new ComboBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -593,11 +593,11 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(cbxTipoCalculo);
             groupBox3.Controls.Add(txtValorImp);
             groupBox3.Controls.Add(label9);
             groupBox3.Controls.Add(cbxEstadoImpuesto);
             groupBox3.Controls.Add(label8);
-            groupBox3.Controls.Add(txtTipoCalculoImp);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(txtNombreImpuesto);
             groupBox3.Controls.Add(label7);
@@ -643,13 +643,6 @@
             label8.Size = new Size(45, 15);
             label8.TabIndex = 8;
             label8.Text = "Estado:";
-            // 
-            // txtTipoCalculoImp
-            // 
-            txtTipoCalculoImp.Location = new Point(128, 85);
-            txtTipoCalculoImp.Name = "txtTipoCalculoImp";
-            txtTipoCalculoImp.Size = new Size(224, 23);
-            txtTipoCalculoImp.TabIndex = 7;
             // 
             // label6
             // 
@@ -1033,6 +1026,14 @@
             btnCerrarDatosConf.UseVisualStyleBackColor = true;
             btnCerrarDatosConf.Click += btnCerrarDatosConf_Click;
             // 
+            // cbxTipoCalculo
+            // 
+            cbxTipoCalculo.FormattingEnabled = true;
+            cbxTipoCalculo.Location = new Point(127, 85);
+            cbxTipoCalculo.Name = "cbxTipoCalculo";
+            cbxTipoCalculo.Size = new Size(225, 23);
+            cbxTipoCalculo.TabIndex = 12;
+            // 
             // DatosConfiguraciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1167,7 +1168,6 @@
         private Label label20;
         private ComboBox cbxEstadoImpuesto;
         private Label label8;
-        private TextBox txtTipoCalculoImp;
         private Label label6;
         private DataGridViewTextBoxColumn IdImpuesto;
         private DataGridViewTextBoxColumn Nombre;
@@ -1177,5 +1177,6 @@
         private DataGridViewImageColumn EditarImpuesto;
         private TextBox txtValorImp;
         private Label label9;
+        private ComboBox cbxTipoCalculo;
     }
 }
