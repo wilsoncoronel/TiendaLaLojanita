@@ -121,14 +121,14 @@
   <data name="imprimir_peque" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\imprimir_peque.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="consumidor_final" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\consumidor_final.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ajustes_inventario_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ajustes_inventario_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="repote_venta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\repote_venta.html;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ajustes_inventario" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ajustes_inventario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="3687412_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\3687412_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,11 +148,11 @@
   <data name="cancelar_resize" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cancelar_resize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="lupa_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lupa_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="notas_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\notas_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="repote_venta" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\repote_venta.html;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,16 +160,19 @@
   <data name="buscar_persona" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\buscar_persona.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="full_selection_icon_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\full_selection_icon_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="consumidor_final" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\consumidor_final.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="resize" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\resize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="lupa_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\lupa_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="full_selection_icon_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\full_selection_icon_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ajustes_inventario" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ajustes_inventario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ajustes_inventario_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ajustes_inventario_min.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancelar_resize1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancelar_resize1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
