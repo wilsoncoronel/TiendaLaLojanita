@@ -146,3 +146,4 @@ E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.genrunti
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\ref\TiendaLaLojanita.dll
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.NotasCredito.resources
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.ArticulosInventarioCodigos.resources
+E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Ajustes_Inventario.resources

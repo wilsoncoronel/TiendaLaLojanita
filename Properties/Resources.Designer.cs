@@ -93,6 +93,26 @@ namespace TiendaLaLojanita.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ajustes_inventario {
+            get {
+                object obj = ResourceManager.GetObject("ajustes_inventario", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ajustes_inventario_min {
+            get {
+                object obj = ResourceManager.GetObject("ajustes_inventario_min", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap buscar_persona {
             get {
                 object obj = ResourceManager.GetObject("buscar_persona", resourceCulture);

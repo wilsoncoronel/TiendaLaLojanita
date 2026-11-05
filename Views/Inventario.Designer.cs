@@ -80,6 +80,7 @@
             dtpFechaResumen = new DateTimePicker();
             cbxReportes = new ComboBox();
             btnGenerarCodigoArticulo = new Button();
+            btnRegistroAjustesInventario = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -502,11 +503,22 @@
             btnGenerarCodigoArticulo.UseVisualStyleBackColor = true;
             btnGenerarCodigoArticulo.Click += btnGenerarCodigoArticulo_Click;
             // 
+            // btnRegistroAjustesInventario
+            // 
+            btnRegistroAjustesInventario.Image = Properties.Resources.ajustes_inventario;
+            btnRegistroAjustesInventario.Location = new Point(986, 86);
+            btnRegistroAjustesInventario.Name = "btnRegistroAjustesInventario";
+            btnRegistroAjustesInventario.Size = new Size(214, 68);
+            btnRegistroAjustesInventario.TabIndex = 7;
+            btnRegistroAjustesInventario.UseVisualStyleBackColor = true;
+            btnRegistroAjustesInventario.Click += btnRegistroAjustesInventario_Click;
+            // 
             // Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1649, 726);
+            Controls.Add(btnRegistroAjustesInventario);
             Controls.Add(btnGenerarCodigoArticulo);
             Controls.Add(groupBox5);
             Controls.Add(btnCancelar);
@@ -584,5 +596,6 @@
         private DataGridViewTextBoxColumn Estado;
         private DataGridViewImageColumn Eliminar;
         private Button btnGenerarCodigoArticulo;
+        private Button btnRegistroAjustesInventario;
     }
 }

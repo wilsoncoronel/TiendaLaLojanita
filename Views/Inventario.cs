@@ -323,5 +323,11 @@ namespace TiendaLaLojanita.Views
             return resp;
         }
 
+        private void btnRegistroAjustesInventario_Click(object sender, EventArgs e)
+        {
+            Registro_Ajustes_Inventario registro_Ajustes_Inventario = new Registro_Ajustes_Inventario();
+            registro_Ajustes_Inventario.StartPosition = FormStartPosition.CenterScreen;
+            registro_Ajustes_Inventario.ShowDialog();
+        }
     }
 }
