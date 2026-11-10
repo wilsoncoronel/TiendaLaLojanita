@@ -51,7 +51,6 @@ namespace TiendaLaLojanita.Services
             var response = await this._apiClient.PostAsync<int>($"api/Inventario/RegistrarTransaccionInventario", traInventario);
             return response.Value;
         }
-
         public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiario(DateTime fechaResumen)
         {   
             DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
@@ -65,6 +64,36 @@ namespace TiendaLaLojanita.Services
             DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
             var fechaStr = fechaActual.ToString("yyyy-MM-dd");
             var response = await _apiClient.GetAsync<List<ResumenVentasDiarioDTO>>($"api/Inventario/ResumenVentasMensual?fechaResumen={fechaStr}");
+            return response.Value;
+        }
+
+        public async Task<int> CrearAjusteInventario(AjusteInventarioCrearDTO modelo)
+        {
+            var response = await _apiClient.PostAsync<int>($"api/Inventario/CrearAjusteInventario", modelo);
+            return response.Value;
+        }
+
+        public async Task<bool> ReversarAjusteInventario(int idAjuste)
+        {
+            var response = await _apiClient.PutAsync<bool>($"api/Inventario/ReversarAjusteInventario?idAjuste={idAjuste}");
+            return response.Value;
+        }
+
+        public async Task<List<AjusteInventarioDTO>> ListarAjusteInventarioFechas(DateOnly fechaInicio, DateOnly fechaFinal)
+        {
+            var response = await _apiClient.GetAsync<List<AjusteInventarioDTO>>($"api/Inventario/ListarAjusteInventarioFechas?fechaInicio={fechaInicio:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}");
+            return response.Value;
+        }
+        //ListarAjusteInventarioCompleto
+        public async Task<AjusteInventarioCompletoDTO> ListarAjusteInventarioCompleto(int idAjuste)
+        {
+            var response = await _apiClient.GetAsync<AjusteInventarioCompletoDTO>($"api/Inventario/ListarAjusteInventarioCompleto?idAjuste={idAjuste}");
+            return response.Value;
+        }
+
+        public async Task<List<EstadoAjusteDTO>> ListaEstadosAjuste()
+        {
+            var response = await _apiClient.GetAsync<List<EstadoAjusteDTO>>($"api/Inventario/ListaEstadosAjuste");
             return response.Value;
         }
     }

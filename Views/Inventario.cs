@@ -63,86 +63,16 @@ namespace TiendaLaLojanita.Views
             this.cbxTransaccion.DisplayMember = "Nombre";
             this.cbxTransaccion.ValueMember = "Id";
 
-            this.ListaProveedores = await this.proveedorService.ListarProveedores();
-            this.cbxProveedor.Items.Clear();
-            this.cbxProveedor.DataSource = this.ListaProveedores;
-            this.cbxProveedor.DisplayMember = "Nombres";
-            this.cbxProveedor.ValueMember = "Id";
 
             AutoCompleteStringCollection collecion = new AutoCompleteStringCollection();
             foreach (var prov in ListaProveedores)
             {
                 collecion.Add(Convert.ToString(prov.RazonSocial));
             }
-
-            cbxProveedor.AutoCompleteCustomSource = collecion;
-            cbxProveedor.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cbxProveedor.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            lblUser.Text = Sesion.Usuario;
         }
 
-        private async void btnAbrirArchivo_Click(object sender, EventArgs e)
-        {
-            List<DetalleCompraCreacionDTO> listaDetalles = new List<DetalleCompraCreacionDTO>();
-            if (ofdArchivos.ShowDialog() == DialogResult.OK)
-            {
-                lblArchivo.Text = ofdArchivos.FileName;
-                prog = new ProgressBar();
-                prog.Show();
-                var (sheet, sharedStrings) = this.procesarExcel.LeerExcel(lblArchivo.Text);
-                listaDetalles = this.procesarExcel.LeerShetDetallesCompra(sheet, sharedStrings);
-                prog.Hide();
-                DialogResult respuesta = MessageBox.Show(
-                    $"Se han cargado {listaDetalles.Count} artículos desde el archivo Excel. ¿Está seguro de guardarlos en la BD?",
-                    "Confirmación",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question
-                );
-
-                if (respuesta == DialogResult.OK)
-                {
-                    // GuardarArticulosEnBaseDeDatos(articulosExcel);
-                    prog = new ProgressBar();
-                    prog.Show();
-                    var Compra = this.CrearTransaccionMemoria(listaDetalles);
-                    var validator = new CompraValidator();
-                    ValidationResult result = validator.Validate(Compra);
-
-                    if (!result.IsValid)
-                    {
-                        string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
-                        MessageBox.Show($"Errores de validación:\n{errores}", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        var resp = await this.CrearTransaccionCompraDB(Compra);
-                        prog.Hide();
-                        if (resp != null) MessageBox.Show($"Transacción creada sin error!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else MessageBox.Show($"Ocurrio un error al registrar la transacción!!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Operación cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-            }
-        }
-
-        private CompraCreacionDTO CrearTransaccionMemoria(List<DetalleCompraCreacionDTO> listaDetalles)
-        {
-            var compra = new CompraCreacionDTO
-            {
-                IdEstado = 1,
-                Documento = this.txtDocumento.Text,
-                EstadoVisual = true,
-                IdProveedor = Convert.ToInt32(this.cbxProveedor.SelectedValue),
-                FechaCompra = DateTime.Now,
-                IdUsuarioCreador = this.Sesion.Id,
-                DetalleComprasCreacionDto = listaDetalles,
-            };
-
-            return compra;
-        }
         private async Task<int> CrearTransaccionCompraDB(CompraCreacionDTO compra)
         {
             var resp = await this.compraService.RegistrarCompra(compra);
@@ -325,7 +255,8 @@ namespace TiendaLaLojanita.Views
 
         private void btnRegistroAjustesInventario_Click(object sender, EventArgs e)
         {
-            Registro_Ajustes_Inventario registro_Ajustes_Inventario = new Registro_Ajustes_Inventario();
+            IInventarioService inventarioService = this.inventarioService;
+            Registro_Ajustes_Inventario registro_Ajustes_Inventario = new Registro_Ajustes_Inventario(inventarioService, this.Sesion.Id);
             registro_Ajustes_Inventario.StartPosition = FormStartPosition.CenterScreen;
             registro_Ajustes_Inventario.ShowDialog();
         }

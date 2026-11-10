@@ -30,19 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventario));
             groupBox1 = new GroupBox();
-            lblArchivo = new Label();
-            btnAbrirArchivo = new Button();
             cbxTransaccion = new ComboBox();
             label6 = new Label();
             dtpFechaIngreso = new DateTimePicker();
             label5 = new Label();
             dtpFechaCreacion = new DateTimePicker();
             label4 = new Label();
-            groupBox2 = new GroupBox();
-            txtDocumento = new TextBox();
-            label8 = new Label();
-            cbxProveedor = new ComboBox();
-            label7 = new Label();
             groupBox3 = new GroupBox();
             btbBuscarInv = new Button();
             dgvInventario = new DataGridView();
@@ -74,6 +67,8 @@
             label1 = new Label();
             ofdArchivos = new OpenFileDialog();
             groupBox4 = new GroupBox();
+            lblFecha = new Label();
+            lblUser = new Label();
             btnGuardar = new Button();
             btnCancelar = new Button();
             groupBox5 = new GroupBox();
@@ -82,17 +77,15 @@
             btnGenerarCodigoArticulo = new Button();
             btnRegistroAjustesInventario = new Button();
             groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesInventario).BeginInit();
+            groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(lblArchivo);
-            groupBox1.Controls.Add(btnAbrirArchivo);
             groupBox1.Controls.Add(cbxTransaccion);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(dtpFechaIngreso);
@@ -101,29 +94,10 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Location = new Point(7, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(417, 173);
+            groupBox1.Size = new Size(417, 148);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Inventario";
-            // 
-            // lblArchivo
-            // 
-            lblArchivo.AutoSize = true;
-            lblArchivo.Location = new Point(69, 132);
-            lblArchivo.Name = "lblArchivo";
-            lblArchivo.Size = new Size(81, 15);
-            lblArchivo.TabIndex = 15;
-            lblArchivo.Text = "Abrir archivo..";
-            // 
-            // btnAbrirArchivo
-            // 
-            btnAbrirArchivo.Image = (Image)resources.GetObject("btnAbrirArchivo.Image");
-            btnAbrirArchivo.Location = new Point(11, 123);
-            btnAbrirArchivo.Name = "btnAbrirArchivo";
-            btnAbrirArchivo.Size = new Size(36, 32);
-            btnAbrirArchivo.TabIndex = 14;
-            btnAbrirArchivo.UseVisualStyleBackColor = true;
-            btnAbrirArchivo.Click += btnAbrirArchivo_Click;
             // 
             // cbxTransaccion
             // 
@@ -175,53 +149,6 @@
             label4.Size = new Size(91, 15);
             label4.TabIndex = 0;
             label4.Text = "Fecha Creación:";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(txtDocumento);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(cbxProveedor);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Location = new Point(432, 6);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(463, 81);
-            groupBox2.TabIndex = 1;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Datos Compra";
-            // 
-            // txtDocumento
-            // 
-            txtDocumento.Location = new Point(90, 50);
-            txtDocumento.MaxLength = 45;
-            txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(355, 23);
-            txtDocumento.TabIndex = 3;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(6, 52);
-            label8.Name = "label8";
-            label8.Size = new Size(73, 15);
-            label8.TabIndex = 2;
-            label8.Text = "Documento:";
-            // 
-            // cbxProveedor
-            // 
-            cbxProveedor.FormattingEnabled = true;
-            cbxProveedor.Location = new Point(90, 16);
-            cbxProveedor.Name = "cbxProveedor";
-            cbxProveedor.Size = new Size(355, 23);
-            cbxProveedor.TabIndex = 1;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(6, 19);
-            label7.Name = "label7";
-            label7.Size = new Size(64, 15);
-            label7.TabIndex = 0;
-            label7.Text = "Proveedor:";
             // 
             // groupBox3
             // 
@@ -437,19 +364,37 @@
             // 
             // groupBox4
             // 
-            groupBox4.Location = new Point(432, 93);
+            groupBox4.Controls.Add(lblFecha);
+            groupBox4.Controls.Add(lblUser);
+            groupBox4.Location = new Point(1335, 12);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(463, 86);
+            groupBox4.Size = new Size(305, 82);
             groupBox4.TabIndex = 2;
             groupBox4.TabStop = false;
-            groupBox4.Text = "Datos Ajustes";
+            groupBox4.Text = "Usuario Actual";
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(19, 52);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(0, 15);
+            lblFecha.TabIndex = 3;
+            // 
+            // lblUser
+            // 
+            lblUser.AutoSize = true;
+            lblUser.Location = new Point(14, 22);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(0, 15);
+            lblUser.TabIndex = 2;
             // 
             // btnGuardar
             // 
             btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(1426, 12);
+            btnGuardar.Location = new Point(949, 12);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(214, 68);
+            btnGuardar.Size = new Size(193, 68);
             btnGuardar.TabIndex = 3;
             btnGuardar.UseVisualStyleBackColor = true;
             btnGuardar.Click += btnGuardar_Click;
@@ -457,9 +402,9 @@
             // btnCancelar
             // 
             btnCancelar.Image = Properties.Resources.cancelar_resize;
-            btnCancelar.Location = new Point(1426, 86);
+            btnCancelar.Location = new Point(949, 86);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(214, 68);
+            btnCancelar.Size = new Size(193, 68);
             btnCancelar.TabIndex = 4;
             btnCancelar.UseVisualStyleBackColor = true;
             // 
@@ -467,7 +412,7 @@
             // 
             groupBox5.Controls.Add(dtpFechaResumen);
             groupBox5.Controls.Add(cbxReportes);
-            groupBox5.Location = new Point(901, 4);
+            groupBox5.Location = new Point(432, 12);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(511, 82);
             groupBox5.TabIndex = 5;
@@ -496,9 +441,9 @@
             // btnGenerarCodigoArticulo
             // 
             btnGenerarCodigoArticulo.Image = Properties.Resources.inventario;
-            btnGenerarCodigoArticulo.Location = new Point(1206, 86);
+            btnGenerarCodigoArticulo.Location = new Point(1148, 86);
             btnGenerarCodigoArticulo.Name = "btnGenerarCodigoArticulo";
-            btnGenerarCodigoArticulo.Size = new Size(214, 68);
+            btnGenerarCodigoArticulo.Size = new Size(181, 68);
             btnGenerarCodigoArticulo.TabIndex = 6;
             btnGenerarCodigoArticulo.UseVisualStyleBackColor = true;
             btnGenerarCodigoArticulo.Click += btnGenerarCodigoArticulo_Click;
@@ -506,9 +451,9 @@
             // btnRegistroAjustesInventario
             // 
             btnRegistroAjustesInventario.Image = Properties.Resources.ajustes_inventario;
-            btnRegistroAjustesInventario.Location = new Point(986, 86);
+            btnRegistroAjustesInventario.Location = new Point(1148, 12);
             btnRegistroAjustesInventario.Name = "btnRegistroAjustesInventario";
-            btnRegistroAjustesInventario.Size = new Size(214, 68);
+            btnRegistroAjustesInventario.Size = new Size(181, 68);
             btnRegistroAjustesInventario.TabIndex = 7;
             btnRegistroAjustesInventario.UseVisualStyleBackColor = true;
             btnRegistroAjustesInventario.Click += btnRegistroAjustesInventario_Click;
@@ -525,19 +470,18 @@
             Controls.Add(btnGuardar);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "Inventario";
             Text = "Inventario";
             Load += Inventario_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventario).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDetallesInventario).EndInit();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -545,7 +489,6 @@
         #endregion
 
         private GroupBox groupBox1;
-        private GroupBox groupBox2;
         private GroupBox groupBox3;
         private Label label3;
         private Label label2;
@@ -561,14 +504,8 @@
         private Label label5;
         private DateTimePicker dtpFechaCreacion;
         private Label label4;
-        private Button btnAbrirArchivo;
-        private Label lblArchivo;
         private OpenFileDialog ofdArchivos;
         private GroupBox groupBox4;
-        private Label label8;
-        private ComboBox cbxProveedor;
-        private Label label7;
-        private TextBox txtDocumento;
         private DataGridView dgvInventario;
         private Button btnGuardar;
         private Button btnCancelar;
@@ -597,5 +534,7 @@
         private DataGridViewImageColumn Eliminar;
         private Button btnGenerarCodigoArticulo;
         private Button btnRegistroAjustesInventario;
+        private Label lblFecha;
+        private Label lblUser;
     }
 }

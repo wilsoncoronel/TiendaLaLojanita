@@ -4,17 +4,231 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Services;
+using TiendaLaLojanita.Validaciones;
+using FluentValidation.Results;
 
 namespace TiendaLaLojanita.Views
 {
     public partial class Registro_Ajustes_Inventario : Form
     {
-        public Registro_Ajustes_Inventario()
+        private List<TransaccionInventarioDTO> ListaTransacciones;
+        public List<EstadoAjusteDTO> ListaEstadosAjuste;
+        private readonly IInventarioService _inventarioService;
+        private AjusteInventarioCrearDTO AjusteInventarioCrear;
+        private int IdUsuario;
+        private int versionCarga;
+        public Registro_Ajustes_Inventario(IInventarioService inventarioService, int IdUsuario)
         {
             InitializeComponent();
+            _inventarioService = inventarioService;
+            this.IdUsuario = IdUsuario;
+            ListaEstadosAjuste = new List<EstadoAjusteDTO>();
+            ListaTransacciones = new List<TransaccionInventarioDTO>();
+            this.CargarListas();
+            this.dtpInicio.ValueChanged += async (s, e) => await this.CargarAjustes();
+            this.dtpFinal.ValueChanged += async (s, e) => await this.CargarAjustes();
+            this.dgvAjustes.CellContentClick += async (s, e) => await this.AccionAjuste(e);
+        }
+
+        private async Task CargarAjustes()
+        {
+            if (dtpInicio.Value.Date > dtpFinal.Value.Date)
+            {
+                MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var version = ++versionCarga;
+            var progreso = new ProgressBar();
+            progreso.Show(this);
+            try
+            {
+                var ajustes = await _inventarioService.ListarAjusteInventarioFechas(DateOnly.FromDateTime(dtpInicio.Value), DateOnly.FromDateTime(dtpFinal.Value));
+                if (version != versionCarga) return;
+
+                ajustes ??= new List<AjusteInventarioDTO>();
+                dgvAjustes.Rows.Clear();
+                if (ajustes.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron ajustes en el rango de fechas seleccionado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                foreach (var ajuste in ajustes)
+                {
+                    dgvAjustes.Rows.Add(
+                        ajuste.Id,
+                        ajuste.IdTransaccion,
+                        ajuste.TransaccionInventarioDTO?.Nombre,
+                        ajuste.UsuarioDTO != null ? $"{ajuste.UsuarioDTO.Nombres} {ajuste.UsuarioDTO.Apellidos}" : null,
+                        ajuste.Motivo,
+                        ajuste.FechaCreacion.ToString("dd/MM/yyyy"),
+                        ajuste.IdEstado,
+                        ajuste.EstadoAjusteDTO?.Nombre,
+                        ajuste.FechaReversion?.ToString("dd/MM/yyyy"),
+                        null,
+                        null);
+                }
+                MessageBox.Show($"Se han cargado {ajustes.Count} ajustes", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los ajustes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso.Close();
+            }
+        }
+
+        private async Task AccionAjuste(DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (dgvAjustes.Columns[e.ColumnIndex].Name != "Reversar") return;
+
+            var idAjuste = Convert.ToInt32(dgvAjustes.Rows[e.RowIndex].Cells["IdAjsute"].Value);
+            if (!ConfirmaAccion($"¿Desea reversar el ajuste con ID: {idAjuste}?")) return;
+
+            var reversado = await ReversarAjuste(idAjuste);
+            if (!reversado)
+            {
+                MessageBox.Show("No se pudo reversar el ajuste", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            await CargarAjustes();
+        }
+
+        private async Task CargarListas()
+        {
+            ListaEstadosAjuste = await _inventarioService.ListaEstadosAjuste();
+            ListaTransacciones = await _inventarioService.ListaTransaccionesInventario();
+            cbxEstadoAjuste.DataSource = ListaEstadosAjuste;
+            cbxEstadoAjuste.DisplayMember = "Nombre";
+            cbxEstadoAjuste.ValueMember = "Id";
+            cbxTransaccionAjuste.DataSource = ListaTransacciones;
+            cbxTransaccionAjuste.DisplayMember = "Nombre";
+            cbxTransaccionAjuste.ValueMember = "Id";
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            this.CrearAjuste();
+        }
+
+        private async Task<int> CrearAjuste()
+        {
+            var resp = 0;
+            if (this.txtIdAjuste is null || this.txtIdAjuste.Text == "")
+            {
+
+                var ajuste = this.CargarAjusteInventario();
+                resp = await this._inventarioService.CrearAjusteInventario(ajuste);
+                if (resp == 0) MessageBox.Show("No se pudo crear el ajuste", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    int idAjuste = resp;
+                    this.LimpiarFormulario();
+                    /*bool imprimir = this.ConfirmaAccion($"Ajuste creado con exito con el ID: {idAjuste}, desea imprimir el ajuste?");
+                    if (imprimir)
+                    {
+                        var ajuste = await this._inventarioService.ObtenerAjuste(idAjuste);
+                        this.ImprimirAjuste(ajuste);
+                    }*/
+                }
+            }
+            return resp;
+        }
+
+        private AjusteInventarioCrearDTO CargarAjusteInventario()
+        {
+            AjusteInventarioCrear = new AjusteInventarioCrearDTO();
+            AjusteInventarioCrear.IdUsuarioCreador = this.IdUsuario;
+            AjusteInventarioCrear.IdEstado = (int)this.cbxEstadoAjuste.SelectedValue;
+            AjusteInventarioCrear.IdTransaccion = (int)this.cbxTransaccionAjuste.SelectedValue;
+            AjusteInventarioCrear.Motivo = this.txtMotivoAjuste.Text.ToUpper();
+            AjusteInventarioCrear.Detalles = new List<DetalleAjusteInventarioCrearDTO>();
+            foreach (DataGridViewRow row in this.dgvDetallesAjuste.Rows)
+            {
+                if (row.Cells["IdArticulo"].Value != null && row.Cells["Cantidad"].Value != null)
+                {
+                    var detalle = new DetalleAjusteInventarioCrearDTO
+                    {
+                        IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
+                        Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value)
+                    };
+                    AjusteInventarioCrear.Detalles.Add(detalle);
+                }
+            }
+
+            var validator = new AjusteCrearValidator();
+            ValidationResult result = validator.Validate(AjusteInventarioCrear);
+            if (!result.IsValid)
+            {
+                RecorrerErrores(result);
+                return null;
+            }
+            else
+            {
+                this.LimpiarFormulario();
+            }
+
+            return AjusteInventarioCrear;
+        }
+
+        private void RecorrerErrores(ValidationResult result)
+        {
+            if (result.Errors.Count > 1)
+            {
+                MessageBox.Show($"Error de Validación, hay campos obligatorios vacios!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    MessageBox.Show(error.ErrorMessage, $"Error de Validación, {error.PropertyName}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private async Task<bool> ReversarAjuste(int IdAjuste)
+        {
+            if(IdAjuste == 0)
+            {
+                return false;
+            }
+
+            var resp = await this._inventarioService.ReversarAjusteInventario(IdAjuste);
+            return resp;
+        }
+
+        private bool ConfirmaAccion(string mensaje)
+        {
+            DialogResult respuesta = MessageBox.Show(
+                mensaje,
+                "Confirmar",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+            if (respuesta == DialogResult.OK)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void LimpiarFormulario()
+        {
+            this.txtIdAjuste.Text = "";
+            this.txtMotivoAjuste.Text = "";
+            this.cbxEstadoAjuste.SelectedIndex = 0;
+            this.cbxTransaccionAjuste.SelectedIndex = 0;
+            this.dgvDetallesAjuste.Rows.Clear();
         }
     }
 }

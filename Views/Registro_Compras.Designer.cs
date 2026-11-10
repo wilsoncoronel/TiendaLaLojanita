@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registro_Compras));
             groupBox1 = new GroupBox();
             btnProveedor = new Button();
-            btnCreditosProveedor = new Button();
             txtIdentificacionProveedor = new TextBox();
             btbBuscarProveedor = new Button();
             txtTelefono = new TextBox();
@@ -41,6 +40,7 @@
             txtRazonSocial = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            btnCreditosProveedor = new Button();
             label12 = new Label();
             txtIdCompra = new TextBox();
             groupBox2 = new GroupBox();
@@ -145,18 +145,6 @@
             btnProveedor.UseVisualStyleBackColor = true;
             btnProveedor.Click += btnProveedor_Click;
             // 
-            // btnCreditosProveedor
-            // 
-            btnCreditosProveedor.BackColor = Color.Transparent;
-            btnCreditosProveedor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCreditosProveedor.Image = Properties.Resources.notas_min;
-            btnCreditosProveedor.Location = new Point(1178, 191);
-            btnCreditosProveedor.Name = "btnCreditosProveedor";
-            btnCreditosProveedor.Size = new Size(255, 61);
-            btnCreditosProveedor.TabIndex = 7;
-            btnCreditosProveedor.UseVisualStyleBackColor = false;
-            btnCreditosProveedor.Click += btnCreditosProveedor_Click;
-            // 
             // txtIdentificacionProveedor
             // 
             txtIdentificacionProveedor.Location = new Point(124, 16);
@@ -236,6 +224,18 @@
             label1.Size = new Size(52, 15);
             label1.TabIndex = 0;
             label1.Text = "CI/ RUC:";
+            // 
+            // btnCreditosProveedor
+            // 
+            btnCreditosProveedor.BackColor = Color.Transparent;
+            btnCreditosProveedor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCreditosProveedor.Image = Properties.Resources.notas_min;
+            btnCreditosProveedor.Location = new Point(1178, 191);
+            btnCreditosProveedor.Name = "btnCreditosProveedor";
+            btnCreditosProveedor.Size = new Size(255, 61);
+            btnCreditosProveedor.TabIndex = 7;
+            btnCreditosProveedor.UseVisualStyleBackColor = false;
+            btnCreditosProveedor.Click += btnCreditosProveedor_Click;
             // 
             // label12
             // 
@@ -525,9 +525,9 @@
             // 
             groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox3.Controls.Add(tabControl1);
-            groupBox3.Location = new Point(12, 207);
+            groupBox3.Location = new Point(9, 207);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(1160, 494);
+            groupBox3.Size = new Size(1163, 390);
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             groupBox3.Text = "Artículos";
@@ -539,7 +539,7 @@
             tabControl1.Location = new Point(4, 23);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1151, 465);
+            tabControl1.Size = new Size(1151, 366);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -553,7 +553,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1143, 437);
+            tabPage1.Size = new Size(1143, 338);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Compra";
             tabPage1.UseVisualStyleBackColor = true;
@@ -653,7 +653,7 @@
             dgvDetalleCompra.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dgvDetalleCompra.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDetalleCompra.Columns.AddRange(new DataGridViewColumn[] { Id, IdCompra, IdArticulo, Lote, Codigo, Articulo, Descripcion, Cantidad, ValorCompra, ValorVenta, ValorTotal, FechaExpiracion, Eliminar });
-            dgvDetalleCompra.Location = new Point(-2, 60);
+            dgvDetalleCompra.Location = new Point(6, 55);
             dgvDetalleCompra.Name = "dgvDetalleCompra";
             dgvDetalleCompra.Size = new Size(779, 258);
             dgvDetalleCompra.TabIndex = 5;
@@ -746,7 +746,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1143, 437);
+            tabPage2.Size = new Size(1143, 338);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Compras";
             tabPage2.UseVisualStyleBackColor = true;
@@ -755,7 +755,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1445, 902);
+            ClientSize = new Size(1444, 684);
             Controls.Add(btnCreditosProveedor);
             Controls.Add(btnCancelar);
             Controls.Add(groupBox4);

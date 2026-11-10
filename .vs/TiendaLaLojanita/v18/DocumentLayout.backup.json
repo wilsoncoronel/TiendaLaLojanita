@@ -3,64 +3,40 @@
   "WorkspaceRootPath": "E:\\proyectos\\TiendaLaLojanita\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\detalleajusteinventariocompletodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\detalleajusteinventariocompletodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\ajusteinventariocompletodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\ajusteinventariocompletodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ajustes_inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ajustes_inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_ajustes_inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_ajustes_inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\inventarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\inventarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\ajustelotedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\ajustelotedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\datosconfiguraciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\datosconfiguraciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\ajusteinventariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\ajusteinventariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\datosconfiguraciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\datosconfiguraciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\impuestoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\impuestoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\interfaces\\iimpuestoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\interfaces\\iimpuestoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:services\\articuloservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|E:\\proyectos\\TiendaLaLojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:views\\registro_articulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\detalledevolucioncompraimpuestodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\detalledevolucioncompraimpuestodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\tipoimpuestodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\tipoimpuestodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\models\\dto\\impuestocreardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:models\\dto\\impuestocreardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|e:\\proyectos\\tiendalalojanita\\utilidad\\validacionesdecimales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F2672442-7B05-4860-88AF-48E909699DE4}|TiendaLaLojanita.csproj|solutionrelative:utilidad\\validacionesdecimales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,7 +58,81 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AjusteLoteDTO.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteLoteDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\AjusteLoteDTO.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteLoteDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\AjusteLoteDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-09T15:34:23.993Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DetalleAjusteInventarioCompletoDTO.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\DetalleAjusteInventarioCompletoDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\DetalleAjusteInventarioCompletoDTO.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\DetalleAjusteInventarioCompletoDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\DetalleAjusteInventarioCompletoDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-09T15:33:19.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AjusteInventarioCompletoDTO.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteInventarioCompletoDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\AjusteInventarioCompletoDTO.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteInventarioCompletoDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\AjusteInventarioCompletoDTO.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAgwCAAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-09T15:32:42.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InventarioService.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\InventarioService.cs",
+              "RelativeDocumentMoniker": "Services\\InventarioService.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\InventarioService.cs",
+              "RelativeToolTip": "Services\\InventarioService.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAqwFcAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-09T13:48:46.387Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Inventario.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
+              "RelativeDocumentMoniker": "Views\\Inventario.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Views\\Inventario.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-07T17:33:24.599Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Registro_Ajustes_Inventario.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ajustes_Inventario.cs",
+              "RelativeDocumentMoniker": "Views\\Registro_Ajustes_Inventario.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ajustes_Inventario.cs",
+              "RelativeToolTip": "Views\\Registro_Ajustes_Inventario.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAMYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-07T15:52:42.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Registro_Ajustes_Inventario.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Ajustes_Inventario.cs",
               "RelativeDocumentMoniker": "Views\\Registro_Ajustes_Inventario.cs",
@@ -94,68 +144,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Inventario.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
-              "RelativeDocumentMoniker": "Views\\Inventario.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
-              "RelativeToolTip": "Views\\Inventario.cs",
-              "ViewState": "AgIAADQBAAAAAAAAAAAjwEMBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-05T00:18:19.607Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Inventario.cs [Dise\u00F1o]",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs",
-              "RelativeDocumentMoniker": "Views\\Inventario.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Inventario.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Inventario.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-05T00:07:19.905Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "ArticuloService.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ArticuloService.cs",
-              "RelativeDocumentMoniker": "Services\\ArticuloService.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\ArticuloService.cs",
-              "RelativeToolTip": "Services\\ArticuloService.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAqwAcAAAAzAAAAAAAAAA==",
+              "Title": "AjusteInventarioDTO.cs",
+              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteInventarioDTO.cs",
+              "RelativeDocumentMoniker": "Models\\DTO\\AjusteInventarioDTO.cs",
+              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\AjusteInventarioDTO.cs",
+              "RelativeToolTip": "Models\\DTO\\AjusteInventarioDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-28T22:24:54.962Z"
+              "WhenOpened": "2026-11-09T14:07:59.091Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ImpuestoService.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Services\\ImpuestoService.cs",
-              "RelativeDocumentMoniker": "Services\\ImpuestoService.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Services\\ImpuestoService.cs",
-              "RelativeToolTip": "Services\\ImpuestoService.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAiwC8AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-28T22:05:12.059Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DatosConfiguraciones.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\DatosConfiguraciones.cs",
-              "RelativeDocumentMoniker": "Views\\DatosConfiguraciones.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\DatosConfiguraciones.cs",
-              "RelativeToolTip": "Views\\DatosConfiguraciones.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAqwE8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-28T22:01:06.645Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "DatosConfiguraciones.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\DatosConfiguraciones.cs",
               "RelativeDocumentMoniker": "Views\\DatosConfiguraciones.cs",
@@ -163,102 +164,6 @@
               "RelativeToolTip": "Views\\DatosConfiguraciones.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-28T22:00:59.586Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Registro_Articulos.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeToolTip": "Views\\Registro_Articulos.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAAD4v6AAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-28T21:03:28.541Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Registro_Articulos.cs [Dise\u00F1o]",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs",
-              "RelativeDocumentMoniker": "Views\\Registro_Articulos.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Views\\Registro_Articulos.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Views\\Registro_Articulos.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-25T23:57:27.348Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IImpuestoService.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\Interfaces\\IImpuestoService.cs",
-              "RelativeDocumentMoniker": "Models\\Interfaces\\IImpuestoService.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\Interfaces\\IImpuestoService.cs",
-              "RelativeToolTip": "Models\\Interfaces\\IImpuestoService.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAIAwwBEAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-28T22:04:05.948Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DetalleDevolucionCompraImpuestoDTO.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\DetalleDevolucionCompraImpuestoDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\DetalleDevolucionCompraImpuestoDTO.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\DetalleDevolucionCompraImpuestoDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\DetalleDevolucionCompraImpuestoDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-27T17:55:51.068Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TipoImpuestoDTO.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\TipoImpuestoDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\TipoImpuestoDTO.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\TipoImpuestoDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\TipoImpuestoDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-27T17:53:03.55Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ImpuestoCrearDTO.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCrearDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\ImpuestoCrearDTO.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Models\\DTO\\ImpuestoCrearDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\ImpuestoCrearDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-27T17:44:48.427Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAABQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-25T23:00:58.836Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ValidacionesDecimales.cs",
-              "DocumentMoniker": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\ValidacionesDecimales.cs",
-              "RelativeDocumentMoniker": "Utilidad\\ValidacionesDecimales.cs",
-              "ToolTip": "E:\\proyectos\\TiendaLaLojanita\\Utilidad\\ValidacionesDecimales.cs",
-              "RelativeToolTip": "Utilidad\\ValidacionesDecimales.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAEwHMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-22T00:25:26.428Z"
             }
           ]
         }
