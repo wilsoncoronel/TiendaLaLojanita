@@ -40,6 +40,7 @@ namespace TiendaLaLojanita.Views
         private ProgressBar prog;
         public readonly IDevolucionCompraService devolucionCompraService;
         private readonly ICreditoProveedorService creditoProveedorService;
+        private readonly IImpuestoService impuestoService;
         private readonly IArticuloService articuloService;
         private List<ArticuloVentaDTO> listaTemp;
         private DevolucionCompraDTO DevolucionCompraDTO;
@@ -63,6 +64,7 @@ namespace TiendaLaLojanita.Views
             IProveedorService proveedorService,
             IDevolucionCompraService devolucionCompraService,
             ICreditoProveedorService creditoProveedorService,
+            IImpuestoService impuestoService,
             IArticuloService articuloService)
         {
             InitializeComponent();
@@ -70,6 +72,7 @@ namespace TiendaLaLojanita.Views
             this.proveedorService = proveedorService;
             this.devolucionCompraService = devolucionCompraService;
             this.creditoProveedorService = creditoProveedorService;
+            this.impuestoService = impuestoService;
             this.articuloService = articuloService;
             this.listaCompras = new List<CompraMinDTO>();
             this.cbxEstado.SelectedIndex = 0;
@@ -81,11 +84,29 @@ namespace TiendaLaLojanita.Views
             this.ListaArticulosVenta = new List<ArticuloVentaDTO>();
             this.listaTemp = new List<ArticuloVentaDTO>();
             this.ListaTipoImpuestoDTO = new List<TipoImpuestoDTO>();
-            this.CargarCombos();
         }
 
         private async void Devolucion_Compra_Load(object sender, EventArgs e)
         {
+            this.HabilitarBusqueda(false);
+
+            try
+            {
+                await this.CargarCombos();
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error al cargar los catálogos: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
             try
             {
                 this.ListaArticulosVenta = await this.CargarListaArticulos();
@@ -102,7 +123,15 @@ namespace TiendaLaLojanita.Views
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+
             AutoCompleteArt();
+            this.HabilitarBusqueda(true);
+        }
+
+        private void HabilitarBusqueda(bool habilitar)
+        {
+            this.txtArtículo.Enabled = habilitar;
+            this.button1.Enabled = habilitar;
         }
 
         private void AutoCompleteArt()
@@ -410,6 +439,7 @@ namespace TiendaLaLojanita.Views
             this.cbxProveedor.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.cbxProveedor.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
+            this.ListaTipoImpuestoDTO = await this.impuestoService.ListarTipoImpuestos();
             var proveedoresAutoComplete = new AutoCompleteStringCollection();
             foreach (var proveedor in this.ListaProveedores)
             {
@@ -433,7 +463,8 @@ namespace TiendaLaLojanita.Views
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Evita el sonido "ding"
+                
+               e.SuppressKeyPress = true; // Evita el sonido "ding"
                 if (!string.IsNullOrWhiteSpace(txtArtículo.Text))
                 {
                     await this.AgregarArticuloDesdeBusqueda();
@@ -535,6 +566,7 @@ namespace TiendaLaLojanita.Views
                     Nombre = item.ImpuestoDTO.Nombre,
                     IdTipoCalculo = item.ImpuestoDTO.IdTipoCalculo,
                     Valor = item.ImpuestoDTO.Valor,
+                    TipoImpuestoDTO = this.ResolverTipoImpuesto(item.ImpuestoDTO.TipoImpuestoDTO, item.ImpuestoDTO.IdTipoCalculo),
                     Estado = true
                 })
                 .ToList();
@@ -552,9 +584,16 @@ namespace TiendaLaLojanita.Views
                     Nombre = impuesto.Nombre,
                     IdTipoCalculo = impuesto.IdTipoCalculo,
                     Valor = impuesto.Valor,
+                    TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.TipoImpuestoDTO, impuesto.IdTipoCalculo),
                     Estado = impuesto.Estado
                 })
                 .ToList();
+        }
+
+        private TipoImpuestoDTO ResolverTipoImpuesto(TipoImpuestoDTO tipoImpuesto, int idTipoCalculo)
+        {
+            return tipoImpuesto
+                ?? this.ListaTipoImpuestoDTO?.FirstOrDefault(tipo => tipo.Id == idTipoCalculo);
         }
 
         private void LimpiarBusquedaArticulo()
@@ -879,11 +918,10 @@ namespace TiendaLaLojanita.Views
                 foreach (var impuesto in detalle.Impuestos ?? new List<DetalleDevolucionCompraImpuestoDTO>())
                 {
                     decimal valorImpuesto = CalcularImpuestos.Calcular(
-                        impuesto.IdTipoCalculo,
+                        impuesto.TipoImpuestoDTO,
                         detalle.Valor,
                         detalle.Cantidad,
-                        impuesto.Valor,
-                        this.ListaTipoImpuestoDTO);
+                        impuesto.Valor);
 
                     var clave = (impuesto.IdImpuesto, impuesto.Nombre ?? string.Empty);
                     impuestos[clave] = impuestos.TryGetValue(clave, out decimal acumulado)
@@ -921,10 +959,10 @@ namespace TiendaLaLojanita.Views
                 foreach (var impuesto in detalle.Impuestos ?? new List<DetalleDevolucionCompraImpuestoDTO>())
                 {
                     decimal valorImpuesto = CalcularImpuestos.Calcular(
-                        impuesto.IdTipoCalculo,
+                        impuesto.TipoImpuestoDTO,
                         articulo.ValorCompra,
                         detalle.Cantidad,
-                        impuesto.Valor, this.ListaTipoImpuestoDTO);
+                        impuesto.Valor);
 
                     var clave = (impuesto.IdImpuesto, impuesto.Nombre ?? string.Empty);
                     impuestos[clave] = impuestos.TryGetValue(clave, out decimal acumulado)
@@ -972,7 +1010,6 @@ namespace TiendaLaLojanita.Views
         {
             this.CrearDevolucionCompra();
         }
-
 
         private async void CrearDevolucionCompra()
         {

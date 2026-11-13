@@ -906,9 +906,10 @@ namespace TiendaLaLojanita.Views
             try
             {
                 int id = 0;
-                if (e.ColumnIndex < 0)
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 {
                     MessageBox.Show($"Celda no valida!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 else if (dgvVentas.Columns[e.ColumnIndex].Name == "Editar")
                 {

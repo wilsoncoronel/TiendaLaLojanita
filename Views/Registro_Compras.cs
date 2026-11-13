@@ -32,6 +32,7 @@ namespace TiendaLaLojanita.Views
         private DateTimePicker dateTimePicker;
         private List<ArticuloCompraDTO> listaArticulos;
         private int contador = 0;
+        private int contadorIdTemporal = 0;
         private decimal imp = 0;
         private int cant = 1;
         private int IdProveedor = 0;
@@ -260,7 +261,9 @@ namespace TiendaLaLojanita.Views
                         Impuestos = ObtenerImpuestosParaArticulo(Convert.ToInt32(row.Cells["IdArticulo"].Value)),
                         ValorTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString(),
-                        FechaCaducidad = row.Cells["FechaExpiracion"].Value != null ? DateOnly.Parse(row.Cells["FechaExpiracion"].Value.ToString()) : null
+                        FechaCaducidad = row.Cells["FechaExpiracion"].Value != null
+                            ? DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["FechaExpiracion"].Value))
+                            : null
                     };
                     compraEditarDTO.DetalleComprasEditarDto.Add(detalle);
                 }
@@ -278,9 +281,9 @@ namespace TiendaLaLojanita.Views
                 }
                 return resp;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         private List<DetalleImpuestoCreacionDTO> ObtenerImpuestosParaArticulo(int idArticulo)
@@ -309,10 +312,11 @@ namespace TiendaLaLojanita.Views
                     {
                         compraCreacionDTO.Documento = "";
                     }
-                    else
-                    {
-                        compraCreacionDTO.Documento = this.txtDocumento.Text;
-                    }
+                    
+                }
+                else
+                {
+                    compraCreacionDTO.Documento = this.txtDocumento.Text;
                 }
                 compraCreacionDTO.FechaCompra = this.dtpCompra.Value;
                 compraCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadoCompra.SelectedValue); // Estado "Pendiente" por defecto
@@ -519,6 +523,7 @@ namespace TiendaLaLojanita.Views
                         {
                             row.Cells["Cantidad"].Value = Convert.ToInt32(row.Cells["Cantidad"].Value) + 1;
                             this.ActualizarCantidad(articuloActual.Id, Convert.ToInt32(row.Cells["Cantidad"].Value), Convert.ToDecimal(row.Cells["ValorCompra"].Value));
+                            this.RecalcularImpuestosDetalle(articuloCompra);
                             this.CalcularTotales();
                         }
                     }
@@ -531,6 +536,12 @@ namespace TiendaLaLojanita.Views
                     this.LimpiarValores();
                 }
             }
+        }
+
+        private void RecalcularImpuestosDetalle(ArticuloDTO articuloCompra)
+        {
+            this.listaDetalleImpuestos.RemoveAll(imp => imp.IdArticulo == articuloCompra.Id);
+            this.CargarListaImpuestosDetalles(articuloCompra);
         }
 
         private void CargarListaImpuestosDetalles(ArticuloDTO articuloCompra)
@@ -603,7 +614,7 @@ namespace TiendaLaLojanita.Views
                 articuloImpuestos.Add(impuesto);
             }
             int index = this.dgvDetalleCompra.Rows.Add(new object[] {
-                contador,
+                string.IsNullOrWhiteSpace(this.txtIdCompra.Text) ? 0 : --this.contadorIdTemporal,
                 0,
                 articuloActual.Id,
                 "",
@@ -643,6 +654,19 @@ namespace TiendaLaLojanita.Views
             // 1. RECORRER LOS ARTÍCULOS
             // ==========================================================
 
+            foreach (DataGridViewRow fila in this.dgvDetalleCompra.Rows)
+            {
+                if (fila.IsNewRow)
+                {
+                    continue;
+                }
+
+                decimal cantidadFila = Convert.ToDecimal(fila.Cells["Cantidad"].Value);
+                decimal valorCompraFila = Convert.ToDecimal(fila.Cells["ValorCompra"].Value);
+
+                totalValorCompraLocal += valorCompraFila * cantidadFila;
+            }
+
             foreach (var item in this.listaImpuestos)
             {
                 int idArticulo = item.Key;
@@ -653,23 +677,6 @@ namespace TiendaLaLojanita.Views
                 {
                     continue;
                 }
-
-                // ======================================================
-                // 2. CALCULAR SUBTOTAL DEL ARTÍCULO
-                // ======================================================
-
-                var primerImpuesto = impuestos.First();
-
-                decimal cantidad =
-                    Convert.ToDecimal(primerImpuesto.Cantidad);
-
-                decimal valorCompra =
-                    primerImpuesto.ValorCompra;
-
-                decimal subtotalArticulo =
-                    valorCompra * cantidad;
-
-                totalValorCompraLocal += subtotalArticulo;
 
                 foreach (var impuesto in impuestos)
                 {
@@ -1211,6 +1218,7 @@ namespace TiendaLaLojanita.Views
             this.dtpCompra.Value = compra.FechaCompra;
             this.cbxEstadoCompra.SelectedValue = compra.IdEstado;
             this.dgvDetalleCompra.Rows.Clear();
+            this.contadorIdTemporal = 0;
             //ArticuloDTO articuloActual = new ArticuloDTO();
             foreach (var detalle in compra.DetalleCompras)
             {
@@ -1287,7 +1295,14 @@ namespace TiendaLaLojanita.Views
                     this.ListaTipoImpuestoDTO);
             }
 
-            this.listaImpuestos[idArticulo] = impuestos;
+            if (this.listaImpuestos.TryGetValue(idArticulo, out var impuestosExistentes))
+            {
+                impuestosExistentes.AddRange(impuestos);
+            }
+            else
+            {
+                this.listaImpuestos[idArticulo] = impuestos;
+            }
         }
 
         private void btnBuscar_Click_1(object sender, EventArgs e)

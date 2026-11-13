@@ -9,6 +9,16 @@ namespace TiendaLaLojanita.Utilidad
             var tipoImpuesto = tiposImpuesto.FirstOrDefault(t => t.Id == idTipoCalculo)
                 ?? throw new InvalidOperationException($"No existe un TipoImpuesto con Id {idTipoCalculo}.");
 
+            return Calcular(tipoImpuesto, valorCompra, cantidad, valorConfigurado);
+        }
+
+        public static decimal Calcular(TipoImpuestoDTO tipoImpuesto, decimal valorCompra, decimal cantidad, decimal valorConfigurado)
+        {
+            if (tipoImpuesto == null)
+            {
+                throw new InvalidOperationException("El impuesto no tiene TipoImpuesto cargado.");
+            }
+
             if (string.Equals(tipoImpuesto.TipoCalculo?.Trim(), "PORCENTAJE", StringComparison.OrdinalIgnoreCase))
             {
                 return CalcularPorcentaje(valorCompra, cantidad, valorConfigurado);

@@ -375,6 +375,7 @@ namespace TiendaLaLojanita.Views
             txtDescripcion.Clear();
             txtNombre.Clear();
             nudValorCompra.Value = 0;
+            nudValorVenta.Minimum = 0;
             nudValorVenta.Value = 0;
             nudUnidadValor.Value = 0;
             dtpCaducidad.Value = DateTime.Now;
@@ -691,7 +692,6 @@ namespace TiendaLaLojanita.Views
         {
             bool manual = EsPorcentajeCero();
             nudValorVenta.Enabled = manual;
-            nudValorVenta.Minimum = Math.Min(nudValorCompra.Value, nudValorVenta.Maximum);
         }
 
         private void ValidarValorVentaManual()

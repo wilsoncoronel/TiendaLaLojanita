@@ -1,0 +1,223 @@
+﻿## PROCESSES
+Currently debugging:
+- TiendaLaLojanita.exe (PID: 6300)
+
+## EXCEPTION
+Exception Type: System.InvalidOperationException
+Exception Message: El impuesto no tiene TipoImpuesto cargado.
+Piece of code that has the exception:
+```csharp E:\proyectos\TiendaLaLojanita\Views\Devolucion_Compra.cs
+473:         private async Task AgregarArticulo(ArticuloVentaDTO articuloBusqueda)
+474:         {
+475:             try
+476:             {
+477:                 var articuloInventario = await this.articuloService.ObtenerArticuloInventarioId(articuloBusqueda.Id);
+478:                 if (articuloInventario == null || articuloInventario.IdArticulo == 0)
+479:                 {
+480:                     MessageBox.Show("El artículo no tiene inventario disponible.", "Artículo no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+481:                     return;
+482:                 }
+483: 
+484:                 var articulo = await this.articuloService.ObtenerArticuloId(articuloBusqueda.Id);
+485:                 var codigo = articuloInventario.Codigo ?? articuloBusqueda.Codigo ?? string.Empty;
+486:                 var lote = articuloInventario.NumeroLote ?? articuloBusqueda.Lote ?? string.Empty;
+487:                 var existente = this.detallesDevolucion.FirstOrDefault(detalle =>
+488:                     detalle.IdArticulo == articuloInventario.IdArticulo &&
+489:                     string.Equals(detalle.Lote, lote, StringComparison.OrdinalIgnoreCase) &&
+490:                     string.Equals(detalle.Codigo, codigo, StringComparison.OrdinalIgnoreCase));
+491: 
+492:                 if (existente != null)
+493:                 {
+494:                     existente.Cantidad++;
+495:                     this.SincronizarFila(existente);
+496:                     this.CalcularTotalesDesdeArticulo();
+497:                     this.LimpiarBusquedaArticulo();
+498:                     return;
+499:                 }
+500: 
+501:                 var detalleNuevo = new DetalleDevolucionMemoria
+502:                 {
+503:                     IdArticulo = articuloInventario.IdArticulo,
+504:                     Lote = lote,
+505:                     Codigo = codigo,
+506:                     NombreArticulo = articulo?.Nombre ?? articuloInventario.Articulo.Nombre ?? articuloBusqueda.Nombre,
+507:                     Valor = articuloInventario.Articulo.ValorCompra,
+508:                     Cantidad = 1,
+509:                     ArticuloInventario = articuloInventario,
+510:                     Impuestos = await this.CopiarImpuestosArticulo(articuloInventario)
+511:                 };
+512: 
+513:                 this.detallesDevolucion.Add(detalleNuevo);
+514:                 this.AgregarFila(detalleNuevo);
+515:                 this.CalcularTotalesDesdeArticulo();
+516:                 this.LimpiarBusquedaArticulo();
+517:             }
+518:             catch (ApiException ex)
+519:             {
+520:                 ApiErrorHandler.Mostrar(ex);
+521:             }
+522:             catch (Exception ex)
+523:             {
+524:                 MessageBox.Show($"Ocurrió un error al cargar el artículo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+525:             }
+526:         }
+```
+Exception is on line 522
+This exception was originally thrown at this call stack:
+[1] TiendaLaLojanita.Utilidad.CalcularImpuestos.Calcular(TiendaLaLojanita.Models.DTO.TipoImpuestoDTO, decimal, decimal, decimal) en CalcularImpuestos.cs
+[2] TiendaLaLojanita.Views.Devolucion_Compra.CalcularTotalesDesdeArticulo() en Devolucion_Compra.cs
+[3] TiendaLaLojanita.Views.Devolucion_Compra.dgvDetalleDevolucion_CellValueChanged(object, System.Windows.Forms.DataGridViewCellEventArgs) en Devolucion_Compra.cs
+[4] System.Windows.Forms.DataGridView.OnCellValueChanged(System.Windows.Forms.DataGridViewCellEventArgs)
+[5] System.Windows.Forms.DataGridViewCell.SetValue(int, object)
+[6] System.Windows.Forms.DataGridViewCell.Value.set(object)
+[7] TiendaLaLojanita.Views.Devolucion_Compra.AgregarFila(TiendaLaLojanita.Views.Devolucion_Compra.DetalleDevolucionMemoria) en Devolucion_Compra.cs
+[8] TiendaLaLojanita.Views.Devolucion_Compra.AgregarArticulo(TiendaLaLojanita.Models.DTO.ArticuloVentaDTO) en Devolucion_Compra.cs
+The callstack context, if included, corresponds to the thread where this exception occurred. There is no need to identify this thread by other means.
+The top most frame in the callstack context should correspond to the place the exception message was thrown from. Code may or may not have been provided for it but can be requested.
+
+## CALLSTACK
+Thread ID: 34584
+[1] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Devolucion_Compra.AgregarArticulo
+This is the current user focused stack frame. The provided locals context corresponds to this stack frame, but you may evaluate expressions and retrieve code for any frame.
+Code for the stack frame:
+```csharp Views\Devolucion_Compra.cs
+473:         private async Task AgregarArticulo(ArticuloVentaDTO articuloBusqueda)
+474:         {
+475:             try
+476:             {
+477:                 var articuloInventario = await this.articuloService.ObtenerArticuloInventarioId(articuloBusqueda.Id);
+478:                 if (articuloInventario == null || articuloInventario.IdArticulo == 0)
+479:                 {
+480:                     MessageBox.Show("El artículo no tiene inventario disponible.", "Artículo no disponible", MessageBoxButtons.OK, MessageBoxIcon.Information);
+481:                     return;
+482:                 }
+483: 
+484:                 var articulo = await this.articuloService.ObtenerArticuloId(articuloBusqueda.Id);
+485:                 var codigo = articuloInventario.Codigo ?? articuloBusqueda.Codigo ?? string.Empty;
+486:                 var lote = articuloInventario.NumeroLote ?? articuloBusqueda.Lote ?? string.Empty;
+487:                 var existente = this.detallesDevolucion.FirstOrDefault(detalle =>
+488:                     detalle.IdArticulo == articuloInventario.IdArticulo &&
+489:                     string.Equals(detalle.Lote, lote, StringComparison.OrdinalIgnoreCase) &&
+490:                     string.Equals(detalle.Codigo, codigo, StringComparison.OrdinalIgnoreCase));
+491: 
+492:                 if (existente != null)
+493:                 {
+494:                     existente.Cantidad++;
+495:                     this.SincronizarFila(existente);
+496:                     this.CalcularTotalesDesdeArticulo();
+497:                     this.LimpiarBusquedaArticulo();
+498:                     return;
+499:                 }
+500: 
+501:                 var detalleNuevo = new DetalleDevolucionMemoria
+502:                 {
+503:                     IdArticulo = articuloInventario.IdArticulo,
+504:                     Lote = lote,
+505:                     Codigo = codigo,
+506:                     NombreArticulo = articulo?.Nombre ?? articuloInventario.Articulo.Nombre ?? articuloBusqueda.Nombre,
+507:                     Valor = articuloInventario.Articulo.ValorCompra,
+508:                     Cantidad = 1,
+509:                     ArticuloInventario = articuloInventario,
+510:                     Impuestos = await this.CopiarImpuestosArticulo(articuloInventario)
+511:                 };
+512: 
+513:                 this.detallesDevolucion.Add(detalleNuevo);
+514:                 this.AgregarFila(detalleNuevo);
+515:                 this.CalcularTotalesDesdeArticulo();
+516:                 this.LimpiarBusquedaArticulo();
+517:             }
+518:             catch (ApiException ex)
+519:             {
+520:                 ApiErrorHandler.Mostrar(ex);
+521:             }
+522:             catch (Exception ex)
+523:             {
+524:                 MessageBox.Show($"Ocurrió un error al cargar el artículo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+525:             }
+526:         }
+```
+Current statement: line 522
+[2] [Reanudando método asincrónico]
+[3] [Código externo]
+[34] TiendaLaLojanita.dll!TiendaLaLojanita.Program.Main
+Code for the stack frame:
+```csharp Program.cs
+16:         [STAThread]
+17:         static void Main()
+18:         {
+19:             // To customize application configuration such as set high DPI settings or default font,
+20:             // see https://aka.ms/applicationconfiguration.
+21:             ApplicationConfiguration.Initialize();
+22:             Application.ThreadException += Application_ThreadException;
+23:             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+24:             var services = new ServiceCollection();
+25:             ConfigureServices(services);
+26:             using (var serviceProvider = services.BuildServiceProvider())
+27:             {
+28:                 var form1 = new FrmLoggin(serviceProvider);
+29:                 Application.Run(form1);
+30:             }
+31:         }
+```
+Current statement: line 29
+[35] [Pila de llamadas asincrónicas]
+[36] [Asincrónico] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Devolucion_Compra.AgregarArticuloDesdeBusqueda
+Code for the stack frame:
+```csharp Views\Devolucion_Compra.cs
+445:         private async Task AgregarArticuloDesdeBusqueda()
+446:         {
+447:             string consulta = this.txtArtículo.Text.Trim();
+448:             if (string.IsNullOrWhiteSpace(consulta))
+449:             {
+450:                 MessageBox.Show("Ingrese un nombre, código, lote o ID de artículo.", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+451:                 return;
+452:             }
+453: 
+454:             var articulo = this.ListaArticulosVenta.FirstOrDefault(item =>
+455:                 string.Equals(item.Nombre, consulta, StringComparison.OrdinalIgnoreCase) ||
+456:                 string.Equals(item.Codigo, consulta, StringComparison.OrdinalIgnoreCase) ||
+457:                 string.Equals(item.Lote, consulta, StringComparison.OrdinalIgnoreCase));
+458: 
+459:             if (articulo == null && int.TryParse(consulta, out int idArticulo))
+460:             {
+461:                 articulo = this.ListaArticulosVenta.FirstOrDefault(item => item.Id == idArticulo);
+462:             }
+463: 
+464:             if (articulo == null)
+465:             {
+466:                 MessageBox.Show("No se encontró ningún artículo con el valor ingresado.", "Artículo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+467:                 return;
+468:             }
+469: 
+470:             await this.AgregarArticulo(articulo);
+471:         }
+```
+Current statement: line 470
+[37] [Asincrónico] TiendaLaLojanita.dll!TiendaLaLojanita.Views.Devolucion_Compra.txtArtículo_KeyDown
+Code for the stack frame:
+```csharp Views\Devolucion_Compra.cs
+432:         private async void txtArtículo_KeyDown(object sender, KeyEventArgs e)
+433:         {
+434:             if (e.KeyCode == Keys.Enter)
+435:             {
+436:                 
+437:                e.SuppressKeyPress = true; // Evita el sonido "ding"
+438:                 if (!string.IsNullOrWhiteSpace(txtArtículo.Text))
+439:                 {
+440:                     await this.AgregarArticuloDesdeBusqueda();
+441:                 }
+442:             }
+443:         }
+```
+Current statement: line 440
+
+## LOCALS
+| Name | Type | Value |
+| --- | --- | --- |
+| this | TiendaLaLojanita.Views.Devolucion_Compra | {TiendaLaLojanita.Views.Devolucion_Compra} |
+| articuloBusqueda | TiendaLaLojanita.Models.DTO.ArticuloVentaDTO | {TiendaLaLojanita.Models.DTO.ArticuloVentaDTO} |
+| ex | System.Exception | null |
+| articuloInventario | TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO | {TiendaLaLojanita.Models.DTO.ArticuloInventarioDTO} |
+| lote | string | "1123456" |
+| codigo | string | "5550" |
+
