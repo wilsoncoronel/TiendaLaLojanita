@@ -96,5 +96,12 @@ namespace TiendaLaLojanita.Services
             var response = await _apiClient.GetAsync<List<EstadoAjusteDTO>>($"api/Inventario/ListaEstadosAjuste");
             return response.Value;
         }
+
+        public async Task<List<ArticuloLoteInventarioDTO>> ListaArticulosInventario(string? lote = null, string? codigo = null, int? idArticulo = null, string? nombreArticulo = null)
+        {
+            var response = await _apiClient.GetAsync<List<ArticuloLoteInventarioDTO>>($"api/Inventario/ListaArticulosInventario?lote={lote}&codigo={codigo}&idArticulo={idArticulo}&nombreArticulo={nombreArticulo}");
+            return response.Value;
+        }
     }
+
 }

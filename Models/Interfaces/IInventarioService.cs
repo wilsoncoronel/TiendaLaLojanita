@@ -20,5 +20,6 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<bool> ReversarAjusteInventario(int idAjuste);
         Task<List<AjusteInventarioDTO>> ListarAjusteInventarioFechas(DateOnly fechaInicio, DateOnly fechaFinal);
         Task<List<EstadoAjusteDTO>> ListaEstadosAjuste();
+        Task<List<ArticuloLoteInventarioDTO>> ListaArticulosInventario(string? lote = null, string? codigo = null, int? idArticulo = null, string? nombreArticulo = null);
     }
 }

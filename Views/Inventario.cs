@@ -25,6 +25,7 @@ namespace TiendaLaLojanita.Views
         private readonly IProcesarExcel procesarExcel;
         private readonly ICompraService compraService;
         private readonly IProveedorService proveedorService;
+        private readonly IArticuloService articuloService;
         private List<MovimientoDTO> ListaMovimiento;
         private List<InventarioLoteDTO> ListaInventarioLote;
         private List<ProveedorDTO> ListaProveedores;
@@ -36,7 +37,7 @@ namespace TiendaLaLojanita.Views
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Inventario(IInventarioService inventarioService, IProcesarExcel procesarExcel, ICompraService compraService, IProveedorService proveedorService)
+        public Inventario(IInventarioService inventarioService, IProcesarExcel procesarExcel, ICompraService compraService, IProveedorService proveedorService, IArticuloService articuloService)
         {
             InitializeComponent();
             ListaProveedores = new List<ProveedorDTO>();
@@ -47,7 +48,9 @@ namespace TiendaLaLojanita.Views
             this.inventarioService = inventarioService;
             this.procesarExcel = procesarExcel;
             this.compraService = compraService;
+            this.articuloService = articuloService;
             this.proveedorService = proveedorService;
+            this.articuloService = articuloService;
             this.CargarListaInventario();
         }
 
@@ -256,7 +259,8 @@ namespace TiendaLaLojanita.Views
         private void btnRegistroAjustesInventario_Click(object sender, EventArgs e)
         {
             IInventarioService inventarioService = this.inventarioService;
-            Registro_Ajustes_Inventario registro_Ajustes_Inventario = new Registro_Ajustes_Inventario(inventarioService, this.Sesion.Id);
+            IArticuloService articuloService = this.articuloService;
+            Registro_Ajustes_Inventario registro_Ajustes_Inventario = new Registro_Ajustes_Inventario(inventarioService, this.Sesion.Id, articuloService);
             registro_Ajustes_Inventario.StartPosition = FormStartPosition.CenterScreen;
             registro_Ajustes_Inventario.ShowDialog();
         }

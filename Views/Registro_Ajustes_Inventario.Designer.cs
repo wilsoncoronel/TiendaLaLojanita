@@ -54,23 +54,8 @@
             txtArticuloBusqueda = new TextBox();
             label7 = new Label();
             dgvDetallesAjuste = new DataGridView();
-            Id = new DataGridViewTextBoxColumn();
-            Lote = new DataGridViewTextBoxColumn();
-            Codigo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            FechaExpiracion = new DataGridViewTextBoxColumn();
-            Quitar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
             dgvAjustes = new DataGridView();
-            btnBuscar = new Button();
-            dtpFinal = new DateTimePicker();
-            dtpInicio = new DateTimePicker();
-            label10 = new Label();
-            label9 = new Label();
-            btnGuardar = new Button();
-            btnCancelar = new Button();
-            folderBrowserDialog1 = new FolderBrowserDialog();
             IdAjsute = new DataGridViewTextBoxColumn();
             IdTransaccion = new DataGridViewTextBoxColumn();
             Transaccion = new DataGridViewTextBoxColumn();
@@ -82,6 +67,22 @@
             Reversion = new DataGridViewTextBoxColumn();
             Ver = new DataGridViewImageColumn();
             Reversar = new DataGridViewImageColumn();
+            btnBuscar = new Button();
+            dtpFinal = new DateTimePicker();
+            dtpInicio = new DateTimePicker();
+            label10 = new Label();
+            label9 = new Label();
+            btnGuardar = new Button();
+            btnCancelar = new Button();
+            folderBrowserDialog1 = new FolderBrowserDialog();
+            Id = new DataGridViewTextBoxColumn();
+            Lote = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            FechaExpiracion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            Quitar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -315,6 +316,7 @@
             txtArticuloBusqueda.PlaceholderText = "Artículo/Código/Lote/Id";
             txtArticuloBusqueda.Size = new Size(520, 23);
             txtArticuloBusqueda.TabIndex = 10;
+            txtArticuloBusqueda.KeyDown += txtArticuloBusqueda_KeyDown;
             // 
             // label7
             // 
@@ -328,52 +330,11 @@
             // dgvDetallesAjuste
             // 
             dgvDetallesAjuste.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDetallesAjuste.Columns.AddRange(new DataGridViewColumn[] { Id, Lote, Codigo, Articulo, Cantidad, FechaExpiracion, Quitar });
+            dgvDetallesAjuste.Columns.AddRange(new DataGridViewColumn[] { Id, Lote, Codigo, Articulo, FechaExpiracion, Cantidad, ValorCompra, Quitar });
             dgvDetallesAjuste.Location = new Point(6, 46);
             dgvDetallesAjuste.Name = "dgvDetallesAjuste";
             dgvDetallesAjuste.Size = new Size(812, 183);
             dgvDetallesAjuste.TabIndex = 8;
-            // 
-            // Id
-            // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // Lote
-            // 
-            Lote.HeaderText = "Lote";
-            Lote.Name = "Lote";
-            Lote.ReadOnly = true;
-            // 
-            // Codigo
-            // 
-            Codigo.HeaderText = "Codigo";
-            Codigo.Name = "Codigo";
-            Codigo.ReadOnly = true;
-            // 
-            // Articulo
-            // 
-            Articulo.HeaderText = "Artículo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
-            // 
-            // FechaExpiracion
-            // 
-            FechaExpiracion.HeaderText = "Expiración";
-            FechaExpiracion.Name = "FechaExpiracion";
-            FechaExpiracion.ReadOnly = true;
-            // 
-            // Quitar
-            // 
-            Quitar.HeaderText = "Quitar";
-            Quitar.Image = Properties.Resources._3687412_edit;
-            Quitar.Name = "Quitar";
             // 
             // tabPage2
             // 
@@ -399,66 +360,6 @@
             dgvAjustes.Name = "dgvAjustes";
             dgvAjustes.Size = new Size(1122, 191);
             dgvAjustes.TabIndex = 5;
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.Image = Properties.Resources.lupa_min;
-            btnBuscar.Location = new Point(599, 3);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(98, 36);
-            btnBuscar.TabIndex = 4;
-            btnBuscar.UseVisualStyleBackColor = true;
-            // 
-            // dtpFinal
-            // 
-            dtpFinal.Location = new Point(393, 11);
-            dtpFinal.Name = "dtpFinal";
-            dtpFinal.Size = new Size(200, 23);
-            dtpFinal.TabIndex = 3;
-            // 
-            // dtpInicio
-            // 
-            dtpInicio.Location = new Point(88, 11);
-            dtpInicio.Name = "dtpInicio";
-            dtpInicio.Size = new Size(200, 23);
-            dtpInicio.TabIndex = 2;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(307, 17);
-            label10.Name = "label10";
-            label10.Size = new Size(69, 15);
-            label10.TabIndex = 1;
-            label10.Text = "Fecha Final:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(9, 17);
-            label9.Name = "label9";
-            label9.Size = new Size(73, 15);
-            label9.TabIndex = 0;
-            label9.Text = "Fecha Inicio:";
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.Image = Properties.Resources._4856668_resize;
-            btnGuardar.Location = new Point(1121, 12);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(132, 59);
-            btnGuardar.TabIndex = 2;
-            btnGuardar.UseVisualStyleBackColor = true;
-            btnGuardar.Click += btnGuardar_Click;
-            // 
-            // btnCancelar
-            // 
-            btnCancelar.Image = Properties.Resources.cancelar_resize1;
-            btnCancelar.Location = new Point(1121, 76);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(132, 59);
-            btnCancelar.TabIndex = 3;
-            btnCancelar.UseVisualStyleBackColor = true;
             // 
             // IdAjsute
             // 
@@ -525,6 +426,113 @@
             Reversar.HeaderText = "Reversar";
             Reversar.Name = "Reversar";
             // 
+            // btnBuscar
+            // 
+            btnBuscar.Image = Properties.Resources.lupa_min;
+            btnBuscar.Location = new Point(599, 3);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(98, 36);
+            btnBuscar.TabIndex = 4;
+            btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // dtpFinal
+            // 
+            dtpFinal.Location = new Point(393, 11);
+            dtpFinal.Name = "dtpFinal";
+            dtpFinal.Size = new Size(200, 23);
+            dtpFinal.TabIndex = 3;
+            // 
+            // dtpInicio
+            // 
+            dtpInicio.Location = new Point(88, 11);
+            dtpInicio.Name = "dtpInicio";
+            dtpInicio.Size = new Size(200, 23);
+            dtpInicio.TabIndex = 2;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(307, 17);
+            label10.Name = "label10";
+            label10.Size = new Size(69, 15);
+            label10.TabIndex = 1;
+            label10.Text = "Fecha Final:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(9, 17);
+            label9.Name = "label9";
+            label9.Size = new Size(73, 15);
+            label9.TabIndex = 0;
+            label9.Text = "Fecha Inicio:";
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.Image = Properties.Resources._4856668_resize;
+            btnGuardar.Location = new Point(1121, 12);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(132, 59);
+            btnGuardar.TabIndex = 2;
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Image = Properties.Resources.cancelar_resize1;
+            btnCancelar.Location = new Point(1121, 76);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(132, 59);
+            btnCancelar.TabIndex = 3;
+            btnCancelar.UseVisualStyleBackColor = true;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            Lote.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Artículo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // FechaExpiracion
+            // 
+            FechaExpiracion.HeaderText = "Expiración";
+            FechaExpiracion.Name = "FechaExpiracion";
+            FechaExpiracion.ReadOnly = true;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.ReadOnly = true;
+            // 
+            // Quitar
+            // 
+            Quitar.HeaderText = "Quitar";
+            Quitar.Image = Properties.Resources._3687412_edit;
+            Quitar.Name = "Quitar";
+            // 
             // Registro_Ajustes_Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -536,6 +544,7 @@
             Controls.Add(groupBox1);
             Name = "Registro_Ajustes_Inventario";
             Text = "Registro_Ajustes_Inventario";
+            Load += Registro_Ajustes_Inventario_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -582,13 +591,6 @@
         private TextBox txtArticuloBusqueda;
         private Label label7;
         private DataGridView dgvDetallesAjuste;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Lote;
-        private DataGridViewTextBoxColumn Codigo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn FechaExpiracion;
-        private DataGridViewImageColumn Quitar;
         private TabPage tabPage2;
         private DateTimePicker dtpFinal;
         private DateTimePicker dtpInicio;
@@ -608,5 +610,13 @@
         private DataGridViewTextBoxColumn Reversion;
         private DataGridViewImageColumn Ver;
         private DataGridViewImageColumn Reversar;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn FechaExpiracion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewImageColumn Quitar;
     }
 }

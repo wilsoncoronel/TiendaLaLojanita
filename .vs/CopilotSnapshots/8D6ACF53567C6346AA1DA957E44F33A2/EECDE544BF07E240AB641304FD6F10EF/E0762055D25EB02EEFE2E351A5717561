@@ -1,0 +1,141 @@
+﻿namespace TiendaLaLojanita.Views
+{
+    partial class ArticuloInventarioLote
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            dataGridView1 = new DataGridView();
+            IdLote = new DataGridViewTextBoxColumn();
+            IdArticulo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            Unidad = new DataGridViewTextBoxColumn();
+            Medida = new DataGridViewTextBoxColumn();
+            Lote = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            FechaCaducidad = new DataGridViewTextBoxColumn();
+            Seleccionar = new DataGridViewCheckBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            SuspendLayout();
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdLote, IdArticulo, Articulo, Marca, Unidad, Medida, Lote, Codigo, FechaCaducidad, Seleccionar });
+            dataGridView1.Location = new Point(5, 6);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(971, 299);
+            dataGridView1.TabIndex = 0;
+            // 
+            // IdLote
+            // 
+            IdLote.HeaderText = "Id";
+            IdLote.Name = "IdLote";
+            IdLote.ReadOnly = true;
+            IdLote.Visible = false;
+            // 
+            // IdArticulo
+            // 
+            IdArticulo.HeaderText = "IdArticulo";
+            IdArticulo.Name = "IdArticulo";
+            IdArticulo.ReadOnly = true;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Articulo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // Marca
+            // 
+            Marca.HeaderText = "Marca";
+            Marca.Name = "Marca";
+            Marca.ReadOnly = true;
+            // 
+            // Unidad
+            // 
+            Unidad.HeaderText = "Unidad";
+            Unidad.Name = "Unidad";
+            Unidad.ReadOnly = true;
+            // 
+            // Medida
+            // 
+            Medida.HeaderText = "Medida";
+            Medida.Name = "Medida";
+            Medida.ReadOnly = true;
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            Lote.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // FechaCaducidad
+            // 
+            FechaCaducidad.HeaderText = "Caducidad";
+            FechaCaducidad.Name = "FechaCaducidad";
+            FechaCaducidad.ReadOnly = true;
+            // 
+            // Seleccionar
+            // 
+            Seleccionar.HeaderText = "Seleccionar";
+            Seleccionar.Name = "Seleccionar";
+            Seleccionar.ReadOnly = true;
+            // 
+            // ArticuloInventarioLote
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(982, 308);
+            Controls.Add(dataGridView1);
+            Name = "ArticuloInventarioLote";
+            Text = "ArticuloInventarioLote";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn IdLote;
+        private DataGridViewTextBoxColumn IdArticulo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn Unidad;
+        private DataGridViewTextBoxColumn Medida;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn FechaCaducidad;
+        private DataGridViewCheckBoxColumn Seleccionar;
+    }
+}
