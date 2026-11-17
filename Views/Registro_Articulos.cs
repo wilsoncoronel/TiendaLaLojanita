@@ -841,71 +841,32 @@ namespace TiendaLaLojanita.Views
                     return;
                 }
 
-                // Calcular valor de venta
-               //this.calcularvalorVentaarticulosExcel(articulosExcel);
+                using var articulosConfiguracion = new ArticulosConfiguracion(
+                    articulosExcel,
+                    this.listaMarcas,
+                    this.listaTipoArticulo,
+                    this.listaPorcentajeGanancias,
+                    this.listaUnidades,
+                    this.listaimpuestos,
+                    this.articuloService,
+                    this.IdUsuario);
 
-                // Validar artículos
-                var validator =
-                    new Validaciones.ExcelArticuloValidator();
+                articulosConfiguracion.StartPosition = FormStartPosition.CenterScreen;
+                articulosConfiguracion.ShowDialog(this);
 
-                var articulosInvalidos = new List<ArticuloErrorExcelDTO>();
-
-                foreach (var articulo in articulosExcel)
+                if (articulosConfiguracion.ArticulosGuardados)
                 {
-                    var (errores, camposInvalidos) = validator.ValidateArticulo(
-                        articulo,
-                        this.listaMarcas,
-                        this.listaTipoArticulo,
-                        this.listaimpuestos,
-                        this.listaPorcentajeGanancias);
+                    var fechaAnterior = DateOnly.FromDateTime(this.dtpFechaInicial.Value);
+                    var fechaFin = DateOnly.FromDateTime(this.dtpFechaFinal.Value);
+                    var articulosActualizados = await this.CargarListaArticulos(fechaAnterior, fechaFin);
+                    this.CargarTabla(articulosActualizados);
 
-                    if (errores.Any())
-                    {
-                        articulosInvalidos.Add(new ArticuloErrorExcelDTO
-                        {
-                            Articulo = articulo,
-                            Errores = errores,
-                            CamposInvalidos = camposInvalidos,
-                            Fila = (articulo as TiendaLaLojanita.Models.DTO.ArticuloCreacionExcelDTO)?.FilaExcel ?? 0
-                        });
-                    }
-                }
-
-                // Mostrar errores
-                if (articulosInvalidos.Any())
-                {
                     MessageBox.Show(
-                        $"Se encontraron {articulosInvalidos.Count} artículos con errores. Se ha detenido la importación.",
-                        "Errores de validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    using var erroresArtView = new ErroresRegistroArticuloExcel(articulosInvalidos);
-                    erroresArtView.ShowDialog();
-
-                    return;
-                }
-
-                // Confirmar importación
-                DialogResult respuesta = MessageBox.Show(
-                    $"Se han cargado {articulosExcel.Count} artículos desde el archivo Excel.\n\n" +
-                    "¿Está seguro de guardarlos en la base de datos?",
-                    "Confirmación de importación",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question);
-
-                if (respuesta != DialogResult.OK)
-                {
-                    MessageBox.Show(
-                        "Operación cancelada.",
-                        "Aviso",
+                        "Artículos registrados correctamente.",
+                        "Proceso completado",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
-
-                    return;
                 }
-
-                await RegistrarArticulosExcel(articulosExcel);
             }
             catch (ApiException ex)
             {

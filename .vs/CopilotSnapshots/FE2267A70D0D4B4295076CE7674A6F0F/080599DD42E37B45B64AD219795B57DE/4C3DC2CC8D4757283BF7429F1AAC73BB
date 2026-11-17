@@ -1,0 +1,404 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
+using TiendaLaLojanita.Validaciones;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class ArticulosConfiguracion : Form
+    {
+        private readonly List<ArticuloCreacionDTO> articulos;
+        private readonly List<MarcaDTO> marcas;
+        private readonly List<TipoArticuloDTO> tiposArticulo;
+        private readonly List<PorcentajeGananciaDTO> porcentajesGanancia;
+        private readonly List<UnidadMedidaDTO> unidades;
+        private readonly List<ImpuestoDTO> impuestos;
+        private readonly IArticuloService? articuloService;
+        private readonly int idUsuarioCreador;
+        private readonly HashSet<TextBox> editoresDecimalesConfigurados = new();
+
+        public bool ArticulosGuardados { get; private set; }
+
+        public ArticulosConfiguracion() : this(
+            new List<ArticuloCreacionDTO>(),
+            new List<MarcaDTO>(),
+            new List<TipoArticuloDTO>(),
+            new List<PorcentajeGananciaDTO>(),
+            new List<UnidadMedidaDTO>(),
+            new List<ImpuestoDTO>(),
+            null,
+            0)
+        {
+        }
+
+        public ArticulosConfiguracion(
+            List<ArticuloCreacionDTO> articulos,
+            List<MarcaDTO> marcas,
+            List<TipoArticuloDTO> tiposArticulo,
+            List<PorcentajeGananciaDTO> porcentajesGanancia,
+            List<UnidadMedidaDTO> unidades,
+            List<ImpuestoDTO> impuestos,
+            IArticuloService? articuloService,
+            int idUsuarioCreador)
+        {
+            InitializeComponent();
+
+            this.articulos = articulos ?? new List<ArticuloCreacionDTO>();
+            this.marcas = marcas ?? new List<MarcaDTO>();
+            this.tiposArticulo = tiposArticulo ?? new List<TipoArticuloDTO>();
+            this.porcentajesGanancia = porcentajesGanancia ?? new List<PorcentajeGananciaDTO>();
+            this.unidades = unidades ?? new List<UnidadMedidaDTO>();
+            this.impuestos = impuestos ?? new List<ImpuestoDTO>();
+            this.articuloService = articuloService;
+            this.idUsuarioCreador = idUsuarioCreador;
+
+            ConfigurarGrilla();
+            CargarArticulos();
+            SuscribirEventos();
+        }
+
+        private void ConfigurarGrilla()
+        {
+            dgvArticulos.AutoGenerateColumns = false;
+            dgvArticulos.AllowUserToAddRows = false;
+            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgvArticulos.EditMode = DataGridViewEditMode.EditOnEnter;
+
+            Nro.ReadOnly = true;
+            Nro.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Quitar.UseColumnTextForButtonValue = true;
+
+            ConfigurarCombo("Marca", marcas, nameof(MarcaDTO.Nombre));
+            ConfigurarCombo("Tipo", tiposArticulo, nameof(TipoArticuloDTO.Nombre));
+            ConfigurarCombo("PorcentajeGanancia", porcentajesGanancia, nameof(PorcentajeGananciaDTO.PorcentajeGanancia));
+            ConfigurarCombo("Unidad", unidades, nameof(UnidadMedidaDTO.Nombre));
+
+            Marca.Visible = true;
+            Tipo.Visible = true;
+            PorcentajeGanancia.Visible = true;
+            Unidad.Visible = true;
+
+            foreach (var impuesto in impuestos)
+            {
+                string nombreColumna = $"Imp_{impuesto.Id}";
+                if (dgvArticulos.Columns.Contains(nombreColumna)) continue;
+
+                dgvArticulos.Columns.Add(new DataGridViewCheckBoxColumn
+                {
+                    Name = nombreColumna,
+                    HeaderText = string.IsNullOrWhiteSpace(impuesto.Nombre) ? $"Impuesto {impuesto.Id}" : impuesto.Nombre,
+                    FalseValue = false,
+                    TrueValue = true,
+                    Tag = impuesto.Id,
+                    SortMode = DataGridViewColumnSortMode.Automatic
+                });
+            }
+
+            Quitar.DisplayIndex = dgvArticulos.Columns.Count - 1;
+        }
+
+        private void SuscribirEventos()
+        {
+            dgvArticulos.CellContentClick += dgvArticulos_CellContentClick;
+            dgvArticulos.CellValueChanged += dgvArticulos_CellValueChanged;
+            dgvArticulos.CellEndEdit += dgvArticulos_CellEndEdit;
+            dgvArticulos.EditingControlShowing += dgvArticulos_EditingControlShowing;
+            dgvArticulos.CurrentCellDirtyStateChanged += dgvArticulos_CurrentCellDirtyStateChanged;
+            txtArticuloBusqueda.TextChanged += textBox1_TextChanged;
+            btnGuardar.Click += btnGuardar_Click;
+            btnCancelar.Click += btnCancelar_Click;
+        }
+
+        private void ConfigurarCombo(string nombreColumna, object datos, string displayMember)
+        {
+            if (dgvArticulos.Columns[nombreColumna] is not DataGridViewComboBoxColumn columna) return;
+
+            columna.DataSource = datos;
+            columna.DisplayMember = displayMember;
+            columna.ValueMember = "Id";
+            columna.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            columna.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void CargarArticulos()
+        {
+            dgvArticulos.Rows.Clear();
+
+            foreach (var articulo in articulos)
+            {
+                int index = dgvArticulos.Rows.Add();
+                var fila = dgvArticulos.Rows[index];
+                fila.Tag = articulo;
+
+                SetCellValue(fila, "Articulo", articulo.Nombre);
+                SetCellValue(fila, "Descripcion", string.IsNullOrWhiteSpace(articulo.Descripcion) ? "INGRESO POR ARCHIVO" : articulo.Descripcion);
+                SetCellValue(fila, "Marca", ExisteId(marcas, articulo.IdMarca) ? articulo.IdMarca : null);
+                SetCellValue(fila, "Tipo", ExisteId(tiposArticulo, articulo.IdTipoArticulo) ? articulo.IdTipoArticulo : null);
+                SetCellValue(fila, "PorcentajeGanancia", articulo.IdPorcentajeGanancia.HasValue && ExisteId(porcentajesGanancia, articulo.IdPorcentajeGanancia.Value) ? articulo.IdPorcentajeGanancia : null);
+                SetCellValue(fila, "Unidad", ExisteId(unidades, articulo.IdUnidad) ? articulo.IdUnidad : null);
+                SetCellValue(fila, "UnidadValor", articulo.UnidadValor);
+                SetCellValue(fila, "ValorCompra", articulo.ValorCompra);
+                SetCellValue(fila, "ValorVenta", articulo.ValorVenta);
+
+                foreach (var impuesto in impuestos)
+                {
+                    string nombreColumna = $"Imp_{impuesto.Id}";
+                    if (dgvArticulos.Columns.Contains(nombreColumna))
+                    {
+                        fila.Cells[nombreColumna].Value = articulo.Impuestos?.Contains(impuesto.Id) == true;
+                    }
+                }
+            }
+
+            RenumerarArticulos();
+            ActualizarValidacionFilas();
+        }
+
+        private void SetCellValue(DataGridViewRow fila, string nombreColumna, object? valor)
+        {
+            if (dgvArticulos.Columns.Contains(nombreColumna)) fila.Cells[nombreColumna].Value = valor;
+        }
+
+        private void dgvArticulos_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgvArticulos.CurrentCell == null || e.Control is not TextBox editor) return;
+
+            string nombreColumna = dgvArticulos.Columns[dgvArticulos.CurrentCell.ColumnIndex].Name;
+            if (!EsColumnaDecimal(nombreColumna) || !editoresDecimalesConfigurados.Add(editor)) return;
+
+            ValidacionesDecimales.Aplicar(editor);
+        }
+
+        private void dgvArticulos_CurrentCellDirtyStateChanged(object? sender, EventArgs e)
+        {
+            if (dgvArticulos.IsCurrentCellDirty)
+            {
+                dgvArticulos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dgvArticulos_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) ActualizarValidacionFila(dgvArticulos.Rows[e.RowIndex]);
+        }
+
+        private void dgvArticulos_CellEndEdit(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) ActualizarValidacionFila(dgvArticulos.Rows[e.RowIndex]);
+        }
+
+        private void dgvArticulos_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (dgvArticulos.Columns[e.ColumnIndex].Name != "Quitar") return;
+
+            dgvArticulos.Rows.RemoveAt(e.RowIndex);
+            RenumerarArticulos();
+            ActualizarValidacionFilas();
+        }
+
+        private void RenumerarArticulos()
+        {
+            int numero = 1;
+            foreach (DataGridViewRow fila in dgvArticulos.Rows)
+            {
+                if (fila.IsNewRow) continue;
+                fila.Cells["Nro"].Value = numero++;
+            }
+
+            lblTotArticulos.Text = (numero - 1).ToString();
+        }
+
+        private void ActualizarValidacionFilas()
+        {
+            foreach (DataGridViewRow fila in dgvArticulos.Rows)
+            {
+                if (!fila.IsNewRow) ActualizarValidacionFila(fila);
+            }
+        }
+
+        private void ActualizarValidacionFila(DataGridViewRow fila)
+        {
+            bool valida = FilaCompleta(fila);
+            fila.DefaultCellStyle.BackColor = valida ? Color.LightGreen : Color.LightCoral;
+            fila.DefaultCellStyle.SelectionBackColor = valida ? Color.Green : Color.Red;
+        }
+
+        private bool FilaCompleta(DataGridViewRow fila)
+        {
+            if (fila.IsNewRow) return false;
+            if (string.IsNullOrWhiteSpace(Convert.ToString(fila.Cells["Articulo"].Value))) return false;
+            if (!TieneValorValido(fila, "Marca") || !TieneValorValido(fila, "Tipo") || !TieneValorValido(fila, "PorcentajeGanancia") || !TieneValorValido(fila, "Unidad")) return false;
+            if (!DecimalValido(fila.Cells["UnidadValor"].Value) || !DecimalValido(fila.Cells["ValorCompra"].Value) || !DecimalValido(fila.Cells["ValorVenta"].Value)) return false;
+
+            return dgvArticulos.Columns
+                .OfType<DataGridViewCheckBoxColumn>()
+                .Any(columna => columna.Tag is int && Convert.ToBoolean(fila.Cells[columna.Name].Value ?? false));
+        }
+
+        private static bool TieneValorValido(DataGridViewRow fila, string columna)
+        {
+            return fila.Cells[columna].Value != null && int.TryParse(Convert.ToString(fila.Cells[columna].Value), out int valor) && valor > 0;
+        }
+
+        private static bool DecimalValido(object? valor)
+        {
+            if (valor == null) return false;
+            string texto = Convert.ToString(valor)?.Trim() ?? string.Empty;
+            return decimal.TryParse(texto, NumberStyles.Number, CultureInfo.GetCultureInfo("es-ES"), out decimal resultado) && resultado >= 0;
+        }
+
+        private void textBox1_TextChanged(object? sender, EventArgs e)
+        {
+            string texto = txtArticuloBusqueda.Text.Trim();
+            foreach (DataGridViewRow fila in dgvArticulos.Rows)
+            {
+                string nombre = Convert.ToString(fila.Cells["Articulo"].Value) ?? string.Empty;
+                string descripcion = Convert.ToString(fila.Cells["Descripcion"].Value) ?? string.Empty;
+                fila.Visible = string.IsNullOrWhiteSpace(texto) || nombre.Contains(texto, StringComparison.OrdinalIgnoreCase) || descripcion.Contains(texto, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        private void btnCancelar_Click(object? sender, EventArgs e)
+        {
+            ArticulosGuardados = false;
+            Close();
+        }
+
+        private async void btnGuardar_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                dgvArticulos.EndEdit();
+                ActualizarValidacionFilas();
+
+                if (dgvArticulos.Rows.Cast<DataGridViewRow>().Any(fila => !fila.IsNewRow && !FilaCompleta(fila)))
+                {
+                    MessageBox.Show("Complete todos los campos obligatorios de las filas marcadas en rojo, incluyendo al menos un impuesto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var configurados = ObtenerArticulosConfigurados();
+                var validator = new ExcelArticuloValidator();
+                var errores = new List<string>();
+
+                for (int i = 0; i < configurados.Count; i++)
+                {
+                    var resultado = validator.ValidateArticulo(configurados[i], marcas, tiposArticulo, impuestos, porcentajesGanancia);
+                    if (resultado.Errores.Count > 0) errores.Add($"Artículo {i + 1}: {string.Join("; ", resultado.Errores.Distinct())}");
+                }
+
+                if (errores.Count > 0)
+                {
+                    MessageBox.Show(string.Join(Environment.NewLine, errores), "Errores de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                AplicarValoresPorDefecto(configurados);
+
+                if (articuloService == null)
+                {
+                    MessageBox.Show("No existe un servicio disponible para guardar los artículos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                btnGuardar.Enabled = false;
+                if (await articuloService.CrearArticuloLista(configurados))
+                {
+                    ArticulosGuardados = true;
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("No fue posible registrar los artículos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al guardar los artículos.\n\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnGuardar.Enabled = true;
+            }
+        }
+
+        private void AplicarValoresPorDefecto(List<ArticuloCreacionDTO> articulosConfigurados)
+        {
+            DateTime fechaActual = DateTime.Now;
+
+            foreach (var articulo in articulosConfigurados)
+            {
+                articulo.FechaCreacion = fechaActual;
+                articulo.FechaCaducidad = fechaActual;
+                articulo.EstadoVisual = true;
+                articulo.Estado = true;
+                articulo.Papeleria = false;
+                articulo.IdUsuarioCreador = idUsuarioCreador;
+            }
+        }
+
+        private List<ArticuloCreacionDTO> ObtenerArticulosConfigurados()
+        {
+            var resultado = new List<ArticuloCreacionDTO>();
+            foreach (DataGridViewRow fila in dgvArticulos.Rows)
+            {
+                if (fila.IsNewRow || fila.Tag is not ArticuloCreacionDTO articulo) continue;
+
+                articulo.Nombre = Convert.ToString(fila.Cells["Articulo"].Value)?.Trim() ?? string.Empty;
+                articulo.Descripcion = Convert.ToString(fila.Cells["Descripcion"].Value) ?? "INGRESO POR ARCHIVO";
+                articulo.IdMarca = Convert.ToInt32(fila.Cells["Marca"].Value ?? 0);
+                articulo.IdTipoArticulo = Convert.ToInt32(fila.Cells["Tipo"].Value ?? 0);
+                articulo.IdPorcentajeGanancia = ConvertirNullableInt(fila.Cells["PorcentajeGanancia"].Value);
+                articulo.IdUnidad = Convert.ToInt32(fila.Cells["Unidad"].Value ?? 0);
+                articulo.UnidadValor = ConvertirDecimal(fila.Cells["UnidadValor"].Value);
+                articulo.ValorCompra = ConvertirDecimal(fila.Cells["ValorCompra"].Value);
+                articulo.ValorVenta = ConvertirDecimal(fila.Cells["ValorVenta"].Value);
+                articulo.Impuestos = dgvArticulos.Columns.OfType<DataGridViewCheckBoxColumn>()
+                    .Where(columna => columna.Tag is int && Convert.ToBoolean(fila.Cells[columna.Name].Value ?? false))
+                    .Select(columna => (int)columna.Tag!)
+                    .ToList();
+                resultado.Add(articulo);
+            }
+
+            return resultado;
+        }
+
+        private static bool EsColumnaDecimal(string nombreColumna)
+        {
+            return nombreColumna is "UnidadValor" or "ValorCompra" or "ValorVenta";
+        }
+
+        private static int? ConvertirNullableInt(object? valor)
+        {
+            return int.TryParse(Convert.ToString(valor), out int resultado) && resultado > 0 ? resultado : null;
+        }
+
+        private static decimal ConvertirDecimal(object? valor)
+        {
+            string texto = Convert.ToString(valor) ?? string.Empty;
+            if (decimal.TryParse(texto, NumberStyles.Number, CultureInfo.GetCultureInfo("es-ES"), out decimal resultado)) return resultado;
+            return decimal.TryParse(texto, NumberStyles.Number, CultureInfo.InvariantCulture, out resultado) ? resultado : 0m;
+        }
+
+        private static bool ExisteId<T>(IEnumerable<T> datos, int id)
+        {
+            var propiedadId = typeof(T).GetProperty("Id");
+            return id > 0 && propiedadId != null && datos.Any(x => Convert.ToInt32(propiedadId.GetValue(x)) == id);
+        }
+    }
+}

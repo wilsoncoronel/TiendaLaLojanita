@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class ArticulosConfiguracion : Form
+    {
+        private readonly List<ArticuloCreacionDTO> articulos;
+        private readonly List<MarcaDTO> marcas;
+        private readonly List<TipoArticuloDTO> tiposArticulo;
+        private readonly List<PorcentajeGananciaDTO> porcentajesGanancia;
+        private readonly List<UnidadMedidaDTO> unidades;
+        private readonly List<ImpuestoDTO> impuestos;
+        private readonly IArticuloService articuloService;
+
+        public bool ArticulosGuardados { get; private set; }
+
+        public ArticulosConfiguracion() : this(
+            new List<ArticuloCreacionDTO>(),
+            new List<MarcaDTO>(),
+            new List<TipoArticuloDTO>(),
+            new List<PorcentajeGananciaDTO>(),
+            new List<UnidadMedidaDTO>(),
+            new List<ImpuestoDTO>(),
+            null)
+        {
+        }
+
+        public ArticulosConfiguracion(
+            List<ArticuloCreacionDTO> articulos,
+            List<MarcaDTO> marcas,
+            List<TipoArticuloDTO> tiposArticulo,
+            List<PorcentajeGananciaDTO> porcentajesGanancia,
+            List<UnidadMedidaDTO> unidades,
+            List<ImpuestoDTO> impuestos,
+            IArticuloService articuloService)
+        {
+            InitializeComponent();
+
+            this.articulos = articulos ?? new List<ArticuloCreacionDTO>();
+            this.marcas = marcas ?? new List<MarcaDTO>();
+            this.tiposArticulo = tiposArticulo ?? new List<TipoArticuloDTO>();
+            this.porcentajesGanancia = porcentajesGanancia ?? new List<PorcentajeGananciaDTO>();
+            this.unidades = unidades ?? new List<UnidadMedidaDTO>();
+            this.impuestos = impuestos ?? new List<ImpuestoDTO>();
+            this.articuloService = articuloService;
+
+            try
+            {
+                ConfigurarGrilla();
+                CargarArticulos();
+            }
+            catch (ApiException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al cargar la configuración de artículos. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ConfigurarGrilla()
+        {
+            dgvArticulos.AutoGenerateColumns = false;
+            dgvArticulos.AllowUserToAddRows = false;
+            dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            ConfigurarCombo("Marca", marcas, nameof(MarcaDTO.Nombre));
+            ConfigurarCombo("Tipo", tiposArticulo, nameof(TipoArticuloDTO.Nombre));
+            ConfigurarCombo("PorcentajeGanancia", porcentajesGanancia, nameof(PorcentajeGananciaDTO.PorcentajeGanancia));
+            ConfigurarCombo("Unidad", unidades, nameof(UnidadMedidaDTO.Nombre));
+
+            foreach (var impuesto in impuestos)
+            {
+                string nombreColumna = $"Imp_{impuesto.Id}";
+                if (dgvArticulos.Columns.Contains(nombreColumna))
+                {
+                    continue;
+                }
+
+                dgvArticulos.Columns.Add(new DataGridViewCheckBoxColumn
+                {
+                    Name = nombreColumna,
+                    HeaderText = string.IsNullOrWhiteSpace(impuesto.Nombre) ? $"Impuesto {impuesto.Id}" : impuesto.Nombre,
+                    FalseValue = false,
+                    TrueValue = true,
+                    Tag = impuesto.Id,
+                    SortMode = DataGridViewColumnSortMode.Automatic
+                });
+            }
+        }
+
+        private void ConfigurarCombo<T>(string nombreColumna, IList<T> datos, string displayMember)
+        {
+            if (!dgvArticulos.Columns.Contains(nombreColumna))
+            {
+                return;
+            }
+
+            if (dgvArticulos.Columns[nombreColumna] is not DataGridViewComboBoxColumn columna)
+            {
+                return;
+            }
+
+            columna.DataSource = datos;
+            columna.DisplayMember = displayMember;
+            columna.ValueMember = "Id";
+            columna.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            columna.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void CargarArticulos()
+        {
+            dgvArticulos.Rows.Clear();
+
+            foreach (var articulo in articulos)
+            {
+                int index = dgvArticulos.Rows.Add();
+                var fila = dgvArticulos.Rows[index];
+
+                fila.Tag = articulo;
+
+                SetCellValue(fila, "Articulo", articulo.Nombre);
+                SetCellValue(fila, "Marca", ExisteId(marcas, articulo.IdMarca) ? articulo.IdMarca : null);
+                SetCellValue(fila, "Tipo", ExisteId(tiposArticulo, articulo.IdTipoArticulo) ? articulo.IdTipoArticulo : null);
+                SetCellValue(fila, "PorcentajeGanancia", articulo.IdPorcentajeGanancia.HasValue && ExisteId(porcentajesGanancia, articulo.IdPorcentajeGanancia.Value) ? articulo.IdPorcentajeGanancia : null);
+                SetCellValue(fila, "Descripcion", articulo.Descripcion);
+                SetCellValue(fila, "Unidad", ExisteId(unidades, articulo.IdUnidad) ? articulo.IdUnidad : null);
+                SetCellValue(fila, "UnidadValor", articulo.UnidadValor);
+                SetCellValue(fila, "ValorCompra", articulo.ValorCompra);
+                SetCellValue(fila, "ValorVenta", articulo.ValorVenta);
+                SetCellValue(fila, "Papeleria", articulo.Papeleria);
+
+                foreach (var impuesto in impuestos)
+                {
+                    string nombreColumna = $"Imp_{impuesto.Id}";
+                    if (!dgvArticulos.Columns.Contains(nombreColumna))
+                    {
+                        continue;
+                    }
+
+                    bool marcado = articulo.Impuestos != null && articulo.Impuestos.Contains(impuesto.Id);
+                    fila.Cells[nombreColumna].Value = marcado;
+                }
+            }
+
+            lblTotArticulos.Text = articulos.Count.ToString();
+        }
+
+        private void SetCellValue(DataGridViewRow fila, string nombreColumna, object valor)
+        {
+            if (!dgvArticulos.Columns.Contains(nombreColumna))
+            {
+                return;
+            }
+
+            fila.Cells[nombreColumna].Value = valor;
+        }
+
+        private static bool ExisteId<T>(IEnumerable<T> datos, int id)
+        {
+            if (id <= 0)
+            {
+                return false;
+            }
+
+            var propiedadId = typeof(T).GetProperty("Id");
+            if (propiedadId == null)
+            {
+                return false;
+            }
+
+            return datos.Any(x => Convert.ToInt32(propiedadId.GetValue(x)) == id);
+        }
+    }
+}

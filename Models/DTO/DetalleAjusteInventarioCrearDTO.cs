@@ -10,8 +10,6 @@ namespace TiendaLaLojanita.Models.DTO
     {
         public int IdAjusteInventario { get; set; }
 
-        public int IdArticulo { get; set; }
-
         public int IdLote { get; set; }
 
         public int Cantidad { get; set; }

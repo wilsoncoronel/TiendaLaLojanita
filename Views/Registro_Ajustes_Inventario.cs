@@ -228,7 +228,6 @@ namespace TiendaLaLojanita.Views
             AjusteInventarioCrear.Detalles = this.detallesAjuste
                 .Select(detalle => new DetalleAjusteInventarioCrearDTO
                 {
-                    IdArticulo = detalle.IdArticulo,
                     IdLote = detalle.IdLote,
                     Cantidad = detalle.Cantidad,
                     CostoUnitario = detalle.CostoUnitario,
