@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TiendaLaLojanita.Models.DTO
 {
-    public class EstadoAjusteDTO
+    public class EstadosAjusteDTO
     {
         public int Id { get; set; }
 

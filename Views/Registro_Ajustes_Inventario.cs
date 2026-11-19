@@ -34,7 +34,7 @@ namespace TiendaLaLojanita.Views
         }
 
         private List<TransaccionInventarioDTO> ListaTransacciones;
-        public List<EstadoAjusteDTO> ListaEstadosAjuste;
+        public List<EstadosAjusteDTO> ListaEstadosAjuste;
         private readonly IInventarioService _inventarioService;
         private AjusteInventarioCrearDTO AjusteInventarioCrear;
         private List<ArticuloVentaDTO> ListaArticulosInventario;
@@ -42,6 +42,7 @@ namespace TiendaLaLojanita.Views
         private readonly IArticuloService articuloService;
         private readonly List<DetalleAjusteMemoria> detallesAjuste;
         private int versionCarga;
+        private bool ajusteCargadoDesdeBd;
 
         public Registro_Ajustes_Inventario(IInventarioService inventarioService, int IdUsuario, IArticuloService articuloService)
         {
@@ -49,7 +50,7 @@ namespace TiendaLaLojanita.Views
             _inventarioService = inventarioService;
             this.IdUsuario = IdUsuario;
             this.articuloService = articuloService;
-            ListaEstadosAjuste = new List<EstadoAjusteDTO>();
+            ListaEstadosAjuste = new List<EstadosAjusteDTO>();
             ListaTransacciones = new List<TransaccionInventarioDTO>();
             this.ListaArticulosInventario = new List<ArticuloVentaDTO>();
             this.detallesAjuste = new List<DetalleAjusteMemoria>();
@@ -116,18 +117,22 @@ namespace TiendaLaLojanita.Views
                     dgvAjustes.Rows.Add(
                         ajuste.Id,
                         ajuste.IdTransaccion,
-                        ajuste.TransaccionInventarioDTO?.Nombre,
+                        ajuste.transaccionInventarioDTO?.Nombre,
                         ajuste.UsuarioDTO != null ? $"{ajuste.UsuarioDTO.Nombres} {ajuste.UsuarioDTO.Apellidos}" : null,
                         ajuste.Motivo,
                         ajuste.FechaCreacion.ToString("dd/MM/yyyy"),
                         ajuste.IdEstado,
-                        ajuste.EstadoAjusteDTO?.Nombre,
+                        ajuste.EstadosAjusteDTO?.Nombre,
                         ajuste.FechaReversion?.ToString("dd/MM/yyyy"),
                         null,
                         null);
                 }
 
                 MessageBox.Show($"Se han cargado {ajustes.Count} ajustes", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
             }
             catch (Exception ex)
             {
@@ -136,6 +141,7 @@ namespace TiendaLaLojanita.Views
             finally
             {
                 progreso.Close();
+                progreso.Dispose();
             }
         }
 
@@ -157,14 +163,112 @@ namespace TiendaLaLojanita.Views
                 return;
             }
 
-            var reversado = await ReversarAjuste(idAjuste);
-            if (!reversado)
+            dgvAjustes.Enabled = false;
+            var progreso = new ProgressBar();
+            progreso.Show(this);
+            try
             {
-                MessageBox.Show("No se pudo reversar el ajuste", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var reversado = await ReversarAjuste(idAjuste);
+                if (!reversado)
+                {
+                    MessageBox.Show("No se pudo reversar el ajuste", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                await CargarAjustes();
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al reversar el ajuste: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso.Close();
+                progreso.Dispose();
+                dgvAjustes.Enabled = true;
+            }
+        }
+
+        private async Task CargarAjusteCompleto(int idAjuste)
+        {
+            if (idAjuste <= 0)
+            {
                 return;
             }
 
-            await CargarAjustes();
+            var progreso = new ProgressBar();
+            progreso.Show(this);
+            try
+            {
+                var ajuste = await this._inventarioService.ListarAjusteInventarioCompleto(idAjuste);
+                if (ajuste == null)
+                {
+                    MessageBox.Show("No se encontró el ajuste seleccionado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                var articulosInventario = await this._inventarioService.ListaArticulosInventario();
+                var detallesCargados = new List<DetalleAjusteMemoria>();
+                foreach (var detalle in ajuste.Detalles ?? new List<DetalleAjusteInventarioCompletoDTO>())
+                {
+                    var articulo = articulosInventario?.FirstOrDefault(item => item.IdLote == detalle.IdLote);
+                    if (articulo == null)
+                    {
+                        throw new InvalidOperationException($"No se encontró información del lote {detalle.IdLote}.");
+                    }
+
+                    var detalleMemoria = new DetalleAjusteMemoria
+                    {
+                        IdArticulo = articulo.IdArticulo,
+                        IdLote = articulo.IdLote,
+                        Lote = articulo.NumeroLote ?? string.Empty,
+                        Codigo = articulo.Codigo ?? string.Empty,
+                        NombreArticulo = string.IsNullOrWhiteSpace(articulo.NombreArticulo)
+                            ? articulo.NombreCompuesto
+                            : articulo.NombreArticulo,
+                        CostoUnitario = detalle.CostoUnitario,
+                        Cantidad = detalle.Cantidad,
+                        FechaExpiracion = articulo.FechaExpiracion,
+                        Impuestos = await this.CargarImpuestosMemoria(articulo)
+                    };
+
+                    detallesCargados.Add(detalleMemoria);
+                }
+
+                this.LimpiarFormulario();
+                this.txtIdAjuste.Text = ajuste.Id.ToString();
+                this.txtMotivoAjuste.Text = ajuste.Motivo;
+                this.dtpFechaCreacion.Value = ajuste.FechaCreacion;
+                this.dtpFechaReversion.Value = ajuste.FechaReversion ?? DateTime.Now;
+                this.cbxEstadoAjuste.SelectedValue = ajuste.IdEstado;
+                this.cbxTransaccionAjuste.SelectedValue = ajuste.IdTransaccion;
+                this.detallesAjuste.AddRange(detallesCargados);
+
+                foreach (var detalle in detallesCargados)
+                {
+                    this.AgregarFila(detalle);
+                }
+
+                this.CalcularTotalesDesdeArticulo();
+                this.ConfigurarModoConsulta(true);
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al cargar el ajuste: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso.Close();
+                progreso.Dispose();
+            }
         }
 
         private async Task CargarListas()
@@ -194,6 +298,11 @@ namespace TiendaLaLojanita.Views
         private async Task<int> CrearAjuste()
         {
             var resp = 0;
+            if (this.ajusteCargadoDesdeBd)
+            {
+                return resp;
+            }
+
             if (this.txtIdAjuste is null || this.txtIdAjuste.Text == "")
             {
                 var ajuste = this.CargarAjusteInventario();
@@ -293,6 +402,20 @@ namespace TiendaLaLojanita.Views
             this.dgvImpuestos.Rows.Clear();
             this.txtTotales.Text = 0m.ToString("C2", CultureInfo.GetCultureInfo("en-US"));
             this.LimpiarBusquedaArticulo();
+            this.ConfigurarModoConsulta(false);
+        }
+
+        private void ConfigurarModoConsulta(bool soloLectura)
+        {
+            this.ajusteCargadoDesdeBd = soloLectura;
+            this.txtMotivoAjuste.ReadOnly = soloLectura;
+            this.cbxEstadoAjuste.Enabled = !soloLectura;
+            this.cbxTransaccionAjuste.Enabled = !soloLectura;
+            this.dtpFechaCreacion.Enabled = !soloLectura;
+            this.dtpFechaReversion.Enabled = !soloLectura;
+            this.btnGuardar.Enabled = !soloLectura;
+            this.dgvDetallesAjuste.ReadOnly = soloLectura;
+            this.HabilitarBusqueda(!soloLectura);
         }
 
         private async void Registro_Ajustes_Inventario_Load(object sender, EventArgs e)
@@ -717,6 +840,22 @@ namespace TiendaLaLojanita.Views
         private void btnCancelar_Click(object? sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private async void dgvAjustes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 ||
+                this.dgvAjustes.Columns[e.ColumnIndex].Name != "Ver")
+            {
+                return;
+            }
+
+            if (!int.TryParse(this.dgvAjustes.Rows[e.RowIndex].Cells["IdAjsute"].Value?.ToString(), out int idAjuste))
+            {
+                return;
+            }
+
+            await this.CargarAjusteCompleto(idAjuste);
         }
     }
 }

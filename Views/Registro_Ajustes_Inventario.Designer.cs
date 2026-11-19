@@ -54,8 +54,24 @@
             txtArticuloBusqueda = new TextBox();
             label7 = new Label();
             dgvDetallesAjuste = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            Lote = new DataGridViewTextBoxColumn();
+            Codigo = new DataGridViewTextBoxColumn();
+            Articulo = new DataGridViewTextBoxColumn();
+            FechaExpiracion = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            ValorCompra = new DataGridViewTextBoxColumn();
+            Quitar = new DataGridViewImageColumn();
             tabPage2 = new TabPage();
             dgvAjustes = new DataGridView();
+            btnBuscar = new Button();
+            dtpFinal = new DateTimePicker();
+            dtpInicio = new DateTimePicker();
+            label10 = new Label();
+            label9 = new Label();
+            btnGuardar = new Button();
+            btnCancelar = new Button();
+            folderBrowserDialog1 = new FolderBrowserDialog();
             IdAjsute = new DataGridViewTextBoxColumn();
             IdTransaccion = new DataGridViewTextBoxColumn();
             Transaccion = new DataGridViewTextBoxColumn();
@@ -67,22 +83,6 @@
             Reversion = new DataGridViewTextBoxColumn();
             Ver = new DataGridViewImageColumn();
             Reversar = new DataGridViewImageColumn();
-            btnBuscar = new Button();
-            dtpFinal = new DateTimePicker();
-            dtpInicio = new DateTimePicker();
-            label10 = new Label();
-            label9 = new Label();
-            btnGuardar = new Button();
-            btnCancelar = new Button();
-            folderBrowserDialog1 = new FolderBrowserDialog();
-            Id = new DataGridViewTextBoxColumn();
-            Lote = new DataGridViewTextBoxColumn();
-            Codigo = new DataGridViewTextBoxColumn();
-            Articulo = new DataGridViewTextBoxColumn();
-            FechaExpiracion = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            ValorCompra = new DataGridViewTextBoxColumn();
-            Quitar = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -336,6 +336,53 @@
             dgvDetallesAjuste.Size = new Size(812, 183);
             dgvDetallesAjuste.TabIndex = 8;
             // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // Lote
+            // 
+            Lote.HeaderText = "Lote";
+            Lote.Name = "Lote";
+            Lote.ReadOnly = true;
+            // 
+            // Codigo
+            // 
+            Codigo.HeaderText = "Codigo";
+            Codigo.Name = "Codigo";
+            Codigo.ReadOnly = true;
+            // 
+            // Articulo
+            // 
+            Articulo.HeaderText = "Artículo";
+            Articulo.Name = "Articulo";
+            Articulo.ReadOnly = true;
+            // 
+            // FechaExpiracion
+            // 
+            FechaExpiracion.HeaderText = "Expiración";
+            FechaExpiracion.Name = "FechaExpiracion";
+            FechaExpiracion.ReadOnly = true;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.Name = "Cantidad";
+            // 
+            // ValorCompra
+            // 
+            ValorCompra.HeaderText = "ValorCompra";
+            ValorCompra.Name = "ValorCompra";
+            ValorCompra.ReadOnly = true;
+            // 
+            // Quitar
+            // 
+            Quitar.HeaderText = "Quitar";
+            Quitar.Image = Properties.Resources._3687412_edit;
+            Quitar.Name = "Quitar";
+            // 
             // tabPage2
             // 
             tabPage2.Controls.Add(dgvAjustes);
@@ -360,71 +407,7 @@
             dgvAjustes.Name = "dgvAjustes";
             dgvAjustes.Size = new Size(1122, 191);
             dgvAjustes.TabIndex = 5;
-            // 
-            // IdAjsute
-            // 
-            IdAjsute.HeaderText = "Id";
-            IdAjsute.Name = "IdAjsute";
-            // 
-            // IdTransaccion
-            // 
-            IdTransaccion.HeaderText = "IdTransaccion";
-            IdTransaccion.Name = "IdTransaccion";
-            IdTransaccion.ReadOnly = true;
-            IdTransaccion.Visible = false;
-            // 
-            // Transaccion
-            // 
-            Transaccion.HeaderText = "Transacción";
-            Transaccion.Name = "Transaccion";
-            Transaccion.ReadOnly = true;
-            // 
-            // Creador
-            // 
-            Creador.HeaderText = "Creador";
-            Creador.Name = "Creador";
-            Creador.ReadOnly = true;
-            // 
-            // Motivo
-            // 
-            Motivo.HeaderText = "Motivo";
-            Motivo.Name = "Motivo";
-            Motivo.ReadOnly = true;
-            // 
-            // Creacion
-            // 
-            Creacion.HeaderText = "Creación";
-            Creacion.Name = "Creacion";
-            Creacion.ReadOnly = true;
-            // 
-            // IdEstado
-            // 
-            IdEstado.HeaderText = "IdEstado";
-            IdEstado.Name = "IdEstado";
-            IdEstado.ReadOnly = true;
-            IdEstado.Visible = false;
-            // 
-            // Estado
-            // 
-            Estado.HeaderText = "Estado";
-            Estado.Name = "Estado";
-            Estado.ReadOnly = true;
-            // 
-            // Reversion
-            // 
-            Reversion.HeaderText = "Reversión";
-            Reversion.Name = "Reversion";
-            Reversion.ReadOnly = true;
-            // 
-            // Ver
-            // 
-            Ver.HeaderText = "Ver";
-            Ver.Name = "Ver";
-            // 
-            // Reversar
-            // 
-            Reversar.HeaderText = "Reversar";
-            Reversar.Name = "Reversar";
+            dgvAjustes.CellClick += dgvAjustes_CellClick;
             // 
             // btnBuscar
             // 
@@ -486,52 +469,72 @@
             btnCancelar.TabIndex = 3;
             btnCancelar.UseVisualStyleBackColor = true;
             // 
-            // Id
+            // IdAjsute
             // 
-            Id.HeaderText = "Id";
-            Id.Name = "Id";
-            Id.ReadOnly = true;
+            IdAjsute.HeaderText = "Id";
+            IdAjsute.Name = "IdAjsute";
             // 
-            // Lote
+            // IdTransaccion
             // 
-            Lote.HeaderText = "Lote";
-            Lote.Name = "Lote";
-            Lote.ReadOnly = true;
+            IdTransaccion.HeaderText = "IdTransaccion";
+            IdTransaccion.Name = "IdTransaccion";
+            IdTransaccion.ReadOnly = true;
+            IdTransaccion.Visible = false;
             // 
-            // Codigo
+            // Transaccion
             // 
-            Codigo.HeaderText = "Codigo";
-            Codigo.Name = "Codigo";
-            Codigo.ReadOnly = true;
+            Transaccion.HeaderText = "Transacción";
+            Transaccion.Name = "Transaccion";
+            Transaccion.ReadOnly = true;
             // 
-            // Articulo
+            // Creador
             // 
-            Articulo.HeaderText = "Artículo";
-            Articulo.Name = "Articulo";
-            Articulo.ReadOnly = true;
+            Creador.HeaderText = "Creador";
+            Creador.Name = "Creador";
+            Creador.ReadOnly = true;
             // 
-            // FechaExpiracion
+            // Motivo
             // 
-            FechaExpiracion.HeaderText = "Expiración";
-            FechaExpiracion.Name = "FechaExpiracion";
-            FechaExpiracion.ReadOnly = true;
+            Motivo.HeaderText = "Motivo";
+            Motivo.Name = "Motivo";
+            Motivo.ReadOnly = true;
             // 
-            // Cantidad
+            // Creacion
             // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.Name = "Cantidad";
+            Creacion.HeaderText = "Creación";
+            Creacion.Name = "Creacion";
+            Creacion.ReadOnly = true;
             // 
-            // ValorCompra
+            // IdEstado
             // 
-            ValorCompra.HeaderText = "ValorCompra";
-            ValorCompra.Name = "ValorCompra";
-            ValorCompra.ReadOnly = true;
+            IdEstado.HeaderText = "IdEstado";
+            IdEstado.Name = "IdEstado";
+            IdEstado.ReadOnly = true;
+            IdEstado.Visible = false;
             // 
-            // Quitar
+            // Estado
             // 
-            Quitar.HeaderText = "Quitar";
-            Quitar.Image = Properties.Resources._3687412_edit;
-            Quitar.Name = "Quitar";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            Estado.ReadOnly = true;
+            // 
+            // Reversion
+            // 
+            Reversion.HeaderText = "Reversión";
+            Reversion.Name = "Reversion";
+            Reversion.ReadOnly = true;
+            // 
+            // Ver
+            // 
+            Ver.HeaderText = "Ver";
+            Ver.Image = Properties.Resources.ver;
+            Ver.Name = "Ver";
+            // 
+            // Reversar
+            // 
+            Reversar.HeaderText = "Reversar";
+            Reversar.Image = Properties.Resources.resize;
+            Reversar.Name = "Reversar";
             // 
             // Registro_Ajustes_Inventario
             // 
@@ -599,6 +602,14 @@
         private DataGridView dgvAjustes;
         private Button btnBuscar;
         private FolderBrowserDialog folderBrowserDialog1;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Lote;
+        private DataGridViewTextBoxColumn Codigo;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn FechaExpiracion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewImageColumn Quitar;
         private DataGridViewTextBoxColumn IdAjsute;
         private DataGridViewTextBoxColumn IdTransaccion;
         private DataGridViewTextBoxColumn Transaccion;
@@ -610,13 +621,5 @@
         private DataGridViewTextBoxColumn Reversion;
         private DataGridViewImageColumn Ver;
         private DataGridViewImageColumn Reversar;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Lote;
-        private DataGridViewTextBoxColumn Codigo;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn FechaExpiracion;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewImageColumn Quitar;
     }
 }
