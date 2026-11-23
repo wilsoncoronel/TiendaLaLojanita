@@ -149,3 +149,4 @@ E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Ar
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Ajustes_Inventario.resources
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.ArticuloInventarioLote.resources
 E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.ArticulosConfiguracion.resources
+E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Registro_Pago_Venta.resources

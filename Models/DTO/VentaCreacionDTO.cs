@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TiendaLaLojanita.Models.DTO;
 
-namespace TiendaLaLojanita.Models.DTO
+namespace SistemaTienda.DTO
 {
     public class VentaCreacionDTO
     {
         public int IdCliente { get; set; }
         public int? IdTransaccion { get; set; }
+
         public DateTime FechaCompra { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public decimal TotalVenta { get; set; }
         public int IdEstado { get; set; }
         public bool EstadoVisual { get; set; }
-        public List<DetalleVentaCreacionDTO> DetalleVentaCreacionDto { get; set; } = [];
+        [Required]
+        public List<DetalleVentaCreacionDTO> DetalleVentaCreacionDto { get; set; }
+        public PagoVentaCreacionDTO PagoVenta { get; set; } = null!;
         public int UsuarioCreadorId { get; set; }
     }
 }

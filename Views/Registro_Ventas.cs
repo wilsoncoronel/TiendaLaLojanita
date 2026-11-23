@@ -5,6 +5,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using SistemaTienda.DTO;
 using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
@@ -619,7 +620,7 @@ namespace TiendaLaLojanita.Views
             ventaActual = await this._ventaService.ObtenerVenta(idVenta);
             return ventaActual;
         }
-        private async Task<int> CrearVenta()
+        private async Task<int> CrearVenta(decimal totalVenta, PagoVentaCreacionDTO pagoVenta)
         {
             try
             {
@@ -627,9 +628,11 @@ namespace TiendaLaLojanita.Views
                 VentaCreacionDTO ventaCreacionDTO = new VentaCreacionDTO();
                 ventaCreacionDTO.IdCliente = this.idCliente; // Reemplazar con el ID real del proveedor
                 ventaCreacionDTO.FechaCompra = this.dtpVenta.Value;
+                ventaCreacionDTO.TotalVenta = totalVenta;
                 ventaCreacionDTO.IdEstado = Convert.ToInt32(this.cbxEstadosVenta.SelectedValue); // Estado "Pendiente" por defecto
                 ventaCreacionDTO.EstadoVisual = true; // Estado visual "Activo" por defecto
                 ventaCreacionDTO.UsuarioCreadorId = this.Sesion.Id; // Reemplazar con el ID real del usuario creador
+                ventaCreacionDTO.PagoVenta = pagoVenta;
                 ventaCreacionDTO.DetalleVentaCreacionDto = new List<DetalleVentaCreacionDTO>();
                 ventaCreacionDTO.IdTransaccion = this.ListaTransacciones.FirstOrDefault(t => t.Nombre.ToUpper() == "VENTA").Id;
                 foreach (DataGridViewRow row in dgvDetallesVenta.Rows)
@@ -1115,14 +1118,25 @@ namespace TiendaLaLojanita.Views
             var respEditar = false;
             if (this.txtIdVenta is null || this.txtIdVenta.Text == "")
             {
-                resp = await this.CrearVenta();
+                if (!decimal.TryParse(this.txtTotal.Text, out decimal totalVenta))
+                {
+                    MessageBox.Show("No se pudo determinar el total de la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var pagoVenta = this.CargarPagoVenta(totalVenta);
+                if (pagoVenta is null)
+                {
+                    return;
+                }
+
+                resp = await this.CrearVenta(totalVenta, pagoVenta);
                 if (resp == 0) MessageBox.Show("No se pudo crear la venta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
                     int idVenta = resp;
                     MessageBox.Show($"Venta creada con éxito con el ID: {idVenta}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.GenerarReporteVenta(idVenta);
-
                 }
                 this.LimpiarValores();
                 this.LimpiarFormulario();
@@ -1131,6 +1145,18 @@ namespace TiendaLaLojanita.Views
             {
                 respEditar = await this.CargarEditarVenta();
             }
+        }
+        
+        private PagoVentaCreacionDTO? CargarPagoVenta(decimal totalVenta)
+        {
+            using Registro_Pago_Venta pago = new Registro_Pago_Venta(totalVenta)
+            {
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            return pago.ShowDialog(this) == DialogResult.OK
+                ? pago.PagoVenta
+                : null;
         }
 
         private async Task<bool> CargarEditarVenta()
@@ -1184,8 +1210,6 @@ namespace TiendaLaLojanita.Views
             }
             var respEdit = await this._ventaService.EditarVenta(ventaEditar);
             return respEdit;
-            
-
         }
     }
 }

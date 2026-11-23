@@ -47,6 +47,15 @@ namespace TiendaLaLojanita.Utilidad
                     return;
                 }
 
+                if (txt.Text.Contains('.'))
+                {
+                    restaurando = true;
+                    var posicion = txt.SelectionStart;
+                    txt.Text = txt.Text.Replace('.', ',');
+                    txt.SelectionStart = Math.Min(posicion, txt.Text.Length);
+                    restaurando = false;
+                }
+
                 if (EsDecimalParcialValido(txt.Text))
                 {
                     ultimoValido = txt.Text;

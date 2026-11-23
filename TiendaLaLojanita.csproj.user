@@ -73,6 +73,9 @@
     <Compile Update="Views\Registro_Compras.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Registro_Pago_Venta.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Registro_Ventas.cs">
       <SubType>Form</SubType>
     </Compile>
