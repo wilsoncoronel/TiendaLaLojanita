@@ -44,7 +44,8 @@ namespace TiendaLaLojanita.Views
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
-        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService)
+        private readonly IPagoVentaService pagoService;
+        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService, IPagoVentaService pagoService)
         {
             InitializeComponent();
             ConfigurarColumnasDetallesVenta();
@@ -53,6 +54,7 @@ namespace TiendaLaLojanita.Views
             this._ventaService = ventaService;
             this.inventarioService = inventarioService;
             this.proveedorService = proveedorService;
+            this.pagoService = pagoService;
             this.listaArticulos = new List<ArticuloVentaDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
@@ -930,6 +932,11 @@ namespace TiendaLaLojanita.Views
                     var documento = dgvVentas.Rows[e.RowIndex].Cells["Documento"].Value.ToString();
                     this.ReversarCompra(id, documento);
                 }
+                else if (dgvVentas.Columns[e.ColumnIndex].Name == "VerPago")
+                {
+                    id = Convert.ToInt32(dgvVentas.Rows[e.RowIndex].Cells["IdVenta"].Value);
+                    this.AbrirPago(id);
+                }
             }
             catch
             {
@@ -948,6 +955,13 @@ namespace TiendaLaLojanita.Views
             {
                 MessageBox.Show($"Error al reversar la venta!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void AbrirPago(int idVenta)
+        {
+            Pagos pagoForm = new Pagos(idVenta, this._ventaService, this.pagoService);
+            pagoForm.StartPosition = FormStartPosition.CenterScreen;
+            pagoForm.ShowDialog();
         }
 
         private void dgvDetallesVenta_EditingControlShowing_1(object sender, DataGridViewEditingControlShowingEventArgs e)

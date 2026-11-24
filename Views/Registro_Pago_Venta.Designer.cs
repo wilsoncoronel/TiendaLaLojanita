@@ -35,18 +35,18 @@
             label8 = new Label();
             groupBox1 = new GroupBox();
             txtNroComprobante = new TextBox();
+            txtValorPago = new TextBox();
+            label2 = new Label();
             groupBox2 = new GroupBox();
             dtpCreacion = new DateTimePicker();
             txtNota = new TextBox();
             cbxEstadoPago = new ComboBox();
             txtSaldoPendiente = new TextBox();
-            txtValorPago = new TextBox();
             txtTotalPagar = new TextBox();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
-            label2 = new Label();
             label1 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -116,10 +116,27 @@
             // 
             // txtNroComprobante
             // 
+            txtNroComprobante.Enabled = false;
             txtNroComprobante.Location = new Point(483, 16);
             txtNroComprobante.Name = "txtNroComprobante";
             txtNroComprobante.Size = new Size(258, 23);
             txtNroComprobante.TabIndex = 18;
+            // 
+            // txtValorPago
+            // 
+            txtValorPago.Location = new Point(125, 46);
+            txtValorPago.Name = "txtValorPago";
+            txtValorPago.Size = new Size(167, 23);
+            txtValorPago.TabIndex = 20;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 49);
+            label2.Name = "label2";
+            label2.Size = new Size(82, 15);
+            label2.TabIndex = 14;
+            label2.Text = "Valor de pago:";
             // 
             // groupBox2
             // 
@@ -172,13 +189,6 @@
             txtSaldoPendiente.Size = new Size(148, 23);
             txtSaldoPendiente.TabIndex = 21;
             // 
-            // txtValorPago
-            // 
-            txtValorPago.Location = new Point(125, 46);
-            txtValorPago.Name = "txtValorPago";
-            txtValorPago.Size = new Size(167, 23);
-            txtValorPago.TabIndex = 20;
-            // 
             // txtTotalPagar
             // 
             txtTotalPagar.Enabled = false;
@@ -222,15 +232,6 @@
             label3.Size = new Size(95, 15);
             label3.TabIndex = 15;
             label3.Text = "Saldo pendiente:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 49);
-            label2.Name = "label2";
-            label2.Size = new Size(82, 15);
-            label2.TabIndex = 14;
-            label2.Text = "Valor de pago:";
             // 
             // label1
             // 

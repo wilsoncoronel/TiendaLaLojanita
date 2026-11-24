@@ -58,6 +58,9 @@
     <Compile Update="Views\NotasCredito.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Pagos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\ProgressBar.cs">
       <SubType>Form</SubType>
     </Compile>

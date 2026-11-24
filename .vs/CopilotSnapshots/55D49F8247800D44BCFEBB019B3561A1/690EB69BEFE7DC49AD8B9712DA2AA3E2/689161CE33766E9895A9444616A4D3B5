@@ -1,0 +1,111 @@
+﻿using SistemaTienda.DTO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.Interfaces;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class Pagos : Form
+    {
+        private int idVenta;
+        private readonly IVentaService _ventaService;
+        private readonly IPagoVentaService _pagoService;
+        private List<TipoPagoDTO> _tiposPagos;
+        private List<EstadosPagoDTO> _estadosPagos;
+        private PagosVentasDTO _pagoVenta;
+        public Pagos(int idVenta, IVentaService ventaService, IPagoVentaService pagoService)
+        {
+            InitializeComponent();
+            this.idVenta = idVenta;
+            this._ventaService = ventaService;
+            this._pagoService = pagoService;
+            this._tiposPagos = new List<TipoPagoDTO>();
+            this._estadosPagos = new List<EstadosPagoDTO>();
+        }
+
+        private async void Pagos_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                this._pagoVenta = await CargarPago();
+                this._tiposPagos = await _pagoService.ListarTiposPagos();
+                this._estadosPagos = await _pagoService.ListarEstadosPagos();
+                CargarPagoView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los datos del pago: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async Task<PagosVentasDTO> CargarPago()
+        {
+            return await this._pagoService.PagoVenta(this.idVenta);
+        }
+
+        private void CargarPagoView()
+        {
+            if (_pagoVenta is null)
+            {
+                return;
+            }
+
+            txtTotalVenta.Text = _pagoVenta.TotalVenta.ToString("N2");
+            txtTotalPagado.Text = _pagoVenta.TotalPagado.ToString("N2");
+            txtSaldoPendiente.Text = _pagoVenta.SaldoPendiente.ToString("N2");
+            txtNota.Text = _pagoVenta.Nota ?? string.Empty;
+            dtpFechaCreacion.Value = _pagoVenta.FechaCreacion == default
+                ? DateTime.Now
+                : _pagoVenta.FechaCreacion;
+            dtpFechaPago.Value = _pagoVenta.FechaPago ?? DateTime.Now;
+
+            cbxEstadoPago.DataSource = _estadosPagos ?? new List<EstadosPagoDTO>();
+            cbxEstadoPago.DisplayMember = nameof(EstadosPagoDTO.Nombre);
+            cbxEstadoPago.ValueMember = nameof(EstadosPagoDTO.Id);
+            cbxEstadoPago.SelectedValue = _pagoVenta.IdEstadoPago;
+
+            TipoPago.DataSource = _tiposPagos ?? new List<TipoPagoDTO>();
+            TipoPago.DisplayMember = nameof(TipoPagoDTO.Nombre);
+            TipoPago.ValueMember = nameof(TipoPagoDTO.Id);
+
+            Estado.DataSource = new[]
+            {
+                new { Id = true, Nombre = "ACTIVO" },
+                new { Id = false, Nombre = "ANULADO" }
+            };
+            Estado.DisplayMember = "Nombre";
+            Estado.ValueMember = "Id";
+
+            dgvDetallePago.Rows.Clear();
+            foreach (var detalle in _pagoVenta.DetallesPago ?? new List<DetallePagoCreacionDTO>())
+            {
+                int rowIndex = dgvDetallePago.Rows.Add();
+                DataGridViewRow row = dgvDetallePago.Rows[rowIndex];
+                row.Cells[nameof(Id)].Value = detalle.IdPagoVenta;
+                row.Cells[nameof(TipoPago)].Value = detalle.IdTipoPago;
+                row.Cells[nameof(Valor)].Value = detalle.Valor;
+                row.Cells[nameof(NroComprobante)].Value = detalle.NumeroComprobante ?? string.Empty;
+                row.Cells[nameof(FechaPago)].Value = detalle.FechaPago;
+                row.Cells[nameof(Nota)].Value = detalle.Nota ?? string.Empty;
+                row.Cells[nameof(Estado)].Value = detalle.Estado;
+            }
+
+            txtTotalVenta.ReadOnly = true;
+            txtTotalPagado.ReadOnly = true;
+            txtSaldoPendiente.ReadOnly = true;
+            txtNota.ReadOnly = true;
+            cbxEstadoPago.Enabled = false;
+            dtpFechaCreacion.Enabled = false;
+            dtpFechaPago.Enabled = false;
+            dgvDetallePago.ReadOnly = true;
+            dgvDetallePago.AllowUserToAddRows = false;
+        }
+    }
+}

@@ -103,6 +103,7 @@ namespace TiendaLaLojanita
             services.AddScoped<IProcesarExcel, ProcesarExcel>();
             services.AddScoped<IUnidadService, UnidadService>();
             services.AddScoped<ISistemaService, SistemaService>();
+            services.AddScoped<IPagoVentaService, PagoVentaService>();
             services.AddScoped<IDevolucionCompraService, DevolucionCompraService>();
              services.AddScoped<ICreditoProveedorService, CreditoProveedorService>();
             services.AddScoped<FrmPrincipal>();

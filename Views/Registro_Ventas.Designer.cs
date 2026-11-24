@@ -82,6 +82,7 @@
             Imprimir = new DataGridViewImageColumn();
             Editar = new DataGridViewImageColumn();
             Reversar = new DataGridViewImageColumn();
+            VerPago = new DataGridViewImageColumn();
             btnBuscarVenta = new Button();
             dtpFechaInicio = new DateTimePicker();
             label12 = new Label();
@@ -317,7 +318,7 @@
             tabControl1.Location = new Point(10, 38);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1168, 417);
+            tabControl1.Size = new Size(1168, 427);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -331,7 +332,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1160, 389);
+            tabPage1.Size = new Size(1160, 399);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Detalle Venta";
             tabPage1.UseVisualStyleBackColor = true;
@@ -457,20 +458,20 @@
             // txtTotal
             // 
             txtTotal.Enabled = false;
-            txtTotal.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtTotal.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtTotal.Location = new Point(131, 22);
             txtTotal.Name = "txtTotal";
             txtTotal.PlaceholderText = "000";
-            txtTotal.Size = new Size(100, 33);
+            txtTotal.Size = new Size(100, 36);
             txtTotal.TabIndex = 7;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label10.Location = new Point(25, 25);
             label10.Name = "label10";
-            label10.Size = new Size(56, 25);
+            label10.Size = new Size(64, 30);
             label10.TabIndex = 6;
             label10.Text = "Total:";
             // 
@@ -485,19 +486,20 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1160, 389);
+            tabPage2.Size = new Size(1160, 399);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Listado Ventas";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // dgvVentas
             // 
+            dgvVentas.AllowUserToAddRows = false;
             dgvVentas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Imprimir, Editar, Reversar });
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { IdVenta, FechaVenta, IdClienteVenta, Cliente, FechaModificacion, IdEstado, Estado, Documento, Usuario, Imprimir, Editar, Reversar, VerPago });
             dgvVentas.Location = new Point(6, 54);
             dgvVentas.Name = "dgvVentas";
-            dgvVentas.Size = new Size(1133, 307);
+            dgvVentas.Size = new Size(1148, 339);
             dgvVentas.TabIndex = 6;
             dgvVentas.CellClick += dgvVentas_CellClick_1;
             // 
@@ -573,6 +575,12 @@
             Reversar.Name = "Reversar";
             Reversar.Resizable = DataGridViewTriState.True;
             Reversar.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // VerPago
+            // 
+            VerPago.HeaderText = "Ver Pago";
+            VerPago.Image = Properties.Resources.pago_min;
+            VerPago.Name = "VerPago";
             // 
             // btnBuscarVenta
             // 
@@ -953,5 +961,6 @@
         private DataGridViewImageColumn Imprimir;
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn Reversar;
+        private DataGridViewImageColumn VerPago;
     }
 }

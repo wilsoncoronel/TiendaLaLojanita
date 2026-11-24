@@ -11,6 +11,13 @@ namespace TiendaLaLojanita.Utilidad
 
         public static void Aplicar(TextBox txt)
         {
+            Aplicar(txt, 4);
+        }
+
+        public static void Aplicar(TextBox txt, int maxDecimales)
+        {
+            var regexParcial = new Regex($@"^\d*(,\d{{0,{maxDecimales}}})?$");
+            var regexFinal = new Regex($@"^(\d+)?(,\d{{1,{maxDecimales}}})?$");
             string ultimoValido = txt.Text;
             int posicionValida = txt.SelectionStart;
             bool restaurando = false;
@@ -56,7 +63,7 @@ namespace TiendaLaLojanita.Utilidad
                     restaurando = false;
                 }
 
-                if (EsDecimalParcialValido(txt.Text))
+                if (regexParcial.IsMatch(txt.Text))
                 {
                     ultimoValido = txt.Text;
                     posicionValida = txt.SelectionStart;
@@ -71,7 +78,7 @@ namespace TiendaLaLojanita.Utilidad
 
             txt.Leave += (sender, e) =>
             {
-                if (string.IsNullOrEmpty(txt.Text) || EsDecimalFinalValido(txt.Text))
+                if (string.IsNullOrEmpty(txt.Text) || regexFinal.IsMatch(txt.Text))
                 {
                     return;
                 }

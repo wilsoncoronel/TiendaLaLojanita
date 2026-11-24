@@ -1,0 +1,49 @@
+﻿using SistemaTienda.DTO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.Interfaces;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class Pagos : Form
+    {
+        private int idVenta;
+        private readonly IVentaService _ventaService;
+        private readonly IPagoVentaService _pagoService;
+        private List<TipoPagoDTO> _tiposPagos;
+        private List<EstadosPagoDTO> _estadosPagos;
+        private PagosVentasDTO _pagoVenta;
+        public Pagos(int idVenta, IVentaService ventaService, IPagoVentaService pagoService)
+        {
+            InitializeComponent();
+            this.idVenta = idVenta;
+            this._ventaService = ventaService;
+            this._pagoService = pagoService;
+            this._tiposPagos = new List<TipoPagoDTO>();
+            this._estadosPagos = new List<EstadosPagoDTO>();
+        }
+
+        private async void Pagos_Load(object sender, EventArgs e)
+        {
+            this._pagoVenta = await CargarPago();
+            this._tiposPagos = await _pagoService.ListarTiposPagos();
+            this._estadosPagos = await _pagoService.ListarEstadosPagos();
+        }
+        private async Task<PagosVentasDTO> CargarPago()
+        {
+            return await this._pagoService.PagoVenta(this.idVenta);
+        }
+
+        private void CargarPagoView()
+        {
+
+        }
+    }
+}
