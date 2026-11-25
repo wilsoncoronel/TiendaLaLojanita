@@ -10,7 +10,7 @@ namespace TiendaLaLojanita.Models.Interfaces
 {
     public interface IPagoVentaService
     {
-        Task<PagosVentasDTO> PagoVenta(int idVenta);
+        Task<PagoVentaCompletoDTO> PagoVenta(int idVenta);
         Task<List<PagosVentasDTO>> ListarPagos(DateOnly fechaInicial, DateOnly fechaFinal);
         Task<List<DetallesPagoDTO>> ListaDetallesPagos(int idPago);
         Task<bool> AnularPago(int idDetallePago);

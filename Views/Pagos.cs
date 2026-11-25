@@ -22,7 +22,7 @@ namespace TiendaLaLojanita.Views
         private readonly IPagoVentaService _pagoService;
         private List<TipoPagoDTO> _tiposPagos;
         private List<EstadosPagoDTO> _estadosPagos;
-        private PagosVentasDTO _pagoVenta;
+        private PagoVentaCompletoDTO _pagoVenta;
         private bool cargando;
         public Pagos(int idVenta, IVentaService ventaService, IPagoVentaService pagoService)
         {
@@ -56,7 +56,7 @@ namespace TiendaLaLojanita.Views
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private async Task<PagosVentasDTO> CargarPago()
+        private async Task<PagoVentaCompletoDTO> CargarPago()
         {
             return await this._pagoService.PagoVenta(this.idVenta);
         }
@@ -96,12 +96,12 @@ namespace TiendaLaLojanita.Views
 
             cargando = true;
             dgvDetallePago.Rows.Clear();
-            foreach (var detalle in _pagoVenta.DetallesPago ?? new List<DetallePagoCreacionDTO>())
+            foreach (var detalle in _pagoVenta.DetallesPago ?? new List<DetallesPagoVentaCompletoDTO>())
             {
                 int rowIndex = dgvDetallePago.Rows.Add();
                 DataGridViewRow row = dgvDetallePago.Rows[rowIndex];
                 row.Tag = false;
-                row.Cells[nameof(Id)].Value = detalle.IdPagoVenta;
+                row.Cells[nameof(Id)].Value = detalle.Id;
                 row.Cells[nameof(TipoPago)].Value = detalle.IdTipoPago;
                 row.Cells[nameof(Valor)].Value = detalle.Valor;
                 row.Cells[nameof(NroComprobante)].Value = detalle.NumeroComprobante ?? string.Empty;
@@ -253,6 +253,8 @@ namespace TiendaLaLojanita.Views
                     return;
                 }
 
+                fila.Cells[nameof(Id)].Value = idDetalle;
+                fila.Tag = false;
                 saldoDisponible -= valor;
             }
 

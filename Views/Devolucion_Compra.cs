@@ -566,7 +566,7 @@ namespace TiendaLaLojanita.Views
                     Nombre = item.ImpuestoDTO.Nombre,
                     IdTipoCalculo = item.ImpuestoDTO.IdTipoCalculo,
                     Valor = item.ImpuestoDTO.Valor,
-                    TipoImpuestoDTO = this.ResolverTipoImpuesto(item.ImpuestoDTO.TipoImpuestoDTO, item.ImpuestoDTO.IdTipoCalculo),
+                    TipoImpuestoDTO = this.ResolverTipoImpuesto(item.ImpuestoDTO.IdTipoCalculo),
                     Estado = true
                 })
                 .ToList();
@@ -584,16 +584,15 @@ namespace TiendaLaLojanita.Views
                     Nombre = impuesto.Nombre,
                     IdTipoCalculo = impuesto.IdTipoCalculo,
                     Valor = impuesto.Valor,
-                    TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.TipoImpuestoDTO, impuesto.IdTipoCalculo),
+                    TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.IdTipoCalculo),
                     Estado = impuesto.Estado
                 })
                 .ToList();
         }
 
-        private TipoImpuestoDTO ResolverTipoImpuesto(TipoImpuestoDTO tipoImpuesto, int idTipoCalculo)
+        private TipoImpuestoDTO ResolverTipoImpuesto(int idTipoCalculo)
         {
-            return tipoImpuesto
-                ?? this.ListaTipoImpuestoDTO?.FirstOrDefault(tipo => tipo.Id == idTipoCalculo);
+            return this.ListaTipoImpuestoDTO?.FirstOrDefault(tipo => tipo.Id == idTipoCalculo);
         }
 
         private void LimpiarBusquedaArticulo()
@@ -861,7 +860,8 @@ namespace TiendaLaLojanita.Views
                                 Nombre = impuesto.Nombre,
                                 IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
-                                Estado = impuesto.Estado
+                                Estado = impuesto.Estado,
+                                TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.IdTipoCalculo)
                             })
                             .ToList()
                     };
@@ -892,7 +892,8 @@ namespace TiendaLaLojanita.Views
                                 Nombre = impuesto.Nombre,
                                 IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
-                                Estado = true
+                                Estado = true,
+                                TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.IdTipoCalculo)
                             })
                             .ToList()
                     };
@@ -1132,7 +1133,8 @@ namespace TiendaLaLojanita.Views
                                 Nombre = impuesto.Nombre,
                                 IdTipoCalculo = impuesto.IdTipoCalculo,
                                 Valor = impuesto.Valor,
-                                Estado = impuesto.Estado
+                                Estado = impuesto.Estado,
+                                TipoImpuestoDTO = this.ResolverTipoImpuesto(impuesto.IdTipoCalculo)
                             })
                             .ToList()
                     })
