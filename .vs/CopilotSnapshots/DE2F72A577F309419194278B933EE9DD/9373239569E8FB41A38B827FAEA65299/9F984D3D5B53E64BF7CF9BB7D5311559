@@ -1,0 +1,130 @@
+﻿namespace TiendaLaLojanita.Views
+{
+    partial class Reportes_Ventas
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            label1 = new Label();
+            cbxReportes = new ComboBox();
+            btnBuscar = new Button();
+            label2 = new Label();
+            label3 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            dateTimePicker2 = new DateTimePicker();
+            SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(2, 24);
+            label1.Name = "label1";
+            label1.Size = new Size(74, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Tipo reporte:";
+            // 
+            // cbxReportes
+            // 
+            cbxReportes.FormattingEnabled = true;
+            cbxReportes.Items.AddRange(new object[] { "Reporte Ventas Diario", "Reporte Ventas Mensual", "Reporte Ventas Rango Fecha", "Reporte Pagos Diario", "Reporte Pagos Mensual", "Reporte Pagos Rango Fecha" });
+            cbxReportes.Location = new Point(82, 21);
+            cbxReportes.Name = "cbxReportes";
+            cbxReportes.Size = new Size(266, 23);
+            cbxReportes.TabIndex = 1;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Image = Properties.Resources.lupa_min;
+            btnBuscar.Location = new Point(862, 12);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(92, 38);
+            btnBuscar.TabIndex = 2;
+            btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(362, 24);
+            label2.Name = "label2";
+            label2.Size = new Size(73, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Fecha Inicio:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(623, 24);
+            label3.Name = "label3";
+            label3.Size = new Size(60, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Fecha Fin:";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(441, 22);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(164, 23);
+            dateTimePicker1.TabIndex = 5;
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.Format = DateTimePickerFormat.Short;
+            dateTimePicker2.Location = new Point(689, 21);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(167, 23);
+            dateTimePicker2.TabIndex = 6;
+            // 
+            // Reportes_Ventas
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(966, 67);
+            Controls.Add(dateTimePicker2);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(btnBuscar);
+            Controls.Add(cbxReportes);
+            Controls.Add(label1);
+            Name = "Reportes_Ventas";
+            Text = "Reportes_Ventas";
+            Load += Reportes_Ventas_Load;
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label label1;
+        private ComboBox cbxReportes;
+        private Button btnBuscar;
+        private Label label2;
+        private Label label3;
+        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dateTimePicker2;
+    }
+}

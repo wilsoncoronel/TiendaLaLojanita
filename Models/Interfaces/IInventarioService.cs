@@ -14,6 +14,7 @@ namespace TiendaLaLojanita.Models.Interfaces
         Task<List<MovimientoDTO>> ListaInventario(DateOnly Inicio, DateOnly Fin);
         Task<List<InventarioLoteDTO>> ListaDetallesInventario(int IdInventario);
         Task<int> CrearTransaccionInventario(InventarioCreacionDTO traInventario);
+        Task<List<ResumenVentasDiarioDTO>> ResumenVentasRangoFecha(DateTime fechaInicio, DateTime fechaFinal);
         Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiario(DateTime fechaResumen);
         Task<List<ResumenVentasDiarioDTO>> ResumenVentasMensual(DateTime fechaResumen);
         Task<int> CrearAjusteInventario(AjusteInventarioCrearDTO modelo);

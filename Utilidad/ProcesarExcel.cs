@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Windows.Forms;
 using TiendaLaLojanita.Models.DTO;
 
 namespace TiendaLaLojanita.Utilidad
@@ -14,6 +15,7 @@ namespace TiendaLaLojanita.Utilidad
         (string sheetXml, List<string> sharedStrings) LeerExcel(string rutaArchivo);
         List<ArticuloCreacionDTO> LeerShetArticulo(string sheetXml, List<string> sharedStrings, int idUsuario);
         List<DetalleCompraCreacionDTO> LeerShetDetallesCompra(string sheetXml, List<string> sharedStrings);
+        void ExportarDataGridView(DataGridView tabla, string rutaArchivo, string nombreHoja = "Hoja1");
     }
 
     public class ProcesarExcel : IProcesarExcel
@@ -244,6 +246,142 @@ namespace TiendaLaLojanita.Utilidad
                 }
             }
             return listaDetallesInventario;
+        }
+
+        public void ExportarDataGridView(DataGridView tabla, string rutaArchivo, string nombreHoja = "Hoja1")
+        {
+            ArgumentNullException.ThrowIfNull(tabla);
+
+            if (string.IsNullOrWhiteSpace(rutaArchivo))
+            {
+                throw new ArgumentException("La ruta del archivo es obligatoria.", nameof(rutaArchivo));
+            }
+
+            string hoja = NormalizarNombreHoja(nombreHoja);
+            var columnas = tabla.Columns
+                .Cast<DataGridViewColumn>()
+                .Where(columna => columna.Visible)
+                .OrderBy(columna => columna.DisplayIndex)
+                .ToList();
+
+            using var archivo = new FileStream(rutaArchivo, FileMode.Create, FileAccess.Write, FileShare.None);
+            using var zip = new ZipArchive(archivo, ZipArchiveMode.Create);
+
+            EscribirEntrada(zip, "[Content_Types].xml", $"""
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+                  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+                  <Default Extension="xml" ContentType="application/xml"/>
+                  <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+                  <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+                </Types>
+                """);
+
+            EscribirEntrada(zip, "_rels/.rels", """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+                </Relationships>
+                """);
+
+            EscribirEntrada(zip, "xl/_rels/workbook.xml.rels", """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+                </Relationships>
+                """);
+
+            EscribirEntrada(zip, "xl/workbook.xml", $"""
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+                  <sheets>
+                    <sheet name="{EscaparXml(hoja)}" sheetId="1" r:id="rId1"/>
+                  </sheets>
+                </workbook>
+                """);
+
+            var hojaXml = new StringBuilder();
+            hojaXml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            hojaXml.AppendLine("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
+            hojaXml.AppendLine("  <sheetData>");
+            hojaXml.AppendLine("    <row r=\"1\">");
+
+            for (int indiceColumna = 0; indiceColumna < columnas.Count; indiceColumna++)
+            {
+                AgregarCeldaTexto(hojaXml, indiceColumna, 1, columnas[indiceColumna].HeaderText);
+            }
+
+            hojaXml.AppendLine("    </row>");
+
+            int numeroFila = 2;
+            foreach (DataGridViewRow fila in tabla.Rows)
+            {
+                if (fila.IsNewRow || !fila.Visible)
+                {
+                    continue;
+                }
+
+                hojaXml.AppendLine($"    <row r=\"{numeroFila}\">");
+
+                for (int indiceColumna = 0; indiceColumna < columnas.Count; indiceColumna++)
+                {
+                    object? valor = fila.Cells[columnas[indiceColumna].Index].FormattedValue;
+                    AgregarCeldaTexto(hojaXml, indiceColumna, numeroFila, valor?.ToString() ?? string.Empty);
+                }
+
+                hojaXml.AppendLine("    </row>");
+                numeroFila++;
+            }
+
+            hojaXml.AppendLine("  </sheetData>");
+            hojaXml.AppendLine("</worksheet>");
+
+            EscribirEntrada(zip, "xl/worksheets/sheet1.xml", hojaXml.ToString());
+        }
+
+        private static void AgregarCeldaTexto(StringBuilder hojaXml, int indiceColumna, int numeroFila, string valor)
+        {
+            string referencia = $"{ObtenerLetraColumna(indiceColumna)}{numeroFila}";
+            hojaXml.AppendLine($"      <c r=\"{referencia}\" t=\"inlineStr\"><is><t xml:space=\"preserve\">{EscaparXml(valor)}</t></is></c>");
+        }
+
+        private static string ObtenerLetraColumna(int indice)
+        {
+            var resultado = new StringBuilder();
+            int valor = indice + 1;
+
+            while (valor > 0)
+            {
+                valor--;
+                resultado.Insert(0, (char)('A' + valor % 26));
+                valor /= 26;
+            }
+
+            return resultado.ToString();
+        }
+
+        private static string NormalizarNombreHoja(string? nombreHoja)
+        {
+            string nombre = string.IsNullOrWhiteSpace(nombreHoja) ? "Hoja1" : nombreHoja.Trim();
+            char[] caracteresInvalidos = { ':', '\\', '/', '?', '*', '[', ']' };
+
+            foreach (char caracter in caracteresInvalidos)
+            {
+                nombre = nombre.Replace(caracter, '_');
+            }
+
+            return nombre.Length > 31 ? nombre[..31] : nombre;
+        }
+
+        private static string EscaparXml(string valor) =>
+            System.Security.SecurityElement.Escape(valor) ?? string.Empty;
+
+        private static void EscribirEntrada(ZipArchive zip, string nombre, string contenido)
+        {
+            var entrada = zip.CreateEntry(nombre, CompressionLevel.Fastest);
+            using var stream = entrada.Open();
+            using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+            writer.Write(contenido.Trim());
         }
     }
 }

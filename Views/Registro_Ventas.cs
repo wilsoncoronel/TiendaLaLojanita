@@ -30,6 +30,8 @@ namespace TiendaLaLojanita.Views
         private readonly IVentaService _ventaService;
         private readonly IInventarioService inventarioService;
         private readonly IProveedorService proveedorService;
+        private readonly IImpuestoService impuestoService;
+        private readonly IProcesarExcel procesarExcel;
         private List<ArticuloVentaDTO> listaArticulos;
         private List<Dictionary<string, List<ImpuestoCalculadoDTO>>> listaImpuestos;
         private decimal imp = 0;
@@ -45,7 +47,7 @@ namespace TiendaLaLojanita.Views
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SesionDTO Sesion { get; set; }
         private readonly IPagoVentaService pagoService;
-        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService, IPagoVentaService pagoService)
+        public Registro_Ventas(IClienteService clienteService, IArticuloService articuloService, IVentaService ventaService, IInventarioService inventarioService, IProveedorService proveedorService, IPagoVentaService pagoService, IImpuestoService impuestoService, IProcesarExcel procesarExcel)
         {
             InitializeComponent();
             ConfigurarColumnasDetallesVenta();
@@ -55,6 +57,8 @@ namespace TiendaLaLojanita.Views
             this.inventarioService = inventarioService;
             this.proveedorService = proveedorService;
             this.pagoService = pagoService;
+            this.impuestoService = impuestoService;
+            this.procesarExcel = procesarExcel;
             this.listaArticulos = new List<ArticuloVentaDTO>();
             this.ListaTransacciones = new List<TransaccionInventarioDTO>();
             listaImpuestos = new List<Dictionary<string, List<ImpuestoCalculadoDTO>>>();
@@ -522,18 +526,19 @@ namespace TiendaLaLojanita.Views
             guardar.FileName = $"Venta_{ventaActual.Id}_{ventaActual.Cliente.Nombres}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.pdf";
 
             // El recurso repote_venta está guardado como byte[] en Resources -> convertir a string usando UTF8
-            
 
-            if (guardar.ShowDialog() == DialogResult.OK) {
+
+            if (guardar.ShowDialog() == DialogResult.OK)
+            {
                 using (FileStream stream = new FileStream(guardar.FileName, FileMode.Create))
                 {
 
-                using (PdfWriter writer = new PdfWriter(stream))
-                using (PdfDocument pdf = new PdfDocument(writer))
-                using (Document doc = new Document(pdf, PageSize.A4))
-                {
-                    // Ajustar márgenes si se desea ocupar todo el ancho de la hoja
-                    doc.SetMargins(10f, 10f, 10f, 10f);
+                    using (PdfWriter writer = new PdfWriter(stream))
+                    using (PdfDocument pdf = new PdfDocument(writer))
+                    using (Document doc = new Document(pdf, PageSize.A4))
+                    {
+                        // Ajustar márgenes si se desea ocupar todo el ancho de la hoja
+                        doc.SetMargins(10f, 10f, 10f, 10f);
                         //Encabezado
                         doc.Add(new Paragraph("______________________________________FACTURA______________________________________"))
                             .SetTextAlignment(TextAlignment.CENTER)
@@ -586,7 +591,7 @@ namespace TiendaLaLojanita.Views
                         {
                             decimal totalDetalle = detalle.Cantidad * detalle.ValorVenta;
                             totalVenta += totalDetalle;
-                            tabla.AddCell( Convert.ToString(contador));
+                            tabla.AddCell(Convert.ToString(contador));
                             tabla.AddCell(detalle.Articulo.Nombre);
                             tabla.AddCell(detalle.Cantidad.ToString());
                             tabla.AddCell(detalle.ValorVenta.ToString("C"));
@@ -642,14 +647,14 @@ namespace TiendaLaLojanita.Views
                     if (row.IsNewRow) continue; // Saltar la fila nueva
                     DetalleVentaCreacionDTO detalle = new DetalleVentaCreacionDTO
                     {
-                       
+
                         IdArticulo = Convert.ToInt32(row.Cells["IdArticulo"].Value),
                         Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
                         ValorCompra = Convert.ToDecimal(row.Cells["ValorCompra"].Value),
                         ValorVenta = Convert.ToDecimal(row.Cells["ValorVenta"].Value),
                         ValotTotal = Convert.ToDecimal(row.Cells["ValorTotal"].Value),
                         Descripcion = row.Cells["Descripcion"].Value?.ToString().ToUpper(),
-                       
+
                     };
                     ventaCreacionDTO.DetalleVentaCreacionDto.Add(detalle);
                 }
@@ -947,7 +952,7 @@ namespace TiendaLaLojanita.Views
         private async Task ReversarCompra(int idVenta, string documento)
         {
             var resp = await this._ventaService.ReversarVenta(idVenta, documento);
-            if(resp)
+            if (resp)
             {
                 MessageBox.Show($"Venta reversada correctamente!!", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -959,7 +964,7 @@ namespace TiendaLaLojanita.Views
 
         private void AbrirPago(int idVenta)
         {
-            Pagos pagoForm = new Pagos(idVenta, this._ventaService, this.pagoService);
+            Pagos pagoForm = new Pagos(idVenta, this._ventaService, this.pagoService, this.clienteService, this.procesarExcel);
             pagoForm.StartPosition = FormStartPosition.CenterScreen;
             pagoForm.ShowDialog();
         }
@@ -1010,7 +1015,7 @@ namespace TiendaLaLojanita.Views
 
         private void txtArticuloBusqueda_KeyDown(object sender, KeyEventArgs e)
         {
-            
+
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evita el sonido "ding"
@@ -1066,7 +1071,7 @@ namespace TiendaLaLojanita.Views
 
         private async Task<List<InventarioLoteDTO>> ProcesarExistencias()
         {
-            
+
             var ListaExistenciasArticulos = await this.inventarioService.ExistenciasInventario(true);
             return ListaExistenciasArticulos;
         }
@@ -1097,7 +1102,7 @@ namespace TiendaLaLojanita.Views
         {
             this.txtTotal.Text = string.IsNullOrWhiteSpace(this.txtTotal.Text) ? "0" : this.txtTotal.Text;
             var valorSinTrans = Convert.ToDecimal(this.txtTotal.Text) - Convert.ToDecimal(this.txtPago.Text);
-            if(valorSinTrans < 0)
+            if (valorSinTrans < 0)
             {
                 valorSinTrans = valorSinTrans * -1;
             }
@@ -1160,7 +1165,7 @@ namespace TiendaLaLojanita.Views
                 respEditar = await this.CargarEditarVenta();
             }
         }
-        
+
         private PagoVentaCreacionDTO? CargarPagoVenta(decimal totalVenta)
         {
             using Registro_Pago_Venta pago = new Registro_Pago_Venta(totalVenta)
@@ -1224,6 +1229,22 @@ namespace TiendaLaLojanita.Views
             }
             var respEdit = await this._ventaService.EditarVenta(ventaEditar);
             return respEdit;
+        }
+
+        private void btnPagos_Click(object sender, EventArgs e)
+        {
+            Pagos pagoForm = new Pagos(0, this._ventaService, this.pagoService, this.clienteService, this.procesarExcel);
+            pagoForm.ConfigurarModoConsulta();
+            pagoForm.StartPosition = FormStartPosition.CenterScreen;
+            pagoForm.ShowDialog(this);
+
+        }
+
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            Reportes_Ventas reporteForm = new Reportes_Ventas(this.inventarioService, this.impuestoService, this.procesarExcel);
+            reporteForm.StartPosition = FormStartPosition.CenterScreen;
+            reporteForm.ShowDialog(this);
         }
     }
 }

@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class Reportes_Ventas : Form
+    {
+        private readonly IInventarioService inventarioService;
+        private readonly IImpuestoService impuestoService;
+        private List<TipoImpuestoDTO> listaTipoImpuestos = new();
+
+        public Reportes_Ventas(IInventarioService inventarioService, IImpuestoService impuestoService)
+        {
+            InitializeComponent();
+            this.inventarioService = inventarioService;
+            this.impuestoService = impuestoService;
+        }
+
+        private async void Reportes_Ventas_Load(object sender, EventArgs e)
+        {
+            this.listaTipoImpuestos = await this.impuestoService.ListarTipoImpuestos();
+            this.ActualizarEstadoControles();
+        }
+
+        private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.ActualizarEstadoControles();
+        }
+
+        private void ActualizarEstadoControles()
+        {
+            bool esRangoVentas = string.Equals(
+                this.cbxReportes.SelectedItem?.ToString(),
+                "Reporte Ventas Rango Fecha",
+                StringComparison.OrdinalIgnoreCase);
+
+            this.dateTimePicker1.Enabled = esRangoVentas;
+            this.dateTimePicker2.Enabled = esRangoVentas;
+            this.btnBuscar.Enabled = esRangoVentas;
+        }
+
+        private async void btnBuscar_Click(object sender, EventArgs e)
+        {
+            await this.CargarReporteVentasRango();
+        }
+    }
+}

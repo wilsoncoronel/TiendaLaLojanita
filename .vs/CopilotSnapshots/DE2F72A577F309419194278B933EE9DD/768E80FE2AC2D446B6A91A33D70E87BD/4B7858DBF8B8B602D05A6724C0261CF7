@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
+using TiendaLaLojanita.Models.Interfaces;
+using TiendaLaLojanita.Utilidad;
+
+namespace TiendaLaLojanita.Views
+{
+    public partial class Reportes_Ventas : Form
+    {
+        private readonly IInventarioService inventarioService;
+        private readonly IImpuestoService impuestoService;
+        private List<TipoImpuestoDTO> listaTipoImpuestos = new();
+
+        public Reportes_Ventas(IInventarioService inventarioService, IImpuestoService impuestoService)
+        {
+            InitializeComponent();
+            this.inventarioService = inventarioService;
+            this.impuestoService = impuestoService;
+        }
+
+        private async void Reportes_Ventas_Load(object sender, EventArgs e)
+        {
+            this.listaTipoImpuestos = await this.impuestoService.ListarTipoImpuestos();
+            this.ActualizarEstadoControles();
+        }
+
+        private void cbxReportes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.ActualizarEstadoControles();
+        }
+
+        private void ActualizarEstadoControles()
+        {
+            bool esRangoVentas = string.Equals(
+                this.cbxReportes.SelectedItem?.ToString(),
+                "Reporte Ventas Rango Fecha",
+                StringComparison.OrdinalIgnoreCase);
+
+            this.dateTimePicker1.Enabled = esRangoVentas;
+            this.dateTimePicker2.Enabled = esRangoVentas;
+            this.btnBuscar.Enabled = esRangoVentas;
+        }
+
+        private async void btnBuscar_Click(object sender, EventArgs e)
+        {
+            await this.CargarReporteVentasRango();
+        }
+
+        private async Task CargarReporteVentasRango()
+        {
+            if (!string.Equals(
+                    this.cbxReportes.SelectedItem?.ToString(),
+                    "Reporte Ventas Rango Fecha",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            DateTime fechaInicio = this.dateTimePicker1.Value.Date;
+            DateTime fechaFinal = this.dateTimePicker2.Value.Date;
+
+            if (fechaInicio > fechaFinal)
+            {
+                MessageBox.Show(
+                    "La fecha de inicio no puede ser posterior a la fecha final.",
+                    "Rango inválido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            ProgressBar? progress = null;
+            try
+            {
+                this.btnBuscar.Enabled = false;
+                progress = new ProgressBar();
+                progress.StartPosition = FormStartPosition.CenterScreen;
+                progress.Show(this);
+                await Task.Yield();
+
+                var respuesta = await this.inventarioService.ResumenVentasRangoFecha(fechaInicio, fechaFinal);
+                this.ProcesarResumenVentas(respuesta ?? new List<ResumenVentasDiarioDTO>());
+
+                if (respuesta == null || respuesta.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron ventas en el rango seleccionado.",
+                        "Resumen de ventas",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                var resumen = new FormularioResumenVentas(respuesta);
+                resumen.StartPosition = FormStartPosition.CenterScreen;
+                resumen.Show(this);
+                progress.Close();
+
+                MessageBox.Show(
+                    "Resumen cargado correctamente.",
+                    "Resumen de ventas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"No se pudo cargar el resumen de ventas: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progress?.Close();
+                progress?.Dispose();
+                this.ActualizarEstadoControles();
+            }
+        }
+
+        private void ProcesarResumenVentas(List<ResumenVentasDiarioDTO> resumen)
+        {
+            foreach (var item in resumen)
+            {
+                var impuestosAcumulados = new Dictionary<int, decimal>();
+
+                foreach (var impuesto in item.Impuestos ?? new List<DetalleImpuestoDTO>())
+                {
+                    decimal valorImpuesto = CalcularImpuestos.Calcular(
+                        impuesto.IdTipoCalculo,
+                        item.ValorCompra,
+                        item.CantidadVendida,
+                        impuesto.Valor,
+                        this.listaTipoImpuestos);
+
+                    impuestosAcumulados[impuesto.IdImpuesto] =
+                        impuestosAcumulados.GetValueOrDefault(impuesto.IdImpuesto) + valorImpuesto;
+                }
+
+                item.ValorCompra += impuestosAcumulados.Values.Sum();
+                item.UtilidadBruta = item.ValorVenta - item.ValorCompra;
+            }
+        }
+    }
+}

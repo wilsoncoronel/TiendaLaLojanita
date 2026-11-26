@@ -82,6 +82,9 @@
     <Compile Update="Views\Registro_Ventas.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Reportes_Ventas.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Views\ArticulosConfiguracion.resx">

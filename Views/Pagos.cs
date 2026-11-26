@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TiendaLaLojanita.Models.DTO;
 using TiendaLaLojanita.Models.Interfaces;
 using TiendaLaLojanita.Utilidad;
 using TiendaLaLojanita.Validaciones;
@@ -20,40 +21,233 @@ namespace TiendaLaLojanita.Views
         private int idVenta;
         private readonly IVentaService _ventaService;
         private readonly IPagoVentaService _pagoService;
+        private readonly IClienteService _clienteService;
+        private readonly IProcesarExcel procesarExcel;
         private List<TipoPagoDTO> _tiposPagos;
         private List<EstadosPagoDTO> _estadosPagos;
+        private List<ClienteDTO> _clientes;
         private PagoVentaCompletoDTO _pagoVenta;
         private bool cargando;
-        public Pagos(int idVenta, IVentaService ventaService, IPagoVentaService pagoService)
+        private bool filtrandoClientes;
+        private bool modoConsulta;
+        public Pagos(int idVenta, IVentaService ventaService, IPagoVentaService pagoService, IClienteService clienteService, IProcesarExcel procesarExcel)
         {
             InitializeComponent();
             this.idVenta = idVenta;
             this._ventaService = ventaService;
             this._pagoService = pagoService;
+            this._clienteService = clienteService;
+            this.procesarExcel = procesarExcel;
             this._tiposPagos = new List<TipoPagoDTO>();
             this._estadosPagos = new List<EstadosPagoDTO>();
-            dgvDetallePago.DefaultValuesNeeded += dgvDetallePago_DefaultValuesNeeded;
-            dgvDetallePago.CellBeginEdit += dgvDetallePago_CellBeginEdit;
-            dgvDetallePago.EditingControlShowing += dgvDetallePago_EditingControlShowing;
-            dgvDetallePago.CellValueChanged += dgvDetallePago_CellValueChanged;
-            dgvDetallePago.RowsRemoved += dgvDetallePago_RowsRemoved;
-            btnGuardar.Click += btnGuardar_Click;
-            btnCancelar.Click += btnCancelar_Click;
+            this._clientes = new List<ClienteDTO>();
+            ConfigurarComboClientes();
+            dgvPagos.ReadOnly = true;
+            dgvPagos.AllowUserToAddRows = false;
+            dgvPagos.AllowUserToDeleteRows = false;
+            dgvDetallesPagos.ReadOnly = true;
+            dgvDetallesPagos.AllowUserToAddRows = false;
+            dgvDetallesPagos.AllowUserToDeleteRows = false;
+            dgvDetallePago.DefaultValuesNeeded += dgvDetallePago_DefaultValuesNeeded_1;
+            dgvDetallePago.CellBeginEdit += dgvDetallePago_CellBeginEdit_1;
+            dgvDetallePago.EditingControlShowing += dgvDetallePago_EditingControlShowing_1;
+            dgvDetallePago.CellValueChanged += dgvDetallePago_CellValueChanged_1;
+            dgvDetallePago.RowsRemoved += dgvDetallePago_RowsRemoved_1;
+            btnGuardar.Click += btnGuardar_Click_1;
+            btnCancelar.Click += btnCancelar_Click_1;
+            btnBuscarPago.Click += btnBuscarPago_Click;
+            dgvPagos.CellClick += dgvPagos_CellClick;
+        }
+
+        public void ConfigurarModoConsulta()
+        {
+            modoConsulta = true;
+            tabPage1.Enabled = false;
+            tabControl1.SelectedTab = tabPage2;
+        }
+
+        private void ConfigurarComboClientes()
+        {
+            cbxCliente.DropDownStyle = ComboBoxStyle.DropDown;
+            cbxCliente.AutoCompleteMode = AutoCompleteMode.None;
+            cbxCliente.AutoCompleteSource = AutoCompleteSource.None;
+            cbxCliente.DisplayMember = nameof(ClienteDTO.Nombres);
+            cbxCliente.ValueMember = nameof(ClienteDTO.Id);
+            cbxCliente.Format += cbxCliente_Format;
+            cbxCliente.TextUpdate += cbxCliente_TextUpdate;
+        }
+
+        private void cbxCliente_Format(object? sender, ListControlConvertEventArgs e)
+        {
+            if (e.ListItem is ClienteDTO cliente)
+            {
+                e.Value = ObtenerNombreCliente(cliente);
+            }
+        }
+
+        private async void dgvPagos_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            if (!int.TryParse(Convert.ToString(dgvPagos.Rows[e.RowIndex].Cells[nameof(IdPag)].Value), out int idPago)
+                || idPago <= 0)
+            {
+                return;
+            }
+
+            txtTotalPagos.Text = 0m.ToString("N2");
+            ProgressBar? progreso = null;
+            try
+            {
+                progreso = new ProgressBar();
+                progreso.StartPosition = FormStartPosition.CenterParent;
+                progreso.Show(this);
+
+                var detalles = await _pagoService.ListaDetallesPagos(idPago);
+                dgvDetallesPagos.Rows.Clear();
+                foreach (var detalle in detalles)
+                {
+                    dgvDetallesPagos.Rows.Add(
+                        detalle.Id,
+                        detalle.TipoPagoDTO?.Nombre,
+                        detalle.Valor,
+                        detalle.NumeroComprobante,
+                        detalle.FechaPago,
+                        detalle.Nota,
+                        detalle.Estado ? "ACTIVO" : "ANULADO");
+                }
+
+                decimal totalPagos = detalles
+                    .Where(detalle => detalle.Estado)
+                    .Sum(detalle => detalle.Valor);
+                txtTotalPagos.Text = totalPagos.ToString("N2");
+
+                if (detalles.Count == 0)
+                {
+                    MessageBox.Show("El pago seleccionado no tiene detalles.", "Información",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los detalles del pago: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso?.Close();
+                progreso?.Dispose();
+            }
+        }
+
+        private static void AplicarColorEstado(DataGridViewRow fila, string? estado)
+        {
+            Color color = (estado ?? string.Empty).Trim().ToUpperInvariant() switch
+            {
+                "PENDIENTE" => Color.LightCoral,
+                "PARCIAL" => Color.LightYellow,
+                "PAGADO" => Color.LightGreen,
+                _ => Color.White
+            };
+
+            fila.DefaultCellStyle.BackColor = color;
+            fila.DefaultCellStyle.ForeColor = Color.Black;
+            fila.DefaultCellStyle.SelectionBackColor = ControlPaint.Dark(color);
+            fila.DefaultCellStyle.SelectionForeColor = Color.White;
+        }
+
+        private void cbxCliente_TextUpdate(object? sender, EventArgs e)
+        {
+            if (filtrandoClientes)
+            {
+                return;
+            }
+
+            string texto = cbxCliente.Text;
+            string filtro = texto.Trim();
+            var clientesFiltrados = _clientes
+                .Where(x => ObtenerNombreCliente(x).Contains(filtro, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            filtrandoClientes = true;
+            cbxCliente.DataSource = clientesFiltrados;
+            cbxCliente.DisplayMember = nameof(ClienteDTO.Nombres);
+            cbxCliente.ValueMember = nameof(ClienteDTO.Id);
+            cbxCliente.Text = texto;
+            cbxCliente.SelectionStart = texto.Length;
+            cbxCliente.SelectionLength = 0;
+            cbxCliente.DroppedDown = clientesFiltrados.Count > 0 && !string.IsNullOrWhiteSpace(filtro);
+            filtrandoClientes = false;
+        }
+
+        private static string ObtenerNombreCliente(ClienteDTO? cliente)
+        {
+            return cliente is null ? string.Empty : $"{cliente.Nombres} {cliente.Apellidos}".Trim();
         }
 
         private async void Pagos_Load(object sender, EventArgs e)
         {
             try
             {
-                this._pagoVenta = await CargarPago();
                 this._tiposPagos = await _pagoService.ListarTiposPagos();
                 this._estadosPagos = await _pagoService.ListarEstadosPagos();
+                await CargarClientes();
+
+                if (idVenta <= 0)
+                {
+                    ConfigurarModoConsulta();
+                    return;
+                }
+
+                this._pagoVenta = await CargarPago();
                 CargarPagoView();
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"No se pudieron cargar los datos del pago: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task CargarClientes()
+        {
+            ProgressBar? progreso = null;
+            try
+            {
+                progreso = new ProgressBar();
+                progreso.StartPosition = FormStartPosition.CenterParent;
+                progreso.Show(this);
+                _clientes = await _clienteService.ListarClientes() ?? new List<ClienteDTO>();
+                cbxCliente.DataSource = _clientes;
+                cbxCliente.DisplayMember = nameof(ClienteDTO.Nombres);
+                cbxCliente.ValueMember = nameof(ClienteDTO.Id);
+                cbxCliente.SelectedIndex = -1;
+                cbxCliente.Text = string.Empty;
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los clientes: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso?.Close();
+                progreso?.Dispose();
             }
         }
         private async Task<PagoVentaCompletoDTO> CargarPago()
@@ -124,46 +318,6 @@ namespace TiendaLaLojanita.Views
             ActualizarResumenVisual();
         }
 
-        private void dgvDetallePago_DefaultValuesNeeded(object? sender, DataGridViewRowEventArgs e)
-        {
-            e.Row.Tag = true;
-            e.Row.Cells[nameof(FechaPago)].Value = DateTime.Now;
-            e.Row.Cells[nameof(Estado)].Value = true;
-        }
-
-        private void dgvDetallePago_CellBeginEdit(object? sender, DataGridViewCellCancelEventArgs e)
-        {
-            if (e.RowIndex >= 0 && dgvDetallePago.Rows[e.RowIndex].Tag is not true)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void dgvDetallePago_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (dgvDetallePago.CurrentCell?.OwningColumn?.Name == nameof(Valor)
-                && e.Control is TextBox textBox)
-            {
-                ValidacionesDecimales.Aplicar(textBox, 2);
-            }
-        }
-
-        private void dgvDetallePago_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
-        {
-            if (!cargando)
-            {
-                ActualizarResumenVisual();
-            }
-        }
-
-        private void dgvDetallePago_RowsRemoved(object? sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            if (!cargando)
-            {
-                ActualizarResumenVisual();
-            }
-        }
-
         private void ActualizarResumenVisual()
         {
             if (_pagoVenta is null)
@@ -198,8 +352,13 @@ namespace TiendaLaLojanita.Views
             dgvDetallePago.AllowUserToAddRows = saldo > 0m;
         }
 
-        private async void btnGuardar_Click(object? sender, EventArgs e)
+        private async void btnGuardar_Click_1(object sender, EventArgs e)
         {
+            if (modoConsulta)
+            {
+                return;
+            }
+
             if (_pagoVenta is null || _pagoVenta.SaldoPendiente == 0m)
             {
                 MessageBox.Show("No existe saldo pendiente para registrar.", "Información",
@@ -264,9 +423,176 @@ namespace TiendaLaLojanita.Views
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void btnCancelar_Click(object? sender, EventArgs e)
+        private void btnCancelar_Click_1(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void dgvDetallePago_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!cargando)
+            {
+                ActualizarResumenVisual();
+            }
+        }
+
+        private void dgvDetallePago_RowsRemoved_1(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            if (!cargando)
+            {
+                ActualizarResumenVisual();
+            }
+        }
+
+        private void dgvDetallePago_EditingControlShowing_1(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgvDetallePago.CurrentCell?.OwningColumn?.Name == nameof(Valor)
+                && e.Control is TextBox textBox)
+            {
+                ValidacionesDecimales.Aplicar(textBox, 2);
+            }
+        }
+
+        private void dgvDetallePago_CellBeginEdit_1(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvDetallePago.Rows[e.RowIndex].Tag is not true)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void dgvDetallePago_DefaultValuesNeeded_1(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.Tag = true;
+            e.Row.Cells[nameof(FechaPago)].Value = DateTime.Now;
+            e.Row.Cells[nameof(Estado)].Value = true;
+        }
+
+        private async void btnBuscarPago_Click(object sender, EventArgs e)
+        {
+            if (cbxCliente.SelectedItem is not ClienteDTO cliente)
+            {
+                MessageBox.Show("Seleccione un cliente.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DateOnly fechaInicial = DateOnly.FromDateTime(dtpInicio.Value);
+            DateOnly fechaFinal = DateOnly.FromDateTime(dtpFinal.Value);
+            if (fechaInicial > fechaFinal)
+            {
+                MessageBox.Show("La fecha inicial no puede ser posterior a la fecha final.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            ProgressBar? progreso = null;
+            try
+            {
+                progreso = new ProgressBar();
+                progreso.StartPosition = FormStartPosition.CenterParent;
+                progreso.Show(this);
+
+                var pagos = await _pagoService.ListarPagosConCliente(fechaInicial, fechaFinal, cliente.Id);
+                dgvPagos.Rows.Clear();
+                dgvDetallesPagos.Rows.Clear();
+
+                foreach (var pago in pagos)
+                {
+                    int indice = dgvPagos.Rows.Add(
+                        pago.Id,
+                        ObtenerNombreCliente(pago.VentaDTO?.Cliente),
+                        pago.VentaDTO?.Id,
+                        pago.TotalVenta,
+                        pago.TotalPagado,
+                        pago.SaldoPendiente,
+                        pago.IdEstadoPago,
+                        pago.EstadosPagoDTO?.Nombre,
+                        pago.Nota,
+                        pago.FechaCreacion,
+                        pago.FechaPago);
+
+                    AplicarColorEstado(dgvPagos.Rows[indice], pago.EstadosPagoDTO?.Nombre);
+                }
+
+                if (pagos.Count == 0)
+                {
+                    MessageBox.Show("No existen pagos para los filtros seleccionados.", "Información",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                MessageBox.Show("Pagos cargados correctamente.", "Información",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (ApiException ex)
+            {
+                ApiErrorHandler.Mostrar(ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los pagos: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                progreso?.Close();
+                progreso?.Dispose();
+            }
+        }
+
+        private void btnExportarExcel_Click(object sender, EventArgs e)
+        {
+            bool tieneDatos = dgvPagos.Rows
+                .Cast<DataGridViewRow>()
+                .Any(fila => !fila.IsNewRow && fila.Visible);
+
+            if (!tieneDatos)
+            {
+                MessageBox.Show(
+                    "No existen datos en la tabla de pagos para exportar.",
+                    "Exportación de pagos",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            using var dialogo = new SaveFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = "xlsx",
+                FileName = $"Pagos_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                Filter = "Archivo de Excel (*.xlsx)|*.xlsx",
+                OverwritePrompt = true,
+                Title = "Guardar pagos"
+            };
+
+            if (dialogo.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                this.procesarExcel.ExportarDataGridView(
+                    this.dgvPagos,
+                    dialogo.FileName,
+                    "Pagos");
+
+                MessageBox.Show(
+                    "El archivo de pagos se exportó correctamente.",
+                    "Exportación completada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"No se pudo exportar el archivo de pagos: {ex.Message}",
+                    "Error de exportación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

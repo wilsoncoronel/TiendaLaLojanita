@@ -225,14 +225,14 @@ namespace TiendaLaLojanita.Views
                 if (msn == "Resumen Ventas al Día")
                 {
                     var resp = await this.ResumenVentasDiarioDTO();
-                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
+                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp, this.procesarExcel);
                     resVentas.StartPosition = FormStartPosition.CenterScreen;
                     resVentas.Show();
                 }
                 else
                 {
                     var resp = await this.ResumenVentasMensualDTO();
-                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp);
+                    FormularioResumenVentas resVentas = new FormularioResumenVentas(resp, this.procesarExcel);
                     resVentas.StartPosition = FormStartPosition.CenterScreen;
                     resVentas.Show();
                 }

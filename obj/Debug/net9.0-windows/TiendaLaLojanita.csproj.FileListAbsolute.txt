@@ -235,3 +235,4 @@ E:\proyectos\TiendaLaLojanita\bin\ValidationBuild2\System.Text.Json.dll
 E:\proyectos\TiendaLaLojanita\bin\ValidationBuild2\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 E:\proyectos\TiendaLaLojanita\bin\ValidationBuild2\runtimes\win\lib\net9.0\System.Text.Encodings.Web.dll
 E:\proyectos\TiendaLaLojanita\bin\Debug\net9.0-windows\TiendaLaLojanita.exe
+E:\proyectos\TiendaLaLojanita\obj\Debug\net9.0-windows\TiendaLaLojanita.Views.Reportes_Ventas.resources

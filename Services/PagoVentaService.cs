@@ -28,14 +28,20 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<DetallesPagoDTO>> ListaDetallesPagos(int idPago)
+        public async Task<List<DetallesPagoDTO>> ListaDetallesPagos(int idPago)
+        {
+            var response = await _apiClient.GetAsync<List<DetallesPagoDTO>>($"api/Pagos/ListaDetallesPagos?idPago={idPago}");
+            return response.Value ?? new List<DetallesPagoDTO>();
+        }
+        public Task<List<PagosVentasDTO>> ListarPagos(DateOnly fechaInicial, DateOnly fechaFinal)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<PagosVentasDTO>> ListarPagos(DateOnly fechaInicial, DateOnly fechaFinal)
+        public async Task<List<PagosVentasDTO>> ListarPagosConCliente(DateOnly fechaInicial, DateOnly fechaFinal, int idCliente)
         {
-            throw new NotImplementedException();
+            var response = await _apiClient.GetAsync<List<PagosVentasDTO>>($"api/Pagos/ListarPagosConCliente?fechaInicial={fechaInicial:yyyy-MM-dd}&fechaFinal={fechaFinal:yyyy-MM-dd}&idCliente={idCliente}");
+            return response.Value ?? new List<PagosVentasDTO>();
         }
 
         public Task<int> ObtenerIdEstadoAsync(string nombre)

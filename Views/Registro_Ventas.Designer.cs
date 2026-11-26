@@ -110,6 +110,9 @@
             txtCambio = new TextBox();
             txtPago = new TextBox();
             label19 = new Label();
+            btnPagos = new Button();
+            menuStrip1 = new MenuStrip();
+            btnReportes = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -737,7 +740,7 @@
             // btnGuardar
             // 
             btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
-            btnGuardar.Location = new Point(1210, 446);
+            btnGuardar.Location = new Point(1212, 518);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(250, 64);
             btnGuardar.TabIndex = 5;
@@ -747,7 +750,7 @@
             // btnCancelar
             // 
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
-            btnCancelar.Location = new Point(1210, 516);
+            btnCancelar.Location = new Point(1212, 588);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(250, 64);
             btnCancelar.TabIndex = 6;
@@ -805,7 +808,7 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(1218, 357);
+            label18.Location = new Point(1220, 443);
             label18.Name = "label18";
             label18.Size = new Size(52, 15);
             label18.TabIndex = 10;
@@ -814,14 +817,14 @@
             // txtCambio
             // 
             txtCambio.Enabled = false;
-            txtCambio.Location = new Point(1276, 354);
+            txtCambio.Location = new Point(1278, 440);
             txtCambio.Name = "txtCambio";
             txtCambio.Size = new Size(186, 23);
             txtCambio.TabIndex = 11;
             // 
             // txtPago
             // 
-            txtPago.Location = new Point(1276, 299);
+            txtPago.Location = new Point(1278, 385);
             txtPago.Name = "txtPago";
             txtPago.Size = new Size(186, 23);
             txtPago.TabIndex = 13;
@@ -830,17 +833,47 @@
             // label19
             // 
             label19.AutoSize = true;
-            label19.Location = new Point(1216, 307);
+            label19.Location = new Point(1218, 393);
             label19.Name = "label19";
             label19.Size = new Size(34, 15);
             label19.TabIndex = 12;
             label19.Text = "Pago";
+            // 
+            // btnPagos
+            // 
+            btnPagos.Image = Properties.Resources.pago;
+            btnPagos.Location = new Point(1210, 117);
+            btnPagos.Name = "btnPagos";
+            btnPagos.Size = new Size(252, 71);
+            btnPagos.TabIndex = 14;
+            btnPagos.UseVisualStyleBackColor = true;
+            btnPagos.Click += btnPagos_Click;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1474, 24);
+            menuStrip1.TabIndex = 15;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // btnReportes
+            // 
+            btnReportes.Image = Properties.Resources.xls_reduce2;
+            btnReportes.Location = new Point(1210, 271);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Size = new Size(252, 71);
+            btnReportes.TabIndex = 16;
+            btnReportes.UseVisualStyleBackColor = true;
+            btnReportes.Click += btnReportes_Click;
             // 
             // Registro_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1474, 694);
+            Controls.Add(btnReportes);
+            Controls.Add(btnPagos);
             Controls.Add(txtPago);
             Controls.Add(label19);
             Controls.Add(txtCambio);
@@ -852,6 +885,8 @@
             Controls.Add(groupBox4);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "Registro_Ventas";
             Text = "Registro_Ventas";
             Load += Registro_Ventas_Load;
@@ -962,5 +997,8 @@
         private DataGridViewImageColumn Editar;
         private DataGridViewImageColumn Reversar;
         private DataGridViewImageColumn VerPago;
+        private Button btnPagos;
+        private MenuStrip menuStrip1;
+        private Button btnReportes;
     }
 }

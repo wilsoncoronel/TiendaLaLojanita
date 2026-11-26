@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            btnExportarExcel = new Button();
             txtGanancia = new TextBox();
             label2 = new Label();
             txtTotalVentas = new TextBox();
@@ -36,8 +37,11 @@
             dgvResumenDiario = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
             Articulo = new DataGridViewTextBoxColumn();
+            Transaccion = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             ValorCompra = new DataGridViewTextBoxColumn();
+            Impuestos = new DataGridViewTextBoxColumn();
+            TotalCompra = new DataGridViewTextBoxColumn();
             ValorVenta = new DataGridViewTextBoxColumn();
             Ganancia = new DataGridViewTextBoxColumn();
             groupBox1.SuspendLayout();
@@ -46,6 +50,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnExportarExcel);
             groupBox1.Controls.Add(txtGanancia);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtTotalVentas);
@@ -53,15 +58,25 @@
             groupBox1.Controls.Add(dgvResumenDiario);
             groupBox1.Location = new Point(8, 4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(780, 434);
+            groupBox1.Size = new Size(1139, 327);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Ventas Resumen";
             // 
+            // btnExportarExcel
+            // 
+            btnExportarExcel.Image = Properties.Resources.xls_reduce2;
+            btnExportarExcel.Location = new Point(897, 106);
+            btnExportarExcel.Name = "btnExportarExcel";
+            btnExportarExcel.Size = new Size(215, 40);
+            btnExportarExcel.TabIndex = 5;
+            btnExportarExcel.UseVisualStyleBackColor = true;
+            btnExportarExcel.Click += btnExportarExcel_Click;
+            // 
             // txtGanancia
             // 
             txtGanancia.Enabled = false;
-            txtGanancia.Location = new Point(559, 369);
+            txtGanancia.Location = new Point(897, 63);
             txtGanancia.Name = "txtGanancia";
             txtGanancia.Size = new Size(215, 23);
             txtGanancia.TabIndex = 4;
@@ -69,7 +84,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(466, 372);
+            label2.Location = new Point(804, 66);
             label2.Name = "label2";
             label2.Size = new Size(87, 15);
             label2.TabIndex = 3;
@@ -78,7 +93,7 @@
             // txtTotalVentas
             // 
             txtTotalVentas.Enabled = false;
-            txtTotalVentas.Location = new Point(559, 325);
+            txtTotalVentas.Location = new Point(897, 19);
             txtTotalVentas.Name = "txtTotalVentas";
             txtTotalVentas.Size = new Size(215, 23);
             txtTotalVentas.TabIndex = 2;
@@ -86,7 +101,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(466, 328);
+            label1.Location = new Point(804, 22);
             label1.Name = "label1";
             label1.Size = new Size(72, 15);
             label1.TabIndex = 1;
@@ -94,11 +109,12 @@
             // 
             // dgvResumenDiario
             // 
+            dgvResumenDiario.AllowUserToAddRows = false;
             dgvResumenDiario.AllowUserToDeleteRows = false;
             dgvResumenDiario.AllowUserToOrderColumns = true;
             dgvResumenDiario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvResumenDiario.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Cantidad, ValorCompra, ValorVenta, Ganancia });
-            dgvResumenDiario.Location = new Point(9, 28);
+            dgvResumenDiario.Columns.AddRange(new DataGridViewColumn[] { Id, Articulo, Transaccion, Cantidad, ValorCompra, Impuestos, TotalCompra, ValorVenta, Ganancia });
+            dgvResumenDiario.Location = new Point(17, 22);
             dgvResumenDiario.Name = "dgvResumenDiario";
             dgvResumenDiario.Size = new Size(765, 291);
             dgvResumenDiario.TabIndex = 0;
@@ -115,6 +131,12 @@
             Articulo.Name = "Articulo";
             Articulo.ReadOnly = true;
             // 
+            // Transaccion
+            // 
+            Transaccion.HeaderText = "Transacción";
+            Transaccion.Name = "Transaccion";
+            Transaccion.ReadOnly = true;
+            // 
             // Cantidad
             // 
             Cantidad.HeaderText = "Cantidad";
@@ -126,6 +148,18 @@
             ValorCompra.HeaderText = "Valor Compra";
             ValorCompra.Name = "ValorCompra";
             ValorCompra.ReadOnly = true;
+            // 
+            // Impuestos
+            // 
+            Impuestos.HeaderText = "Impuestos";
+            Impuestos.Name = "Impuestos";
+            Impuestos.ReadOnly = true;
+            // 
+            // TotalCompra
+            // 
+            TotalCompra.HeaderText = "Total Compra";
+            TotalCompra.Name = "TotalCompra";
+            TotalCompra.ReadOnly = true;
             // 
             // ValorVenta
             // 
@@ -143,7 +177,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1159, 339);
             Controls.Add(groupBox1);
             Name = "FormularioResumenVentas";
             Text = "FormularioResumenVentas";
@@ -158,15 +192,19 @@
 
         private GroupBox groupBox1;
         private DataGridView dgvResumenDiario;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Articulo;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn ValorCompra;
-        private DataGridViewTextBoxColumn ValorVenta;
-        private DataGridViewTextBoxColumn Ganancia;
         private TextBox txtGanancia;
         private Label label2;
         private TextBox txtTotalVentas;
         private Label label1;
+        private Button btnExportarExcel;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Articulo;
+        private DataGridViewTextBoxColumn Transaccion;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn ValorCompra;
+        private DataGridViewTextBoxColumn Impuestos;
+        private DataGridViewTextBoxColumn TotalCompra;
+        private DataGridViewTextBoxColumn ValorVenta;
+        private DataGridViewTextBoxColumn Ganancia;
     }
 }

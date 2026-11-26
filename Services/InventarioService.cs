@@ -51,6 +51,16 @@ namespace TiendaLaLojanita.Services
             var response = await this._apiClient.PostAsync<int>($"api/Inventario/RegistrarTransaccionInventario", traInventario);
             return response.Value;
         }
+
+        public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasRangoFecha(DateTime fechaInicio, DateTime fechaFinal)
+        {
+            var fechaInicioStr = DateOnly.FromDateTime(fechaInicio).ToString("yyyy-MM-dd");
+            var fechaFinalStr = DateOnly.FromDateTime(fechaFinal).ToString("yyyy-MM-dd");
+            var response = await _apiClient.GetAsync<List<ResumenVentasDiarioDTO>>(
+                $"api/Inventario/ResumenVentasDiario?fechaInicio={fechaInicioStr}&fechaFinal={fechaFinalStr}");
+            return response.Value;
+        }
+
         public async Task<List<ResumenVentasDiarioDTO>> ResumenVentasDiario(DateTime fechaResumen)
         {   
             DateOnly fechaActual = DateOnly.FromDateTime(fechaResumen);
