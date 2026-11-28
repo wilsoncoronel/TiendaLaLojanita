@@ -58,6 +58,7 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            btnExportarExcel = new Button();
             txtTotalPagos = new TextBox();
             label11 = new Label();
             label10 = new Label();
@@ -87,7 +88,8 @@
             FechaCierre = new DataGridViewTextBoxColumn();
             btnBuscarPago = new Button();
             label8 = new Label();
-            btnExportarExcel = new Button();
+            label12 = new Label();
+            cbxPagosVenta = new ComboBox();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDetallePago).BeginInit();
@@ -100,6 +102,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(cbxPagosVenta);
+            groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(dtpFechaPago);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(dtpFechaCreacion);
@@ -123,7 +127,7 @@
             // 
             // dtpFechaPago
             // 
-            dtpFechaPago.Location = new Point(491, 160);
+            dtpFechaPago.Location = new Point(491, 166);
             dtpFechaPago.Name = "dtpFechaPago";
             dtpFechaPago.Size = new Size(268, 23);
             dtpFechaPago.TabIndex = 13;
@@ -131,7 +135,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(405, 164);
+            label7.Location = new Point(405, 170);
             label7.Name = "label7";
             label7.Size = new Size(71, 15);
             label7.TabIndex = 12;
@@ -139,14 +143,14 @@
             // 
             // dtpFechaCreacion
             // 
-            dtpFechaCreacion.Location = new Point(121, 160);
+            dtpFechaCreacion.Location = new Point(121, 166);
             dtpFechaCreacion.Name = "dtpFechaCreacion";
             dtpFechaCreacion.Size = new Size(268, 23);
             dtpFechaCreacion.TabIndex = 11;
             // 
             // txtNota
             // 
-            txtNota.Location = new Point(121, 105);
+            txtNota.Location = new Point(121, 118);
             txtNota.Multiline = true;
             txtNota.Name = "txtNota";
             txtNota.Size = new Size(546, 42);
@@ -155,28 +159,28 @@
             // cbxEstadoPago
             // 
             cbxEstadoPago.FormattingEnabled = true;
-            cbxEstadoPago.Location = new Point(471, 63);
+            cbxEstadoPago.Location = new Point(471, 86);
             cbxEstadoPago.Name = "cbxEstadoPago";
             cbxEstadoPago.Size = new Size(195, 23);
             cbxEstadoPago.TabIndex = 9;
             // 
             // txtSaldoPendiente
             // 
-            txtSaldoPendiente.Location = new Point(119, 62);
+            txtSaldoPendiente.Location = new Point(121, 86);
             txtSaldoPendiente.Name = "txtSaldoPendiente";
             txtSaldoPendiente.Size = new Size(196, 23);
             txtSaldoPendiente.TabIndex = 8;
             // 
             // txtTotalPagado
             // 
-            txtTotalPagado.Location = new Point(471, 23);
+            txtTotalPagado.Location = new Point(470, 52);
             txtTotalPagado.Name = "txtTotalPagado";
             txtTotalPagado.Size = new Size(196, 23);
             txtTotalPagado.TabIndex = 7;
             // 
             // txtTotalVenta
             // 
-            txtTotalVenta.Location = new Point(121, 23);
+            txtTotalVenta.Location = new Point(120, 52);
             txtTotalVenta.Name = "txtTotalVenta";
             txtTotalVenta.Size = new Size(196, 23);
             txtTotalVenta.TabIndex = 6;
@@ -184,7 +188,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(10, 166);
+            label6.Location = new Point(10, 172);
             label6.Name = "label6";
             label6.Size = new Size(89, 15);
             label6.TabIndex = 5;
@@ -193,7 +197,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(10, 108);
+            label5.Location = new Point(10, 121);
             label5.Name = "label5";
             label5.Size = new Size(36, 15);
             label5.TabIndex = 4;
@@ -202,7 +206,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(360, 66);
+            label4.Location = new Point(360, 89);
             label4.Name = "label4";
             label4.Size = new Size(75, 15);
             label4.TabIndex = 3;
@@ -211,7 +215,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(8, 66);
+            label3.Location = new Point(8, 89);
             label3.Name = "label3";
             label3.Size = new Size(95, 15);
             label3.TabIndex = 2;
@@ -220,7 +224,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(360, 26);
+            label2.Location = new Point(359, 55);
             label2.Name = "label2";
             label2.Size = new Size(78, 15);
             label2.TabIndex = 1;
@@ -229,7 +233,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(10, 26);
+            label1.Location = new Point(9, 55);
             label1.Name = "label1";
             label1.Size = new Size(67, 15);
             label1.TabIndex = 0;
@@ -363,6 +367,16 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Listado de Pagos";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnExportarExcel
+            // 
+            btnExportarExcel.Image = Properties.Resources.xls_reduce2;
+            btnExportarExcel.Location = new Point(1161, 3);
+            btnExportarExcel.Name = "btnExportarExcel";
+            btnExportarExcel.Size = new Size(103, 43);
+            btnExportarExcel.TabIndex = 12;
+            btnExportarExcel.UseVisualStyleBackColor = true;
+            btnExportarExcel.Click += btnExportarExcel_Click;
             // 
             // txtTotalPagos
             // 
@@ -566,15 +580,22 @@
             label8.TabIndex = 0;
             label8.Text = "Cliente:";
             // 
-            // btnExportarExcel
+            // label12
             // 
-            btnExportarExcel.Image = Properties.Resources.xls_reduce2;
-            btnExportarExcel.Location = new Point(1161, 3);
-            btnExportarExcel.Name = "btnExportarExcel";
-            btnExportarExcel.Size = new Size(103, 43);
-            btnExportarExcel.TabIndex = 12;
-            btnExportarExcel.UseVisualStyleBackColor = true;
-            btnExportarExcel.Click += btnExportarExcel_Click;
+            label12.AutoSize = true;
+            label12.Location = new Point(10, 20);
+            label12.Name = "label12";
+            label12.Size = new Size(37, 15);
+            label12.TabIndex = 14;
+            label12.Text = "Pago:";
+            // 
+            // cbxPagosVenta
+            // 
+            cbxPagosVenta.FormattingEnabled = true;
+            cbxPagosVenta.Location = new Point(121, 17);
+            cbxPagosVenta.Name = "cbxPagosVenta";
+            cbxPagosVenta.Size = new Size(415, 23);
+            cbxPagosVenta.TabIndex = 15;
             // 
             // Pagos
             // 
@@ -660,5 +681,7 @@
         private TextBox txtTotalPagos;
         private Label label11;
         private Button btnExportarExcel;
+        private ComboBox cbxPagosVenta;
+        private Label label12;
     }
 }

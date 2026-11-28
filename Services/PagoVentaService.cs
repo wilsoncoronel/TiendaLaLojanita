@@ -49,10 +49,10 @@ namespace TiendaLaLojanita.Services
             throw new NotImplementedException();
         }
 
-        public async Task<PagoVentaCompletoDTO> PagoVenta(int idVenta)
+        public async Task<List<PagoVentaCompletoDTO>> PagoVenta(int idVenta)
         {
-            var response = await _apiClient.GetAsync<PagoVentaCompletoDTO>($"api/Pagos/PagoVenta?idVenta={idVenta}");
-            return response.Value ?? new PagoVentaCompletoDTO();
+            var response = await _apiClient.GetAsync<List<PagoVentaCompletoDTO>>($"api/Pagos/PagoVenta?idVenta={idVenta}");
+            return response.Value ?? new List<PagoVentaCompletoDTO>();
         }
 
         public async Task<List<EstadosPagoDTO>> ListarEstadosPagos()

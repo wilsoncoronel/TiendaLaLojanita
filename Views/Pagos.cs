@@ -26,7 +26,9 @@ namespace TiendaLaLojanita.Views
         private List<TipoPagoDTO> _tiposPagos;
         private List<EstadosPagoDTO> _estadosPagos;
         private List<ClienteDTO> _clientes;
-        private PagoVentaCompletoDTO _pagoVenta;
+        private List<PagoVentaCompletoDTO> _pagosVenta;
+        private PagoVentaCompletoDTO? _pagoVenta;
+        private VentaDTO? _venta;
         private bool cargando;
         private bool filtrandoClientes;
         private bool modoConsulta;
@@ -42,6 +44,7 @@ namespace TiendaLaLojanita.Views
             this._estadosPagos = new List<EstadosPagoDTO>();
             this._clientes = new List<ClienteDTO>();
             ConfigurarComboClientes();
+            ConfigurarComboPagosVenta();
             dgvPagos.ReadOnly = true;
             dgvPagos.AllowUserToAddRows = false;
             dgvPagos.AllowUserToDeleteRows = false;
@@ -57,6 +60,7 @@ namespace TiendaLaLojanita.Views
             btnCancelar.Click += btnCancelar_Click_1;
             btnBuscarPago.Click += btnBuscarPago_Click;
             dgvPagos.CellClick += dgvPagos_CellClick;
+            cbxPagosVenta.SelectedIndexChanged += cbxPagosVenta_SelectedIndexChanged;
         }
 
         public void ConfigurarModoConsulta()
@@ -75,6 +79,33 @@ namespace TiendaLaLojanita.Views
             cbxCliente.ValueMember = nameof(ClienteDTO.Id);
             cbxCliente.Format += cbxCliente_Format;
             cbxCliente.TextUpdate += cbxCliente_TextUpdate;
+        }
+
+        private void ConfigurarComboPagosVenta()
+        {
+            cbxPagosVenta.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxPagosVenta.DisplayMember = nameof(PagoVentaCompletoDTO.Id);
+            cbxPagosVenta.ValueMember = nameof(PagoVentaCompletoDTO.Id);
+            cbxPagosVenta.Format += cbxPagosVenta_Format;
+        }
+
+        private void cbxPagosVenta_Format(object? sender, ListControlConvertEventArgs e)
+        {
+            if (e.ListItem is PagoVentaCompletoDTO pago)
+            {
+                e.Value = ObtenerDescripcionPago(pago);
+            }
+        }
+
+        private void cbxPagosVenta_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbxPagosVenta.SelectedItem is not PagoVentaCompletoDTO pago)
+            {
+                return;
+            }
+
+            _pagoVenta = pago;
+            CargarPagoView();
         }
 
         private void cbxCliente_Format(object? sender, ListControlConvertEventArgs e)
@@ -192,6 +223,16 @@ namespace TiendaLaLojanita.Views
             return cliente is null ? string.Empty : $"{cliente.Nombres} {cliente.Apellidos}".Trim();
         }
 
+        private string ObtenerDescripcionPago(PagoVentaCompletoDTO pago)
+        {
+            string cliente = ObtenerNombreCliente(_venta?.Cliente);
+            string fecha = (pago.FechaPago ?? pago.FechaCreacion).ToString("dd/MM/yyyy");
+            string estado = pago.EstadosPagoDTO?.Nombre ??
+                _estadosPagos.FirstOrDefault(x => x.Id == pago.IdEstadoPago)?.Nombre ?? string.Empty;
+
+            return $"ID: {pago.Id} - Cliente: {cliente} - Fecha: {fecha} - Estado: {estado} - Total: {pago.TotalPagado:N2}";
+        }
+
         private async void Pagos_Load(object sender, EventArgs e)
         {
             try
@@ -206,8 +247,9 @@ namespace TiendaLaLojanita.Views
                     return;
                 }
 
-                this._pagoVenta = await CargarPago();
-                CargarPagoView();
+                this._venta = await _ventaService.ObtenerVenta(this.idVenta);
+                this._pagosVenta = await CargarPago();
+                CargarPagosVenta();
             }
             catch (ApiException ex)
             {
@@ -250,9 +292,33 @@ namespace TiendaLaLojanita.Views
                 progreso?.Dispose();
             }
         }
-        private async Task<PagoVentaCompletoDTO> CargarPago()
+        private async Task<List<PagoVentaCompletoDTO>> CargarPago()
         {
             return await this._pagoService.PagoVenta(this.idVenta);
+        }
+
+        private void CargarPagosVenta()
+        {
+            cbxPagosVenta.DataSource = null;
+            cbxPagosVenta.DataSource = _pagosVenta;
+            cbxPagosVenta.DisplayMember = nameof(PagoVentaCompletoDTO.Id);
+            cbxPagosVenta.ValueMember = nameof(PagoVentaCompletoDTO.Id);
+
+            if (_pagosVenta.Count == 0)
+            {
+                _pagoVenta = null;
+                return;
+            }
+
+            int indiceSeleccionado = _pagosVenta.FindIndex(pago =>
+                !ObtenerEstadoPago(pago).Equals("REVERSADO", StringComparison.OrdinalIgnoreCase));
+            cbxPagosVenta.SelectedIndex = indiceSeleccionado >= 0 ? indiceSeleccionado : 0;
+        }
+
+        private string ObtenerEstadoPago(PagoVentaCompletoDTO pago)
+        {
+            return pago.EstadosPagoDTO?.Nombre ??
+                _estadosPagos.FirstOrDefault(x => x.Id == pago.IdEstadoPago)?.Nombre ?? string.Empty;
         }
 
         private void CargarPagoView()
@@ -417,8 +483,8 @@ namespace TiendaLaLojanita.Views
                 saldoDisponible -= valor;
             }
 
-            _pagoVenta = await CargarPago();
-            CargarPagoView();
+            _pagosVenta = await CargarPago();
+            CargarPagosVenta();
             MessageBox.Show("Detalle de pago guardado correctamente.", "Información",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
